@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Shop Culture</title>
+<title>Shop Culturee</title>
 </head>
 <body>
 	Main Menu guess and buyer heree
