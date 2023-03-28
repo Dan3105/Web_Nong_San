@@ -6,7 +6,7 @@
     <div id="screen-container" class="row">
 
         <!-- Admin menu vertical -->
-        <div class="col-2 p-0 position-relative">
+        <div class="col-md-2 p-0 position-relative">
             <a class="container btn container-vertical h-100 rounded-0" href="#logo">
                 <img src="<c:url value="/resources/img/Logo.png"/>" alt="logo" class="p-1 w-100">
             </a>
@@ -41,7 +41,7 @@
         </div>
 
         <!-- Admin menu horizontal -->
-        <div id="admin-menu-header" class="col container-fluid align-items-center d-inline-block">
+        <div id="admin-menu-header" class="col-md container-fluid align-items-center d-inline-block">
 
             <ul class="row container-fluid justify-content-between align-items-center">
                 <li class="col header-searchbar">
@@ -53,12 +53,12 @@
                         </form>
                     </label>
                 </li>
-                <li class="col-5 header-breadcrumb">
+                <li class="col-md-5 header-breadcrumb">
                     <p class="text-center">Admin Dashboard</p>
                 </li>
-                <li class="col row container-fluid align-items-center justify-content-between header-userinfo">
+                <li class="col-md row container-fluid align-items-center justify-content-between header-userinfo">
                     <div
-                        class="col-2 container d-flex align-items-center userinfo-notification pe-5 border-end border-1">
+                        class="col-md-2 container d-flex align-items-center userinfo-notification pe-5 border-end border-1">
                         <a class="text-decoration-none text-secondary position-relative"><i
                                 class="fs-5 ti-bell text-center "></i>
                             <span
@@ -69,10 +69,10 @@
 
                     </div>
 
-                    <div class="col userinfo-username">
+                    <div class="col-md userinfo-username">
                         <p class="m-0 text-center">Admin Username</p>
                     </div>
-                    <div class="col-2 align-items-center userinfo-userlogo me-3 d-flex">
+                    <div class="col-md-2 align-items-center userinfo-userlogo me-3 d-flex">
                         <a><img class="d-block rounded-pill"
                                 src="https://i.pinimg.com/474x/66/da/e1/66dae117263cc353d351949bcc76e1e4.jpg"
                                 alt="concat">
@@ -94,7 +94,7 @@
         <div class="col-md-2 emptyspace p-0">
         </div>
 
-        <div class="col container content-user-breadcrumb m-3 bg-light">
+        <div class="col-md container content-user-breadcrumb m-3 bg-light">
             <div class="row">
                 <div class="col-6 content-user-name h4 ">All users</div>
                 <div class="col-6  content-user-filter d-flex justify-content-end align-items-center">
@@ -167,7 +167,7 @@
                 </div>
             </div>
             <div class="container d-flex row justify-content-end align-items-center">
-                <p class="col-7 text-muted text-end p-0 m-0">Rows per pages:</p>
+                <p class="col-md-7 text-muted text-end p-0 m-0">Rows per pages:</p>
                 <div class="btn-group col-1">
                     <button type="button" class="btn dropdown-toggle p-1" data-bs-toggle="dropdown"
                         aria-expanded="false">7</button>
@@ -177,10 +177,10 @@
                         <li><a class="dropdown-item" href="#">3</a></li>
                     </ul>
                 </div>
-                <div class="row col-3 d-flex justify-content-between align-items-center content-user-pageselect">
-                    <p class="col-6 m-0 text-muted ">1-7 of 1240</p>
-                    <a class="col-3 m-0 text-decoration-none" href=""><i class="ti-arrow-left"></i></a>
-                    <a class="col-3 m-0 text-decoration-none" href=""><i class="ti-arrow-right"></i></a>
+                <div class="row col-md-3 d-flex justify-content-between align-items-center content-user-pageselect">
+                    <p class="col-md-6 m-0 text-muted ">1-7 of 1240</p>
+                    <a class="col-md-3 m-0 text-decoration-none" href=""><i class="ti-arrow-left"></i></a>
+                    <a class="col-md-3 m-0 text-decoration-none" href=""><i class="ti-arrow-right"></i></a>
                 </div>
             </div>
         </div>
