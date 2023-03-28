@@ -1,0 +1,31 @@
+@charset "UTF-8";
+a
+{
+	color: #7DBD7F;	
+}
+
+body
+{
+	background-color: #7BC47F;
+	font-family: 'Poppins', sans-serif;
+}
+
+.admin-login-background
+{
+	background-color: #FFFDED;
+}
+
+
+.admin-login-input
+{
+	background-color: #C6DCC7 !important;
+	
+}
+
+.admin-login-login-btn
+{
+	background-color: #7DBD7F;
+	color: #F6FFF7;
+	font-weight: 600; /* semi bold */
+}
+

@@ -4,12 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/amdin/")
+@RequestMapping("/admin")
 public class AdminController {
-	@RequestMapping("")
+	@RequestMapping()
 	public String index()
 	{
-		System.out.println("ádfasf");
 		return "admin/adminLogin";
 	}
 }

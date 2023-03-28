@@ -24,15 +24,6 @@
 
 	<!-- Cấu hình package chứa các controller -->
 	<context:component-scan
-		base-package="web.controller" />
-		
-			<!-- Transaction Manager -->
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate4.HibernateTransactionManager"
-		p:sessionFactory-ref="sessionFactory" />
+		base-package="tadgreen.controller" />
 
-	<tx:annotation-driven
-		transaction-manager="transactionManager" />
-	
-	<mvc:resources location="/resources/" mapping="/resources/**"/>
 </beans>

@@ -4,14 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin Login</title>
+<title>Admin</title>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="../../../resources/css/admin-login.css"
->
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 	crossorigin="anonymous"></script>
@@ -28,34 +26,3 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
-</head>
-<body>
-<div class="container d-flex justify-content-center align-items-center" style="height:100vh;">
-
-    <div class="col-md-6">
-      <div class="card admin-login-background-inside">
-        <div class="card-body">
-          <div class="text-center mb-3">
-            <img src="../../../resources/img/Logo.png" alt="Logo">
-          </div>
-          <form method="post" action="admin.htm">
-            <div class="form-group my-4">
-              <input placeholder="Username" type="text" class="form-control admin-login-input" id="username">
-            </div>
-            <div class="form-group my-4">
-              <input placeholder="Password" type="password" class="admin-login-input form-control" id="password">
-            </div>
-            <div class="px-4"></div>
-            <button type="submit" class="btn btn-primary btn-block admin-login-login-btn">Sign in</button>
-             <div class="form-group text-right">
-            <a href="#" class="small"><b>Forgot Password?</b></a>
-          </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-</div>
-
-</body>
-</html>
