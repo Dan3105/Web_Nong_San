@@ -1,82 +1,189 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Admin Login</title>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPathCss}/admin-login.css"
->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-	crossorigin="anonymous"></script>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="f"%>
-</head>
+<%@include file="/WEB-INF/views/include/adminHeader.jsp" %>
+<title>Admin Users Manager</title>
+<link rel="stylesheet" href="<c:url value="/resources/css/admin-menu.css"/>">
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <!-- Logo -->
-      <a class="navbar-brand" href="#">
-        <img src="logo.png" alt="Logo" height="30">
-      </a>
-      <!-- Search Bar -->
-      <form class="d-flex ms-auto">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
+ <!-- Admin header -->
+    <div id="screen-container" class="row">
 
-  <!-- Main Content -->
-  <div class="container-fluid">
-    <div class="row">
-      <!-- Sidebar -->
-      <div class="col-md-3 bg-light sidebar">
-        <div class="nav flex-column nav-pills mt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-          <a class="nav-link active" id="v-pills-overview-tab" data-bs-toggle="pill" href="#v-pills-overview" role="tab" aria-controls="v-pills-overview" aria-selected="true">Overview</a>
-          <a class="nav-link" id="v-pills-users-tab" data-bs-toggle="pill" href="#v-pills-users" role="tab" aria-controls="v-pills-users" aria-selected="false">Users</a>
-          <a class="nav-link" id="v-pills-products-tab" data-bs-toggle="pill" href="#v-pills-products" role="tab" aria-controls="v-pills-products" aria-selected="false">Products</a>
-          <a class="nav-link" id="v-pills-orders-tab" data-bs-toggle="pill" href="#v-pills-orders" role="tab" aria-controls="v-pills-orders" aria-selected="false">Orders</a>
+        <!-- Admin menu vertical -->
+        <div class="col-2 p-0 position-relative">
+            <a class="container btn container-vertical h-100 rounded-0" href="#logo">
+                <img src="<c:url value="/resources/img/Logo.png"/>" alt="logo" class="p-1 w-100">
+            </a>
+            <!-- Static Main Menu -->
+            <ul class="position-absolute list-group w-100">
+                <li class="list-group-items bg-light">
+                    <button type="button" class="btn btn-outline-success p-4 border-0 w-100 text-start">
+                        <i class="pe-2 ti-pie-chart"></i>Overview</button>
+                </li>
+                <li class="list-group-items bg-light">
+                    <button type="button" class="btn btn-outline-success p-4 border-0 w-100 text-start">
+                        <i class="pe-2 ti-light-bulb"></i>User</button>
+                </li>
+                <li class="list-group-items bg-light">
+                    <button type="button" class="btn btn-outline-success p-4 border-0 w-100 text-start">
+                        <i class="pe-2 ti-briefcase"></i>Product</button>
+                </li>
+                <li class="list-group-items bg-light">
+                    <button type="button" class="btn btn-outline-success p-4 border-0 w-100 text-start">
+                        <i class="pe-2 ti-ticket"></i>Voucher</button>
+                </li>
+                <li class="list-group-items bg-light">
+                    <button type="button" class="btn btn-outline-success p-4 border-0 w-100 text-start">
+                        <i class="pe-2 ti-agenda"></i>Agent</button>
+                </li>
+                <li class="list-group-items bg-light">
+                    <button type="button" class="btn btn-outline-success p-4 border-0 w-100 text-start">
+                        <i class="pe-2 ti-info-alt"></i>Set
+                        info</button>
+                </li>
+            </ul>
         </div>
-      </div>
 
-      <!-- Content -->
-      <div class="col-md-9">
-        <div class="tab-content" id="v-pills-tabContent">
-          <!-- Overview Tab -->
-          <div class="tab-pane fade show active" id="v-pills-overview" role="tabpanel" aria-labelledby="v-pills-overview-tab">
-            <h1>Overview</h1>
-            <p>Some content here...</p>
-          </div>
-          <!-- Users Tab -->
-          <div class="tab-pane fade" id="v-pills-users" role="tabpanel" aria-labelledby="v-pills-users-tab">
-            <h1>Users</h1>
-            <p>Some content here...</p>
-          </div>
-          <!-- Products Tab -->
-          <div class="tab-pane fade" id="v-pills-products" role="tabpanel" aria-labelledby="v-pills-products-tab">
-            <h1>Products</h1>
-            <p>Some content here...</p>
-          </div>
-          <!-- Orders Tab -->
-          <div class="tab-pane fade" id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab">
-            <h1>Orders</h1>
-            <p>
+        <!-- Admin menu horizontal -->
+        <div id="admin-menu-header" class="col container-fluid align-items-center d-inline-block">
 
-</body>
-</html>
+            <ul class="row container-fluid justify-content-between align-items-center">
+                <li class="col header-searchbar">
+                    <label>
+                        <form class="input-group border rounded-pill align-items-center" action="#" method="post">
+                            <i class="ti-search input-group-text searchbar-icon "></i>
+
+                            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                        </form>
+                    </label>
+                </li>
+                <li class="col-5 header-breadcrumb">
+                    <p class="text-center">Admin Dashboard</p>
+                </li>
+                <li class="col row container-fluid align-items-center justify-content-between header-userinfo">
+                    <div
+                        class="col-2 container d-flex align-items-center userinfo-notification pe-5 border-end border-1">
+                        <a class="text-decoration-none text-secondary position-relative"><i
+                                class="fs-5 ti-bell text-center "></i>
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                <span class="visually-hidden">New alerts</span>
+                            </span>
+                        </a>
+
+                    </div>
+
+                    <div class="col userinfo-username">
+                        <p class="m-0 text-center">Admin Username</p>
+                    </div>
+                    <div class="col-2 align-items-center userinfo-userlogo me-3 d-flex">
+                        <a><img class="d-block rounded-pill"
+                                src="https://i.pinimg.com/474x/66/da/e1/66dae117263cc353d351949bcc76e1e4.jpg"
+                                alt="concat">
+                        </a>
+                    </div>
+
+                </li>
+
+
+
+            </ul>
+
+
+        </div>
+
+    </div>
+    <!-- Main Content -->
+    <div id="admin-menu-content-user" class="row">
+        <div class="col-md-2 emptyspace p-0">
+        </div>
+
+        <div class="col container content-user-breadcrumb m-3 bg-light">
+            <div class="row">
+                <div class="col-6 content-user-name h4 ">All users</div>
+                <div class="col-6  content-user-filter d-flex justify-content-end align-items-center">
+                    <a type="button"><i class="ti-filter p-2"></i>Filter</a>
+                    <a type="button"><i class="ti-layout-list-post p-2"></i>Sort</a>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="p-3">Name</th>
+                                <th class="p-3">Age</th>
+                                <th class="p-3">Address</th>
+                                <th class="p-3">Salary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-3">John Mayour</td>
+                                <td class="p-3">21</td>
+                                <td class="p-3">Houston</td>
+                                <td class="p-3">1200</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3">John Mayour</td>
+                                <td class="p-3">21</td>
+                                <td class="p-3">Houston</td>
+                                <td class="p-3">1200</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3">John Mayour</td>
+                                <td class="p-3">21</td>
+                                <td class="p-3">Houston</td>
+                                <td class="p-3">1200</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3">John Mayour</td>
+                                <td class="p-3">21</td>
+                                <td class="p-3">Houston</td>
+                                <td class="p-3">1200</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3">John Mayour</td>
+                                <td class="p-3">21</td>
+                                <td class="p-3">Houston</td>
+                                <td class="p-3">1200</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3">John Mayour</td>
+                                <td class="p-3">21</td>
+                                <td class="p-3">Houston</td>
+                                <td class="p-3">1200</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3">John Mayour</td>
+                                <td class="p-3">21</td>
+                                <td class="p-3">Houston</td>
+                                <td class="p-3">1200</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3">John Mayour</td>
+                                <td class="p-3">21</td>
+                                <td class="p-3">Houston</td>
+                                <td class="p-3">1200</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="container d-flex row justify-content-end align-items-center">
+                <p class="col-7 text-muted text-end p-0 m-0">Rows per pages:</p>
+                <div class="btn-group col-1">
+                    <button type="button" class="btn dropdown-toggle p-1" data-bs-toggle="dropdown"
+                        aria-expanded="false">7</button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">1</a></li>
+                        <li><a class="dropdown-item" href="#">2</a></li>
+                        <li><a class="dropdown-item" href="#">3</a></li>
+                    </ul>
+                </div>
+                <div class="row col-3 d-flex justify-content-between align-items-center content-user-pageselect">
+                    <p class="col-6 m-0 text-muted ">1-7 of 1240</p>
+                    <a class="col-3 m-0 text-decoration-none" href=""><i class="ti-arrow-left"></i></a>
+                    <a class="col-3 m-0 text-decoration-none" href=""><i class="ti-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+<%@include file="/WEB-INF/views/include/adminFooter.jsp" %>

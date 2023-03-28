@@ -11,4 +11,10 @@ public class AdminController {
 	{
 		return "admin/adminLogin";
 	}
+	
+	@RequestMapping("user")
+	public String user()
+	{
+		return "admin/adminMenu";
+	}
 }
