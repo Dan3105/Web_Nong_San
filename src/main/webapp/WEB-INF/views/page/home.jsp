@@ -1,8 +1,5 @@
 <%@include file="/WEB-INF/views/include/header.jsp"%>
 
-
-
-
 <!-- Slider -->
 <div class="container slider mb-5">
 
