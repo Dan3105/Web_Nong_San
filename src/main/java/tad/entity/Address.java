@@ -1,7 +1,6 @@
 package tad.entity;
 // Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -20,23 +19,40 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "Address", schema = "dbo", catalog = "DB_Tad")
-public class Address implements java.io.Serializable {
+public class Address {
 
-	private Serializable addressId;
+	@Id
+	@Column(name = "AddressID", unique = true, nullable = false)
+	private String addressId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "WardID", nullable = false)
 	private Ward ward;
-	private Serializable name;
+	
+	@Column(name = "Name")
+	private String name;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "ShopAddress", schema = "dbo", catalog = "DB_Tad", uniqueConstraints = @UniqueConstraint(columnNames = "ShopID"), joinColumns = {
+			@JoinColumn(name = "AddressID", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "ShopID", unique = true, nullable = false, updatable = false) })
 	private Set<ShopSystem> shopSystems = new HashSet<ShopSystem>(0);
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "AddressUser", schema = "dbo", catalog = "DB_Tad", joinColumns = {
+			@JoinColumn(name = "AddressID", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "UserID", nullable = false, updatable = false) })
 	private Set<User> users = new HashSet<User>(0);
 
 	public Address() {
 	}
 
-	public Address(Serializable addressId, Ward ward) {
+	public Address(String addressId, Ward ward) {
 		this.addressId = addressId;
 		this.ward = ward;
 	}
 
-	public Address(Serializable addressId, Ward ward, Serializable name, Set<ShopSystem> shopSystems, Set<User> users) {
+	public Address(String addressId, Ward ward, String name, Set<ShopSystem> shopSystems, Set<User> users) {
 		this.addressId = addressId;
 		this.ward = ward;
 		this.name = name;
@@ -44,19 +60,16 @@ public class Address implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@Id
-
-	@Column(name = "AddressID", unique = true, nullable = false)
-	public Serializable getAddressId() {
+	
+	public String getAddressId() {
 		return this.addressId;
 	}
 
-	public void setAddressId(Serializable addressId) {
+	public void setAddressId(String addressId) {
 		this.addressId = addressId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "WardID", nullable = false)
+	
 	public Ward getWard() {
 		return this.ward;
 	}
@@ -65,19 +78,16 @@ public class Address implements java.io.Serializable {
 		this.ward = ward;
 	}
 
-	@Column(name = "Name")
-	public Serializable getName() {
+	
+	public String getName() {
 		return this.name;
 	}
 
-	public void setName(Serializable name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "ShopAddress", schema = "dbo", catalog = "DB_Tad", uniqueConstraints = @UniqueConstraint(columnNames = "ShopID"), joinColumns = {
-			@JoinColumn(name = "AddressID", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "ShopID", unique = true, nullable = false, updatable = false) })
+	
 	public Set<ShopSystem> getShopSystems() {
 		return this.shopSystems;
 	}
@@ -86,10 +96,7 @@ public class Address implements java.io.Serializable {
 		this.shopSystems = shopSystems;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "AddressUser", schema = "dbo", catalog = "DB_Tad", joinColumns = {
-			@JoinColumn(name = "AddressID", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "UserID", nullable = false, updatable = false) })
+	
 	public Set<User> getUsers() {
 		return this.users;
 	}

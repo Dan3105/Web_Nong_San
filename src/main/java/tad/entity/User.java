@@ -1,7 +1,6 @@
 package tad.entity;
 // Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -19,29 +18,62 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "User", schema = "dbo", catalog = "DB_Tad")
-public class User implements java.io.Serializable {
+public class User {
 
-	private Serializable userId;
+	@Id
+	@Column(name = "UserID", unique = true, nullable = false)
+	private String userId;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ShopID")
 	private ShopSystem shopSystem;
-	private Serializable lastName;
-	private Serializable firstName;
-	private Serializable email;
-	private Serializable phoneNumber;
+
+	@Column(name = "LastName", nullable = false)
+	private String lastName;
+
+	@Column(name = "FirstName", nullable = false)
+	private String firstName;
+
+	@Column(name = "Email", nullable = false)
+	private String email;
+	
+	@Column(name = "PhoneNumber")
+	private String phoneNumber;
+
+	@Column(name = "Avatar")
 	private byte[] avatar;
+	
+	@Column(name = "State", nullable = false)
 	private int state;
-	private Serializable password;
+
+	@Column(name = "Password", nullable = false)
+	private String password;
+	
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Order> orders = new HashSet<Order>(0);
+	
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<ShopSystem> shopSystems = new HashSet<ShopSystem>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Comment> comments = new HashSet<Comment>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Cart> carts = new HashSet<Cart>(0);
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
 	private Set<Address> addresses = new HashSet<Address>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Feedback> feedbacks = new HashSet<Feedback>(0);
 
 	public User() {
 	}
 
-	public User(Serializable userId, Serializable lastName, Serializable firstName, Serializable email, int state,
-			Serializable password) {
+	public User(String userId, String lastName, String firstName, String email, int state,
+			String password) {
 		this.userId = userId;
 		this.lastName = lastName;
 		this.firstName = firstName;
@@ -50,8 +82,8 @@ public class User implements java.io.Serializable {
 		this.password = password;
 	}
 
-	public User(Serializable userId, ShopSystem shopSystem, Serializable lastName, Serializable firstName,
-			Serializable email, Serializable phoneNumber, byte[] avatar, int state, Serializable password,
+	public User(String userId, ShopSystem shopSystem, String lastName, String firstName,
+			String email, String phoneNumber, byte[] avatar, int state, String password,
 			Set<Order> orders, Set<ShopSystem> shopSystems, Set<Comment> comments, Set<Cart> carts,
 			Set<Address> addresses, Set<Feedback> feedbacks) {
 		this.userId = userId;
@@ -71,19 +103,14 @@ public class User implements java.io.Serializable {
 		this.feedbacks = feedbacks;
 	}
 
-	@Id
-
-	@Column(name = "UserID", unique = true, nullable = false)
-	public Serializable getUserId() {
+	public String getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(Serializable userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ShopID")
 	public ShopSystem getShopSystem() {
 		return this.shopSystem;
 	}
@@ -92,43 +119,39 @@ public class User implements java.io.Serializable {
 		this.shopSystem = shopSystem;
 	}
 
-	@Column(name = "LastName", nullable = false)
-	public Serializable getLastName() {
+	public String getLastName() {
 		return this.lastName;
 	}
 
-	public void setLastName(Serializable lastName) {
+	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
-	@Column(name = "FirstName", nullable = false)
-	public Serializable getFirstName() {
+	public String getFirstName() {
 		return this.firstName;
 	}
 
-	public void setFirstName(Serializable firstName) {
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	@Column(name = "Email", nullable = false)
-	public Serializable getEmail() {
+	public String getEmail() {
 		return this.email;
 	}
 
-	public void setEmail(Serializable email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	@Column(name = "PhoneNumber")
-	public Serializable getPhoneNumber() {
+
+	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
 
-	public void setPhoneNumber(Serializable phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
-	@Column(name = "Avatar")
 	public byte[] getAvatar() {
 		return this.avatar;
 	}
@@ -137,7 +160,6 @@ public class User implements java.io.Serializable {
 		this.avatar = avatar;
 	}
 
-	@Column(name = "State", nullable = false)
 	public int getState() {
 		return this.state;
 	}
@@ -146,16 +168,14 @@ public class User implements java.io.Serializable {
 		this.state = state;
 	}
 
-	@Column(name = "Password", nullable = false)
-	public Serializable getPassword() {
+	public String getPassword() {
 		return this.password;
 	}
 
-	public void setPassword(Serializable password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	public Set<Order> getOrders() {
 		return this.orders;
 	}
@@ -164,7 +184,6 @@ public class User implements java.io.Serializable {
 		this.orders = orders;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	public Set<ShopSystem> getShopSystems() {
 		return this.shopSystems;
 	}
@@ -173,7 +192,6 @@ public class User implements java.io.Serializable {
 		this.shopSystems = shopSystems;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	public Set<Comment> getComments() {
 		return this.comments;
 	}
@@ -182,7 +200,6 @@ public class User implements java.io.Serializable {
 		this.comments = comments;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	public Set<Cart> getCarts() {
 		return this.carts;
 	}
@@ -191,7 +208,6 @@ public class User implements java.io.Serializable {
 		this.carts = carts;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
 	public Set<Address> getAddresses() {
 		return this.addresses;
 	}
@@ -200,7 +216,6 @@ public class User implements java.io.Serializable {
 		this.addresses = addresses;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	public Set<Feedback> getFeedbacks() {
 		return this.feedbacks;
 	}

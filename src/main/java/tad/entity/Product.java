@@ -1,7 +1,6 @@
 package tad.entity;
 // Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,27 +23,62 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "Product", schema = "dbo", catalog = "DB_Tad")
-public class Product implements java.io.Serializable {
+public class Product {
 
-	private Serializable productId;
+	@Id
+	@Column(name = "ProductID", unique = true, nullable = false)
+	private String productId;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CategoryID", nullable = false)
 	private Category category;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ShopID", nullable = false)
 	private ShopSystem shopSystem;
-	private Serializable productName;
+
+	@Column(name = "ProductName", nullable = false)
+	private String productName;
+
+	@Column(name = "Price", nullable = false, scale = 4)
 	private BigDecimal price;
+
+	@Column(name = "Image")
 	private byte[] image;
+
+	@Column(name = "Quantity", nullable = false)
 	private int quantity;
-	private Serializable detail;
+	
+	@Column(name = "Detail")
+	private String detail;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "PostingDate", nullable = false, length = 10)
 	private Date postingDate;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ExpiryDate", length = 10)
 	private Date expiryDate;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	private Set<Cart> carts = new HashSet<Cart>(0);
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "ProductCoupon", schema = "dbo", catalog = "DB_Tad", joinColumns = {
+			@JoinColumn(name = "ProductID", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "CouponID", nullable = false, updatable = false) })
 	private Set<Coupon> coupons = new HashSet<Coupon>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	private Set<Feedback> feedbacks = new HashSet<Feedback>(0);
 
 	public Product() {
 	}
 
-	public Product(Serializable productId, Category category, ShopSystem shopSystem, Serializable productName,
+	public Product(String productId, Category category, ShopSystem shopSystem, String productName,
 			BigDecimal price, int quantity, Date postingDate) {
 		this.productId = productId;
 		this.category = category;
@@ -55,8 +89,8 @@ public class Product implements java.io.Serializable {
 		this.postingDate = postingDate;
 	}
 
-	public Product(Serializable productId, Category category, ShopSystem shopSystem, Serializable productName,
-			BigDecimal price, byte[] image, int quantity, Serializable detail, Date postingDate, Date expiryDate,
+	public Product(String productId, Category category, ShopSystem shopSystem, String productName,
+			BigDecimal price, byte[] image, int quantity, String detail, Date postingDate, Date expiryDate,
 			Set<Cart> carts, Set<OrderDetail> orderDetails, Set<Coupon> coupons, Set<Feedback> feedbacks) {
 		this.productId = productId;
 		this.category = category;
@@ -74,19 +108,14 @@ public class Product implements java.io.Serializable {
 		this.feedbacks = feedbacks;
 	}
 
-	@Id
-
-	@Column(name = "ProductID", unique = true, nullable = false)
-	public Serializable getProductId() {
+	public String getProductId() {
 		return this.productId;
 	}
 
-	public void setProductId(Serializable productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CategoryID", nullable = false)
 	public Category getCategory() {
 		return this.category;
 	}
@@ -95,8 +124,6 @@ public class Product implements java.io.Serializable {
 		this.category = category;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ShopID", nullable = false)
 	public ShopSystem getShopSystem() {
 		return this.shopSystem;
 	}
@@ -105,16 +132,14 @@ public class Product implements java.io.Serializable {
 		this.shopSystem = shopSystem;
 	}
 
-	@Column(name = "ProductName", nullable = false)
-	public Serializable getProductName() {
+	public String getProductName() {
 		return this.productName;
 	}
 
-	public void setProductName(Serializable productName) {
+	public void setProductName(String productName) {
 		this.productName = productName;
 	}
 
-	@Column(name = "Price", nullable = false, scale = 4)
 	public BigDecimal getPrice() {
 		return this.price;
 	}
@@ -123,7 +148,6 @@ public class Product implements java.io.Serializable {
 		this.price = price;
 	}
 
-	@Column(name = "Image")
 	public byte[] getImage() {
 		return this.image;
 	}
@@ -132,7 +156,6 @@ public class Product implements java.io.Serializable {
 		this.image = image;
 	}
 
-	@Column(name = "Quantity", nullable = false)
 	public int getQuantity() {
 		return this.quantity;
 	}
@@ -141,17 +164,14 @@ public class Product implements java.io.Serializable {
 		this.quantity = quantity;
 	}
 
-	@Column(name = "Detail")
-	public Serializable getDetail() {
+	public String getDetail() {
 		return this.detail;
 	}
 
-	public void setDetail(Serializable detail) {
+	public void setDetail(String detail) {
 		this.detail = detail;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "PostingDate", nullable = false, length = 10)
 	public Date getPostingDate() {
 		return this.postingDate;
 	}
@@ -160,8 +180,6 @@ public class Product implements java.io.Serializable {
 		this.postingDate = postingDate;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "ExpiryDate", length = 10)
 	public Date getExpiryDate() {
 		return this.expiryDate;
 	}
@@ -170,7 +188,6 @@ public class Product implements java.io.Serializable {
 		this.expiryDate = expiryDate;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	public Set<Cart> getCarts() {
 		return this.carts;
 	}
@@ -179,7 +196,6 @@ public class Product implements java.io.Serializable {
 		this.carts = carts;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	public Set<OrderDetail> getOrderDetails() {
 		return this.orderDetails;
 	}
@@ -188,10 +204,7 @@ public class Product implements java.io.Serializable {
 		this.orderDetails = orderDetails;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "ProductCoupon", schema = "dbo", catalog = "DB_Tad", joinColumns = {
-			@JoinColumn(name = "ProductID", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "CouponID", nullable = false, updatable = false) })
+
 	public Set<Coupon> getCoupons() {
 		return this.coupons;
 	}
@@ -200,7 +213,6 @@ public class Product implements java.io.Serializable {
 		this.coupons = coupons;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	public Set<Feedback> getFeedbacks() {
 		return this.feedbacks;
 	}

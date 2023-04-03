@@ -1,7 +1,5 @@
 package tad.entity;
 // Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
-
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,26 +19,41 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "Order", schema = "dbo", catalog = "DB_Tad")
-public class Order implements java.io.Serializable {
+public class Order {
+	@Id
+	@Column(name = "OrderID", unique = true, nullable = false)
+	private String orderId;
 
-	private Serializable orderId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "UserID", nullable = false)
 	private User user;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "OrderTime", nullable = false, length = 23)
 	private Date orderTime;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "DeliveryTime", length = 23)
 	private Date deliveryTime;
+	
+	@Column(name = "Status", nullable = false)
 	private short status;
+	
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
 	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
 
 	public Order() {
 	}
 
-	public Order(Serializable orderId, User user, Date orderTime, short status) {
+	public Order(String orderId, User user, Date orderTime, short status) {
 		this.orderId = orderId;
 		this.user = user;
 		this.orderTime = orderTime;
 		this.status = status;
 	}
 
-	public Order(Serializable orderId, User user, Date orderTime, Date deliveryTime, short status,
+	public Order(String orderId, User user, Date orderTime, Date deliveryTime, short status,
 			Set<OrderDetail> orderDetails) {
 		this.orderId = orderId;
 		this.user = user;
@@ -50,19 +63,15 @@ public class Order implements java.io.Serializable {
 		this.orderDetails = orderDetails;
 	}
 
-	@Id
 
-	@Column(name = "OrderID", unique = true, nullable = false)
-	public Serializable getOrderId() {
+	public String getOrderId() {
 		return this.orderId;
 	}
 
-	public void setOrderId(Serializable orderId) {
+	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UserID", nullable = false)
 	public User getUser() {
 		return this.user;
 	}
@@ -71,8 +80,6 @@ public class Order implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "OrderTime", nullable = false, length = 23)
 	public Date getOrderTime() {
 		return this.orderTime;
 	}
@@ -81,8 +88,6 @@ public class Order implements java.io.Serializable {
 		this.orderTime = orderTime;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DeliveryTime", length = 23)
 	public Date getDeliveryTime() {
 		return this.deliveryTime;
 	}
@@ -91,7 +96,7 @@ public class Order implements java.io.Serializable {
 		this.deliveryTime = deliveryTime;
 	}
 
-	@Column(name = "Status", nullable = false)
+	
 	public short getStatus() {
 		return this.status;
 	}
@@ -100,7 +105,6 @@ public class Order implements java.io.Serializable {
 		this.status = status;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
 	public Set<OrderDetail> getOrderDetails() {
 		return this.orderDetails;
 	}

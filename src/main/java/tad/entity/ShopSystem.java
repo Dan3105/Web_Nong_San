@@ -1,7 +1,7 @@
 package tad.entity;
 // Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
 
-import java.io.Serializable;
+import java.io.String;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -19,28 +19,49 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ShopSystem", schema = "dbo", catalog = "DB_Tad")
-public class ShopSystem implements java.io.Serializable {
+public class ShopSystem implements java.io.String {
 
-	private Serializable shopId;
+	@Id
+	@Column(name = "ShopID", unique = true, nullable = false)
+	private String shopId;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "UserID", nullable = false)
 	private User user;
-	private Serializable name;
+
+	@Column(name = "Name", nullable = false)
+	private String name;
+
+	@Column(name = "LogoShop")
 	private byte[] logoShop;
-	private Serializable email;
+
+	@Column(name = "Email")
+	private String email;
+	
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
 	private Set<User> users = new HashSet<User>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
 	private Set<Product> products = new HashSet<Product>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
 	private Set<Coupon> coupons = new HashSet<Coupon>(0);
+	
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "shopSystems")
 	private Set<Address> addresses = new HashSet<Address>(0);
 
 	public ShopSystem() {
 	}
 
-	public ShopSystem(Serializable shopId, User user, Serializable name) {
+	public ShopSystem(String shopId, User user, String name) {
 		this.shopId = shopId;
 		this.user = user;
 		this.name = name;
 	}
 
-	public ShopSystem(Serializable shopId, User user, Serializable name, byte[] logoShop, Serializable email,
+	public ShopSystem(String shopId, User user, String name, byte[] logoShop, String email,
 			Set<User> users, Set<Product> products, Set<Coupon> coupons, Set<Address> addresses) {
 		this.shopId = shopId;
 		this.user = user;
@@ -53,19 +74,14 @@ public class ShopSystem implements java.io.Serializable {
 		this.addresses = addresses;
 	}
 
-	@Id
-
-	@Column(name = "ShopID", unique = true, nullable = false)
-	public Serializable getShopId() {
+	public String getShopId() {
 		return this.shopId;
 	}
 
-	public void setShopId(Serializable shopId) {
+	public void setShopId(String shopId) {
 		this.shopId = shopId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UserID", nullable = false)
 	public User getUser() {
 		return this.user;
 	}
@@ -74,16 +90,14 @@ public class ShopSystem implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Column(name = "Name", nullable = false)
-	public Serializable getName() {
+	public String getName() {
 		return this.name;
 	}
 
-	public void setName(Serializable name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	@Column(name = "LogoShop")
 	public byte[] getLogoShop() {
 		return this.logoShop;
 	}
@@ -92,16 +106,14 @@ public class ShopSystem implements java.io.Serializable {
 		this.logoShop = logoShop;
 	}
 
-	@Column(name = "Email")
-	public Serializable getEmail() {
+	public String getEmail() {
 		return this.email;
 	}
 
-	public void setEmail(Serializable email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
 	public Set<User> getUsers() {
 		return this.users;
 	}
@@ -110,7 +122,6 @@ public class ShopSystem implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
 	public Set<Product> getProducts() {
 		return this.products;
 	}
@@ -119,7 +130,6 @@ public class ShopSystem implements java.io.Serializable {
 		this.products = products;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
 	public Set<Coupon> getCoupons() {
 		return this.coupons;
 	}
@@ -128,7 +138,6 @@ public class ShopSystem implements java.io.Serializable {
 		this.coupons = coupons;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "shopSystems")
 	public Set<Address> getAddresses() {
 		return this.addresses;
 	}

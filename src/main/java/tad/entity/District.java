@@ -1,7 +1,6 @@
 package tad.entity;
 // Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -18,42 +17,47 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "District", schema = "dbo", catalog = "DB_Tad")
-public class District implements java.io.Serializable {
-
-	private Serializable districtId;
+public class District{
+	@Id
+	@Column(name = "DistrictID", unique = true, nullable = false)
+	private String districtId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ProvinceID", nullable = false)
 	private Province province;
-	private Serializable name;
+	
+	@Column(name = "Name", nullable = false)
+	private String name;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "district")
 	private Set<Ward> wards = new HashSet<Ward>(0);
 
 	public District() {
 	}
 
-	public District(Serializable districtId, Province province, Serializable name) {
+	public District(String districtId, Province province, String name) {
 		this.districtId = districtId;
 		this.province = province;
 		this.name = name;
 	}
 
-	public District(Serializable districtId, Province province, Serializable name, Set<Ward> wards) {
+	public District(String districtId, Province province, String name, Set<Ward> wards) {
 		this.districtId = districtId;
 		this.province = province;
 		this.name = name;
 		this.wards = wards;
 	}
 
-	@Id
-
-	@Column(name = "DistrictID", unique = true, nullable = false)
-	public Serializable getDistrictId() {
+	
+	public String getDistrictId() {
 		return this.districtId;
 	}
 
-	public void setDistrictId(Serializable districtId) {
+	public void setDistrictId(String districtId) {
 		this.districtId = districtId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ProvinceID", nullable = false)
+	
 	public Province getProvince() {
 		return this.province;
 	}
@@ -62,16 +66,16 @@ public class District implements java.io.Serializable {
 		this.province = province;
 	}
 
-	@Column(name = "Name", nullable = false)
-	public Serializable getName() {
+	
+	public String getName() {
 		return this.name;
 	}
 
-	public void setName(Serializable name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "district")
+	
 	public Set<Ward> getWards() {
 		return this.wards;
 	}

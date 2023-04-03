@@ -1,7 +1,6 @@
 package tad.entity;
 // Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -16,47 +15,49 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Province", schema = "dbo", catalog = "DB_Tad")
-public class Province implements java.io.Serializable {
+public class Province implements {
+	@Id
 
-	private Serializable provinceId;
-	private Serializable name;
+	@Column(name = "ProvinceID", unique = true, nullable = false)
+	private String provinceId;
+
+	@Column(name = "Name", nullable = false)
+	private String name;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "province")
 	private Set<District> districts = new HashSet<District>(0);
 
 	public Province() {
 	}
 
-	public Province(Serializable provinceId, Serializable name) {
+	public Province(String provinceId, String name) {
 		this.provinceId = provinceId;
 		this.name = name;
 	}
 
-	public Province(Serializable provinceId, Serializable name, Set<District> districts) {
+	public Province(String provinceId, String name, Set<District> districts) {
 		this.provinceId = provinceId;
 		this.name = name;
 		this.districts = districts;
 	}
 
-	@Id
-
-	@Column(name = "ProvinceID", unique = true, nullable = false)
-	public Serializable getProvinceId() {
+	
+	public String getProvinceId() {
 		return this.provinceId;
 	}
 
-	public void setProvinceId(Serializable provinceId) {
+	public void setProvinceId(String provinceId) {
 		this.provinceId = provinceId;
 	}
 
-	@Column(name = "Name", nullable = false)
-	public Serializable getName() {
+	public String getName() {
 		return this.name;
 	}
 
-	public void setName(Serializable name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "province")
 	public Set<District> getDistricts() {
 		return this.districts;
 	}

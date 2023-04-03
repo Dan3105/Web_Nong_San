@@ -1,7 +1,6 @@
 package tad.entity;
 // Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -18,42 +17,47 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Ward", schema = "dbo", catalog = "DB_Tad")
-public class Ward implements java.io.Serializable {
-
-	private Serializable wardId;
+public class Ward {
+	@Id
+	@Column(name = "WardID", unique = true, nullable = false)
+	private String wardId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "DistrictID", nullable = false)
 	private District district;
-	private Serializable name;
+	
+
+	@Column(name = "Name", nullable = false)
+	private String name;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ward")
 	private Set<Address> addresses = new HashSet<Address>(0);
 
 	public Ward() {
 	}
 
-	public Ward(Serializable wardId, District district, Serializable name) {
+	public Ward(String wardId, District district, String name) {
 		this.wardId = wardId;
 		this.district = district;
 		this.name = name;
 	}
 
-	public Ward(Serializable wardId, District district, Serializable name, Set<Address> addresses) {
+	public Ward(String wardId, District district, String name, Set<Address> addresses) {
 		this.wardId = wardId;
 		this.district = district;
 		this.name = name;
 		this.addresses = addresses;
 	}
 
-	@Id
-
-	@Column(name = "WardID", unique = true, nullable = false)
-	public Serializable getWardId() {
+	public String getWardId() {
 		return this.wardId;
 	}
 
-	public void setWardId(Serializable wardId) {
+	public void setWardId(String wardId) {
 		this.wardId = wardId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DistrictID", nullable = false)
+
 	public District getDistrict() {
 		return this.district;
 	}
@@ -62,16 +66,14 @@ public class Ward implements java.io.Serializable {
 		this.district = district;
 	}
 
-	@Column(name = "Name", nullable = false)
-	public Serializable getName() {
+	public String getName() {
 		return this.name;
 	}
 
-	public void setName(Serializable name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ward")
 	public Set<Address> getAddresses() {
 		return this.addresses;
 	}

@@ -1,7 +1,6 @@
 package tad.entity;
 // Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,20 +23,43 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "Feedback", schema = "dbo", catalog = "DB_Tad", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"UserID", "ProductID" }))
-public class Feedback implements java.io.Serializable {
+public class Feedback {
 
-	private Serializable feedbackId;
+	@Id
+	@Column(name = "FeedbackID", unique = true, nullable = false)
+	private String feedbackId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ProductID", nullable = false)
 	private Product product;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "UserID", nullable = false)
 	private User user;
+	
+
+	@Column(name = "RatingStar", nullable = false)
 	private short ratingStar;
-	private Serializable feedbackContent;
+	
+
+	@Column(name = "FeedbackContent")
+	private String feedbackContent;
+	
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "PostingDate", nullable = false, length = 23)
 	private Date postingDate;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "FeedbackHistory", schema = "dbo", catalog = "DB_Tad", joinColumns = {
+			@JoinColumn(name = "FeedbackID", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "CommentID", nullable = false, updatable = false) })
 	private Set<Comment> comments = new HashSet<Comment>(0);
 
 	public Feedback() {
 	}
 
-	public Feedback(Serializable feedbackId, Product product, User user, short ratingStar, Date postingDate) {
+	public Feedback(String feedbackId, Product product, User user, short ratingStar, Date postingDate) {
 		this.feedbackId = feedbackId;
 		this.product = product;
 		this.user = user;
@@ -45,7 +67,7 @@ public class Feedback implements java.io.Serializable {
 		this.postingDate = postingDate;
 	}
 
-	public Feedback(Serializable feedbackId, Product product, User user, short ratingStar, Serializable feedbackContent,
+	public Feedback(String feedbackId, Product product, User user, short ratingStar, String feedbackContent,
 			Date postingDate, Set<Comment> comments) {
 		this.feedbackId = feedbackId;
 		this.product = product;
@@ -56,19 +78,15 @@ public class Feedback implements java.io.Serializable {
 		this.comments = comments;
 	}
 
-	@Id
-
-	@Column(name = "FeedbackID", unique = true, nullable = false)
-	public Serializable getFeedbackId() {
+	public String getFeedbackId() {
 		return this.feedbackId;
 	}
 
-	public void setFeedbackId(Serializable feedbackId) {
+	public void setFeedbackId(String feedbackId) {
 		this.feedbackId = feedbackId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ProductID", nullable = false)
+	
 	public Product getProduct() {
 		return this.product;
 	}
@@ -77,8 +95,7 @@ public class Feedback implements java.io.Serializable {
 		this.product = product;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UserID", nullable = false)
+	
 	public User getUser() {
 		return this.user;
 	}
@@ -87,7 +104,6 @@ public class Feedback implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Column(name = "RatingStar", nullable = false)
 	public short getRatingStar() {
 		return this.ratingStar;
 	}
@@ -96,17 +112,14 @@ public class Feedback implements java.io.Serializable {
 		this.ratingStar = ratingStar;
 	}
 
-	@Column(name = "FeedbackContent")
-	public Serializable getFeedbackContent() {
+	public String getFeedbackContent() {
 		return this.feedbackContent;
 	}
 
-	public void setFeedbackContent(Serializable feedbackContent) {
+	public void setFeedbackContent(String feedbackContent) {
 		this.feedbackContent = feedbackContent;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "PostingDate", nullable = false, length = 23)
 	public Date getPostingDate() {
 		return this.postingDate;
 	}
@@ -115,10 +128,7 @@ public class Feedback implements java.io.Serializable {
 		this.postingDate = postingDate;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "FeedbackHistory", schema = "dbo", catalog = "DB_Tad", joinColumns = {
-			@JoinColumn(name = "FeedbackID", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "CommentID", nullable = false, updatable = false) })
+	
 	public Set<Comment> getComments() {
 		return this.comments;
 	}

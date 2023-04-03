@@ -1,5 +1,5 @@
 <link rel="stylesheet"
-	href="<c:url value="/assets/css/admin-menu.css"/>">
+	href="<c:url value="/assets/css/admincss/admin-menu.css"/>">
 <!-- Admin header -->
 <div id="screen-container" class="row-cols-2 row">
 
@@ -9,7 +9,7 @@
 		<div class="flex-column">
 			<a class="btn navbar-brand h-100 rounded-0 position-relative"
 				href="#logo"> <img
-				src="<c:url value="/resources/img/Logo.png"/>" alt="logo"
+				src="<c:url value="/assets/img/logo.png"/>" alt="logo"
 				class="p-1 w-100">
 			</a>
 			<button class="navbar-toggler flex-end" type="button"

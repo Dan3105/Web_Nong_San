@@ -1,7 +1,6 @@
 package tad.entity;
 // Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -18,42 +17,47 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Category", schema = "dbo", catalog = "DB_Tad")
-public class Category implements java.io.Serializable {
-
-	private Serializable categoryId;
+public class Category {
+	@Id
+	@Column(name = "CategoryID", unique = true, nullable = false)
+	private String categoryId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AdminID", nullable = false)
 	private Admin admin;
-	private Serializable name;
+	
+	@Column(name = "Name", nullable = false)
+	private String name;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
 	private Set<Product> products = new HashSet<Product>(0);
 
 	public Category() {
 	}
 
-	public Category(Serializable categoryId, Admin admin, Serializable name) {
+	public Category(String categoryId, Admin admin, String name) {
 		this.categoryId = categoryId;
 		this.admin = admin;
 		this.name = name;
 	}
 
-	public Category(Serializable categoryId, Admin admin, Serializable name, Set<Product> products) {
+	public Category(String categoryId, Admin admin, String name, Set<Product> products) {
 		this.categoryId = categoryId;
 		this.admin = admin;
 		this.name = name;
 		this.products = products;
 	}
 
-	@Id
-
-	@Column(name = "CategoryID", unique = true, nullable = false)
-	public Serializable getCategoryId() {
+	
+	public String getCategoryId() {
 		return this.categoryId;
 	}
 
-	public void setCategoryId(Serializable categoryId) {
+	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "AdminID", nullable = false)
+	
 	public Admin getAdmin() {
 		return this.admin;
 	}
@@ -62,16 +66,16 @@ public class Category implements java.io.Serializable {
 		this.admin = admin;
 	}
 
-	@Column(name = "Name", nullable = false)
-	public Serializable getName() {
+	
+	public String getName() {
 		return this.name;
 	}
 
-	public void setName(Serializable name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+	
 	public Set<Product> getProducts() {
 		return this.products;
 	}

@@ -16,11 +16,23 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Cart", schema = "dbo", catalog = "DB_Tad")
-public class Cart implements java.io.Serializable {
-
+public class Cart{
+	
+	@EmbeddedId
+	@AttributeOverrides({
+			@AttributeOverride(name = "productId", column = @Column(name = "ProductID", nullable = false)),
+			@AttributeOverride(name = "userId", column = @Column(name = "UserID", nullable = false)) })
 	private CartId id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
 	private Product product;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "UserID", nullable = false, insertable = false, updatable = false)
 	private User user;
+	
+	@Column(name = "Quantity", nullable = false)
 	private int quantity;
 
 	public Cart() {
@@ -33,11 +45,6 @@ public class Cart implements java.io.Serializable {
 		this.quantity = quantity;
 	}
 
-	@EmbeddedId
-
-	@AttributeOverrides({
-			@AttributeOverride(name = "productId", column = @Column(name = "ProductID", nullable = false)),
-			@AttributeOverride(name = "userId", column = @Column(name = "UserID", nullable = false)) })
 	public CartId getId() {
 		return this.id;
 	}
@@ -46,8 +53,7 @@ public class Cart implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
+	
 	public Product getProduct() {
 		return this.product;
 	}
@@ -56,8 +62,7 @@ public class Cart implements java.io.Serializable {
 		this.product = product;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UserID", nullable = false, insertable = false, updatable = false)
+	
 	public User getUser() {
 		return this.user;
 	}
@@ -66,7 +71,7 @@ public class Cart implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Column(name = "Quantity", nullable = false)
+	
 	public int getQuantity() {
 		return this.quantity;
 	}

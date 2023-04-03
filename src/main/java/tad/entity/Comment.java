@@ -1,7 +1,6 @@
 package tad.entity;
 // Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,25 +20,38 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "Comment", schema = "dbo", catalog = "DB_Tad")
-public class Comment implements java.io.Serializable {
-
-	private Serializable commentId;
+public class Comment {
+	@Id
+	@Column(name = "CommentID", unique = true, nullable = false)
+	private String commentId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "UserID", nullable = false)
 	private User user;
-	private Serializable commentContent;
+	
+	@Column(name = "CommentContent")
+	private String commentContent;
+	
+	@Column(name = "Status", nullable = false)
 	private boolean status;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "PostingDate", length = 23)
 	private Date postingDate;
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "comments")
 	private Set<Feedback> feedbacks = new HashSet<Feedback>(0);
 
 	public Comment() {
 	}
 
-	public Comment(Serializable commentId, User user, boolean status) {
+	public Comment(String commentId, User user, boolean status) {
 		this.commentId = commentId;
 		this.user = user;
 		this.status = status;
 	}
 
-	public Comment(Serializable commentId, User user, Serializable commentContent, boolean status, Date postingDate,
+	public Comment(String commentId, User user, String commentContent, boolean status, Date postingDate,
 			Set<Feedback> feedbacks) {
 		this.commentId = commentId;
 		this.user = user;
@@ -49,19 +61,15 @@ public class Comment implements java.io.Serializable {
 		this.feedbacks = feedbacks;
 	}
 
-	@Id
-
-	@Column(name = "CommentID", unique = true, nullable = false)
-	public Serializable getCommentId() {
+	public String getCommentId() {
 		return this.commentId;
 	}
 
-	public void setCommentId(Serializable commentId) {
+	public void setCommentId(String commentId) {
 		this.commentId = commentId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UserID", nullable = false)
+	
 	public User getUser() {
 		return this.user;
 	}
@@ -70,16 +78,16 @@ public class Comment implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Column(name = "CommentContent")
-	public Serializable getCommentContent() {
+	
+	public String getCommentContent() {
 		return this.commentContent;
 	}
 
-	public void setCommentContent(Serializable commentContent) {
+	public void setCommentContent(String commentContent) {
 		this.commentContent = commentContent;
 	}
 
-	@Column(name = "Status", nullable = false)
+	
 	public boolean isStatus() {
 		return this.status;
 	}
@@ -88,8 +96,7 @@ public class Comment implements java.io.Serializable {
 		this.status = status;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "PostingDate", length = 23)
+	
 	public Date getPostingDate() {
 		return this.postingDate;
 	}
@@ -98,7 +105,7 @@ public class Comment implements java.io.Serializable {
 		this.postingDate = postingDate;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "comments")
+	
 	public Set<Feedback> getFeedbacks() {
 		return this.feedbacks;
 	}
