@@ -1,4 +1,4 @@
-package com.tadgreen.entity;
+package tad.entity;
 // Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
 
 import java.util.HashSet;

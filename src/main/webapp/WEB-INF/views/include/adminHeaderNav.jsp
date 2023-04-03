@@ -1,5 +1,5 @@
 <link rel="stylesheet"
-	href="<c:url value="/resources/css/admin-menu.css"/>">
+	href="<c:url value="/assets/css/admin-menu.css"/>">
 <!-- Admin header -->
 <div id="screen-container" class="row-cols-2 row">
 
