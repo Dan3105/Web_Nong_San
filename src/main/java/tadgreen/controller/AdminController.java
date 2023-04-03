@@ -15,6 +15,12 @@ public class AdminController {
 	@RequestMapping("user")
 	public String user()
 	{
-		return "admin/adminMenu";
+		return "admin/adminUserManager";
+	}
+	
+	@RequestMapping("category")
+	public String category()
+	{
+		return "admin/adminCategoryManager";
 	}
 }

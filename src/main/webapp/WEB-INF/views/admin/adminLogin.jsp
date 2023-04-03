@@ -21,7 +21,7 @@
             <div class="px-4"></div>
             <button type="submit" class="btn btn-primary btn-block admin-login-login-btn">Sign in</button>
              <div class="form-group text-right">
-            <a href="#" class="small"><b>Forgot Password?</b></a>
+            <a href="#" class="w-100 small"><b class="">Forgot Password?</b></a>
           </div>
           </form>
         </div>	
