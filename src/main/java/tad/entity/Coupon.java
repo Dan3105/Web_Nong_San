@@ -4,6 +4,7 @@ package tad.entity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,39 +30,39 @@ public class Coupon {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ShopID")
 	private ShopSystem shopSystem;
-	
+
 	@Column(name = "TypeCoupon", nullable = false)
 	private boolean typeCoupon;
-	
+
 	@Column(name = "Name", nullable = false)
 	private String name;
 
 	@Column(name = "Discount", nullable = false, precision = 53, scale = 0)
 	private double discount;
-	
+
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "PostingDate", nullable = false, length = 23)
 	private Date postingDate;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "ExpiryDate", nullable = false, length = 23)
 	private Date expiryDate;
-	
+
 	@Column(name = "Quantity", nullable = false)
 	private int quantity;
-	
+
 	@Column(name = "Detail")
 	private String detail;
-	
+
 	@Column(name = "Status", nullable = false)
 	private boolean status;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
-	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
-	
+	private Set<OrderDetail> orderDetails = new HashSet<>(0);
+
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "coupons")
-	private Set<Product> products = new HashSet<Product>(0);
+	private Set<Product> products = new HashSet<>(0);
 
 	public Coupon() {
 	}
@@ -111,7 +112,7 @@ public class Coupon {
 		this.shopSystem = shopSystem;
 	}
 
-	
+
 	public boolean isTypeCoupon() {
 		return this.typeCoupon;
 	}
@@ -120,7 +121,7 @@ public class Coupon {
 		this.typeCoupon = typeCoupon;
 	}
 
-	
+
 	public String getName() {
 		return this.name;
 	}
@@ -153,7 +154,7 @@ public class Coupon {
 		this.expiryDate = expiryDate;
 	}
 
-	
+
 	public int getQuantity() {
 		return this.quantity;
 	}
@@ -162,7 +163,7 @@ public class Coupon {
 		this.quantity = quantity;
 	}
 
-	
+
 	public String getDetail() {
 		return this.detail;
 	}
@@ -171,7 +172,7 @@ public class Coupon {
 		this.detail = detail;
 	}
 
-	
+
 	public boolean isStatus() {
 		return this.status;
 	}
@@ -180,7 +181,7 @@ public class Coupon {
 		this.status = status;
 	}
 
-	
+
 	public Set<OrderDetail> getOrderDetails() {
 		return this.orderDetails;
 	}
@@ -189,7 +190,7 @@ public class Coupon {
 		this.orderDetails = orderDetails;
 	}
 
-	
+
 	public Set<Product> getProducts() {
 		return this.products;
 	}

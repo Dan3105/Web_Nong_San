@@ -3,6 +3,7 @@ package tad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,16 +22,16 @@ public class District{
 	@Id
 	@Column(name = "DistrictID", unique = true, nullable = false)
 	private String districtId;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ProvinceID", nullable = false)
 	private Province province;
-	
+
 	@Column(name = "Name", nullable = false)
 	private String name;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "district")
-	private Set<Ward> wards = new HashSet<Ward>(0);
+	private Set<Ward> wards = new HashSet<>(0);
 
 	public District() {
 	}
@@ -48,7 +49,7 @@ public class District{
 		this.wards = wards;
 	}
 
-	
+
 	public String getDistrictId() {
 		return this.districtId;
 	}
@@ -57,7 +58,7 @@ public class District{
 		this.districtId = districtId;
 	}
 
-	
+
 	public Province getProvince() {
 		return this.province;
 	}
@@ -66,7 +67,7 @@ public class District{
 		this.province = province;
 	}
 
-	
+
 	public String getName() {
 		return this.name;
 	}
@@ -75,7 +76,7 @@ public class District{
 		this.name = name;
 	}
 
-	
+
 	public Set<Ward> getWards() {
 		return this.wards;
 	}

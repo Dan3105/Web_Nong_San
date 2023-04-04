@@ -1,9 +1,9 @@
 package tad.entity;
 // Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
 
-import java.io.String;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ShopSystem", schema = "dbo", catalog = "DB_Tad")
-public class ShopSystem implements java.io.String {
+public class ShopSystem {
 
 	@Id
 	@Column(name = "ShopID", unique = true, nullable = false)
@@ -37,20 +37,20 @@ public class ShopSystem implements java.io.String {
 
 	@Column(name = "Email")
 	private String email;
-	
+
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
-	private Set<User> users = new HashSet<User>(0);
+	private Set<User> users = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
-	private Set<Product> products = new HashSet<Product>(0);
+	private Set<Product> products = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
-	private Set<Coupon> coupons = new HashSet<Coupon>(0);
-	
+	private Set<Coupon> coupons = new HashSet<>(0);
+
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "shopSystems")
-	private Set<Address> addresses = new HashSet<Address>(0);
+	private Set<Address> addresses = new HashSet<>(0);
 
 	public ShopSystem() {
 	}

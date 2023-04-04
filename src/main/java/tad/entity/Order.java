@@ -3,6 +3,7 @@ package tad.entity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,13 +36,13 @@ public class Order {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DeliveryTime", length = 23)
 	private Date deliveryTime;
-	
+
 	@Column(name = "Status", nullable = false)
 	private short status;
-	
+
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
+	private Set<OrderDetail> orderDetails = new HashSet<>(0);
 
 	public Order() {
 	}
@@ -96,7 +97,7 @@ public class Order {
 		this.deliveryTime = deliveryTime;
 	}
 
-	
+
 	public short getStatus() {
 		return this.status;
 	}

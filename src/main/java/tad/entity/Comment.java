@@ -4,6 +4,7 @@ package tad.entity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,23 +25,23 @@ public class Comment {
 	@Id
 	@Column(name = "CommentID", unique = true, nullable = false)
 	private String commentId;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "UserID", nullable = false)
 	private User user;
-	
+
 	@Column(name = "CommentContent")
 	private String commentContent;
-	
+
 	@Column(name = "Status", nullable = false)
 	private boolean status;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "PostingDate", length = 23)
 	private Date postingDate;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "comments")
-	private Set<Feedback> feedbacks = new HashSet<Feedback>(0);
+	private Set<Feedback> feedbacks = new HashSet<>(0);
 
 	public Comment() {
 	}
@@ -69,7 +70,7 @@ public class Comment {
 		this.commentId = commentId;
 	}
 
-	
+
 	public User getUser() {
 		return this.user;
 	}
@@ -78,7 +79,7 @@ public class Comment {
 		this.user = user;
 	}
 
-	
+
 	public String getCommentContent() {
 		return this.commentContent;
 	}
@@ -87,7 +88,7 @@ public class Comment {
 		this.commentContent = commentContent;
 	}
 
-	
+
 	public boolean isStatus() {
 		return this.status;
 	}
@@ -96,7 +97,7 @@ public class Comment {
 		this.status = status;
 	}
 
-	
+
 	public Date getPostingDate() {
 		return this.postingDate;
 	}
@@ -105,7 +106,7 @@ public class Comment {
 		this.postingDate = postingDate;
 	}
 
-	
+
 	public Set<Feedback> getFeedbacks() {
 		return this.feedbacks;
 	}

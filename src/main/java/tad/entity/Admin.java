@@ -3,6 +3,7 @@ package tad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,7 +29,7 @@ public class Admin {
 	private String password;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "admin")
-	private Set<Category> categories = new HashSet<Category>(0);
+	private Set<Category> categories = new HashSet<>(0);
 
 	public Admin() {
 	}

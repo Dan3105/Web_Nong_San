@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Province", schema = "dbo", catalog = "DB_Tad")
-public class Province implements {
+public class Province {
 	@Id
 
 	@Column(name = "ProvinceID", unique = true, nullable = false)
@@ -25,7 +25,7 @@ public class Province implements {
 	private String name;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "province")
-	private Set<District> districts = new HashSet<District>(0);
+	private Set<District> districts = new HashSet<>(0);
 
 	public Province() {
 	}
@@ -41,7 +41,7 @@ public class Province implements {
 		this.districts = districts;
 	}
 
-	
+
 	public String getProvinceId() {
 		return this.provinceId;
 	}

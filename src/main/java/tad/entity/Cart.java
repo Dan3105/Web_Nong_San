@@ -17,21 +17,21 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Cart", schema = "dbo", catalog = "DB_Tad")
 public class Cart{
-	
+
 	@EmbeddedId
 	@AttributeOverrides({
 			@AttributeOverride(name = "productId", column = @Column(name = "ProductID", nullable = false)),
 			@AttributeOverride(name = "userId", column = @Column(name = "UserID", nullable = false)) })
 	private CartId id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
 	private Product product;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "UserID", nullable = false, insertable = false, updatable = false)
 	private User user;
-	
+
 	@Column(name = "Quantity", nullable = false)
 	private int quantity;
 
@@ -53,7 +53,7 @@ public class Cart{
 		this.id = id;
 	}
 
-	
+
 	public Product getProduct() {
 		return this.product;
 	}
@@ -62,7 +62,7 @@ public class Cart{
 		this.product = product;
 	}
 
-	
+
 	public User getUser() {
 		return this.user;
 	}
@@ -71,7 +71,7 @@ public class Cart{
 		this.user = user;
 	}
 
-	
+
 	public int getQuantity() {
 		return this.quantity;
 	}

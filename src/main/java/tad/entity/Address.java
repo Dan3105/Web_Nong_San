@@ -3,6 +3,7 @@ package tad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,25 +25,25 @@ public class Address {
 	@Id
 	@Column(name = "AddressID", unique = true, nullable = false)
 	private String addressId;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "WardID", nullable = false)
 	private Ward ward;
-	
+
 	@Column(name = "Name")
 	private String name;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "ShopAddress", schema = "dbo", catalog = "DB_Tad", uniqueConstraints = @UniqueConstraint(columnNames = "ShopID"), joinColumns = {
 			@JoinColumn(name = "AddressID", nullable = false, updatable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "ShopID", unique = true, nullable = false, updatable = false) })
-	private Set<ShopSystem> shopSystems = new HashSet<ShopSystem>(0);
-	
+	private Set<ShopSystem> shopSystems = new HashSet<>(0);
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "AddressUser", schema = "dbo", catalog = "DB_Tad", joinColumns = {
 			@JoinColumn(name = "AddressID", nullable = false, updatable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "UserID", nullable = false, updatable = false) })
-	private Set<User> users = new HashSet<User>(0);
+	private Set<User> users = new HashSet<>(0);
 
 	public Address() {
 	}
@@ -60,7 +61,7 @@ public class Address {
 		this.users = users;
 	}
 
-	
+
 	public String getAddressId() {
 		return this.addressId;
 	}
@@ -69,7 +70,7 @@ public class Address {
 		this.addressId = addressId;
 	}
 
-	
+
 	public Ward getWard() {
 		return this.ward;
 	}
@@ -78,7 +79,7 @@ public class Address {
 		this.ward = ward;
 	}
 
-	
+
 	public String getName() {
 		return this.name;
 	}
@@ -87,7 +88,7 @@ public class Address {
 		this.name = name;
 	}
 
-	
+
 	public Set<ShopSystem> getShopSystems() {
 		return this.shopSystems;
 	}
@@ -96,7 +97,7 @@ public class Address {
 		this.shopSystems = shopSystems;
 	}
 
-	
+
 	public Set<User> getUsers() {
 		return this.users;
 	}

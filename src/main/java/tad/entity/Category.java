@@ -3,6 +3,7 @@ package tad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,16 +22,16 @@ public class Category {
 	@Id
 	@Column(name = "CategoryID", unique = true, nullable = false)
 	private String categoryId;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "AdminID", nullable = false)
 	private Admin admin;
-	
+
 	@Column(name = "Name", nullable = false)
 	private String name;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
-	private Set<Product> products = new HashSet<Product>(0);
+	private Set<Product> products = new HashSet<>(0);
 
 	public Category() {
 	}
@@ -48,7 +49,7 @@ public class Category {
 		this.products = products;
 	}
 
-	
+
 	public String getCategoryId() {
 		return this.categoryId;
 	}
@@ -57,7 +58,7 @@ public class Category {
 		this.categoryId = categoryId;
 	}
 
-	
+
 	public Admin getAdmin() {
 		return this.admin;
 	}
@@ -66,7 +67,7 @@ public class Category {
 		this.admin = admin;
 	}
 
-	
+
 	public String getName() {
 		return this.name;
 	}
@@ -75,7 +76,7 @@ public class Category {
 		this.name = name;
 	}
 
-	
+
 	public Set<Product> getProducts() {
 		return this.products;
 	}

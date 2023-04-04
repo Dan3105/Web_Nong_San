@@ -4,6 +4,7 @@ package tad.entity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,33 +29,33 @@ public class Feedback {
 	@Id
 	@Column(name = "FeedbackID", unique = true, nullable = false)
 	private String feedbackId;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ProductID", nullable = false)
 	private Product product;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "UserID", nullable = false)
 	private User user;
-	
+
 
 	@Column(name = "RatingStar", nullable = false)
 	private short ratingStar;
-	
+
 
 	@Column(name = "FeedbackContent")
 	private String feedbackContent;
-	
+
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "PostingDate", nullable = false, length = 23)
 	private Date postingDate;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "FeedbackHistory", schema = "dbo", catalog = "DB_Tad", joinColumns = {
 			@JoinColumn(name = "FeedbackID", nullable = false, updatable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "CommentID", nullable = false, updatable = false) })
-	private Set<Comment> comments = new HashSet<Comment>(0);
+	private Set<Comment> comments = new HashSet<>(0);
 
 	public Feedback() {
 	}
@@ -86,7 +87,7 @@ public class Feedback {
 		this.feedbackId = feedbackId;
 	}
 
-	
+
 	public Product getProduct() {
 		return this.product;
 	}
@@ -95,7 +96,7 @@ public class Feedback {
 		this.product = product;
 	}
 
-	
+
 	public User getUser() {
 		return this.user;
 	}
@@ -128,7 +129,7 @@ public class Feedback {
 		this.postingDate = postingDate;
 	}
 
-	
+
 	public Set<Comment> getComments() {
 		return this.comments;
 	}

@@ -23,12 +23,12 @@ public class OrderDetail {
 			@AttributeOverride(name = "orderId", column = @Column(name = "OrderID", nullable = false)),
 			@AttributeOverride(name = "couponId", column = @Column(name = "CouponID", nullable = false)) })
 	private OrderDetailId id;
-	
+
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CouponID", nullable = false, insertable = false, updatable = false)
 	private Coupon coupon;
-	
+
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "OrderID", nullable = false, insertable = false, updatable = false)

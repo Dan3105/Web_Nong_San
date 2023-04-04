@@ -1,6 +1,6 @@
 <%@include file="/WEB-INF/views/include/adminHeader.jsp" %>
 <title>Login</title>
-<link rel="stylesheet" href="<c:url value="/assets/css/admin-login.css"/>">
+<link rel="stylesheet" href="<c:url value="/assets/css/admincss/admin-login.css"/>">
 </head>
 <body>
 <div class="container d-flex justify-content-center align-items-center" style="height:100vh;">
@@ -9,7 +9,7 @@
       <div class="card admin-login-background-inside">
         <div class="card-body">
           <div class="text-center mb-3 ">
-            <img src="<c:url value="/assets/img/icon.png"/>" alt="Logo" class="w-100">
+            <img src="<c:url value="/assets/img/logo.png"/>" alt="Logo" class="w-100">
           </div>
           <form method="post" action="admin.htm">
             <div class="form-group my-4">

@@ -3,6 +3,7 @@ package tad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,38 +37,38 @@ public class User {
 
 	@Column(name = "Email", nullable = false)
 	private String email;
-	
+
 	@Column(name = "PhoneNumber")
 	private String phoneNumber;
 
 	@Column(name = "Avatar")
 	private byte[] avatar;
-	
+
 	@Column(name = "State", nullable = false)
 	private int state;
 
 	@Column(name = "Password", nullable = false)
 	private String password;
-	
+
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<Order> orders = new HashSet<Order>(0);
-	
+	private Set<Order> orders = new HashSet<>(0);
+
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<ShopSystem> shopSystems = new HashSet<ShopSystem>(0);
+	private Set<ShopSystem> shopSystems = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<Comment> comments = new HashSet<Comment>(0);
+	private Set<Comment> comments = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<Cart> carts = new HashSet<Cart>(0);
+	private Set<Cart> carts = new HashSet<>(0);
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
-	private Set<Address> addresses = new HashSet<Address>(0);
+	private Set<Address> addresses = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<Feedback> feedbacks = new HashSet<Feedback>(0);
+	private Set<Feedback> feedbacks = new HashSet<>(0);
 
 	public User() {
 	}

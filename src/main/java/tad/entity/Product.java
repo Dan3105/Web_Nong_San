@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -48,10 +49,10 @@ public class Product {
 
 	@Column(name = "Quantity", nullable = false)
 	private int quantity;
-	
+
 	@Column(name = "Detail")
 	private String detail;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "PostingDate", nullable = false, length = 10)
 	private Date postingDate;
@@ -61,19 +62,19 @@ public class Product {
 	private Date expiryDate;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-	private Set<Cart> carts = new HashSet<Cart>(0);
-	
+	private Set<Cart> carts = new HashSet<>(0);
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
-	
+	private Set<OrderDetail> orderDetails = new HashSet<>(0);
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "ProductCoupon", schema = "dbo", catalog = "DB_Tad", joinColumns = {
 			@JoinColumn(name = "ProductID", nullable = false, updatable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "CouponID", nullable = false, updatable = false) })
-	private Set<Coupon> coupons = new HashSet<Coupon>(0);
+	private Set<Coupon> coupons = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-	private Set<Feedback> feedbacks = new HashSet<Feedback>(0);
+	private Set<Feedback> feedbacks = new HashSet<>(0);
 
 	public Product() {
 	}
