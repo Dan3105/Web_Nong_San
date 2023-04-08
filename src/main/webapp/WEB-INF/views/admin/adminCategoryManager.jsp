@@ -1,46 +1,67 @@
 <%@include file="/WEB-INF/views/include/adminHeader.jsp"%>
-<link rel="stylesheet" href="<c:url value="/assets/css/admincss/admin-category.css"/>">
+<link rel="stylesheet"
+	href="<c:url value="/assets/css/admincss/admin-category.css"/>">
+<script src="<c:url value="/assets/js/admin/adminCategoryManager.js"/>">></script>
 <title>Admin Category Manager</title>
-<body style="background-color: var($ gray-300)">
+<body style="background-color: var($ gray-300)"></body>
 	<%@include file="/WEB-INF/views/include/adminHeaderNav.jsp"%>
 	<div id="main-content" class="row pt-3">
 		<div class="col-md-2"></div>
 		<div class=" col-md category-menu container">
 			<p class="h2 bold">Category</p>
-			<div class="row category-menu-content">
-			<!-- Form Thong Tin loai hang -->
-				<form class="col-md-6 h-100">
-					<p class="h5 bold">About Category</p>
-					<div class="mb-3 form-check w-100">
-						<div class="mb-3">
-							<label for="exampleInputEmail1" class="form-label">Mat
-								hang 1 </label> <input type="email" class="form-control"
-								id="inputCategory" aria-describedby="emailHelp">
-							<div class="form-text">Loai Mat Hang</div>
-						</div>
-					</div>
-					<ul class="d-flex flex-row justify-content-between">
-						<li><button type="submit" class="btn btn-primary">Add</button></li>
-						<li><button type="submit" class="btn btn-primary">Delete</button></li>
-					</ul>
-				</form>
-				
+			<div class="category-menu-content">
 				<!-- Bang mat hang -->
-				<div class="col-md-6 h-100 overflow-y-scroll position-relative">
+				<div class="h-100 overflow-y-scroll position-relative">
 					<table class="table table-hover table-striped table-categories">
 						<thead class="position-sticky top-0 bg-light">
 							<tr>
-								<th scope="col">No</th>
-								<th scope="col">Ten Mat Hang</th>
+								<th class="col-1" scope="col">Id</th>
+								<th class="col" scope="col">Ten Mat Hang</th>
+								<th class="col-2" scope="col" class="table-info">Insert</th>
+								<th class="col-2" scope="col" class="table-danger">Delete</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach varStatus="status" var="item" items="${list}">
 								<tr>
-									<th scope="row">${status.index }</th>
-									<td><c:out value="${item.name }" /></td>
+									<th scope="row">
+										<p class="p-0 m-0">${item.categoryId}</p>
+									</th>
+									<td id="CategoryName${status.index}">
+										<div>
+											<p class="p-0 m-0">${item.name }</p>
+											<input style="display:none" type='text' class='form-control' value='' aria-label='Category'>
+										</div>
+										
+									</td>
+									<td>
+										<button class="btn btn-primary h-100" id="edit_button${status.index}" onclick="EditRow(${status.index})">
+											<i class="ti-pencil-alt"></i>
+										</button>
+										<div id="EditChange${status.index}" class="h-100" style="display:none">
+											<button class="btn btn-success" onclick="OnConfirmEdit(${status.index})">Y</button>
+											<button class="btn btn-warning" onclick="OnCancelEdit(${status.index})">X</button>
+										</div>
+									</td>
+									<td>
+										<button class="btn btn-danger">
+											<i class="ti-trash"></i>
+										</button>
+									</td>
 								</tr>
 							</c:forEach>
+							<c:set var="listLength" value="${fn:length(list)}"
+								scope="session" />
+							<tr>
+								<th scope="row"><p class="p-0 m-0">${listLength}</p></th>
+								<td><input type="text" class="form-control"
+									placeholder="New Category" aria-label="Category"></td>
+								<td colspan="2">
+									<button class="btn btn-danger">
+										<i class="ti-trash"></i>
+									</button>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -53,6 +74,7 @@
 		<div class="row">
 			<div class="col-md-2"></div>
 			<div class="col-md">
+				<p class="h2 bold">Product</p>
 				<table class="table table-hover table-striped">
 					<thead>
 						<tr>
