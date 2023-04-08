@@ -20,4 +20,8 @@
 	<bean id="adminDAO" class="tad.DAOImpl.AdminDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+	<bean id="addressDAO" class="tad.DAOImpl.AddressDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 </beans>

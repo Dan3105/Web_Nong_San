@@ -1,9 +1,8 @@
 package tad.entity;
-// Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
+// Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,55 +18,50 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Category", schema = "dbo", catalog = "DB_Tad")
 public class Category {
-	@Id
-	@Column(name = "CategoryID", unique = true, nullable = false)
-	private String categoryId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "AdminID", nullable = false)
-	private Admin admin;
-
-	@Column(name = "Name", nullable = false)
+	private int categoryId;
+	private Account account;
 	private String name;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
-	private Set<Product> products = new HashSet<>(0);
+	private Set<Product> products = new HashSet<Product>(0);
 
 	public Category() {
 	}
 
-	public Category(String categoryId, Admin admin, String name) {
+	public Category(int categoryId, Account account, String name) {
 		this.categoryId = categoryId;
-		this.admin = admin;
+		this.account = account;
 		this.name = name;
 	}
 
-	public Category(String categoryId, Admin admin, String name, Set<Product> products) {
+	public Category(int categoryId, Account account, String name, Set<Product> products) {
 		this.categoryId = categoryId;
-		this.admin = admin;
+		this.account = account;
 		this.name = name;
 		this.products = products;
 	}
 
+	@Id
 
-	public String getCategoryId() {
+	@Column(name = "CategoryID", unique = true, nullable = false)
+	public int getCategoryId() {
 		return this.categoryId;
 	}
 
-	public void setCategoryId(String categoryId) {
+	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
-
-	public Admin getAdmin() {
-		return this.admin;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AccountID", nullable = false)
+	public Account getAccount() {
+		return this.account;
 	}
 
-	public void setAdmin(Admin admin) {
-		this.admin = admin;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
-
+	@Column(name = "Name", nullable = false)
 	public String getName() {
 		return this.name;
 	}
@@ -76,7 +70,7 @@ public class Category {
 		this.name = name;
 	}
 
-
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
 	public Set<Product> getProducts() {
 		return this.products;
 	}

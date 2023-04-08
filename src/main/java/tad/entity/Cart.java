@@ -1,5 +1,5 @@
 package tad.entity;
-// Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
+// Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -16,35 +16,28 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Cart", schema = "dbo", catalog = "DB_Tad")
-public class Cart{
+public class Cart {
 
-	@EmbeddedId
-	@AttributeOverrides({
-			@AttributeOverride(name = "productId", column = @Column(name = "ProductID", nullable = false)),
-			@AttributeOverride(name = "userId", column = @Column(name = "UserID", nullable = false)) })
 	private CartId id;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
+	private Account account;
 	private Product product;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UserID", nullable = false, insertable = false, updatable = false)
-	private User user;
-
-	@Column(name = "Quantity", nullable = false)
 	private int quantity;
 
 	public Cart() {
 	}
 
-	public Cart(CartId id, Product product, User user, int quantity) {
+	public Cart(CartId id, Account account, Product product, int quantity) {
 		this.id = id;
+		this.account = account;
 		this.product = product;
-		this.user = user;
 		this.quantity = quantity;
 	}
 
+	@EmbeddedId
+
+	@AttributeOverrides({
+			@AttributeOverride(name = "productId", column = @Column(name = "ProductID", nullable = false)),
+			@AttributeOverride(name = "accountId", column = @Column(name = "AccountID", nullable = false)) })
 	public CartId getId() {
 		return this.id;
 	}
@@ -53,7 +46,18 @@ public class Cart{
 		this.id = id;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AccountID", nullable = false, insertable = false, updatable = false)
+	public Account getAccount() {
+		return this.account;
+	}
 
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
 	public Product getProduct() {
 		return this.product;
 	}
@@ -62,16 +66,7 @@ public class Cart{
 		this.product = product;
 	}
 
-
-	public User getUser() {
-		return this.user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-
+	@Column(name = "Quantity", nullable = false)
 	public int getQuantity() {
 		return this.quantity;
 	}

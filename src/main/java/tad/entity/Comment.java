@@ -1,10 +1,9 @@
 package tad.entity;
-// Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
+// Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,64 +21,55 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "Comment", schema = "dbo", catalog = "DB_Tad")
 public class Comment {
-	@Id
-	@Column(name = "CommentID", unique = true, nullable = false)
-	private String commentId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UserID", nullable = false)
-	private User user;
-
-	@Column(name = "CommentContent")
+	private int commentId;
+	private Account account;
 	private String commentContent;
-
-	@Column(name = "Status", nullable = false)
 	private boolean status;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "PostingDate", length = 23)
 	private Date postingDate;
-
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "comments")
-	private Set<Feedback> feedbacks = new HashSet<>(0);
+	private Set<Feedback> feedbacks = new HashSet<Feedback>(0);
 
 	public Comment() {
 	}
 
-	public Comment(String commentId, User user, boolean status) {
+	public Comment(int commentId, Account account, boolean status) {
 		this.commentId = commentId;
-		this.user = user;
+		this.account = account;
 		this.status = status;
 	}
 
-	public Comment(String commentId, User user, String commentContent, boolean status, Date postingDate,
+	public Comment(int commentId, Account account, String commentContent, boolean status, Date postingDate,
 			Set<Feedback> feedbacks) {
 		this.commentId = commentId;
-		this.user = user;
+		this.account = account;
 		this.commentContent = commentContent;
 		this.status = status;
 		this.postingDate = postingDate;
 		this.feedbacks = feedbacks;
 	}
 
-	public String getCommentId() {
+	@Id
+
+	@Column(name = "CommentID", unique = true, nullable = false)
+	public int getCommentId() {
 		return this.commentId;
 	}
 
-	public void setCommentId(String commentId) {
+	public void setCommentId(int commentId) {
 		this.commentId = commentId;
 	}
 
-
-	public User getUser() {
-		return this.user;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AccountID", nullable = false)
+	public Account getAccount() {
+		return this.account;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
-
+	@Column(name = "CommentContent")
 	public String getCommentContent() {
 		return this.commentContent;
 	}
@@ -88,7 +78,7 @@ public class Comment {
 		this.commentContent = commentContent;
 	}
 
-
+	@Column(name = "Status", nullable = false)
 	public boolean isStatus() {
 		return this.status;
 	}
@@ -97,7 +87,8 @@ public class Comment {
 		this.status = status;
 	}
 
-
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "PostingDate", length = 23)
 	public Date getPostingDate() {
 		return this.postingDate;
 	}
@@ -106,7 +97,7 @@ public class Comment {
 		this.postingDate = postingDate;
 	}
 
-
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "comments")
 	public Set<Feedback> getFeedbacks() {
 		return this.feedbacks;
 	}

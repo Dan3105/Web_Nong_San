@@ -1,5 +1,5 @@
 package tad.entity;
-// Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
+// Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,37 +16,39 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Province", schema = "dbo", catalog = "DB_Tad")
 public class Province {
+
 	@Id
 
 	@Column(name = "ProvinceID", unique = true, nullable = false)
-	private String provinceId;
+	private int provinceId;
+	
 
 	@Column(name = "Name", nullable = false)
 	private String name;
+	
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "province")
-	private Set<District> districts = new HashSet<>(0);
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "province")
+	private Set<District> districts = new HashSet<District>(0);
 
 	public Province() {
 	}
 
-	public Province(String provinceId, String name) {
+	public Province(int provinceId, String name) {
 		this.provinceId = provinceId;
 		this.name = name;
 	}
 
-	public Province(String provinceId, String name, Set<District> districts) {
+	public Province(int provinceId, String name, Set<District> districts) {
 		this.provinceId = provinceId;
 		this.name = name;
 		this.districts = districts;
 	}
 
-
-	public String getProvinceId() {
+	public int getProvinceId() {
 		return this.provinceId;
 	}
 
-	public void setProvinceId(String provinceId) {
+	public void setProvinceId(int provinceId) {
 		this.provinceId = provinceId;
 	}
 

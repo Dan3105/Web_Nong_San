@@ -1,5 +1,5 @@
 package tad.entity;
-// Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
+// Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -16,38 +16,29 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "OrderDetail", schema = "dbo", catalog = "DB_Tad")
-public class OrderDetail {
-	@EmbeddedId
-	@AttributeOverrides({
-			@AttributeOverride(name = "productId", column = @Column(name = "ProductID", nullable = false)),
-			@AttributeOverride(name = "orderId", column = @Column(name = "OrderID", nullable = false)),
-			@AttributeOverride(name = "couponId", column = @Column(name = "CouponID", nullable = false)) })
+public class OrderDetail  {
+
 	private OrderDetailId id;
-
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CouponID", nullable = false, insertable = false, updatable = false)
-	private Coupon coupon;
-
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "OrderID", nullable = false, insertable = false, updatable = false)
 	private Order order;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
+	private Coupon coupon;
 	private Product product;
 
 	public OrderDetail() {
 	}
 
-	public OrderDetail(OrderDetailId id, Coupon coupon, Order order, Product product) {
+	public OrderDetail(OrderDetailId id, Order order, Coupon coupon, Product product) {
 		this.id = id;
-		this.coupon = coupon;
 		this.order = order;
+		this.coupon = coupon;
 		this.product = product;
 	}
 
+	@EmbeddedId
+
+	@AttributeOverrides({
+			@AttributeOverride(name = "productId", column = @Column(name = "ProductID", nullable = false)),
+			@AttributeOverride(name = "orderId", column = @Column(name = "OrderID", nullable = false)),
+			@AttributeOverride(name = "couponId", column = @Column(name = "CouponID", nullable = false)) })
 	public OrderDetailId getId() {
 		return this.id;
 	}
@@ -56,14 +47,8 @@ public class OrderDetail {
 		this.id = id;
 	}
 
-	public Coupon getCoupon() {
-		return this.coupon;
-	}
-
-	public void setCoupon(Coupon coupon) {
-		this.coupon = coupon;
-	}
-
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "OrderID", nullable = false, insertable = false, updatable = false)
 	public Order getOrder() {
 		return this.order;
 	}
@@ -72,6 +57,18 @@ public class OrderDetail {
 		this.order = order;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CouponID", nullable = false, insertable = false, updatable = false)
+	public Coupon getCoupon() {
+		return this.coupon;
+	}
+
+	public void setCoupon(Coupon coupon) {
+		this.coupon = coupon;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
 	public Product getProduct() {
 		return this.product;
 	}

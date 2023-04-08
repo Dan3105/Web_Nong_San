@@ -1,9 +1,8 @@
 package tad.entity;
-// Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
+// Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,43 +20,44 @@ import javax.persistence.Table;
 public class Ward {
 	@Id
 	@Column(name = "WardID", unique = true, nullable = false)
-	private String wardId;
+	private int wardId;
+	
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "DistrictID", nullable = false)
 	private District district;
-
+	
 
 	@Column(name = "Name", nullable = false)
 	private String name;
+	
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ward")
-	private Set<Address> addresses = new HashSet<>(0);
+	private Set<Address> addresses = new HashSet<Address>(0);
 
 	public Ward() {
 	}
 
-	public Ward(String wardId, District district, String name) {
+	public Ward(int wardId, District district, String name) {
 		this.wardId = wardId;
 		this.district = district;
 		this.name = name;
 	}
 
-	public Ward(String wardId, District district, String name, Set<Address> addresses) {
+	public Ward(int wardId, District district, String name, Set<Address> addresses) {
 		this.wardId = wardId;
 		this.district = district;
 		this.name = name;
 		this.addresses = addresses;
 	}
 
-	public String getWardId() {
+	public int getWardId() {
 		return this.wardId;
 	}
 
-	public void setWardId(String wardId) {
+	public void setWardId(int wardId) {
 		this.wardId = wardId;
 	}
-
 
 	public District getDistrict() {
 		return this.district;

@@ -2,8 +2,9 @@ package tad.DAO;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import tad.entity.Admin;
+import tad.entity.Account;
+
 @Transactional
 public interface IAdminDAO {
-	public Admin FindUserAdmin(String login, String psswd);
+	public Account FindUserAdmin(String login, String psswd);
 }

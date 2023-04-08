@@ -1,15 +1,13 @@
 package tad.entity;
-// Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
+// Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,77 +17,63 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ShopSystem", schema = "dbo", catalog = "DB_Tad")
-public class ShopSystem {
+public class ShopSystem{
 
-	@Id
-	@Column(name = "ShopID", unique = true, nullable = false)
-	private String shopId;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UserID", nullable = false)
-	private User user;
-
-	@Column(name = "Name", nullable = false)
+	private int shopId;
+	private Account account;
 	private String name;
-
-	@Column(name = "LogoShop")
 	private byte[] logoShop;
-
-	@Column(name = "Email")
 	private String email;
-
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
-	private Set<User> users = new HashSet<>(0);
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
-	private Set<Product> products = new HashSet<>(0);
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
-	private Set<Coupon> coupons = new HashSet<>(0);
-
-
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "shopSystems")
-	private Set<Address> addresses = new HashSet<>(0);
+	private String addressId;
+	private Set<Account> accounts = new HashSet<Account>(0);
+	private Set<Product> products = new HashSet<Product>(0);
+	private Set<Coupon> coupons = new HashSet<Coupon>(0);
 
 	public ShopSystem() {
 	}
 
-	public ShopSystem(String shopId, User user, String name) {
+	public ShopSystem(int shopId, Account account, String name, String addressId) {
 		this.shopId = shopId;
-		this.user = user;
+		this.account = account;
 		this.name = name;
+		this.addressId = addressId;
 	}
 
-	public ShopSystem(String shopId, User user, String name, byte[] logoShop, String email,
-			Set<User> users, Set<Product> products, Set<Coupon> coupons, Set<Address> addresses) {
+	public ShopSystem(int shopId, Account account, String name, byte[] logoShop, String email,
+			String addressId, Set<Account> accounts, Set<Product> products, Set<Coupon> coupons) {
 		this.shopId = shopId;
-		this.user = user;
+		this.account = account;
 		this.name = name;
 		this.logoShop = logoShop;
 		this.email = email;
-		this.users = users;
+		this.addressId = addressId;
+		this.accounts = accounts;
 		this.products = products;
 		this.coupons = coupons;
-		this.addresses = addresses;
 	}
 
-	public String getShopId() {
+	@Id
+
+	@Column(name = "ShopID", unique = true, nullable = false)
+	public int getShopId() {
 		return this.shopId;
 	}
 
-	public void setShopId(String shopId) {
+	public void setShopId(int shopId) {
 		this.shopId = shopId;
 	}
 
-	public User getUser() {
-		return this.user;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AccountID", nullable = false)
+	public Account getAccount() {
+		return this.account;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
+	@Column(name = "Name", nullable = false)
 	public String getName() {
 		return this.name;
 	}
@@ -98,6 +82,7 @@ public class ShopSystem {
 		this.name = name;
 	}
 
+	@Column(name = "LogoShop")
 	public byte[] getLogoShop() {
 		return this.logoShop;
 	}
@@ -106,6 +91,7 @@ public class ShopSystem {
 		this.logoShop = logoShop;
 	}
 
+	@Column(name = "Email")
 	public String getEmail() {
 		return this.email;
 	}
@@ -114,14 +100,25 @@ public class ShopSystem {
 		this.email = email;
 	}
 
-	public Set<User> getUsers() {
-		return this.users;
+	@Column(name = "AddressID", nullable = false)
+	public String getAddressId() {
+		return this.addressId;
 	}
 
-	public void setUsers(Set<User> users) {
-		this.users = users;
+	public void setAddressId(String addressId) {
+		this.addressId = addressId;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
+	public Set<Account> getAccounts() {
+		return this.accounts;
+	}
+
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
 	public Set<Product> getProducts() {
 		return this.products;
 	}
@@ -130,20 +127,13 @@ public class ShopSystem {
 		this.products = products;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "shopSystem")
 	public Set<Coupon> getCoupons() {
 		return this.coupons;
 	}
 
 	public void setCoupons(Set<Coupon> coupons) {
 		this.coupons = coupons;
-	}
-
-	public Set<Address> getAddresses() {
-		return this.addresses;
-	}
-
-	public void setAddresses(Set<Address> addresses) {
-		this.addresses = addresses;
 	}
 
 }

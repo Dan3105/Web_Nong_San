@@ -1,9 +1,9 @@
 package tad.entity;
-// Generated Apr 3, 2023, 10:50:00 AM by Hibernate Tools 4.3.6.Final
+// Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,67 +20,58 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "Order", schema = "dbo", catalog = "DB_Tad")
-public class Order {
-	@Id
-	@Column(name = "OrderID", unique = true, nullable = false)
-	private String orderId;
+public class Order  {
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UserID", nullable = false)
-	private User user;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "OrderTime", nullable = false, length = 23)
+	private int orderId;
+	private Account account;
 	private Date orderTime;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DeliveryTime", length = 23)
 	private Date deliveryTime;
-
-	@Column(name = "Status", nullable = false)
 	private short status;
-
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-	private Set<OrderDetail> orderDetails = new HashSet<>(0);
+	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
 
 	public Order() {
 	}
 
-	public Order(String orderId, User user, Date orderTime, short status) {
+	public Order(int orderId, Account account, Date orderTime, short status) {
 		this.orderId = orderId;
-		this.user = user;
+		this.account = account;
 		this.orderTime = orderTime;
 		this.status = status;
 	}
 
-	public Order(String orderId, User user, Date orderTime, Date deliveryTime, short status,
+	public Order(int orderId, Account account, Date orderTime, Date deliveryTime, short status,
 			Set<OrderDetail> orderDetails) {
 		this.orderId = orderId;
-		this.user = user;
+		this.account = account;
 		this.orderTime = orderTime;
 		this.deliveryTime = deliveryTime;
 		this.status = status;
 		this.orderDetails = orderDetails;
 	}
 
+	@Id
 
-	public String getOrderId() {
+	@Column(name = "OrderID", unique = true, nullable = false)
+	public int getOrderId() {
 		return this.orderId;
 	}
 
-	public void setOrderId(String orderId) {
+	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
 
-	public User getUser() {
-		return this.user;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AccountID", nullable = false)
+	public Account getAccount() {
+		return this.account;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "OrderTime", nullable = false, length = 23)
 	public Date getOrderTime() {
 		return this.orderTime;
 	}
@@ -89,6 +80,8 @@ public class Order {
 		this.orderTime = orderTime;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "DeliveryTime", length = 23)
 	public Date getDeliveryTime() {
 		return this.deliveryTime;
 	}
@@ -97,7 +90,7 @@ public class Order {
 		this.deliveryTime = deliveryTime;
 	}
 
-
+	@Column(name = "Status", nullable = false)
 	public short getStatus() {
 		return this.status;
 	}
@@ -106,6 +99,7 @@ public class Order {
 		this.status = status;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
 	public Set<OrderDetail> getOrderDetails() {
 		return this.orderDetails;
 	}

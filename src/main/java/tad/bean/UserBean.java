@@ -1,14 +1,14 @@
 package tad.bean;
 
-public class AdminLoginBean {
+public class UserBean {
 	
-	public AdminLoginBean()
+	public UserBean()
 	{
 		this.username = "";
 		this.password = "";
 	}
 	
-	public AdminLoginBean(String username, String password) {
+	public UserBean(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
