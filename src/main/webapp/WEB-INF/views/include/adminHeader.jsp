@@ -20,3 +20,4 @@
 	href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap"
 	rel="stylesheet">
 <link rel="stylesheet" href="<c:url value="/assets/font/themify-icons.css"/>">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -1,6 +1,8 @@
 <%@include file="/WEB-INF/views/include/adminHeader.jsp"%>
+<script src="<c:url value="/assets/js/admin/adminRegister.js"/>">></script>
 <title>Register</title>
 </head>
+
 <body class="bg-success">
 	<div class="container d-flex justify-content-center align-items-center"
 		style="height: 100vh;">
@@ -27,25 +29,29 @@
 						class="form-control" id="lastName" placeholder="Enter last name"
 						name="lastName">
 				</div>
-				<div class="form-group">
-					<label for="province">Province:</label> <select
-						class="form-control" id="province">
-						<option value="">-- Select Province --</option>
-						<c:forEach items="${address.provinceBean}" var="province">
-							<option value="${province.id}">${province.name}</option>
-						</c:forEach>
-					</select>
+
+				<div class="form-group row">
+					<div class="col-md-6">
+						<label for="province">Province:</label> <select
+							class="form-control" id="province">
+							<option value="">-- Select Province --</option>
+							<c:forEach items="${address.provinceBean}" var="province">
+								<option value="${province.id}">${province.name}</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="col-md-6">
+						<label for="district">District:</label> <select
+							class="form-control" id="district">
+							<option value="">-- Select District --</option>
+							<c:forEach items="${address.districtBean}" var="district">
+								<option value="${district.id}"
+									data-province="${district.province.id}">${district.name}</option>
+							</c:forEach>
+						</select>
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="district">District:</label> <select
-						class="form-control" id="district">
-						<option value="">-- Select District --</option>
-						<c:forEach items="${address.districtBean}" var="district">
-							<option value="${district.id}"
-								data-province="${district.province.id}">${district.name}</option>
-						</c:forEach>
-					</select>
-				</div>
+
 				<div class="form-group">
 					<label for="ward">Ward:</label> <select class="form-control"
 						id="ward">
@@ -68,5 +74,6 @@
 			</form>
 		</div>
 	</div>
+	<script>lazyLoading()</script>
 </body>
 </html>
