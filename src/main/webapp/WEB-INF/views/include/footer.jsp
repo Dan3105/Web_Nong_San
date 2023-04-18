@@ -1,11 +1,17 @@
 <%@ page language="java" pageEncoding="utf-8"%>
+<!--Multiple Languages  -->
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <!-- Footer -->
+
+s
+
 <footer class="text-white pt-3 pb-3 ">
 	<div class="container">
 		<div class="row ">
 			<div class="col-md-3 col-lg-3 col-sm-3 me-auto">
 				<a class="navbar-brand" href="#"> <img
-					src="assets/img/white_color.png" alt="Logo">
+					src="${company.logoFooterImg }" alt="Logo">
 				</a>
 				<!-- End Logo -->
 			</div>
@@ -24,6 +30,7 @@
 					<li class="list-inline-item"><a href="#"
 						class="btn-floating btn-sm text-white" style="font-size: 20px;"><i
 							class="bi bi-instagram"></i></i></a></li>
+
 				</ul>
 			</div>
 		</div>
@@ -35,7 +42,9 @@
 		<div class="row text-center text-md-left">
 
 			<div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-				<h5 class="text-uppercase mb-4 font-weight-bold text-white">Products</h5>
+				<h5 class="text-uppercase mb-4 font-weight-bold text-white">
+					<s:message code="global.col1.title" />
+				</h5>
 				<p>
 					<a href="#" class="text-white" style="text-decoration: none;">Nuts</a>
 				</p>
@@ -57,7 +66,9 @@
 			</div>
 
 			<div class="col-md-3 col-lg-3 col-xl-2 mx-auto mt-3">
-				<h5 class="text-uppercase mb-4 font-weight-bold text-white">Products</h5>
+				<h5 class="text-uppercase mb-4 font-weight-bold text-white">
+					<s:message code="global.col2.title" />
+				</h5>
 				<p>
 					<a href="#" class="text-white" style="text-decoration: none;">Nuts</a>
 				</p>
@@ -79,8 +90,9 @@
 			</div>
 
 			<div class="col-md-3 col-lg-3 col-xl-2 mx-auto mt-3">
-				<h5 class="text-uppercase mb-4 font-weight-bold text-white ">For
-					Consumer</h5>
+				<h5 class="text-uppercase mb-4 font-weight-bold text-white ">
+					<s:message code="global.col3.title" />
+				</h5>
 				<p>
 					<a href="#" class="text-white" style="text-decoration: none;">Paymentsr</a>
 				</p>
@@ -102,18 +114,19 @@
 			</div>
 
 			<div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-				<h5 class="text-uppercase mb-4 font-weight-bold text-white ">Contact
-					Us</h5>
+				<h5 class="text-uppercase mb-4 font-weight-bold text-white ">
+					<s:message code="global.col4.title" />
+				</h5>
 				<p>
-					<i class="bi bi-house mr-3"> 97 Man Thien </i>
+					<i class="bi bi-house mr-3"> ${company.address } </i>
 
 
 				</p>
 				<p>
-					<i class="bi bi-telephone mr-3"> +123 456 789</i>
+					<i class="bi bi-telephone mr-3">${company.phoneNumber }</i>
 				</p>
 				<p>
-					<i class="bi bi-envelope mr-3"> tedgarden@gmail.com</i>
+					<i class="bi bi-envelope mr-3"> ${company.gmail }</i>
 				</p>
 			</div>
 		</div>
@@ -123,9 +136,9 @@
 
 		<div class="text-center">
 			<p>
-				Copyright ©2023 All rights reserved by <a href="#"
-					style="text-decoration: none;"><strong class="text-warning">Tad
-						Garden</strong></a>
+				<s:message code="global.col5.title" />
+				<a href="#" style="text-decoration: none;"><strong
+					class="text-warning">Tad Garden</strong></a>
 			</p>
 
 

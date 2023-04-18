@@ -9,6 +9,7 @@ Các file .js trong bootstrap sẽ bị lỗi tuy nhiên chạy vẫn ok do th�
     ├── ...
     ├── src/main/java           
     │   ├── admin                   # Admin 
+    │   ├── bean                    # Bean   
     │   ├── dao                     # Xử lí CSDL, truy vấn
     │   ├── controller              # Controller
     │   ├── utils                   # Các lớp chức năng linh tinh
@@ -20,7 +21,6 @@ Các file .js trong bootstrap sẽ bị lỗi tuy nhiên chạy vẫn ok do th�
     │       ├── img                 # Chứa hình ảnh
     │       ├── css                 # Css
     │       ├── js                  # Javascript
-    │       ├── vendor              # Chứa bootstrap, icon, hiệu ứng 
     │   ├──META-INF
     │   ├──WEB-INF
     │       ├── configs             # File configs            
