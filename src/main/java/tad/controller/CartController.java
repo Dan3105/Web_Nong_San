@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import tad.bean.Cart;
 
 @Controller
+@RequestMapping("card")
 public class CartController {
 	@RequestMapping(value = "add/{productId}.htm")
 	public String addView(ModelMap modelMap, HttpSession session, @PathVariable("productID") int productID) {

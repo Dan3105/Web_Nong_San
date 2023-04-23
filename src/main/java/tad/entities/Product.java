@@ -1,13 +1,16 @@
 package tad.entities;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,13 +23,21 @@ public class Product {
 	@Id
 	@GeneratedValue
 	@Column(name = "ProductID")
-	private int id;
+	private int productID;
 
 	@Column(name = "ProductName")
 	private String productName;
 
 	@Column(name = "Price")
 	private float price;
+
+	public int getProductID() {
+		return productID;
+	}
+
+	public void setProductID(int productID) {
+		this.productID = productID;
+	}
 
 	@Column(name = "Image")
 	private String image;
@@ -56,31 +67,19 @@ public class Product {
 	@JoinColumn(name = "CouponID")
 	private Coupon coupons;
 
-	public Product() {
+	@OneToMany(mappedBy = "products", fetch = FetchType.EAGER)
+	private Collection<Cart> carts;
+
+	public Collection<Cart> getCarts() {
+		return carts;
 	}
 
-	public Product(int id, String productName, float price, String image, int quantity, String detail, Date postingDate,
-			Date expiryDate, Category categoryID, Coupon coupons, String unit) {
-		this.id = id;
-		this.productName = productName;
-		this.price = price;
-		this.image = image;
-		this.quantity = quantity;
-		this.detail = detail;
-		this.postingDate = postingDate;
-		this.expiryDate = expiryDate;
-		this.categoryID = categoryID;
-		this.coupons = coupons;
-		this.unit = unit;
+	public void setCarts(Collection<Cart> carts) {
+		this.carts = carts;
 	}
 
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 
 	public String getProductName() {
 		return productName;

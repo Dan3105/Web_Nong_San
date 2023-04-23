@@ -2,6 +2,7 @@ package tad.dao.Impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,6 +58,19 @@ public class CategoryDAOImpl implements CategoryDAO {
 	public boolean delete(Category category) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<Category> listCategoriesHasProducts(int limit) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM Category C WHERE Size(C.products) > 0 ORDER BY Size(C.products) DESC";
+		Query query = session.createQuery(hql);
+		query.setFirstResult(0);
+		query.setMaxResults(limit);
+
+		@SuppressWarnings("unchecked")
+		List<Category> list = query.list();
+		return list;	
 	}
 
 }

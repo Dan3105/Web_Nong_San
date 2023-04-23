@@ -39,5 +39,11 @@
 	<bean id="CouponDAO" class="tad.dao.Impl.CouponDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	<bean id="CartDAO" class="tad.dao.Impl.CartDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="AccountDAO" class="tad.dao.Impl.AccountDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 
 </beans>

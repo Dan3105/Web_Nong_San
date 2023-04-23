@@ -8,6 +8,8 @@ public interface CategoryDAO {
 
 	List<Category> listCategories();
 
+	List<Category> listCategoriesHasProducts(int limit);
+
 	Category getCategory(int id);
 
 	Category getCategoryByName(String name);

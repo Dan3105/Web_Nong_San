@@ -19,3 +19,6 @@ $('.owl-carousel').owlCarousel({
 		}
 	}
 })
+
+var myAlert = document.getElementById('alert-btn')
+var bsAlert = new bootstrap.Alert(myAlert)

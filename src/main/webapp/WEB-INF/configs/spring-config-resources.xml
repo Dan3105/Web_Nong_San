@@ -20,8 +20,8 @@
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="basenames">
 			<list>
-				<value>classpath:global.wishlist</value>
-				<value>classpath:global.wishlist_vi</value>
+				<value>classpath:global.cart</value>
+				<value>classpath:global.cart_vi</value>
 				<value>classpath:search</value>
 				<value>classpath:search_vi</value>
 				<value>classpath:global</value>

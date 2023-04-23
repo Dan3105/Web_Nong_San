@@ -52,6 +52,7 @@ public class ProductDAOImpl implements ProductDAO {
 	public boolean delete(Product product) {
 		return false;
 	}
+
 	@Override
 	public List<Product> filterProductByName(String name) {
 		Session session = sessionFactory.openSession();

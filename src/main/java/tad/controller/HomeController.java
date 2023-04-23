@@ -38,11 +38,14 @@ public class HomeController {
 		// Slider + Banner
 		modelMap.addAttribute("company", company);
 
+		List<Category> categoryHasProducts = categoryDAO.listCategoriesHasProducts(3);
+		modelMap.addAttribute("categoryHasProducts", categoryHasProducts);
+
 		List<Category> category = categoryDAO.listCategories();
 		modelMap.addAttribute("category", category);
 
 		List<Product> products = productDAO.listProductsWithCoupon();
-		modelMap.addAttribute("products", products.subList(0, Math.min(9, products.size())));
+		modelMap.addAttribute("products", products);
 
 		return "page/home";
 	}

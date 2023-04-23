@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Category")
-public class Category {
+public class Category  {
 	@Id
 	@GeneratedValue
 	@Column(name = "CategoryID")
@@ -29,16 +29,13 @@ public class Category {
 
 	public Category() {
 	}
-	
 
 	public Category(int categoryID, String name, String image, Collection<Product> products) {
-		super();
 		this.categoryID = categoryID;
 		this.name = name;
 		this.image = image;
 		this.products = products;
 	}
-
 
 	public int getCategoryID() {
 		return categoryID;
@@ -70,6 +67,10 @@ public class Category {
 
 	public void setProducts(Collection<Product> products) {
 		this.products = products;
+	}
+
+	public boolean isHasProducts() {
+		return products.size() != 0;
 	}
 
 }

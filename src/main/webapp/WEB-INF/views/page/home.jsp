@@ -1,4 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/include/header.jsp"%>
+
+
 
 
 
@@ -178,18 +182,20 @@
 									alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
 
 								<div class="card-product-action">
-									<a href="#!" class="btn-action" data-bs-toggle="modal"
-										data-bs-target="#quickViewModal"><i class="bi bi-eye"
-										data-bs-toggle="tooltip" data-bs-html="true"
-										aria-label="Quick View" data-bs-original-title="Quick View"></i></a>
-									<a href="#!" class="btn-action" data-bs-toggle="tooltip"
-										data-bs-html="true" aria-label="Wishlist"
-										data-bs-original-title="Wishlist"><i class="bi bi-heart"></i></a>
-									<a href="#!" class="btn-action" data-bs-toggle="tooltip"
+									<a
+										href='<c:url value = "product/index.htm?productID=${p.productID }"/>'
+										class="btn-action" data-bs-toggle="ahihi"><i
+										class="bi bi-eye"></i></a> <a
+										href='<c:url value = "product/card.htm?productID=${p.productID }"/>'
+										class="btn-action" data-bs-toggle="abc"><i
+										class="bi bi-cart"></i></a>
+									<!-- <a href="#!" class="btn-action" data-bs-toggle="tooltip"
 										data-bs-html="true" aria-label="Compare"
 										data-bs-original-title="Compare"><i
-										class="bi bi-arrow-left-right"></i></a>
+										class="bi bi-arrow-left-right"></i></a> -->
 								</div>
+
+
 
 							</div>
 							<div class="text-small mb-1">
@@ -211,22 +217,9 @@
 								<div>
 									<span class="text-dark"><fmt:formatNumber
 											value="${p.price - (p.price * p.coupons.discount)}"
-											type="currency" /></span> <span
-										class="text-decoration-line-through text-muted"> <fmt:formatNumber
+											type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
+									<span class="text-decoration-line-through text-muted"> <fmt:formatNumber
 											value="${p.price }" type="currency" /></span>
-								</div>
-								<div>
-									<a href="#!" class="btn btn-primary btn-sm"> <svg
-											xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-											viewBox="0 0 24 24" fill="none" stroke="currentColor"
-											stroke-width="2" stroke-linecap="round"
-											stroke-linejoin="round" class="feather feather-plus">
-                                            <line x1="12" y1="5" x2="12"
-												y2="19"></line>
-                                            <line x1="5" y1="12" x2="19"
-												y2="12"></line>
-                                        </svg> Add
-									</a>
 								</div>
 							</div>
 						</div>
@@ -238,10 +231,104 @@
 	</div>
 </section>
 
-
 <!-- Product By Category -->
+<c:forEach var="c" items="${categoryHasProducts }">
+	<section class="my-lg-14 my-8 mb-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 mb-6">
+					<h5 class="fw-bold mb-5 fs-3">${c.name }</h5>
+				</div>
+			</div>
+
+			<div class="row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3">
+				<c:forEach var="p" items="${c.products }" begin="0" end="9">
+					<div class="col">
+						<div class="card card-product">
+							<div class="card-body">
+
+								<div class="text-center position-relative ">
+									<div class=" position-absolute top-0 start-0">
+										<span class="badge bg-danger"> <fmt:formatNumber
+												value="${p.coupons.discount }" type="percent" /></span>
+									</div>
+									<a href="#!"> <img src="${p.image }"
+										alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
+
+									<div class="card-product-action">
+										<a href="#!" class="btn-action" data-bs-toggle="modal"
+											data-bs-target="#quickViewModal"><i class="bi bi-eye"
+											data-bs-toggle="tooltip" data-bs-html="true"
+											aria-label="Quick View" data-bs-original-title="Quick View"></i></a>
+										<a href="#!" class="btn-action" data-bs-toggle="modal"
+											data-bs-target="#quickViewModal"><i class="bi bi-heart"></i></a>
+										<a href="#!" class="btn-action" data-bs-toggle="tooltip"
+											data-bs-html="true" aria-label="Compare"
+											data-bs-original-title="Compare"><i
+											class="bi bi-arrow-left-right"></i></a>
+									</div>
+
+								</div>
+								<div class="text-small mb-1">
+									<a href="#!" class="text-decoration-none text-muted"><small>${p.categoryID.name }</small></a>
+								</div>
+								<h2 class="fs-6">
+									<a href="./pages/shop-single.html"
+										class="text-inherit text-decoration-none">${p.productName }</a>
+								</h2>
+								<div>
+
+									<small class="text-warning"> <i class="bi bi-star-fill"></i>
+										<i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i>
+										<i class="bi bi-star-fill"></i> <i class="bi bi-star-half"></i></small>
+									<span class="text-muted small">4.5(149)</span>
+								</div>
+								<div
+									class="d-flex justify-content-between align-items-center mt-3">
+									<div>
+										<span class="text-dark"><fmt:formatNumber
+												value="${p.price - (p.price * p.coupons.discount)}"
+												type="currency" /></span> <span
+											class="text-decoration-line-through text-muted"> <fmt:formatNumber
+												value="${p.price }" type="currency" /></span>
+									</div>
+									<div>
+										<a href="#!" class="btn btn-primary btn-sm"> <svg
+												xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+												viewBox="0 0 24 24" fill="none" stroke="currentColor"
+												stroke-width="2" stroke-linecap="round"
+												stroke-linejoin="round" class="feather feather-plus">
+                                            <line x1="12" y1="5" x2="12"
+													y2="19"></line>
+                                            <line x1="5" y1="12" x2="19"
+													y2="12"></line>
+                                        </svg> Add
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</c:forEach>
+			</div>
+		</div>
+	</section>
 
 
+
+</c:forEach>
+
+<div class='modal' id='addToCart'>
+	<div class='modal-dialog'>
+		<div class="alert alert-success alert-dismissible fade show"
+			role="alert">
+			<strong>Add to cart successfully !</strong> You should check in now
+			<button type="button" class="btn-close" data-bs-dismiss="alert"
+				aria-label="Close"></button>
+		</div>
+	</div>
+</div>
 <!-- Why choose us -->
 <section class="my-lg-14 my-8 why-choose-us container mb-5">
 	<div class="container">
@@ -310,6 +397,7 @@
 <script type="text/javascript"
 	src="assets/owlcarousel/owl.carousel.min.js"></script>
 <script type="text/javascript" src="assets/js/header.js"></script>
+
 
 </body>
 </html>
