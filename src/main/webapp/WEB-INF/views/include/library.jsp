@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+
 <!--Multiple Languages  -->
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 
@@ -11,14 +12,11 @@
 
 
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 
 <head>
 <meta charset="UTF-8">
-<meta charset="ISO-8859-1">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Get Current Path  -->
 <base href="${pageContext.servletContext.contextPath }/">
@@ -37,7 +35,7 @@
 	rel="stylesheet" />
 
 
-<!-- Bootstraps And Jquery JS -->
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 	crossorigin="anonymous"></script>
@@ -50,6 +48,8 @@
 	integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
 	crossorigin="anonymous"></script>
 
+
+
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,6 +61,12 @@
 
 <!-- Custom Css-->
 <link rel="stylesheet" href="assets/css/main.css" type="text/css">
+<link rel="stylesheet" href="assets/css/wishlist.css" type="text/css">
+<link rel="stylesheet" href="assets/owlcarousel/owl.carousel.min.css"
+	type="text/css">
+<link rel="stylesheet"
+	href="assets/owlcarousel/owl.theme.default.min.css" type="text/css">
+
 
 
 <!-- Icon and Name -->

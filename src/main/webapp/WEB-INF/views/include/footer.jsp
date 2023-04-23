@@ -1,10 +1,10 @@
-<%@ page language="java" pageEncoding="utf-8"%>
+
 <!--Multiple Languages  -->
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <!-- Footer -->
 
-s
+
 
 <footer class="text-white pt-3 pb-3 ">
 	<div class="container">
@@ -41,55 +41,23 @@ s
 
 		<div class="row text-center text-md-left">
 
+
+
 			<div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
 				<h5 class="text-uppercase mb-4 font-weight-bold text-white">
 					<s:message code="global.col1.title" />
 				</h5>
-				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Nuts</a>
-				</p>
-				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Vegtable</a>
-				</p>
-				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Fruits</a>
-				</p>
-				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Milk</a>
-				</p>
-				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Other
-						items</a>
-				</p>
-
-
+				<c:forEach begin="1" end="5" varStatus="status" var="c"
+					items="${category }">
+					<p>
+						<a href="#" class="text-white" style="text-decoration: none;">${c.name }</a>
+					</p>
+				</c:forEach>
 			</div>
 
-			<div class="col-md-3 col-lg-3 col-xl-2 mx-auto mt-3">
-				<h5 class="text-uppercase mb-4 font-weight-bold text-white">
-					<s:message code="global.col2.title" />
-				</h5>
-				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Nuts</a>
-				</p>
-				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Vegtable</a>
-				</p>
-				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Fruits</a>
-				</p>
-				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Milk</a>
-				</p>
-				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Other
-						items</a>
-				</p>
 
 
-			</div>
-
-			<div class="col-md-3 col-lg-3 col-xl-2 mx-auto mt-3">
+			<div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
 				<h5 class="text-uppercase mb-4 font-weight-bold text-white ">
 					<s:message code="global.col3.title" />
 				</h5>
@@ -119,8 +87,6 @@ s
 				</h5>
 				<p>
 					<i class="bi bi-house mr-3"> ${company.address } </i>
-
-
 				</p>
 				<p>
 					<i class="bi bi-telephone mr-3">${company.phoneNumber }</i>
@@ -132,7 +98,6 @@ s
 		</div>
 
 		<hr class="mb-4">
-
 
 		<div class="text-center">
 			<p>
