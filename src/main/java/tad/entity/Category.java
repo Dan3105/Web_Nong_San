@@ -20,22 +20,23 @@ import javax.persistence.Table;
 public class Category {
 
 	private int categoryId;
-	private Account account;
 	private String name;
+	
+	@Column(name = "Image")
+	private String image;
 	private Set<Product> products = new HashSet<Product>(0);
 
 	public Category() {
 	}
 
-	public Category(int categoryId, Account account, String name) {
+	public Category(int categoryId, String name, String image) {
 		this.categoryId = categoryId;
-		this.account = account;
 		this.name = name;
+		this.image = image;
 	}
 
 	public Category(int categoryId, Account account, String name, Set<Product> products) {
 		this.categoryId = categoryId;
-		this.account = account;
 		this.name = name;
 		this.products = products;
 	}
@@ -49,16 +50,6 @@ public class Category {
 
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "AccountID", nullable = false)
-	public Account getAccount() {
-		return this.account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
 	}
 
 	@Column(name = "Name", nullable = false)
@@ -77,6 +68,14 @@ public class Category {
 
 	public void setProducts(Set<Product> products) {
 		this.products = products;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 }

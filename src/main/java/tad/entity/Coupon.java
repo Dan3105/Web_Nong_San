@@ -24,7 +24,6 @@ import javax.persistence.TemporalType;
 public class Coupon {
 
 	private int couponId;
-	private ShopSystem shopSystem;
 	private boolean typeCoupon;
 	private String name;
 	private double discount;
@@ -51,11 +50,10 @@ public class Coupon {
 		this.status = status;
 	}
 
-	public Coupon(int couponId, ShopSystem shopSystem, boolean typeCoupon, String name, double discount,
+	public Coupon(int couponId, boolean typeCoupon, String name, double discount,
 			Date postingDate, Date expiryDate, int quantity, String detail, boolean status,
 			Set<OrderDetail> orderDetails, Set<Product> products) {
 		this.couponId = couponId;
-		this.shopSystem = shopSystem;
 		this.typeCoupon = typeCoupon;
 		this.name = name;
 		this.discount = discount;
@@ -77,16 +75,6 @@ public class Coupon {
 
 	public void setCouponId(int couponId) {
 		this.couponId = couponId;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ShopID")
-	public ShopSystem getShopSystem() {
-		return this.shopSystem;
-	}
-
-	public void setShopSystem(ShopSystem shopSystem) {
-		this.shopSystem = shopSystem;
 	}
 
 	@Column(name = "TypeCoupon", nullable = false)

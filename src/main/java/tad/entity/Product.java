@@ -26,7 +26,6 @@ import javax.persistence.TemporalType;
 public class Product {
 
 	private int productId;
-	private ShopSystem shopSystem;
 	private Category category;
 	private String productName;
 	private BigDecimal price;
@@ -43,10 +42,9 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(int productId, ShopSystem shopSystem, Category category, String productName, BigDecimal price,
+	public Product(int productId, Category category, String productName, BigDecimal price,
 			int quantity, Date postingDate) {
 		this.productId = productId;
-		this.shopSystem = shopSystem;
 		this.category = category;
 		this.productName = productName;
 		this.price = price;
@@ -54,11 +52,10 @@ public class Product {
 		this.postingDate = postingDate;
 	}
 
-	public Product(int productId, ShopSystem shopSystem, Category category, String productName, BigDecimal price,
+	public Product(int productId, Category category, String productName, BigDecimal price,
 			byte[] image, int quantity, String detail, Date postingDate, Date expiryDate, Set<Cart> carts,
 			Set<OrderDetail> orderDetails, Set<Coupon> coupons, Set<Feedback> feedbacks) {
 		this.productId = productId;
-		this.shopSystem = shopSystem;
 		this.category = category;
 		this.productName = productName;
 		this.price = price;
@@ -82,16 +79,6 @@ public class Product {
 
 	public void setProductId(int productId) {
 		this.productId = productId;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ShopID", nullable = false)
-	public ShopSystem getShopSystem() {
-		return this.shopSystem;
-	}
-
-	public void setShopSystem(ShopSystem shopSystem) {
-		this.shopSystem = shopSystem;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

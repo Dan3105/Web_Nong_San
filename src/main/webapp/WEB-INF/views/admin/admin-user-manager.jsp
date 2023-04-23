@@ -1,8 +1,8 @@
-<%@include file="/WEB-INF/views/include/adminHeader.jsp"%>
+<%@include file="/WEB-INF/views/include/admin-header.jsp"%>
 <title>Admin Users Manager</title>
 
 <body>
-	<%@include file="/WEB-INF/views/include/adminHeaderNav.jsp"%>
+	<%@include file="/WEB-INF/views/include/admin-header-nav.jsp"%>
 	<!-- Main Content -->
 	<div id="admin-menu-content-user" class="row">
 		<div class="col-md-2 emptyspace p-0"></div>
@@ -104,4 +104,4 @@
 		</div>
 
 	</div>
-	<%@include file="/WEB-INF/views/include/adminFooter.jsp"%>
+	<%@include file="/WEB-INF/views/include/admin-footer.jsp"%>

@@ -31,16 +31,16 @@
 
 	<!-- CSDL -->
 	<bean id="ProductDAO" class="dao.ProductDAOImpl">
-		<property name="sessionFactory" ref="sessionFactory"/>
-	</bean>
-<bean id="categoryDAO" class="tad.DAOImpl.CategoryDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
-	<bean id="adminDAO" class="tad.DAOImpl.AdminDAOImpl">
+	<bean id="categoryDAO" class="tad.DAOImpl.CategoryDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
+
+	<bean id="accountDAO" class="tad.DAOImpl.AccountDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
 	<bean id="addressDAO" class="tad.DAOImpl.AddressDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>

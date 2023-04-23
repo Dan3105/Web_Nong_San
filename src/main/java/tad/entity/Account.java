@@ -3,9 +3,11 @@ package tad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -20,64 +22,81 @@ import javax.persistence.Table;
 @Table(name = "Account", schema = "dbo", catalog = "DB_Tad")
 public class Account {
 
+	@Id
+	@GeneratedValue
+	@Column(name = "AccountID", unique = true, nullable = false)
 	private int accountId;
-	private ShopSystem shopSystem;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "RoleID", nullable = false)
 	private Role role;
+
+	@Column(name = "LastName", nullable = false)
 	private String lastName;
+
+	@Column(name = "FirstName", nullable = false)
 	private String firstName;
+
+	@Column(name = "Email", nullable = false)
 	private String email;
+
+	@Column(name = "PhoneNumber")
 	private String phoneNumber;
-	private byte[] avatar;
+
+	@Column(name = "Avatar")
+	private String avatar;
+	@Column(name = "Status", nullable = false)
 	private int state;
+
+	@Column(name = "Password", nullable = false)
 	private String password;
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "accounts")
 	private Set<Address> addresses = new HashSet<Address>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Order> orders = new HashSet<Order>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Comment> comments = new HashSet<Comment>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Feedback> feedbacks = new HashSet<Feedback>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Cart> carts = new HashSet<Cart>(0);
-	private Set<Category> categories = new HashSet<Category>(0);
-	private Set<ShopSystem> shopSystems = new HashSet<ShopSystem>(0);
 
 	public Account() {
 	}
 
-	public Account(int accountId, Role role, String lastName, String firstName, String email,
-			int state, String password) {
-		this.accountId = accountId;
+	public Account(Role role, String lastName, String firstName, String email,  String avatar,String password) {
 		this.role = role;
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.email = email;
-		this.state = state;
+		this.avatar = avatar;
+		this.state = 1; // Tao tk moi thi set tk do o trang thai mo
 		this.password = password;
 	}
 
-	public Account(int accountId, ShopSystem shopSystem, Role role, String lastName, String firstName,
-			String email, String phoneNumber, byte[] avatar, int state, String password,
-			Set<Address> addresses, Set<Order> orders, Set<Comment> comments, Set<Feedback> feedbacks, Set<Cart> carts,
-			Set<Category> categories, Set<ShopSystem> shopSystems) {
-		this.accountId = accountId;
-		this.shopSystem = shopSystem;
+	public Account(Role role, String lastName, String firstName,
+			String email, String phoneNumber, String avatar, String password,
+			Set<Address> addresses, Set<Order> orders, Set<Comment> comments, Set<Feedback> feedbacks, Set<Cart> carts) {
 		this.role = role;
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.avatar = avatar;
-		this.state = state;
+		this.state = 1;
 		this.password = password;
 		this.addresses = addresses;
 		this.orders = orders;
 		this.comments = comments;
 		this.feedbacks = feedbacks;
 		this.carts = carts;
-		this.categories = categories;
-		this.shopSystems = shopSystems;
 	}
 
-	@Id
-
-	@Column(name = "AccountID", unique = true, nullable = false)
 	public int getAccountId() {
 		return this.accountId;
 	}
@@ -86,18 +105,6 @@ public class Account {
 		this.accountId = accountId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ShopID")
-	public ShopSystem getShopSystem() {
-		return this.shopSystem;
-	}
-
-	public void setShopSystem(ShopSystem shopSystem) {
-		this.shopSystem = shopSystem;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "RoleID", nullable = false)
 	public Role getRole() {
 		return this.role;
 	}
@@ -106,7 +113,6 @@ public class Account {
 		this.role = role;
 	}
 
-	@Column(name = "LastName", nullable = false)
 	public String getLastName() {
 		return this.lastName;
 	}
@@ -115,7 +121,6 @@ public class Account {
 		this.lastName = lastName;
 	}
 
-	@Column(name = "FirstName", nullable = false)
 	public String getFirstName() {
 		return this.firstName;
 	}
@@ -124,7 +129,6 @@ public class Account {
 		this.firstName = firstName;
 	}
 
-	@Column(name = "Email", nullable = false)
 	public String getEmail() {
 		return this.email;
 	}
@@ -133,7 +137,6 @@ public class Account {
 		this.email = email;
 	}
 
-	@Column(name = "PhoneNumber")
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
@@ -142,16 +145,14 @@ public class Account {
 		this.phoneNumber = phoneNumber;
 	}
 
-	@Column(name = "Avatar")
-	public byte[] getAvatar() {
+	public String getAvatar() {
 		return this.avatar;
 	}
 
-	public void setAvatar(byte[] avatar) {
+	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
 
-	@Column(name = "State", nullable = false)
 	public int getState() {
 		return this.state;
 	}
@@ -160,7 +161,6 @@ public class Account {
 		this.state = state;
 	}
 
-	@Column(name = "Password", nullable = false)
 	public String getPassword() {
 		return this.password;
 	}
@@ -169,7 +169,6 @@ public class Account {
 		this.password = password;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "accounts")
 	public Set<Address> getAddresses() {
 		return this.addresses;
 	}
@@ -178,7 +177,6 @@ public class Account {
 		this.addresses = addresses;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	public Set<Order> getOrders() {
 		return this.orders;
 	}
@@ -187,7 +185,6 @@ public class Account {
 		this.orders = orders;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	public Set<Comment> getComments() {
 		return this.comments;
 	}
@@ -196,7 +193,6 @@ public class Account {
 		this.comments = comments;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	public Set<Feedback> getFeedbacks() {
 		return this.feedbacks;
 	}
@@ -205,7 +201,6 @@ public class Account {
 		this.feedbacks = feedbacks;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	public Set<Cart> getCarts() {
 		return this.carts;
 	}
@@ -213,23 +208,9 @@ public class Account {
 	public void setCarts(Set<Cart> carts) {
 		this.carts = carts;
 	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	public Set<Category> getCategories() {
-		return this.categories;
+	
+	public String toString()
+	{
+		return String.format("Account ID: {0}", accountId);
 	}
-
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	public Set<ShopSystem> getShopSystems() {
-		return this.shopSystems;
-	}
-
-	public void setShopSystems(Set<ShopSystem> shopSystems) {
-		this.shopSystems = shopSystems;
-	}
-
 }

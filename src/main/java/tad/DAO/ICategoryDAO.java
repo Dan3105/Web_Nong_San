@@ -12,6 +12,7 @@ public interface ICategoryDAO {
 
 	public ArrayList<Category> GetListCategories();
 
-	public Category GetCategory();
+	public Category GetCategory(int id);
 
+	public boolean EditCategory(Category changedCategory);
 }

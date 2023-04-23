@@ -3,6 +3,7 @@
  */
 const IdRowCategoryName = "CategoryName"
 const IdBtnEditName = "edit_button";
+const IdBtnDeleteName = "del_button";
 const IdBtnSaveName = "save_button";
 
 const IdEditChange = "EditChange"
@@ -39,16 +40,7 @@ function EditRow(no) {
 function OnCancelEdit(no)
 {
 	SwitchChangeBtnToEditBtn(no);
-	let rowCategoryName = document.getElementById(IdRowCategoryName+no);
-	rowCategoryName.innerHTML = GenerateTextRowType("");
-}
-
-function OnConfirmEdit(no)
-{
-	SwitchChangeBtnToEditBtn(no)
 	let textInput = document.querySelector(`#${IdRowCategoryName+no} input`);
-	let currentValueInput = "";
-	
 	let rowCategoryName = document.getElementById(IdRowCategoryName+no);
 	
 	if(textInput !== null)
@@ -58,9 +50,22 @@ function OnConfirmEdit(no)
 	rowCategoryName.innerHTML = GenerateTextRowType(currentValueInput);
 }
 
+function OnConfirmEdit(no)
+{
+	SwitchChangeBtnToEditBtn(no)
+	
+	let currentValueInput = "";
+	
+	let rowCategoryName = document.getElementById(IdRowCategoryName+no);
+	
+	
+	rowCategoryName.innerHTML = GenerateTextRowType(currentValueInput);
+}
+
 function SwitchEditBtnToChangeBtn(no)
 {
 	document.getElementById(IdBtnEditName + no).style.display = "none";
+	document.getElementById(IdBtnDeleteName + no).style.display = "none";
 	document.getElementById(IdEditChange + no).style.display = "block";
 }
 
@@ -68,6 +73,7 @@ function SwitchChangeBtnToEditBtn(no)
 {
 	document.getElementById(IdEditChange + no).style.display = "none";
 	document.getElementById(IdBtnEditName + no).style.display = "block";
+	document.getElementById(IdBtnDeleteName + no).style.display = "block";
 }
 
 function AddRow()
