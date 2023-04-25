@@ -3,7 +3,6 @@ package tad.controller;
 import java.io.File;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import tad.DAO.IAccountDAO;
-import tad.DAO.IAccountDAO.RoleDefine;
 import tad.bean.LoginBean;
 import tad.bean.UserBean;
 import tad.entity.Account;
 import tad.entity.Role;
+import tad.entity.Role.RoleDefine;
 
 @Controller
 @RequestMapping("/guest")
@@ -77,11 +76,9 @@ public class GuestController {
 			}
 
 			Role role = accountDAO.GetRoleViaEnum(RoleDefine.GUEST);
-			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(), avatarDir,
-					user.getPassword());
-			if (!user.getPhoneNumber().isEmpty() && !user.getPhoneNumber().isBlank()) {
-				account.setPhoneNumber(user.getPhoneNumber());
-			}
+			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
+					user.getPhoneNumber(), avatarDir, user.getPassword());
+
 			if (accountDAO.AddUserToDB(account)) {
 
 				return "redirect:/";

@@ -23,14 +23,34 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "Feedback", schema = "dbo", catalog = "DB_Tad", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"AccountID", "ProductID" }))
-public class Feedback  {
-
+public class Feedback {
+	@Id
+	@Column(name = "FeedbackID", unique = true, nullable = false)
 	private int feedbackId;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "AccountID", nullable = false)
 	private Account account;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ProductID", nullable = false)
 	private Product product;
+
+	@Column(name = "RatingStar", nullable = false)
 	private short ratingStar;
+
+	@Column(name = "FeedbackContent")
 	private String feedbackContent;
+	
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "PostingDate", nullable = false, length = 23)
 	private Date postingDate;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "FeedbackHistory", schema = "dbo", catalog = "DB_Tad", joinColumns = {
+			@JoinColumn(name = "FeedbackID", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "CommentID", nullable = false, updatable = false) })
 	private Set<Comment> comments = new HashSet<Comment>(0);
 
 	public Feedback() {
@@ -55,9 +75,6 @@ public class Feedback  {
 		this.comments = comments;
 	}
 
-	@Id
-
-	@Column(name = "FeedbackID", unique = true, nullable = false)
 	public int getFeedbackId() {
 		return this.feedbackId;
 	}
@@ -66,8 +83,7 @@ public class Feedback  {
 		this.feedbackId = feedbackId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "AccountID", nullable = false)
+	
 	public Account getAccount() {
 		return this.account;
 	}
@@ -76,8 +92,6 @@ public class Feedback  {
 		this.account = account;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ProductID", nullable = false)
 	public Product getProduct() {
 		return this.product;
 	}
@@ -86,7 +100,6 @@ public class Feedback  {
 		this.product = product;
 	}
 
-	@Column(name = "RatingStar", nullable = false)
 	public short getRatingStar() {
 		return this.ratingStar;
 	}
@@ -95,7 +108,6 @@ public class Feedback  {
 		this.ratingStar = ratingStar;
 	}
 
-	@Column(name = "FeedbackContent")
 	public String getFeedbackContent() {
 		return this.feedbackContent;
 	}
@@ -104,8 +116,6 @@ public class Feedback  {
 		this.feedbackContent = feedbackContent;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "PostingDate", nullable = false, length = 23)
 	public Date getPostingDate() {
 		return this.postingDate;
 	}
@@ -114,10 +124,7 @@ public class Feedback  {
 		this.postingDate = postingDate;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "FeedbackHistory", schema = "dbo", catalog = "DB_Tad", joinColumns = {
-			@JoinColumn(name = "FeedbackID", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "CommentID", nullable = false, updatable = false) })
+	
 	public Set<Comment> getComments() {
 		return this.comments;
 	}

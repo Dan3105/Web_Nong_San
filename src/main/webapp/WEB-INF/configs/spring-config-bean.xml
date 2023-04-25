@@ -14,7 +14,7 @@
 			http://www.springframework.org/schema/mvc 
 			http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-	<bean id="poly" class="bean.Company">
+	<bean id="poly" class="tad.bean.Company">
 		<property name="logoNavImg" value="assets/img/logo.png" />
 		<property name="slider1Img" value="assets/img/slide_1.jpg" />
 		<property name="slider2Img" value="assets/img/slide_2.jpg" />
@@ -30,15 +30,21 @@
 
 
 	<!-- CSDL -->
-	<bean id="ProductDAO" class="dao.ProductDAOImpl">
+	<bean id="ProductDAO" class="tad.DAOImpl.ProductDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="categoryDAO" class="tad.DAOImpl.CategoryDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="CouponDAO" class="tad.DAOImpl.CouponDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="CartDAO" class="tad.DAOImpl.CartDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 
-	<bean id="accountDAO" class="tad.DAOImpl.AccountDAOImpl">
-		<property name="sessionFactory" ref="sessionFactory" />
+	<bean id="AccountDAO" class="tad.DAOImpl.AccountDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
 	<bean id="addressDAO" class="tad.DAOImpl.AddressDAOImpl">

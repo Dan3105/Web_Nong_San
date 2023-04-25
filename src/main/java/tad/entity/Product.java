@@ -1,17 +1,16 @@
 package tad.entity;
 // Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -25,25 +24,61 @@ import javax.persistence.TemporalType;
 @Table(name = "Product", schema = "dbo", catalog = "DB_Tad")
 public class Product {
 
+	@Id
+	@GeneratedValue
+	@Column(name = "ProductID", unique = true, nullable = false)
 	private int productId;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CategoryID", nullable = false)
 	private Category category;
+
+	@Column(name = "ProductName", nullable = false)
 	private String productName;
-	private BigDecimal price;
-	private byte[] image;
+	
+	@Column(name = "Price", nullable = false, scale = 4)
+	private Double price;
+	
+	@Column(name = "Image")
+	private String image;
+
+	@Column(name = "Quantity", nullable = false)
 	private int quantity;
+
+	@Column(name = "Detail")
 	private String detail;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "PostingDate", nullable = false, length = 10)
 	private Date postingDate;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ExpiryDate", length = 10)
 	private Date expiryDate;
+	
+	@Column(name="Unit")
+	private String unit;
+
+	@ManyToOne
+	private Category categoryID;
+	@ManyToOne
+	private Coupon couponID;
+	@ManyToOne
+	private Account accountID;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	private Set<Cart> carts = new HashSet<Cart>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
-	private Set<Coupon> coupons = new HashSet<Coupon>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	private Set<Feedback> feedbacks = new HashSet<Feedback>(0);
 
 	public Product() {
 	}
 
-	public Product(int productId, Category category, String productName, BigDecimal price,
-			int quantity, Date postingDate) {
+	public Product(int productId, Category category, String productName, Double price, int quantity, Date postingDate) {
 		this.productId = productId;
 		this.category = category;
 		this.productName = productName;
@@ -52,9 +87,9 @@ public class Product {
 		this.postingDate = postingDate;
 	}
 
-	public Product(int productId, Category category, String productName, BigDecimal price,
-			byte[] image, int quantity, String detail, Date postingDate, Date expiryDate, Set<Cart> carts,
-			Set<OrderDetail> orderDetails, Set<Coupon> coupons, Set<Feedback> feedbacks) {
+	public Product(int productId, Category category, String productName, Double price, String image, int quantity,
+			String detail, Date postingDate, Date expiryDate, Set<Cart> carts, Set<OrderDetail> orderDetails,
+			Set<Coupon> coupons, Set<Feedback> feedbacks) {
 		this.productId = productId;
 		this.category = category;
 		this.productName = productName;
@@ -66,13 +101,9 @@ public class Product {
 		this.expiryDate = expiryDate;
 		this.carts = carts;
 		this.orderDetails = orderDetails;
-		this.coupons = coupons;
 		this.feedbacks = feedbacks;
 	}
 
-	@Id
-
-	@Column(name = "ProductID", unique = true, nullable = false)
 	public int getProductId() {
 		return this.productId;
 	}
@@ -81,8 +112,6 @@ public class Product {
 		this.productId = productId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CategoryID", nullable = false)
 	public Category getCategory() {
 		return this.category;
 	}
@@ -91,7 +120,6 @@ public class Product {
 		this.category = category;
 	}
 
-	@Column(name = "ProductName", nullable = false)
 	public String getProductName() {
 		return this.productName;
 	}
@@ -100,25 +128,23 @@ public class Product {
 		this.productName = productName;
 	}
 
-	@Column(name = "Price", nullable = false, scale = 4)
-	public BigDecimal getPrice() {
+	public Double getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
-	@Column(name = "Image")
-	public byte[] getImage() {
+
+	public String getImage() {
 		return this.image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
-	@Column(name = "Quantity", nullable = false)
 	public int getQuantity() {
 		return this.quantity;
 	}
@@ -127,7 +153,6 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	@Column(name = "Detail")
 	public String getDetail() {
 		return this.detail;
 	}
@@ -136,8 +161,6 @@ public class Product {
 		this.detail = detail;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "PostingDate", nullable = false, length = 10)
 	public Date getPostingDate() {
 		return this.postingDate;
 	}
@@ -146,8 +169,6 @@ public class Product {
 		this.postingDate = postingDate;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "ExpiryDate", length = 10)
 	public Date getExpiryDate() {
 		return this.expiryDate;
 	}
@@ -156,7 +177,6 @@ public class Product {
 		this.expiryDate = expiryDate;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	public Set<Cart> getCarts() {
 		return this.carts;
 	}
@@ -165,7 +185,6 @@ public class Product {
 		this.carts = carts;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	public Set<OrderDetail> getOrderDetails() {
 		return this.orderDetails;
 	}
@@ -174,19 +193,6 @@ public class Product {
 		this.orderDetails = orderDetails;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "ProductCoupon", schema = "dbo", catalog = "DB_Tad", joinColumns = {
-			@JoinColumn(name = "ProductID", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "CouponID", nullable = false, updatable = false) })
-	public Set<Coupon> getCoupons() {
-		return this.coupons;
-	}
-
-	public void setCoupons(Set<Coupon> coupons) {
-		this.coupons = coupons;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	public Set<Feedback> getFeedbacks() {
 		return this.feedbacks;
 	}

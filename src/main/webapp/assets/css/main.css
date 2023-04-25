@@ -14,7 +14,7 @@
 :root {
 	--grayColor: #f0f3f2;
 	--fontColor: #5c6c75;
-	--primaryColor: #47714B;
+	--primaryColor: #0aad0a;
 	--iconColor: #198754;
 	--onClick: #556166;
 	--textColor: #607179;
@@ -46,6 +46,62 @@
 	width: 7em;
 }
 
+.owl-next, .owl-prev {
+	align-items: center !important;
+	background-color: var(--grayColor) !important;
+	border: 1px solid var(--grayColor) !important;
+	border-radius: 50px !important;
+	flex-shrink: 0 !important;
+	font-size: 1.25rem !important;
+	height: 32px !important;
+	width: 32px !important;
+}
+
+.category a {
+	color: black;
+	font-weight: 500;	
+}
+
+.category a:hover {
+	color: var(--primaryColor);
+}
+
+.category .card:hover {
+	border: solid var(--primaryColor);
+}
+
+.owl-nav {
+	position: absolute !important;
+	top: calc(0% - 64px) !important;
+	right: 0 !important;
+}
+
+.owl-next:hover, .owl-prev:hover {
+	height: 32px !important;
+	width: 32px !important;
+	border-radius: 50% !important;
+	background: var(--primaryColor) !important;
+	border-radius: 50% !important;
+	width: 32px !important;
+}
+
+span.img-text {
+	text-decoration: none;
+	outline: none;
+	transition: all 0.4s ease;
+	-webkit-transition: all 0.4s ease;
+	-moz-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	cursor: pointer;
+	width: 100%;
+	font-size: 23px;
+	display: block;
+	text-transform: capitalize;
+}
+
+span.img-text:hover {
+	color: #2caae1;
+}
 /* Hide icon x of search box */
 [type="search"]::-webkit-search-cancel-button, [type="search"]::-webkit-search-decoration
 	{

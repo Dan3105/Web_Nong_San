@@ -4,9 +4,11 @@ package tad.entity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,12 +23,28 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "Order", schema = "dbo", catalog = "DB_Tad")
 public class Order  {
-
+	@Id
+	@GeneratedValue
+	@Column(name = "OrderID", unique = true, nullable = false)
 	private int orderId;
+	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AccountID", nullable = false)
 	private Account account;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "OrderTime", nullable = false, length = 23)
 	private Date orderTime;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "DeliveryTime", length = 23)
 	private Date deliveryTime;
+	
+	@Column(name = "Status", nullable = false)
 	private short status;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
 	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
 
 	public Order() {
@@ -49,9 +67,7 @@ public class Order  {
 		this.orderDetails = orderDetails;
 	}
 
-	@Id
-
-	@Column(name = "OrderID", unique = true, nullable = false)
+	
 	public int getOrderId() {
 		return this.orderId;
 	}
@@ -60,8 +76,6 @@ public class Order  {
 		this.orderId = orderId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "AccountID", nullable = false)
 	public Account getAccount() {
 		return this.account;
 	}
@@ -70,8 +84,6 @@ public class Order  {
 		this.account = account;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "OrderTime", nullable = false, length = 23)
 	public Date getOrderTime() {
 		return this.orderTime;
 	}
@@ -80,8 +92,6 @@ public class Order  {
 		this.orderTime = orderTime;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DeliveryTime", length = 23)
 	public Date getDeliveryTime() {
 		return this.deliveryTime;
 	}
@@ -90,7 +100,6 @@ public class Order  {
 		this.deliveryTime = deliveryTime;
 	}
 
-	@Column(name = "Status", nullable = false)
 	public short getStatus() {
 		return this.status;
 	}
@@ -99,7 +108,6 @@ public class Order  {
 		this.status = status;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
 	public Set<OrderDetail> getOrderDetails() {
 		return this.orderDetails;
 	}

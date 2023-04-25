@@ -1,4 +1,5 @@
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <div class="offcanvas offcanvas-end" id="cart-slide">
 	<div class="offcanvas-header border-bottom">
 		<div class="text-start">

@@ -4,15 +4,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tad.entity.Account;
 import tad.entity.Role;
+import tad.entity.Role.RoleDefine;
 
 @Transactional
 public interface IAccountDAO {
-	public enum RoleDefine
-	{
-		GUEST,
-		ADMIN
-	}
-	
 	public Account FindUserAdmin(String login);
 	public Role GetRoleViaEnum(RoleDefine role);
 	public Role GetRoleViaDB(String idUser);

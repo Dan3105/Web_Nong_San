@@ -1,6 +1,7 @@
 package tad.DAOImpl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -28,6 +29,18 @@ public class CategoryDAOImpl implements ICategoryDAO {
 	@Override
 	public boolean AddCategory(Category newCategory) {
 		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			session.save(newCategory);
+			t.commit();
+			return true;
+		} catch (Exception ex) {
+			System.out.println(ex);
+			t.rollback();
+		} finally {
+			session.close();
+		}
 		return false;
 	}
 
@@ -43,9 +56,10 @@ public class CategoryDAOImpl implements ICategoryDAO {
 
 	@Override
 	public Category GetCategory(int id) { // TODO Auto-generated method stub
-		String hql = String.format("From Category Where id = %d", id);
+		String hql = "FROM Category WHERE id = :id";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
+		query.setParameter("id", id);
 		Category category = null;
 		try {
 			category = (Category) query.uniqueResult();
@@ -53,31 +67,34 @@ public class CategoryDAOImpl implements ICategoryDAO {
 			System.out.println(e);
 		}
 		return category;
+
 	}
 
 	@Override
 	public boolean EditCategory(Category changedCategory) {
 		// TODO Auto-generated method stub
-		boolean isSuccess = false;
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
 		try {
 
 			session.update(changedCategory);
 			t.commit();
-			isSuccess = true;
+			return true;
 
 		} catch (Exception e) {
 			System.out.println(e);
 			t.rollback();
-			isSuccess= false;
-		}
-		finally
-		{
+		} finally {
 			session.close();
-			
+
 		}
-		return isSuccess;
+		return false;
+	}
+
+	@Override
+	public List<Category> listCategoriesHasProducts(int i) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -22,24 +22,51 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "Coupon", schema = "dbo", catalog = "DB_Tad")
 public class Coupon {
-
+	@Id
+	@Column(name = "CouponID", unique = true, nullable = false)
 	private int couponId;
+
+	@Column(name = "TypeCoupon", nullable = false)
 	private boolean typeCoupon;
+
+	@Column(name = "Name", nullable = false)
 	private String name;
+
+	@Column(name = "Discount", nullable = false, precision = 53, scale = 0)
 	private double discount;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "PostingDate", nullable = false, length = 23)
 	private Date postingDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "ExpiryDate", nullable = false, length = 23)
 	private Date expiryDate;
+
+	@Column(name = "Quantity", nullable = false)
 	private int quantity;
+
+	@Column(name = "Detail")
 	private String detail;
+
+	@Column(name = "Status", nullable = false)
 	private boolean status;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "AccountID", nullable = false, updatable = true)
+	private Account account;
+	
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
 	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupons")
 	private Set<Product> products = new HashSet<Product>(0);
 
 	public Coupon() {
 	}
 
-	public Coupon(int couponId, boolean typeCoupon, String name, double discount, Date postingDate,
-			Date expiryDate, int quantity, boolean status) {
+	public Coupon(int couponId, boolean typeCoupon, String name, double discount, Date postingDate, Date expiryDate,
+			int quantity, boolean status) {
 		this.couponId = couponId;
 		this.typeCoupon = typeCoupon;
 		this.name = name;
@@ -50,9 +77,8 @@ public class Coupon {
 		this.status = status;
 	}
 
-	public Coupon(int couponId, boolean typeCoupon, String name, double discount,
-			Date postingDate, Date expiryDate, int quantity, String detail, boolean status,
-			Set<OrderDetail> orderDetails, Set<Product> products) {
+	public Coupon(int couponId, boolean typeCoupon, String name, double discount, Date postingDate, Date expiryDate,
+			int quantity, String detail, boolean status, Set<OrderDetail> orderDetails, Set<Product> products) {
 		this.couponId = couponId;
 		this.typeCoupon = typeCoupon;
 		this.name = name;
@@ -66,9 +92,6 @@ public class Coupon {
 		this.products = products;
 	}
 
-	@Id
-
-	@Column(name = "CouponID", unique = true, nullable = false)
 	public int getCouponId() {
 		return this.couponId;
 	}
@@ -77,7 +100,6 @@ public class Coupon {
 		this.couponId = couponId;
 	}
 
-	@Column(name = "TypeCoupon", nullable = false)
 	public boolean isTypeCoupon() {
 		return this.typeCoupon;
 	}
@@ -86,7 +108,6 @@ public class Coupon {
 		this.typeCoupon = typeCoupon;
 	}
 
-	@Column(name = "Name", nullable = false)
 	public String getName() {
 		return this.name;
 	}
@@ -95,7 +116,6 @@ public class Coupon {
 		this.name = name;
 	}
 
-	@Column(name = "Discount", nullable = false, precision = 53, scale = 0)
 	public double getDiscount() {
 		return this.discount;
 	}
@@ -104,8 +124,7 @@ public class Coupon {
 		this.discount = discount;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "PostingDate", nullable = false, length = 23)
+
 	public Date getPostingDate() {
 		return this.postingDate;
 	}
@@ -114,8 +133,6 @@ public class Coupon {
 		this.postingDate = postingDate;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "ExpiryDate", nullable = false, length = 23)
 	public Date getExpiryDate() {
 		return this.expiryDate;
 	}
@@ -124,7 +141,6 @@ public class Coupon {
 		this.expiryDate = expiryDate;
 	}
 
-	@Column(name = "Quantity", nullable = false)
 	public int getQuantity() {
 		return this.quantity;
 	}
@@ -133,7 +149,6 @@ public class Coupon {
 		this.quantity = quantity;
 	}
 
-	@Column(name = "Detail")
 	public String getDetail() {
 		return this.detail;
 	}
@@ -142,7 +157,6 @@ public class Coupon {
 		this.detail = detail;
 	}
 
-	@Column(name = "Status", nullable = false)
 	public boolean isStatus() {
 		return this.status;
 	}
@@ -151,7 +165,6 @@ public class Coupon {
 		this.status = status;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
 	public Set<OrderDetail> getOrderDetails() {
 		return this.orderDetails;
 	}
@@ -160,7 +173,7 @@ public class Coupon {
 		this.orderDetails = orderDetails;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "coupons")
+	
 	public Set<Product> getProducts() {
 		return this.products;
 	}

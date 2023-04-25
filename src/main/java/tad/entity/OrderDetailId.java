@@ -12,8 +12,11 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class OrderDetailId implements Serializable {
 
+	@Column(name = "ProductID", nullable = false)
 	private int productId;
+	@Column(name = "OrderID", nullable = false)
 	private int orderId;
+	@Column(name = "CouponID", nullable = false)
 	private int couponId;
 
 	public OrderDetailId() {
@@ -25,7 +28,6 @@ public class OrderDetailId implements Serializable {
 		this.couponId = couponId;
 	}
 
-	@Column(name = "ProductID", nullable = false)
 	public int getProductId() {
 		return this.productId;
 	}
@@ -34,7 +36,6 @@ public class OrderDetailId implements Serializable {
 		this.productId = productId;
 	}
 
-	@Column(name = "OrderID", nullable = false)
 	public int getOrderId() {
 		return this.orderId;
 	}
@@ -43,7 +44,6 @@ public class OrderDetailId implements Serializable {
 		this.orderId = orderId;
 	}
 
-	@Column(name = "CouponID", nullable = false)
 	public int getCouponId() {
 		return this.couponId;
 	}

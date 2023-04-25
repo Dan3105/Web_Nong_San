@@ -2,12 +2,15 @@ package tad.bean;
 
 import java.util.ArrayList;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import tad.entity.Category;
 
 public class CategoryBean {
 	private int id;
 	private String name;
 	private String image;
+	private MultipartFile fileImage;
 
 	public CategoryBean() {
 		this.name = "";
@@ -25,11 +28,18 @@ public class CategoryBean {
 		this.image = image;
 	}
 
+	public CategoryBean(Category category) {
+		this.id = category.getCategoryId();
+		this.name = category.getName();
+		this.image = category.getImage();
+	}
+
 	public String getName() {
 		return this.name;
 	}
 
 	public String getImage() {
+
 		return image;
 	}
 
@@ -45,14 +55,17 @@ public class CategoryBean {
 		return this.id;
 	}
 
-	public static ArrayList<CategoryBean> ConvertListCategory(ArrayList<Category> listCategory)
-	{
+	public static ArrayList<CategoryBean> ConvertListCategory(ArrayList<Category> listCategory) {
 		ArrayList<CategoryBean> categories = new ArrayList<CategoryBean>();
-		for(var categoryData : listCategory)
-		{
-			CategoryBean bean = new CategoryBean(categoryData.getCategoryId(), categoryData.getName(), categoryData.getImage());
+		for (var categoryData : listCategory) {
+			CategoryBean bean = new CategoryBean(categoryData.getCategoryId(), categoryData.getName(),
+					categoryData.getImage());
 			categories.add(bean);
 		}
 		return categories;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

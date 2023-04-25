@@ -1,8 +1,49 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/include/library.jsp"%>
 
 <body>
+	<c:set var="localeCode" value="${pageContext.response.locale}" />
 
-	<%@include file="/WEB-INF/views/include/language.jsp"%>
+	<!-- Language Bar -->
+	<div class="language bg-light py-1">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-6 col-12 text-center text-md-start">
+					<div class="me-auto  ">
+						<s:message code="global.intro" />
+					</div>
+				</div>
+
+				<div class="col-6 text-end d-none d-md-block">
+					<div class="dropdown ">
+						<button
+							class="btn btn-sm dropdown-toggle border-0 text-muted me-2"
+							type="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<c:if test="${localeCode == 'vi'}">
+								<i class="flag-icon flag-icon-vn lang-icon"></i> VN
+						</c:if>
+							<c:if test="${localeCode == 'en'}">
+								<i class="flag-icon flag-icon-us lang-icon"></i> EN
+						</c:if>
+						</button>
+
+						<ul class="dropdown-menu text-center ">
+							<li><a class="dropdown-item text-muted"
+								href='<c:url value = "index.htm?language=vi"/>'><i
+									class="flag-icon flag-icon-vn me-1"></i>VN</a></li>
+							<li><a class="dropdown-item text-muted"
+								href='<c:url value = "index.htm?language=en"/>'><i
+									class="flag-icon flag-icon-us me-1"></i>EN</a></li>
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--End Language Bar -->
 
 	<!--Navbar  -->
 	<nav class="navbar navbar-expand-lg mb-3 ">
@@ -32,14 +73,10 @@
 								code="global.nav_item2" />
 					</a> <!-- Xu li DB -->
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item "
-								href="index.htm?language=${pageContext.response.locale}">Fruits</a></li>
-							<li><a class="dropdown-item" href="#">Fruits</a></li>
-							<li><a class="dropdown-item" href="#">Fruits</a></li>
-							<li><a class="dropdown-item" href="#">Fruits</a></li>
-							<li><a class="dropdown-item" href="#">Fruits</a></li>
-							<li><a class="dropdown-item" href="#">Fruits</a></li>
-							<li><a class="dropdown-item" href="#">Fruits</a></li>
+							<c:forEach var="c" items="${category }">
+								<li><a class="dropdown-item "
+									href="index.htm?language=${pageContext.response.locale}">${c.name }</a></li>
+							</c:forEach>
 							<li>
 								<hr class="dropdown-divider">
 							</li>

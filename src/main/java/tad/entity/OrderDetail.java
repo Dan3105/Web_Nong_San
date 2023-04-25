@@ -16,11 +16,24 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "OrderDetail", schema = "dbo", catalog = "DB_Tad")
-public class OrderDetail  {
+public class OrderDetail {
 
+	@EmbeddedId
+	@AttributeOverrides({
+			@AttributeOverride(name = "productId", column = @Column(name = "ProductID", nullable = false)),
+			@AttributeOverride(name = "orderId", column = @Column(name = "OrderID", nullable = false)),
+			@AttributeOverride(name = "couponId", column = @Column(name = "CouponID", nullable = false)) })
 	private OrderDetailId id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "OrderID", nullable = false, insertable = false, updatable = false)
 	private Order order;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CouponID", nullable = false, insertable = false, updatable = false)
 	private Coupon coupon;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
 	private Product product;
 
 	public OrderDetail() {
@@ -33,12 +46,6 @@ public class OrderDetail  {
 		this.product = product;
 	}
 
-	@EmbeddedId
-
-	@AttributeOverrides({
-			@AttributeOverride(name = "productId", column = @Column(name = "ProductID", nullable = false)),
-			@AttributeOverride(name = "orderId", column = @Column(name = "OrderID", nullable = false)),
-			@AttributeOverride(name = "couponId", column = @Column(name = "CouponID", nullable = false)) })
 	public OrderDetailId getId() {
 		return this.id;
 	}
@@ -47,8 +54,6 @@ public class OrderDetail  {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "OrderID", nullable = false, insertable = false, updatable = false)
 	public Order getOrder() {
 		return this.order;
 	}
@@ -57,8 +62,6 @@ public class OrderDetail  {
 		this.order = order;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CouponID", nullable = false, insertable = false, updatable = false)
 	public Coupon getCoupon() {
 		return this.coupon;
 	}
@@ -67,8 +70,6 @@ public class OrderDetail  {
 		this.coupon = coupon;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
 	public Product getProduct() {
 		return this.product;
 	}

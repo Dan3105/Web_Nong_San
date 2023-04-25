@@ -3,8 +3,11 @@ package tad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -16,11 +19,26 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Role", schema = "dbo", catalog = "DB_Tad")
 public class Role {
-
+	@Id
+	@Column(name = "RoleID", unique = true, nullable = false)
 	private String roleId;
+
+	@Column(name = "RoleName", nullable = false)
 	private String roleName;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
 	private Set<Account> accounts = new HashSet<Account>(0);
 
+	public enum RoleDefine
+	{
+		GUEST,
+		ADMIN,
+		EMPLOYEE,
+	}
+	
+	@Enumerated(EnumType.STRING)
+	private RoleDefine roleEnum;
+	
 	public Role() {
 	}
 
@@ -35,9 +53,6 @@ public class Role {
 		this.accounts = accounts;
 	}
 
-	@Id
-
-	@Column(name = "RoleID", unique = true, nullable = false)
 	public String getRoleId() {
 		return this.roleId;
 	}
@@ -46,7 +61,6 @@ public class Role {
 		this.roleId = roleId;
 	}
 
-	@Column(name = "RoleName", nullable = false)
 	public String getRoleName() {
 		return this.roleName;
 	}
@@ -55,7 +69,6 @@ public class Role {
 		this.roleName = roleName;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
 	public Set<Account> getAccounts() {
 		return this.accounts;
 	}
