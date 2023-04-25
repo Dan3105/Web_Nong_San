@@ -35,10 +35,10 @@ public class Product {
 
 	@Column(name = "ProductName", nullable = false)
 	private String productName;
-	
+
 	@Column(name = "Price", nullable = false, scale = 4)
 	private Double price;
-	
+
 	@Column(name = "Image")
 	private String image;
 
@@ -55,16 +55,17 @@ public class Product {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "ExpiryDate", length = 10)
 	private Date expiryDate;
-	
-	@Column(name="Unit")
-	private String unit;
 
-	@ManyToOne
-	private Category categoryID;
-	@ManyToOne
-	private Coupon couponID;
-	@ManyToOne
-	private Account accountID;
+	@Column(name = "Unit")
+	private String unit;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CouponID")
+	private Coupon coupon;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AccountID", nullable = false)
+	private Account account;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	private Set<Cart> carts = new HashSet<Cart>(0);
@@ -136,7 +137,6 @@ public class Product {
 		this.price = price;
 	}
 
-
 	public String getImage() {
 		return this.image;
 	}
@@ -199,6 +199,30 @@ public class Product {
 
 	public void setFeedbacks(Set<Feedback> feedbacks) {
 		this.feedbacks = feedbacks;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public Coupon getCoupon() {
+		return coupon;
+	}
+
+	public void setCoupon(Coupon coupon) {
+		this.coupon = coupon;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 }

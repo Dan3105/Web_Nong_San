@@ -44,13 +44,17 @@ public class Order  {
 	@Column(name = "Status", nullable = false)
 	private short status;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="AddressID", nullable = false)
+	private Address address;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
 	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
 
 	public Order() {
 	}
 
-	public Order(int orderId, Account account, Date orderTime, short status) {
+	public Order(int orderId, Account account, Date orderTime, short status, Address address) {
 		this.orderId = orderId;
 		this.account = account;
 		this.orderTime = orderTime;
@@ -114,6 +118,14 @@ public class Order  {
 
 	public void setOrderDetails(Set<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 }

@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import tad.DAO.IAccountDAO;
 import tad.entity.Account;
 import tad.entity.Role;
+import tad.entity.Role.RoleDefine;
 
 public class AccountDAOImpl implements IAccountDAO {
 	private SessionFactory sessionFactory;

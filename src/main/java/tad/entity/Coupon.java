@@ -59,7 +59,7 @@ public class Coupon {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
 	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupons")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
 	private Set<Product> products = new HashSet<Product>(0);
 
 	public Coupon() {

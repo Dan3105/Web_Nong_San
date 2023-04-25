@@ -1,7 +1,5 @@
 package tad.entity;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -23,6 +21,8 @@ public class Cart {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
 	private Product product;
+
+	@Column(name = "Quantity", nullable = false)
 	private int quantity;
 
 	public Cart() {
@@ -59,7 +59,6 @@ public class Cart {
 		this.product = product;
 	}
 
-	@Column(name = "Quantity", nullable = false)
 	public int getQuantity() {
 		return this.quantity;
 	}

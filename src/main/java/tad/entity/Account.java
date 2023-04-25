@@ -65,7 +65,7 @@ public class Account {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Comment> comments = new HashSet<Comment>(0);
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "accounts")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Cart> carts = new HashSet<Cart>(0);
 
 	public Account() {

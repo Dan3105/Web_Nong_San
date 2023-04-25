@@ -1,6 +1,7 @@
 package tad.entity;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -33,6 +35,9 @@ public class Address {
 					@JoinColumn(name = "AccountID", nullable = false, updatable = true) })
 	private Set<Account> accounts = new HashSet<Account>(0);
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "address")
+	private Set<Order> orders = new HashSet<Order>(0);
+	
 	public Address() {
 	}
 

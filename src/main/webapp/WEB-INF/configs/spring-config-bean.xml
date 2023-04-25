@@ -33,7 +33,7 @@
 	<bean id="ProductDAO" class="tad.DAOImpl.ProductDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	<bean id="categoryDAO" class="tad.DAOImpl.CategoryDAOImpl">
+	<bean id="CategoryDAO" class="tad.DAOImpl.CategoryDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="CouponDAO" class="tad.DAOImpl.CouponDAOImpl">
@@ -47,7 +47,7 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
-	<bean id="addressDAO" class="tad.DAOImpl.AddressDAOImpl">
+	<bean id="AddressDAO" class="tad.DAOImpl.AddressDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 </beans>
