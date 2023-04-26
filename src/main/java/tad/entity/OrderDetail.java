@@ -28,6 +28,7 @@ public class OrderDetail {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "OrderID", nullable = false, insertable = false, updatable = false)
 	private Order order;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CouponID", nullable = false, insertable = false, updatable = false)
 	private Coupon coupon;

@@ -36,8 +36,9 @@ public class Role {
 		EMPLOYEE,
 	}
 	
-	@Enumerated(EnumType.STRING)
-	private RoleDefine roleEnum;
+	/*
+	 * @Enumerated(EnumType.STRING) private RoleDefine roleEnum;
+	 */
 	
 	public Role() {
 	}

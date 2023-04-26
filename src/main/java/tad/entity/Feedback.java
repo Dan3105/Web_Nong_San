@@ -42,6 +42,8 @@ public class Feedback {
 	@Column(name = "FeedbackContent")
 	private String feedbackContent;
 	
+	@Column(name = "Status", nullable = false)
+	private short status;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "PostingDate", nullable = false, length = 23)
@@ -56,20 +58,22 @@ public class Feedback {
 	public Feedback() {
 	}
 
-	public Feedback(int feedbackId, Account account, Product product, short ratingStar, Date postingDate) {
+	public Feedback(int feedbackId, Account account, Product product, short ratingStar, short status, Date postingDate) {
 		this.feedbackId = feedbackId;
 		this.account = account;
 		this.product = product;
 		this.ratingStar = ratingStar;
+		this.status = status;
 		this.postingDate = postingDate;
 	}
 
-	public Feedback(int feedbackId, Account account, Product product, short ratingStar, String feedbackContent,
+	public Feedback(int feedbackId, Account account, Product product, short ratingStar, short status, String feedbackContent,
 			Date postingDate, Set<Comment> comments) {
 		this.feedbackId = feedbackId;
 		this.account = account;
 		this.product = product;
 		this.ratingStar = ratingStar;
+		this.status = status;
 		this.feedbackContent = feedbackContent;
 		this.postingDate = postingDate;
 		this.comments = comments;
@@ -131,6 +135,14 @@ public class Feedback {
 
 	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
+	}
+
+	public short getStatus() {
+		return status;
+	}
+
+	public void setStatus(short status) {
+		this.status = status;
 	}
 
 }
