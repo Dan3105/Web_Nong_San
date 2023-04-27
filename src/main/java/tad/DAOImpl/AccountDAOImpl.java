@@ -8,7 +8,6 @@ import org.hibernate.Transaction;
 import tad.DAO.IAccountDAO;
 import tad.entity.Account;
 import tad.entity.Role;
-import tad.entity.Role.RoleDefine;
 
 public class AccountDAOImpl implements IAccountDAO {
 	private SessionFactory sessionFactory;
@@ -25,7 +24,7 @@ public class AccountDAOImpl implements IAccountDAO {
 		query.setString("username", username);
 		Account acc = null;
 		try {
-			acc= (Account) query.uniqueResult();
+			acc = (Account) query.uniqueResult();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -34,24 +33,11 @@ public class AccountDAOImpl implements IAccountDAO {
 	}
 
 	@Override
-	public Role GetRoleViaEnum(RoleDefine role) {
-
-		String roleGetterID = "";
-		switch (role) {
-		case GUEST:
-			roleGetterID = "GUEST";
-			break;
-		case ADMIN:
-			roleGetterID = "ADMIN";
-		default:
-			roleGetterID = "";
-		}
-		if (roleGetterID.isEmpty())
-			return null;
+	public Role GetRoleViaEnum(EnumRoleID role) {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "From Role Where RoleID = :roleGetterID";
 		Query query = session.createQuery(hql);
-		query.setString("roleGetterID", roleGetterID);
+		query.setString("roleGetterID", role.toString());
 		Role roleDB = null;
 
 		try {

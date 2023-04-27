@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import tad.DAO.IAccountDAO;
+import tad.DAO.IAccountDAO.EnumRoleID;
 import tad.bean.LoginBean;
 import tad.bean.UserBean;
 import tad.entity.Account;
 import tad.entity.Role;
-import tad.entity.Role.RoleDefine;
 
 @Controller
 @RequestMapping("/guest")
@@ -67,17 +67,23 @@ public class GuestController {
 			String avatarDir = "";
 			if (!user.getAvatar().isEmpty()) {
 				try {
-					avatarDir = context.getRealPath("/assets/img/" + user.getAvatar().getOriginalFilename());
+					String avatarImageName = user.getAvatar().getOriginalFilename();
+					avatarDir = context.getRealPath("/assets/img/account/" + avatarImageName);
 					System.out.println(avatarDir);
-					user.getAvatar().transferTo(new File(avatarDir));
+					user.getAvatar().transferTo(new File(avatarDir).getAbsoluteFile());
+					user.setAvatarDir(avatarImageName);
 				} catch (Exception ex) {
 					System.out.println(ex);
 				}
 			}
 
-			Role role = accountDAO.GetRoleViaEnum(RoleDefine.GUEST);
+			Role role = accountDAO.GetRoleViaEnum(EnumRoleID.GUEST);
 			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
 					user.getPhoneNumber(), avatarDir, user.getPassword());
+
+			if (!user.getAvatarDir().isEmpty()) {
+				account.setAvatar(user.getAvatarDir());
+			}
 
 			if (accountDAO.AddUserToDB(account)) {
 

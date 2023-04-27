@@ -1,6 +1,7 @@
 <%@include file="/WEB-INF/views/include/admin-header.jsp"%>
 <script src="<c:url value="/assets/js/admin/AdminRegister.js"/>"></script>
 <title>Register</title>
+<base href="${pageContext.servletContext.contextPath }"/>
 </head>
 
 <body class="bg-success">
@@ -60,8 +61,8 @@
 											<form:errors class="text-danger" path="phoneNumber" />
 										</div>
 										<div class="form-group mt-3 mb-3">
-											<label for="avatar">Avatar:</label> <input type="file"
-												class="form-control-file" id="avatar" name="avatar">
+											<label for="avatar">Avatar:</label> <form:input type="file"
+												class="form-control-file" id="avatar" path="avatar" accept="image/"/>
 											<form:errors class="text-danger" path="avatar" />
 										</div>
 										<button name="register" type="submit" class="btn btn-primary">Submit</button>
