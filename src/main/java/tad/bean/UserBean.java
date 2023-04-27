@@ -27,12 +27,15 @@ public class UserBean {
 	private String phoneNumber;
 	private MultipartFile avatar;
 
+	private String avatarDir;
+	
 	public UserBean() {
 		email = "";
 		password = "";
 		lastName = "";
 		firstName = "";
 		phoneNumber = "";
+		avatarDir = "";
 	}
 
 	public String getEmail() {
@@ -81,6 +84,14 @@ public class UserBean {
 
 	public void setAvatar(MultipartFile avatar) {
 		this.avatar = avatar;
+	}
+
+	public String getAvatarDir() {
+		return avatarDir;
+	}
+
+	public void setAvatarDir(String avatarDir) {
+		this.avatarDir = avatarDir;
 	}
 
 }
