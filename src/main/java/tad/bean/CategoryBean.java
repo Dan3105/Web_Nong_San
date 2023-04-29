@@ -28,6 +28,14 @@ public class CategoryBean {
 		this.image = image;
 	}
 
+	public MultipartFile getFileImage() {
+		return fileImage;
+	}
+
+	public void setFileImage(MultipartFile fileImage) {
+		this.fileImage = fileImage;
+	}
+
 	public CategoryBean(Category category) {
 		this.id = category.getCategoryId();
 		this.name = category.getName();
@@ -68,4 +76,10 @@ public class CategoryBean {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	/*
+	 * public void SetImageStringViaFileImage(String path) {
+	 * 
+	 * }
+	 */
 }

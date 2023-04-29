@@ -62,7 +62,7 @@
 										</div>
 										<div class="form-group mt-3 mb-3">
 											<label for="avatar">Avatar:</label> <form:input type="file"
-												class="form-control-file" id="avatar" path="avatar" accept="image/"/>
+												class="form-control-file" id="avatar" path="avatar" accept="image/*"/>
 											<form:errors class="text-danger" path="avatar" />
 										</div>
 										<button name="register" type="submit" class="btn btn-primary">Submit</button>

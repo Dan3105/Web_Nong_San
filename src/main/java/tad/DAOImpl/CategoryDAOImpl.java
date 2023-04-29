@@ -22,7 +22,25 @@ public class CategoryDAOImpl implements ICategoryDAO {
 	}
 
 	@Override
-	public boolean DeleteCategory(String id) {
+	public boolean DeleteCategory(Category category) {
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try
+		{
+			session.delete(category);
+			t.commit();
+			return true;
+			
+		}
+		catch(Exception e)
+		{
+			t.rollback();
+			System.out.println(e);
+		}
+		finally
+		{
+			session.close();
+		}
 		return false;
 	}
 
@@ -71,7 +89,7 @@ public class CategoryDAOImpl implements ICategoryDAO {
 	}
 
 	@Override
-	public boolean EditCategory(Category changedCategory) {
+	public boolean UpdateCategory(Category changedCategory) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();

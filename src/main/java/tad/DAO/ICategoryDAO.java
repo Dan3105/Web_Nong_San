@@ -7,7 +7,7 @@ import tad.entity.Category;
 
 public interface ICategoryDAO {
 
-	public boolean DeleteCategory(String id);
+	public boolean DeleteCategory(Category category);
 
 	public boolean AddCategory(Category newCategory);
 
@@ -15,7 +15,7 @@ public interface ICategoryDAO {
 
 	public Category GetCategory(int id);
 
-	public boolean EditCategory(Category changedCategory);
+	public boolean UpdateCategory(Category changedCategory);
 
 	public List<Category> listCategoriesHasProducts(int i);
 }

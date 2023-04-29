@@ -33,9 +33,13 @@
 								<i class="pe-2 ti-briefcase"></i>Category
 							</button></a></li>
 				</ul></li>
-			<li><a href="admin-info.htm"><button
+			<li><a href="info.htm"><button
 						class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 						<i class="pe-2 ti-light-bulb"></i>About Admin
+					</button></a></li>
+			<li><a href="logout.htm"><button
+						class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
+						<i class="pe-2 ti-power-off"></i>Logout
 					</button></a></li>
 
 		</ul>
@@ -80,10 +84,15 @@
 						href="#" class="nav-link text-body pe-4"> <i
 							class="ti-bell fs-4 cursor-pointer"></i>
 					</a></li>
-					<li><a><img class="d-block rounded-pill w-100"
+					<li><a href="overview.htm"> <img
+							class="d-block rounded-pill w-100"
 							style="max-width: 50px; min-width: 30px;"
-							src="https://i.pinimg.com/474x/66/da/e1/66dae117263cc353d351949bcc76e1e4.jpg"
-							alt="concat"></a></li>
+							src="<c:url value="/assets/img/account/${user.avatar}"/>"
+							onerror="
+										this.onerror = null;
+										this.src='https://i.pinimg.com/474x/66/da/e1/66dae117263cc353d351949bcc76e1e4.jpg';"
+							alt="admin-img" />
+					</a></li>
 				</ul>
 			</div>
 		</div>

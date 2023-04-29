@@ -6,6 +6,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import tad.DAO.IAccountDAO;
 import tad.DAO.IAccountDAO.EnumRoleID;
 import tad.bean.LoginBean;
+import tad.bean.UploadFile;
 import tad.bean.UserBean;
 import tad.entity.Account;
 import tad.entity.Role;
+import tad.utility.ConverterUploadHandler;
 
 @Controller
 @RequestMapping("/guest")
@@ -59,21 +62,21 @@ public class GuestController {
 	}
 
 	@Autowired
-	ServletContext context;
+	private ServletContext context;
+	@Autowired
+	@Qualifier("accountImgDir")
+	private UploadFile uploadFile;
+
+	@Autowired
+	private ConverterUploadHandler convertHandler;
 
 	@RequestMapping(value = "guest-register", method = RequestMethod.POST)
 	public String register(@Validated @ModelAttribute("user") UserBean user, BindingResult errors, ModelMap modelMap) {
 		if (!errors.hasErrors()) {
 			String avatarDir = "";
 			if (!user.getAvatar().isEmpty()) {
-				try {
-					String avatarImageName = user.getAvatar().getOriginalFilename();
-					avatarDir = context.getRealPath("/assets/img/account/" + avatarImageName);
-					System.out.println(avatarDir);
-					user.getAvatar().transferTo(new File(avatarDir).getAbsoluteFile());
-					user.setAvatarDir(avatarImageName);
-				} catch (Exception ex) {
-					System.out.println(ex);
+				if (convertHandler.MoveMultipartToDirectory(user.getAvatar(), uploadFile.getPath())) {
+					user.setAvatarDir(convertHandler.SetImageNameViaMultipartFile(user.getAvatar()));
 				}
 			}
 
@@ -95,4 +98,11 @@ public class GuestController {
 		return "user/user-register";
 	}
 
+	@RequestMapping("logout")
+	public String logout(ModelMap model, HttpSession session) {
+		Account crrAcc = (Account) session.getAttribute("user");
+		if (crrAcc != null)
+			session.removeAttribute("user");
+		return "redirect:/";
+	}
 }
