@@ -22,7 +22,6 @@ public class AccountDAOImpl implements IAccountDAO {
 		return acc;
 	}
 
-
 	private SessionFactory sessionFactory;
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
@@ -30,7 +29,7 @@ public class AccountDAOImpl implements IAccountDAO {
 	}
 
 	@Override
-	public Account FindUserAdmin(String username) {
+	public Account FindUserByEmail(String username) {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "From Account Where Email = :username";
 		Query query = session.createQuery(hql);
@@ -42,6 +41,22 @@ public class AccountDAOImpl implements IAccountDAO {
 			System.out.println(e);
 		}
 
+		return acc;
+	}
+
+	@Override
+	public Account GetUser(int id) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "From Account Where AccountID = :id";
+		Query query = session.createQuery(hql);
+		query.setParameter("id", id);
+		Account acc = null;
+		try {
+			acc = (Account) query.uniqueResult();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		return acc;
 	}
 
@@ -61,21 +76,26 @@ public class AccountDAOImpl implements IAccountDAO {
 		return roleDB;
 	}
 
-	@Override
-	public Role GetRoleViaDB(String accountId) {
-		// TODO Auto-generated method stub
-		String hql = "From User Where AccountID = :accountId";
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(hql);
-		query.setString("accountId", accountId);
 
-		Role roleDB = null;
+	@Override
+	public boolean UpdateAccount(Account account) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
 		try {
-			roleDB = ((Account) query.uniqueResult()).getRole();
-		} catch (Exception ex) {
-			System.out.println(ex);
+
+			session.update(account);
+			t.commit();
+			return true;
+
+		} catch (Exception e) {
+			System.out.println(e);
+			t.rollback();
+		} finally {
+			session.close();
+
 		}
-		return roleDB;
+		return false;
 	}
 
 	@Override

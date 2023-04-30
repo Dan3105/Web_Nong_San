@@ -25,7 +25,7 @@ public class GlobalInterceptor extends HandlerInterceptorAdapter {
 		Account user = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		// If there is user try to add information of user
 		if (user != null) {
-			Account acc = accountDAO.FindUserAdmin(user.getEmail());
+			Account acc = accountDAO.FindUserByEmail(user.getEmail());
 			if (acc != null) {
 				request.setAttribute(DefineAttribute.UserAttribute, acc);
 			}

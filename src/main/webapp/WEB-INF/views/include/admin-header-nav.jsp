@@ -1,6 +1,6 @@
 <link rel="stylesheet"
 	href="<c:url value="/assets/css/admincss/admin-menu.css"/>">
-
+<c:set var="path" value ="${pageContext.request.getContextPath() }"/>
 <!-- Admin menu vertical -->
 <nav id="sidebar">
 	<div class="p-4">
@@ -16,28 +16,28 @@
 						<i class="pe-2 ti-layout-menu-v"></i>Manager
 					</button></a>
 				<ul class="collapse show list-unstyled " id="managerSubmenu">
-					<li><a href="overview.htm"><button
+					<li><a href="${path }/admin/overview.htm"><button
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-pie-chart"></i>Overview
 							</button></a></li>
-					<li class="nav-item w-100"><a href="user.htm"><button
+					<li class="nav-item w-100"><a href="${path }/admin/user.htm"><button
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-light-bulb"></i>User
 							</button></a></li>
-					<li class="nav-item w-100"><a href="voucher.htm"><button
+					<li class="nav-item w-100"><a href="${path }/admin/voucher.htm"><button
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-ticket"></i>Voucher
 							</button></a></li>
-					<li class="nav-item w-100"><a href="category.htm"><button
+					<li class="nav-item w-100"><a href="${path }/admin/category.htm"><button
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-briefcase"></i>Category
 							</button></a></li>
 				</ul></li>
-			<li><a href="info.htm"><button
+			<li><a href="${path}/admin/info.htm"><button
 						class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 						<i class="pe-2 ti-light-bulb"></i>About Admin
 					</button></a></li>
-			<li><a href="logout.htm"><button
+			<li><a href="${path }/admin/logout.htm"><button
 						class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 						<i class="pe-2 ti-power-off"></i>Logout
 					</button></a></li>
@@ -45,13 +45,13 @@
 		</ul>
 		<script>
 			var currentUrl = window.location.pathname;
-
 			var buttons = document.querySelectorAll('.btn-hover-nav');
-
+		
 			for (var i = 0; i < buttons.length; i++) {
 				var button = buttons[i];
 				var href = button.parentElement.getAttribute('href');
-				if (currentUrl.endsWith(href)) {
+				href=href.slice(0, -4);
+				if (currentUrl.includes(href)) {
 					button.classList.add('active');
 				} else {
 					button.classList.remove('active');

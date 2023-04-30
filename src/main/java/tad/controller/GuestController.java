@@ -39,7 +39,7 @@ public class GuestController {
 	@RequestMapping(params = "guest-login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("user") LoginBean user, ModelMap modelMap, HttpSession session) {
 
-		Account ValidateAdmin = accountDAO.FindUserAdmin(user.getUsername());
+		Account ValidateAdmin = accountDAO.FindUserByEmail(user.getUsername());
 		if (ValidateAdmin != null && ValidateAdmin.getPassword().equals(user.getPassword())) {
 			if (ValidateAdmin.getRole().getRoleId().equals("ADMIN")) {
 				session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin);

@@ -12,16 +12,30 @@ td {
 		<div class="container content-user-breadcrumb m-3 bg-light">
 			<div class="row">
 				<div class="col-6 content-user-name h4 ">
-					<a href="/create-employee.htm"><button>Create Employee
+					<a href="create-employee.htm"><button>Create Employee
 						</button></a>
 				</div>
 				<div
-					class="col-6  content-user-filter d-flex justify-content-end align-items-center">
-					<a href="/filter-employee.htm"><button>
+					class="col-6 content-user-filter d-flex justify-content-end align-items-center">
+					<a class="p-2" href="get-employee.htm"><button
+							id="employee-btn" class="btn btn-outline-primary btn-hover-nav">
 							<i class="ti-filter p-2"></i>Employee
-						</button></a> <a href="/get-guest.htm"><button>
+						</button></a> <a class="p-2" href="get-guest.htm"><button id="guest-btn"
+							class="btn btn-outline-primary btn-hover-nav">
 							<i class="ti-layout-list-post p-2"></i>Guest
 						</button></a>
+					<script>
+						var currentUrl = window.location.pathname;
+						var buttonEm = document.getElementById('employee-btn');
+						var buttonG = document.getElementById('guest-btn');
+						if (currentUrl.includes('employee')) {
+							buttonEm.classList.add('active');
+							buttonG.classList.remove('active');
+						} else {
+							buttonG.classList.add('active');
+							buttonEm.classList.remove('active');
+						}
+					</script>
 				</div>
 			</div>
 			<div class="row mt-4">
@@ -40,39 +54,49 @@ td {
 						<tbody>
 							<c:forEach varStatus="status" var="account" items="${accounts}">
 								<tr>
-									<td class="p-3"><img style="height: inherit"
+									<td><img style="height: inherit"
 										src="<c:url value = "/assets/img/account/${account.avatar }"/>">
 									</td>
-									<td class="p-3"><c:set var="fullName"
-											value="${account.lastName} ${account.firstName} " />
-										<p>${fullName}</p></td>
-									<td><c:choose>
-											<c:when test="${account.status eq '1'}">
-												<div class="w-75 h-50 badge rounded-pill text-bg-success">
-													<p class="p-3 text-center">Mở</p>
-												</div>
-											</c:when>
-											<c:otherwise>
-												<div class="w-75 badge rounded-pill text-bg-danger">
-													<p class="p-3">Khóa</p>
-												</div>
-											</c:otherwise>
-										</c:choose></td>
+									<td><div
+											class="h-100 d-flex align-items-center justify-content-start">
+											<c:set var="fullName"
+												value="${account.lastName} ${account.firstName} " />
+											<p class="m-0">${fullName}</p>
+										</div></td>
+									<td>
+										<div
+											class="h-100 d-flex align-items-center justify-content-start">
+											<c:choose>
+												<c:when test="${account.status eq '1'}">
+													<div
+														class="d-flex align-items-center w-75 h-50 badge rounded-pill text-bg-success">
+														<p class="m-0 w-100 text-center">Enable</p>
+													</div>
+												</c:when>
+												<c:otherwise>
+													<div
+														class="d-flex align-items-center w-75 h-50 badge rounded-pill text-bg-danger">
+														<p class="m-0 w-100 text-center">Block</p>
+													</div>
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</td>
 									<td><p class="p-3">${account.email }</p></td>
 									<td>
 										<div
 											class="h-100 d-flex align-items-center justify-content-start">
-											<a href="account/enable${account.accountId }.htm"><button
+											<a href="enable${account.accountId }.htm?source=${source}"><button
 													class="btn btn-primary" type="button"
 													id="edit_button${status.index}">
 													<c:choose>
 														<c:when test="${ account.status eq '1'}">
-															<div class="badge rounded-pill text-bg-warning">
+															<div class="">
 																<i class="ti-lock"></i>
 															</div>
 														</c:when>
 														<c:otherwise>
-															<div class="badge rounded-pill text-bg-success">
+															<div class="">
 																<i class="ti-unlock"></i>
 															</div>
 														</c:otherwise>
@@ -80,11 +104,14 @@ td {
 												</button></a>
 										</div>
 									</td>
-									<td><a id="del_button${status.index }"
-										href="account/delete${account.accountId}.htm"><button
-												class="btn btn-danger ms-2">
-												<i class="ti-trash"></i>
-											</button></a></td>
+									<td><div
+											class="h-100 d-flex align-items-center justify-content-start">
+											<a id="del_button${status.index }"
+												href="user/delete${account.accountId}.htm"><button
+													class="btn btn-danger ms-2">
+													<i class="ti-trash"></i>
+												</button></a>
+										</div></td>
 								</tr>
 							</c:forEach>
 						</tbody>

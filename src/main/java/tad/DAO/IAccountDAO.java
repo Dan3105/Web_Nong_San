@@ -13,14 +13,15 @@ public interface IAccountDAO {
 		GUEST, ADMIN, EMPLOYEE,
 	}
 
-	public Account FindUserAdmin(String login);
+	public Account FindUserByEmail(String login);
+	
+	public Account GetUser(int id);
 
 	public Role GetRoleViaEnum(EnumRoleID roleID);
-
-	public Role GetRoleViaDB(String idUser);
 
 	public boolean AddUserToDB(Account acc);
 	
 	public ArrayList<Account> GetListAccountWithRole(EnumRoleID roleID);
 
+	public boolean UpdateAccount(Account account);
 }
