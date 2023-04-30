@@ -28,17 +28,6 @@ public class Role {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
 	private Set<Account> accounts = new HashSet<Account>(0);
-
-	public enum RoleDefine
-	{
-		GUEST,
-		ADMIN,
-		EMPLOYEE,
-	}
-	
-	/*
-	 * @Enumerated(EnumType.STRING) private RoleDefine roleEnum;
-	 */
 	
 	public Role() {
 	}

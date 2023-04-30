@@ -1,5 +1,7 @@
 package tad.DAOImpl;
 
+import java.util.ArrayList;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,6 +12,17 @@ import tad.entity.Account;
 import tad.entity.Role;
 
 public class AccountDAOImpl implements IAccountDAO {
+	@Override
+	public ArrayList<Account> GetListAccountWithRole(EnumRoleID roleID) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "From Account Where RoleID = :role";
+		Query query = session.createQuery(hql);
+		query.setString("role", roleID.toString());
+		ArrayList<Account> acc = (ArrayList<Account>) query.list();
+		return acc;
+	}
+
+
 	private SessionFactory sessionFactory;
 
 	public void setSessionFactory(SessionFactory sessionFactory) {

@@ -5,11 +5,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import tad.DAO.IAccountDAO;
 import tad.entity.Account;
+import tad.utility.DefineAttribute;
 
 public class GlobalInterceptor extends HandlerInterceptorAdapter {
 
@@ -22,12 +22,12 @@ public class GlobalInterceptor extends HandlerInterceptorAdapter {
 		// TODO Auto-generated method stub
 		
 		HttpSession session = request.getSession();
-		Account user = (Account) session.getAttribute("user");
+		Account user = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		// If there is user try to add information of user
 		if (user != null) {
 			Account acc = accountDAO.FindUserAdmin(user.getEmail());
 			if (acc != null) {
-				request.setAttribute("user", acc);
+				request.setAttribute(DefineAttribute.UserAttribute, acc);
 			}
 		}
 		return true;

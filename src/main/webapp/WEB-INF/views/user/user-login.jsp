@@ -20,7 +20,7 @@
 									</div>
 
 									<form:form method="post" action="guest.htm"
-										modelAttribute="user" class="pt-4">
+										modelAttribute="userbean" class="pt-4">
 										<p class="fw-bold">Please login to your account</p>
 
 										<div class="form-outline pt-2 mb-4">

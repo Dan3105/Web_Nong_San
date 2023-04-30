@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import tad.DAO.IAccountDAO;
+import tad.DAO.IAccountDAO.EnumRoleID;
 import tad.entity.Account;
-import tad.entity.Role.RoleDefine;
+import tad.utility.DefineAttribute;
 
 public class UserInterceptor extends HandlerInterceptorAdapter {
 	
@@ -20,12 +21,12 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		HttpSession session = request.getSession();
-		Account user = (Account) session.getAttribute("user");
+		Account user = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (user == null) {
 			response.sendRedirect(request.getContextPath() + "/guest.htm"); // guest.htm
 			return false;
 		}
-		else if(user.getRole().getRoleId() == RoleDefine.GUEST.toString())
+		else if(user.getRole().getRoleId().equals(EnumRoleID.GUEST.toString()))
 		{
 			return true;
 		}

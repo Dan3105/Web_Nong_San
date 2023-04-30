@@ -1,5 +1,7 @@
 package tad.DAO;
 
+import java.util.ArrayList;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import tad.entity.Account;
@@ -18,4 +20,7 @@ public interface IAccountDAO {
 	public Role GetRoleViaDB(String idUser);
 
 	public boolean AddUserToDB(Account acc);
+	
+	public ArrayList<Account> GetListAccountWithRole(EnumRoleID roleID);
+
 }

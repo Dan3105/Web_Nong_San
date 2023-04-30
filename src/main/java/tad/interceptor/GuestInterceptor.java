@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import tad.entity.Account;
+import tad.utility.DefineAttribute;
 
 public class GuestInterceptor extends HandlerInterceptorAdapter {
 	@Override
@@ -14,7 +15,7 @@ public class GuestInterceptor extends HandlerInterceptorAdapter {
 			throws Exception{
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		Account acc = (Account)session.getAttribute("user");
+		Account acc = (Account)session.getAttribute(DefineAttribute.UserAttribute);
 		if(acc != null)
 		{
 			response.sendRedirect(request.getContextPath() + "/index.htm");

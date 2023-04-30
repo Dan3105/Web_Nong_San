@@ -21,7 +21,7 @@
 										up</p>
 									<p class="text-danger">${message }</p>
 									<form:form class="mx-1 mx-md-4" method="post"
-										modelAttribute="user" enctype="multipart/form-data">
+										modelAttribute="userbean" enctype="multipart/form-data">
 
 										<div class="form-group mt-3 mb-3">
 											<label for="email">Email:</label>

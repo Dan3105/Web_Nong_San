@@ -1,7 +1,5 @@
 package tad.controller;
 
-import java.io.File;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
@@ -23,6 +21,7 @@ import tad.bean.UserBean;
 import tad.entity.Account;
 import tad.entity.Role;
 import tad.utility.ConverterUploadHandler;
+import tad.utility.DefineAttribute;
 
 @Controller
 @RequestMapping("/guest")
@@ -33,7 +32,7 @@ public class GuestController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(ModelMap modelMap) {
 		LoginBean emptyLogin = new LoginBean();
-		modelMap.addAttribute("user", emptyLogin);
+		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, emptyLogin);
 		return "user/user-login";
 	}
 
@@ -43,7 +42,7 @@ public class GuestController {
 		Account ValidateAdmin = accountDAO.FindUserAdmin(user.getUsername());
 		if (ValidateAdmin != null && ValidateAdmin.getPassword().equals(user.getPassword())) {
 			if (ValidateAdmin.getRole().getRoleId().equals("ADMIN")) {
-				session.setAttribute("user", ValidateAdmin);
+				session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin);
 				return "redirect:admin/";
 			}
 			return "redirect:/";
@@ -57,7 +56,7 @@ public class GuestController {
 	@RequestMapping(value = "guest-register", method = RequestMethod.GET)
 	public String register(ModelMap modelMap) {
 		UserBean user = new UserBean();
-		modelMap.addAttribute("user", user);
+		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 		return "user/user-register";
 	}
 
@@ -93,16 +92,16 @@ public class GuestController {
 				return "redirect:/";
 			}
 		}
-		modelMap.addAttribute("user", user);
+		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 		modelMap.addAttribute("message", "Fail in resgiter");
 		return "user/user-register";
 	}
 
 	@RequestMapping("logout")
 	public String logout(ModelMap model, HttpSession session) {
-		Account crrAcc = (Account) session.getAttribute("user");
+		Account crrAcc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (crrAcc != null)
-			session.removeAttribute("user");
+			session.removeAttribute(DefineAttribute.UserAttribute);
 		return "redirect:/";
 	}
 }

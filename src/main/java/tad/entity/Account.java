@@ -42,7 +42,7 @@ public class Account {
 	@Column(name = "Avatar")
 	private String avatar;
 	@Column(name = "Status", nullable = false)
-	private int state;
+	private int status;
 
 	@Column(name = "Password", nullable = false)
 	private String password;
@@ -79,12 +79,12 @@ public class Account {
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.avatar = avatar;
-		this.state = 1; // Tao tk moi set trang thai ve 1 
+		this.status = 1; // Tao tk moi set trang thai ve 1 
 		this.password = password;
 	}
 
 	public Account(int accountId, Role role, String lastName, String firstName, String email, String phoneNumber,
-			String avatar, int state, String password, Set<Address> addresses, Set<Order> orders, Set<Coupon> coupons,
+			String avatar, int status, String password, Set<Address> addresses, Set<Order> orders, Set<Coupon> coupons,
 			Set<Product> products, Set<Feedback> feedbacks, Set<Comment> comments, Set<Cart> carts) {
 		this.accountId = accountId;
 		this.role = role;
@@ -93,7 +93,7 @@ public class Account {
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.avatar = avatar;
-		this.state = state;
+		this.status = status;
 		this.password = password;
 		this.addresses = addresses;
 		this.orders = orders;
@@ -164,12 +164,12 @@ public class Account {
 		this.avatar = avatar;
 	}
 
-	public int getState() {
-		return state;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setState(int state) {
-		this.state = state;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public String getPassword() {
