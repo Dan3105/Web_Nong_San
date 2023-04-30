@@ -13,6 +13,25 @@ import tad.entity.Role;
 
 public class AccountDAOImpl implements IAccountDAO {
 	@Override
+	public boolean DeleteAccount(Account account) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			session.delete(account);
+			t.commit();
+			return true;
+
+		} catch (Exception e) {
+			t.rollback();
+			System.out.println(e);
+		} finally {
+			session.close();
+		}
+		return false;
+	}
+
+	@Override
 	public ArrayList<Account> GetListAccountWithRole(EnumRoleID roleID) {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "From Account Where RoleID = :role";
@@ -75,7 +94,6 @@ public class AccountDAOImpl implements IAccountDAO {
 		}
 		return roleDB;
 	}
-
 
 	@Override
 	public boolean UpdateAccount(Account account) {

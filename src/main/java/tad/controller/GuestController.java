@@ -70,7 +70,7 @@ public class GuestController {
 	private ConverterUploadHandler convertHandler;
 
 	@RequestMapping(value = "guest-register", method = RequestMethod.POST)
-	public String register(@Validated @ModelAttribute("user") UserBean user, BindingResult errors, ModelMap modelMap) {
+	public String register(@Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user, BindingResult errors, ModelMap modelMap) {
 		if (!errors.hasErrors()) {
 			String avatarDir = "";
 			if (!user.getAvatar().isEmpty()) {

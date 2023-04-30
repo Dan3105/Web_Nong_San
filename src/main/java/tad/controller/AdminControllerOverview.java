@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import tad.bean.UserBean;
 import tad.entity.Account;
+import tad.utility.DefineAttribute;
 
 @Controller
 @RequestMapping("/admin")
@@ -26,4 +28,20 @@ public class AdminControllerOverview {
 	{
 		return "redirect:/guest/logout.htm";
 	}
+	
+	@RequestMapping("info.htm")
+	public String gInfo(ModelMap model, HttpSession session)
+	{
+		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
+		if(acc == null)
+		{
+			return "redirect:/";
+		}
+		
+		UserBean userBean = new UserBean(acc.getEmail(), acc.getFirstName(), acc.getLastName(), acc.getPhoneNumber());
+		model.addAttribute(DefineAttribute.UserBeanAttribute, userBean);
+		return "admin/admin-profile";
+	}
+	
+	
 }

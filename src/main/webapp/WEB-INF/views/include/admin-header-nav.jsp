@@ -1,6 +1,6 @@
 <link rel="stylesheet"
 	href="<c:url value="/assets/css/admincss/admin-menu.css"/>">
-<c:set var="path" value ="${pageContext.request.getContextPath() }"/>
+<c:set var="path" value="${pageContext.request.getContextPath() }" />
 <!-- Admin menu vertical -->
 <nav id="sidebar">
 	<div class="p-4">
@@ -9,13 +9,13 @@
 			class="p-1 w-100">
 		</a>
 		<ul class="list-unstyled components mb-5">
-			<li class="active"><a href="#managerSubmenu" type="button"
+			<li class="active"><a href="#" type="button"
 				data-bs-toggle="collapse" aria-expanded="false"
-				class="navbar-toggle" data-bs-target="#managerSubmenu"><button
+				class="navbar-toggle" data-bs-target="#manager-menu"><button id="manager-collapse"
 						class="btn btn-outline-success p-4 border-0 w-100 text-start">
 						<i class="pe-2 ti-layout-menu-v"></i>Manager
 					</button></a>
-				<ul class="collapse show list-unstyled " id="managerSubmenu">
+				<ul class="collapse list-unstyled " id="manager-menu">
 					<li><a href="${path }/admin/overview.htm"><button
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-pie-chart"></i>Overview
@@ -24,19 +24,36 @@
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-light-bulb"></i>User
 							</button></a></li>
-					<li class="nav-item w-100"><a href="${path }/admin/voucher.htm"><button
+					<li class="nav-item w-100"><a
+						href="${path }/admin/voucher.htm"><button
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-ticket"></i>Voucher
 							</button></a></li>
-					<li class="nav-item w-100"><a href="${path }/admin/category.htm"><button
+					<li class="nav-item w-100"><a
+						href="${path }/admin/category.htm"><button
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-briefcase"></i>Category
 							</button></a></li>
 				</ul></li>
-			<li><a href="${path}/admin/info.htm"><button
-						class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
+			<li><a href="#" type="button" data-bs-toggle="collapse"
+				aria-expanded="false" class="navbar-toggle"
+				data-bs-target="#info-account"><button id="info-account-collaspe"
+						class="btn btn-outline-success p-4 border-0 w-100 text-start">
 						<i class="pe-2 ti-light-bulb"></i>About Admin
-					</button></a></li>
+					</button></a>
+
+
+				<ul class="collapse list-unstyled" id="info-account">
+					<li class="nav-item w-100"><a href="${path}/admin/info.htm"><button
+								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
+								<i class="pe-2 ti-user"></i>Profile
+							</button></a></li>
+					<li class="nav-item w-100"><a href="${path}/admin/address.htm"><button
+								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
+								<i class="pe-2 ti-map"></i>Address
+							</button></a></li>
+				</ul></li>
+
 			<li><a href="${path }/admin/logout.htm"><button
 						class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 						<i class="pe-2 ti-power-off"></i>Logout
@@ -46,13 +63,25 @@
 		<script>
 			var currentUrl = window.location.pathname;
 			var buttons = document.querySelectorAll('.btn-hover-nav');
-		
+
 			for (var i = 0; i < buttons.length; i++) {
 				var button = buttons[i];
 				var href = button.parentElement.getAttribute('href');
-				href=href.slice(0, -4);
+				href = href.slice(0, -4);
 				if (currentUrl.includes(href)) {
 					button.classList.add('active');
+					var parentSub = button.parentElement.parentElement.parentElement;
+					parentSub.classList.add('show')
+					if(parentSub.id == 'info-account')
+						{
+							var element = document.getElementById('info-account-collaspe');
+							element.classList.add('active');
+						}
+					else
+						{
+							var element = document.getElementById('manager-collapse');
+							element.classList.add('active');
+						}
 				} else {
 					button.classList.remove('active');
 				}

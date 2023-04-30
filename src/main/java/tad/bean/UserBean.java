@@ -38,6 +38,13 @@ public class UserBean {
 		avatarDir = "";
 	}
 
+	public UserBean(String email, String firstName, String lastName, String phoneNumber) {
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phoneNumber = phoneNumber;
+	}
+
 	public String getEmail() {
 		return email;
 	}

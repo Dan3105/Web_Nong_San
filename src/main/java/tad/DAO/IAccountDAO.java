@@ -24,4 +24,6 @@ public interface IAccountDAO {
 	public ArrayList<Account> GetListAccountWithRole(EnumRoleID roleID);
 
 	public boolean UpdateAccount(Account account);
+	
+	public boolean DeleteAccount(Account account);
 }
