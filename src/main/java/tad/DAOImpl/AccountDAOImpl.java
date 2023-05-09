@@ -117,6 +117,12 @@ public class AccountDAOImpl implements IAccountDAO {
 	}
 
 	@Override
+	public void FindAddressUser(Account account) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public boolean AddUserToDB(Account acc) {
 		// TODO Auto-generated method stub
 

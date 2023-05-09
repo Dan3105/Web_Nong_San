@@ -121,6 +121,29 @@ public class AddressDatasBean {
 
 		// constructor, getters and setters
 	}
+	
+	public class AddressUserBeanSelection
+	{
+		private WardBean ward;
+		private String nameDescription;
+		public WardBean getWard() {
+			return ward;
+		}
+		public void setWard(WardBean ward) {
+			this.ward = ward;
+		}
+		public String getNameDescription() {
+			return nameDescription;
+		}
+		public void setNameDescription(String nameDescription) {
+			this.nameDescription = nameDescription;
+		}
+		public AddressUserBeanSelection(WardBean ward, String nameDescription) {
+			this.ward = ward;
+			this.nameDescription = nameDescription;
+		}
+		
+	}
 
 	public AddressBean ConvertToDataAddressBean(ArrayList<Province> provinceList) {
 		AddressBean datasAddress = new AddressBean();
@@ -142,6 +165,7 @@ public class AddressDatasBean {
 		}
 		return datasAddress;
 	}
+	
 	public AddressDatasBean()
 	{
 		

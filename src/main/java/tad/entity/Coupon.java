@@ -26,8 +26,6 @@ public class Coupon {
 	@Column(name = "CouponID", unique = true, nullable = false)
 	private int couponId;
 
-	@Column(name = "TypeCoupon", nullable = false)
-	private boolean typeCoupon;
 
 	@Column(name = "Name", nullable = false)
 	private String name;

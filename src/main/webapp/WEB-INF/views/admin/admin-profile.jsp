@@ -1,14 +1,15 @@
 <%@include file="/WEB-INF/views/include/admin-header.jsp"%>
+
 <body>
 	<%@include file="/WEB-INF/views/include/admin-header-nav.jsp"%>
 	<div class="d-flex align-items-center justify-content-center w-100"
 		style="height: 75vh">
-		<form:form method="post" action="save-profile.htm"
+		<form:form method="post" action="profile.htm"
 			modelAttribute="userbean"
 			class="border-1 rounded-3 border-primary container rounded bg-white m-0"
 			style="border: solid" enctype="multipart/form-data">
 			<div class="row">
-
+				<form:input type="hidden" path="password" />
 				<div class="col-md-8 border-right">
 					<div class="p-3 py-5">
 						<div
@@ -46,8 +47,15 @@
 
 						</div>
 						<div class="mt-5 text-center">
-							<button class="btn btn-primary profile-button" type="button">Save
-								Profile</button>
+							<button class="btn btn-primary profile-button" name="update"
+								type="submit">Save Profile</button>
+							<c:if test="${message eq false }">
+								<p class="mt-2 fw-semibold fs-6 text-danger">Failed in saving profile</p>
+							</c:if>
+							<c:if test="${message eq true }">
+								<p class="mt-2 fw-semibold fs-6 text-success">Success in saving profile</p>
+							</c:if>
+
 						</div>
 					</div>
 				</div>
@@ -55,13 +63,16 @@
 					<div
 						class="d-flex flex-column align-items-center text-center p-3 py-5">
 						<img class="rounded-circle mt-5" width="150px"
-							src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
+							src="<c:url value="/assets/img/account/${user.avatar}"/>"
+							onerror=" 	this.onerror = null;
+										this.src='https://i.pinimg.com/474x/66/da/e1/66dae117263cc353d351949bcc76e1e4.jpg';" /><span
 							class="font-weight-bold">Edogaru</span><span
 							class="text-black-50">${userbean.email }</span><span> </span>
 					</div>
-					<div class="mt-3 mb-3">
+					<div
+						class="d-flex justify-content-center align-items-center mt-3 mb-3">
 						<label for="avatar">Avatar:</label>
-						<form:input type="file" class="form-control-file" id="avatar"
+						<form:input type="file" class="form-control-file ps-2" id="avatar"
 							path="avatar" accept="image/*" />
 						<form:errors class="text-danger" path="avatar" />
 					</div>
@@ -73,50 +84,3 @@
 	</div>
 </body>
 </html>
-
-<%-- <div class="col-md-12 mt-2">
-							<p class="m-1">Address 1</p>
-							<div class="col-md-12 border-info border-1" style="border: solid">
-								<div class="m-2 p-2">
-									<div class="form-group row">
-										<div class="col-md-6">
-											<label for="province">Province:</label> <select
-												class="form-control" id="province">
-												<option value="">-- Select Province --</option>
-												<c:forEach items="${address.provinceBean}" var="province">
-													<option value="${province.id}">${province.name}</option>
-												</c:forEach>
-											</select>
-										</div>
-										<div class="col-md-6">
-											<label for="district">District:</label> <select
-												class="form-control" id="district">
-												<option value="">-- Select District --</option>
-												<c:forEach items="${address.districtBean}" var="district">
-													<option value="${district.id}"
-														data-province="${district.province.id}">${district.name}</option>
-												</c:forEach>
-											</select>
-										</div>
-
-									</div>
-									<div class="form-group">
-										<label for="ward">Ward:</label> <select class="form-control"
-											id="ward">
-											<option value="">-- Select Ward --</option>
-											<c:forEach items="${address.wardBean}" var="ward">
-												<option value="${ward.id}"
-													data-district="${ward.district.id}">${ward.name}</option>
-											</c:forEach>
-										</select>
-									</div>
-									<label class="labels">Address Line 1</label><input type="text"
-										class="form-control" placeholder="enter address line 1"
-										value="">
-									<!-- <script>lazyLoading()</script> -->
-								</div>
-
-							</div>
-						</div>
-
- --%>

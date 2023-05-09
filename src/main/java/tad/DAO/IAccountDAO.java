@@ -26,4 +26,6 @@ public interface IAccountDAO {
 	public boolean UpdateAccount(Account account);
 	
 	public boolean DeleteAccount(Account account);
+
+	public void FindAddressUser(Account account);
 }

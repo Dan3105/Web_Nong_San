@@ -72,7 +72,7 @@ public class GuestController {
 	@RequestMapping(value = "guest-register", method = RequestMethod.POST)
 	public String register(@Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user, BindingResult errors, ModelMap modelMap) {
 		if (!errors.hasErrors()) {
-			String avatarDir = "";
+
 			if (!user.getAvatar().isEmpty()) {
 				if (convertHandler.MoveMultipartToDirectory(user.getAvatar(), uploadFile.getPath())) {
 					user.setAvatarDir(convertHandler.SetImageNameViaMultipartFile(user.getAvatar()));
@@ -81,11 +81,7 @@ public class GuestController {
 
 			Role role = accountDAO.GetRoleViaEnum(EnumRoleID.GUEST);
 			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
-					user.getPhoneNumber(), avatarDir, user.getPassword());
-
-			if (!user.getAvatarDir().isEmpty()) {
-				account.setAvatar(user.getAvatarDir());
-			}
+					user.getPhoneNumber(), user.getAvatarDir(), user.getPassword());
 
 			if (accountDAO.AddUserToDB(account)) {
 

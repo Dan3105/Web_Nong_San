@@ -26,6 +26,9 @@ function lazyLoading() {
 		};
 	});
 
+	districtSelect.options.length = 1;
+	wardSelect.options.length = 1;
+
 	provinceSelect.addEventListener('change', function() {
 		//Get ID Province
 		let selectedProvince = provinceSelect.value;

@@ -44,7 +44,7 @@
 
 
 				<ul class="collapse list-unstyled" id="info-account">
-					<li class="nav-item w-100"><a href="${path}/admin/info.htm"><button
+					<li class="nav-item w-100"><a href="${path}/admin/profile.htm"><button
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-user"></i>Profile
 							</button></a></li>
@@ -113,7 +113,7 @@
 						href="#" class="nav-link text-body pe-4"> <i
 							class="ti-bell fs-4 cursor-pointer"></i>
 					</a></li>
-					<li><a href="overview.htm"> <img
+					<li><a href="${path}/admin/profile.htm"> <img
 							class="d-block rounded-pill w-100"
 							style="max-width: 50px; min-width: 30px;"
 							src="<c:url value="/assets/img/account/${user.avatar}"/>"

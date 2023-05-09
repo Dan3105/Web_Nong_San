@@ -16,13 +16,13 @@
 						<div class="card-body p-md-5">
 							<div class="row justify-content-center">
 								<div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-
+						
 									<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign
 										up</p>
 									<p class="text-danger">${message }</p>
 									<form:form class="mx-1 mx-md-4" method="post"
 										modelAttribute="userbean" enctype="multipart/form-data">
-
+										
 										<div class="form-group mt-3 mb-3">
 											<label for="email">Email:</label>
 											<form:input type="email" class="form-control" id="email"
@@ -66,7 +66,7 @@
 												path="avatar" accept="image/*" />
 											<form:errors class="text-danger" path="avatar" />
 										</div>
-										<button type="submit" class="btn btn-primary">Submit</button>
+										<button name="update" type="submit" class="btn btn-primary">Submit</button>
 
 									</form:form>
 

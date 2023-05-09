@@ -23,7 +23,7 @@ public class Address {
 	@Column(name = "AddressID", unique = true, nullable = false)
 	private int addressId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "WardID", nullable = false)
 	private Ward ward;
 
