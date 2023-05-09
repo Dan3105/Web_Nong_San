@@ -66,7 +66,6 @@ public class Coupon {
 	public Coupon(int couponId, boolean typeCoupon, String name, double discount, Date postingDate, Date expiryDate,
 			int quantity, boolean status) {
 		this.couponId = couponId;
-		this.typeCoupon = typeCoupon;
 		this.name = name;
 		this.discount = discount;
 		this.postingDate = postingDate;
@@ -78,7 +77,6 @@ public class Coupon {
 	public Coupon(int couponId, boolean typeCoupon, String name, double discount, Date postingDate, Date expiryDate,
 			int quantity, String detail, boolean status, Set<OrderDetail> orderDetails, Set<Product> products) {
 		this.couponId = couponId;
-		this.typeCoupon = typeCoupon;
 		this.name = name;
 		this.discount = discount;
 		this.postingDate = postingDate;
@@ -98,13 +96,6 @@ public class Coupon {
 		this.couponId = couponId;
 	}
 
-	public boolean isTypeCoupon() {
-		return this.typeCoupon;
-	}
-
-	public void setTypeCoupon(boolean typeCoupon) {
-		this.typeCoupon = typeCoupon;
-	}
 
 	public String getName() {
 		return this.name;
