@@ -11,7 +11,8 @@
 		<ul class="list-unstyled components mb-5">
 			<li class="active"><a href="#" type="button"
 				data-bs-toggle="collapse" aria-expanded="false"
-				class="navbar-toggle" data-bs-target="#manager-menu"><button id="manager-collapse"
+				class="navbar-toggle" data-bs-target="#manager-menu"><button
+						id="manager-collapse"
 						class="btn btn-outline-success p-4 border-0 w-100 text-start">
 						<i class="pe-2 ti-layout-menu-v"></i>Manager
 					</button></a>
@@ -23,6 +24,10 @@
 					<li class="nav-item w-100"><a href="${path }/admin/user.htm"><button
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-light-bulb"></i>User
+							</button></a></li>
+					<li class="nav-item w-100"><a href="${path }/admin/orders.htm"><button
+								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
+								<i class="pe-2 ti-light-bulb"></i>Orders
 							</button></a></li>
 					<li class="nav-item w-100"><a
 						href="${path }/admin/voucher.htm"><button
@@ -37,7 +42,8 @@
 				</ul></li>
 			<li><a href="#" type="button" data-bs-toggle="collapse"
 				aria-expanded="false" class="navbar-toggle"
-				data-bs-target="#info-account"><button id="info-account-collaspe"
+				data-bs-target="#info-account"><button
+						id="info-account-collaspe"
 						class="btn btn-outline-success p-4 border-0 w-100 text-start">
 						<i class="pe-2 ti-light-bulb"></i>About Admin
 					</button></a>
@@ -72,16 +78,15 @@
 					button.classList.add('active');
 					var parentSub = button.parentElement.parentElement.parentElement;
 					parentSub.classList.add('show')
-					if(parentSub.id == 'info-account')
-						{
-							var element = document.getElementById('info-account-collaspe');
-							element.classList.add('active');
-						}
-					else
-						{
-							var element = document.getElementById('manager-collapse');
-							element.classList.add('active');
-						}
+					if (parentSub.id == 'info-account') {
+						var element = document
+								.getElementById('info-account-collaspe');
+						element.classList.add('active');
+					} else {
+						var element = document
+								.getElementById('manager-collapse');
+						element.classList.add('active');
+					}
 				} else {
 					button.classList.remove('active');
 				}

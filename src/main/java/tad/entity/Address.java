@@ -8,8 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -30,28 +28,27 @@ public class Address {
 	@Column(name = "Name")
 	private String name;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "AddressAccount", joinColumns = {
-			@JoinColumn(name = "AddressID", nullable = false, updatable = true) }, inverseJoinColumns = {
-					@JoinColumn(name = "AccountID", nullable = false, updatable = true) })
-	private Set<Account> accounts = new HashSet<Account>(0);
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="AccountID", nullable = false)
+	private Account account;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "address")
-	private Set<Order> orders = new HashSet<Order>(0);
+	private Set<Orders> orders = new HashSet<Orders>(0);
 	
 	public Address() {
+		
 	}
 
-	public Address(int addressId, Ward ward) {
-		this.addressId = addressId;
+	public Address(Ward ward, Account account) {
 		this.ward = ward;
+		this.account = account;
+		
 	}
 
-	public Address(int addressId, Ward ward, String name, Set<Account> accounts) {
+	public Address(int addressId, Ward ward, String name) {
 		this.addressId = addressId;
 		this.ward = ward;
 		this.name = name;
-		this.accounts = accounts;
 	}
 
 	public int getAddressId() {
@@ -78,12 +75,14 @@ public class Address {
 		this.name = name;
 	}
 
-	public Set<Account> getAccounts() {
-		return this.accounts;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setAccounts(Set<Account> accounts) {
-		this.accounts = accounts;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
+
+
 
 }

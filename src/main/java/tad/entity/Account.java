@@ -9,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -47,11 +46,11 @@ public class Account {
 	@Column(name = "Password", nullable = false)
 	private String password;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "accounts")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Address> addresses = new HashSet<Address>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	private Set<Order> orders = new HashSet<Order>(0);
+	private Set<Orders> orders = new HashSet<Orders>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Coupon> coupons = new HashSet<Coupon>(0);
@@ -84,7 +83,7 @@ public class Account {
 	}
 
 	public Account(int accountId, Role role, String lastName, String firstName, String email, String phoneNumber,
-			String avatar, int status, String password, Set<Address> addresses, Set<Order> orders, Set<Coupon> coupons,
+			String avatar, int status, String password, Set<Address> addresses, Set<Orders> orders, Set<Coupon> coupons,
 			Set<Product> products, Set<Feedback> feedbacks, Set<Comment> comments, Set<Cart> carts) {
 		this.accountId = accountId;
 		this.role = role;
@@ -181,6 +180,7 @@ public class Account {
 	}
 
 	public Set<Address> getAddresses() {
+
 		return addresses;
 	}
 
@@ -188,11 +188,11 @@ public class Account {
 		this.addresses = addresses;
 	}
 
-	public Set<Order> getOrders() {
+	public Set<Orders> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(Set<Order> orders) {
+	public void setOrders(Set<Orders> orders) {
 		this.orders = orders;
 	}
 

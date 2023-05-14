@@ -6,11 +6,12 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.transaction.annotation.Transactional;
 
 import tad.DAO.IAccountDAO;
 import tad.entity.Account;
 import tad.entity.Role;
-
+@Transactional
 public class AccountDAOImpl implements IAccountDAO {
 	@Override
 	public boolean DeleteAccount(Account account) {
@@ -102,7 +103,7 @@ public class AccountDAOImpl implements IAccountDAO {
 		Transaction t = session.beginTransaction();
 		try {
 
-			session.update(account);
+			session.saveOrUpdate(account);
 			t.commit();
 			return true;
 

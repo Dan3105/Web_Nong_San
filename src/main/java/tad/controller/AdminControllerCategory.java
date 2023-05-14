@@ -24,14 +24,11 @@ public class AdminControllerCategory {
 	@Autowired
 	private SessionFactory factory;
 
-	
-
 	@Autowired
 	private ICategoryDAO categoryDAO;
 
 	@RequestMapping()
 	public String gCategoryList(ModelMap model) throws InterruptedException {
-		Thread.sleep(300);
 		ArrayList<CategoryBean> categories = CategoryBean.ConvertListCategory(categoryDAO.GetListCategories());
 		model.addAttribute("list", categories);
 
@@ -107,9 +104,9 @@ public class AdminControllerCategory {
 				return "redirect:/admin/category.htm";
 			} else {
 				if (categoryDAO.DeleteCategory(category)) {
-					model.addAttribute("success-description", "XÃ³a thÃ nh cÃ´ng");
+					model.addAttribute("success-description", "Xóa thành công");
 				} else {
-					model.addAttribute("error-description", "Ä�Ã£ cÃ³ lá»—i trong viá»‡c xÃ³a!");
+					model.addAttribute("error-description", "Xóa thất bại!");
 				}
 			}
 		}

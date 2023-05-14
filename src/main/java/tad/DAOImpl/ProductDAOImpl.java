@@ -3,22 +3,24 @@ package tad.DAOImpl;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import tad.DAO.IProductDAO;
+import tad.entity.Account;
+import tad.entity.Category;
 import tad.entity.Product;
 
 @Transactional
 public class ProductDAOImpl implements IProductDAO {
+
 	@Autowired
 	private SessionFactory sessionFactory;
-
-	public ProductDAOImpl() {
-	}
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
@@ -40,16 +42,58 @@ public class ProductDAOImpl implements IProductDAO {
 
 	@Override
 	public boolean insert(Product product) {
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			session.save(product);
+			t.commit();
+			return true;
+		} catch (Exception ex) {
+			System.out.println(ex);
+			ex.printStackTrace();
+			t.rollback();
+		} finally {
+			session.close();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean update(Product product) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+
+			session.update(product);
+			t.commit();
+			return true;
+
+		} catch (Exception e) {
+			System.out.println(e);
+			t.rollback();
+		} finally {
+			session.close();
+
+		}
 		return false;
 	}
 
 	@Override
 	public boolean delete(Product product) {
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			session.delete(product);
+			t.commit();
+			return true;
+
+		} catch (Exception e) {
+			t.rollback();
+			System.out.println(e);
+		} finally {
+			session.close();
+		}
 		return false;
 	}
 
@@ -83,6 +127,44 @@ public class ProductDAOImpl implements IProductDAO {
 		List<Product> list = session.createQuery(hql).list();
 
 		return list;
+	}
+
+	@Override
+	public Account FetchProductsAccount(Account account) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		Account taccount = null;
+
+		try {
+			taccount = (Account) session.get(Account.class, account.getAccountId());
+			Hibernate.initialize(taccount.getProducts());
+			tx.commit();
+
+		} catch (Exception e) {
+			tx.rollback();
+			System.out.println("Fetch Products occur error");
+			System.out.println(e);
+		} finally {
+			session.close();
+		}
+
+		return taccount == null ? account : taccount;
+	}
+
+	@Override
+	public Product GetProduct(int id) {
+		String hql = "FROM Product WHERE id = :id";
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		query.setParameter("id", id);
+		Product product = null;
+		try {
+			product = (Product) query.uniqueResult();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return product;
 	}
 
 }

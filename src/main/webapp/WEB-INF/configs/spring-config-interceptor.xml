@@ -33,6 +33,13 @@
 			<mvc:exclude-mapping path="/guest/logout.htm" />
 			<bean class="tad.interceptor.GuestInterceptor" />
 		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<!-- Đã đăng nhập thì KHÔNG được truy cập URL bên dưới -->
+			<mvc:mapping path="/employee/**" />
+			<mvc:exclude-mapping path="/employee/logout.htm" />
+			<bean class="tad.interceptor.EmployeeInterceptor" />
+		</mvc:interceptor>
 	</mvc:interceptors>
 
 

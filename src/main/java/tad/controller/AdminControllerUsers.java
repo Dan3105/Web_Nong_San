@@ -53,7 +53,7 @@ public class AdminControllerUsers {
 	@RequestMapping(value="enable{id}")
 	public String gEnableStatusUser(@PathVariable("id") int id, ModelMap modelMap,
 			@RequestParam("source") String source) {
-		System.out.println(id);
+	
 		Account acc = accountDAO.GetUser(id);
 		if (acc != null) {
 			System.out.println(acc.getStatus());

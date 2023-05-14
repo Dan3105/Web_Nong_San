@@ -14,6 +14,7 @@ import tad.DAO.IAddressDAO;
 import tad.entity.Account;
 import tad.entity.Address;
 import tad.entity.Province;
+import tad.entity.Ward;
 
 public class AddressDAOImpl implements IAddressDAO {
 
@@ -31,19 +32,20 @@ public class AddressDAOImpl implements IAddressDAO {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-
+		Account taccount = null;
 		try {
-			Account acc = (Account) session.get(Account.class, account.getAccountId());
-			Hibernate.initialize(acc.getAddresses());
+			taccount = (Account) session.get(Account.class, account.getAccountId());
+			Hibernate.initialize(taccount.getAddresses());
 			tx.commit();
-			return acc;
+			
 		} catch (Exception e) {
 			tx.rollback();
+			System.out.println("Fetch Address occur error");
 			System.out.println(e);
 		} finally {
 			session.close();
 		}
-		return null;
+		return taccount == null ? account : taccount;
 	}
 
 	@Override
@@ -59,8 +61,26 @@ public class AddressDAOImpl implements IAddressDAO {
 	@Override
 	public boolean CreateAddress(Account account, Address address) {
 		// TODO Auto-generated method stub
-		account.getAddresses().add(address);
-		return accountDAO.UpdateAccount(account);
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			session.save(address);
+			t.commit();
+			session.close();
+			
+			account = FetchAddressAccount(account);
+			account.getAddresses().add(address);
+
+			return accountDAO.UpdateAccount(account);
+		} catch (Exception ex) {
+			t.rollback();
+			System.out.println("Create Address occur error");
+			System.out.println(ex);
+		} finally {
+			if (session.isOpen())
+				session.close();
+		}
+		return false;
 	}
 
 	@Override
@@ -117,6 +137,23 @@ public class AddressDAOImpl implements IAddressDAO {
 			System.out.println(e);
 		}
 		return add;
+	}
+
+	@Override
+	public Ward GetWard(int id) {
+		// TODO Auto-generated method stub
+		String hql = "From Ward where WardID = :id";
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		query.setParameter("id", id);
+
+		Ward ward = null;
+		try {
+			ward = (Ward) query.uniqueResult();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return ward;
 	}
 
 }

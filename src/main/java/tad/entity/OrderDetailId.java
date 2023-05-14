@@ -16,16 +16,13 @@ public class OrderDetailId implements Serializable {
 	private int productId;
 	@Column(name = "OrderID", nullable = false)
 	private int orderId;
-	@Column(name = "CouponID", nullable = false)
-	private int couponId;
 
 	public OrderDetailId() {
 	}
 
-	public OrderDetailId(int productId, int orderId, int couponId) {
+	public OrderDetailId(int productId, int orderId) {
 		this.productId = productId;
 		this.orderId = orderId;
-		this.couponId = couponId;
 	}
 
 	public int getProductId() {
@@ -42,14 +39,6 @@ public class OrderDetailId implements Serializable {
 
 	public void setOrderId(int orderId) {
 		this.orderId = orderId;
-	}
-
-	public int getCouponId() {
-		return this.couponId;
-	}
-
-	public void setCouponId(int couponId) {
-		this.couponId = couponId;
 	}
 
 }

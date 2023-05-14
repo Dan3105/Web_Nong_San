@@ -3,6 +3,7 @@ package tad.DAO;
 import java.util.Date;
 import java.util.List;
 
+import tad.entity.Account;
 import tad.entity.Product;
 
 public interface IProductDAO {
@@ -22,4 +23,7 @@ public interface IProductDAO {
 
 	boolean delete(Product product);
 
+	public Product GetProduct(int id);
+	
+	public Account FetchProductsAccount(Account acc);
 }

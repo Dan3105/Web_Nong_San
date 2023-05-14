@@ -27,6 +27,11 @@
 		<property name="path"
 			value="E:\Ptit\Web_Nong_San\src\main\webapp\assets\img\category\"></property>
 	</bean>
+	
+	<bean id="productImgDir" class="tad.bean.UploadFile">
+		<property name="path"
+			value="E:\Ptit\Web_Nong_San\src\main\webapp\assets\img\products\"></property>
+	</bean>
 </beans>
 
 

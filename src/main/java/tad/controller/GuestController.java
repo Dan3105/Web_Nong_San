@@ -38,12 +38,17 @@ public class GuestController {
 
 	@RequestMapping(params = "guest-login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("user") LoginBean user, ModelMap modelMap, HttpSession session) {
-
 		Account ValidateAdmin = accountDAO.FindUserByEmail(user.getUsername());
+
 		if (ValidateAdmin != null && ValidateAdmin.getPassword().equals(user.getPassword())) {
-			if (ValidateAdmin.getRole().getRoleId().equals("ADMIN")) {
+			if (ValidateAdmin.getRole().getRoleId().equals(EnumRoleID.ADMIN.toString())) {
 				session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin);
 				return "redirect:admin/";
+			}
+			else if(ValidateAdmin.getRole().getRoleId().equals(EnumRoleID.EMPLOYEE.toString()))
+			{
+				session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin);
+				return "redirect:employee/";
 			}
 			return "redirect:/";
 		}

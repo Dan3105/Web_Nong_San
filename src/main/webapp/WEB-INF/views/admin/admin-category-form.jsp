@@ -12,7 +12,7 @@
 		<c:set var="nameBean" value="updateBean"/>
 		<c:set var="actionString" value="update.htm" />
 	</c:if>
-	<p>${nameBean }</p>
+
 	<form:form class="w-75" action="${actionString }" method="post"
 		modelAttribute="${nameBean }" enctype="multipart/form-data">
 		<form:input type="hidden" path="id"/> 
@@ -23,7 +23,7 @@
 		</div>
 		<div class="form-group">
 			<p>Current Image Display</p>
-			<img src="<c:url value="/assets/img/category/${crrBean.image}"/>"
+			<img class="width-100" src="<c:url value="/assets/img/category/${crrBean.image}"/>"
 				alt="Image not found" />
 		</div>
 

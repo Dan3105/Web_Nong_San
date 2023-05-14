@@ -22,29 +22,29 @@ public class OrderDetail {
 	@AttributeOverrides({
 			@AttributeOverride(name = "productId", column = @Column(name = "ProductID", nullable = false)),
 			@AttributeOverride(name = "orderId", column = @Column(name = "OrderID", nullable = false)),
-			@AttributeOverride(name = "couponId", column = @Column(name = "CouponID", nullable = false)) })
+			})
 	private OrderDetailId id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "OrderID", nullable = false, insertable = false, updatable = false)
-	private Order order;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CouponID", nullable = false, insertable = false, updatable = false)
-	private Coupon coupon;
+	private Orders order;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
 	private Product product;
 
+	@JoinColumn(name="Quantity", nullable = false)
+	private int quantity;
+	
 	public OrderDetail() {
+		quantity =0;
 	}
 
-	public OrderDetail(OrderDetailId id, Order order, Coupon coupon, Product product) {
+	public OrderDetail(OrderDetailId id, Orders order, Product product, int quantity) {
 		this.id = id;
 		this.order = order;
-		this.coupon = coupon;
 		this.product = product;
+		this.quantity = quantity;
 	}
 
 	public OrderDetailId getId() {
@@ -55,20 +55,12 @@ public class OrderDetail {
 		this.id = id;
 	}
 
-	public Order getOrder() {
+	public Orders getOrder() {
 		return this.order;
 	}
 
-	public void setOrder(Order order) {
+	public void setOrder(Orders order) {
 		this.order = order;
-	}
-
-	public Coupon getCoupon() {
-		return this.coupon;
-	}
-
-	public void setCoupon(Coupon coupon) {
-		this.coupon = coupon;
 	}
 
 	public Product getProduct() {
@@ -77,6 +69,14 @@ public class OrderDetail {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 }

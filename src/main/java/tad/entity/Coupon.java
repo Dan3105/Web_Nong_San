@@ -4,12 +4,13 @@ package tad.entity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,6 +24,7 @@ import javax.persistence.TemporalType;
 @Table(name = "Coupon", schema = "dbo", catalog = "DB_Tad")
 public class Coupon {
 	@Id
+	@GeneratedValue
 	@Column(name = "CouponID", unique = true, nullable = false)
 	private int couponId;
 
@@ -54,9 +56,6 @@ public class Coupon {
 	@JoinColumn(name = "AccountID", nullable = false, updatable = true)
 	private Account account;
 	
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
-	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
 	private Set<Product> products = new HashSet<Product>(0);
 
@@ -75,7 +74,7 @@ public class Coupon {
 	}
 
 	public Coupon(int couponId, boolean typeCoupon, String name, double discount, Date postingDate, Date expiryDate,
-			int quantity, String detail, boolean status, Set<OrderDetail> orderDetails, Set<Product> products) {
+			int quantity, String detail, boolean status, Set<Product> products) {
 		this.couponId = couponId;
 		this.name = name;
 		this.discount = discount;
@@ -84,7 +83,6 @@ public class Coupon {
 		this.quantity = quantity;
 		this.detail = detail;
 		this.status = status;
-		this.orderDetails = orderDetails;
 		this.products = products;
 	}
 
@@ -146,22 +144,13 @@ public class Coupon {
 		this.detail = detail;
 	}
 
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return this.status;
 	}
 
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-
-	public Set<OrderDetail> getOrderDetails() {
-		return this.orderDetails;
-	}
-
-	public void setOrderDetails(Set<OrderDetail> orderDetails) {
-		this.orderDetails = orderDetails;
-	}
-
 	
 	public Set<Product> getProducts() {
 		return this.products;
@@ -169,6 +158,14 @@ public class Coupon {
 
 	public void setProducts(Set<Product> products) {
 		this.products = products;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 }
