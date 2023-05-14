@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import net.sf.cglib.core.Local;
 import tad.bean.Company;
+import tad.dao.AccountDAO;
 import tad.dao.CategoryDAO;
 import tad.dao.CouponDAO;
 import tad.dao.ProductDAO;
-import tad.entities.Category;
-import tad.entities.Coupon;
-import tad.entities.Product;
+import tad.entity.Category;
+import tad.entity.Coupon;
+import tad.entity.Product;
+import tad.entity.Account;
 
 @Controller
 public class HomeController {
@@ -32,9 +34,11 @@ public class HomeController {
 	private CategoryDAO categoryDAO;
 	@Autowired
 	private CouponDAO couponDAO;
+	@Autowired
+	private AccountDAO accountDAO;
 
 	@RequestMapping("index")
-	public String index(ModelMap modelMap) {
+	public String index(ModelMap modelMap, HttpSession session) {
 		// Slider + Banner
 		modelMap.addAttribute("company", company);
 
@@ -47,15 +51,16 @@ public class HomeController {
 		List<Product> products = productDAO.listProductsWithCoupon();
 		modelMap.addAttribute("products", products);
 
+		Account user = (Account) session.getAttribute("account");
+		int userId = user == null ? -1 : user.getAccountID();
+
 		return "page/home";
 	}
 
 	@RequestMapping("searchFood")
-
-	public String searchFood(@RequestParam(required = false, value = "search") String search, ModelMap modelMap) {
+	public String search(@RequestParam(required = false, value = "search") String search, ModelMap modelMap) {
 		modelMap.addAttribute("company", company);
 		List<Product> products = productDAO.filterProductByName(search);
-
 		// Data from SQL
 		modelMap.addAttribute("products", products);
 		return "page/search";
@@ -65,10 +70,24 @@ public class HomeController {
 	@RequestMapping("wishlist")
 	public String wishlist(ModelMap modelMap, HttpSession session) {
 		modelMap.addAttribute("company", company);
-
 		// Data from SQL
 		return "page/wishlist";
 
+	}
+
+	@RequestMapping("login")
+	public String login(HttpSession session) {
+		// Fake login vào tài khoản số 1
+		Account account = accountDAO.getAccount(1);
+		System.out.println(account.getLastName() + " " + account.getAccountID());
+		session.setAttribute("account", account);
+		return "page/home";
+	}
+
+	@RequestMapping("logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("account");
+		return "page/home";
 	}
 
 }

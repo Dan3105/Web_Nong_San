@@ -52,40 +52,44 @@
 										<th><s:message code="cart.remove" /></th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td class="align-middle">
-											<div class="d-flex align-items-center">
-												<div class="image">
-													<a href="#"><img
-														src="assets/img/products/product-img-1.jpg"
-														class="icon-shape" alt=""> </a>
+								<c:forEach var="c" items="${carts }">
+									<tbody>
+										<tr>
+											<td class="align-middle">
+												<div class="d-flex align-items-center">
+													<div class="image">
+														<a href="#"><img
+															src="assets/img/products/product-img-1.jpg"
+															class="icon-shape" alt=""> </a>
+													</div>
+													<div class="text">
+														<h5 class="fs-6 mb-0">
+															<a href="#" class="text-inherit">${c.products.productName }</a>
+														</h5>
+														<small>${c.products.price }</small>
+													</div>
 												</div>
-												<div class="text">
-													<h5 class="fs-6 mb-0">
-														<a href="#" class="text-inherit">Organic Banana</a>
-													</h5>
-													<small>$.98 / lb</small>
-												</div>
-											</div>
 
 
-										</td>
+											</td>
 
-										<td class="align-middle">$35.00</td>
-										<td class="align-middle"><span class="badge bg-success">In
-												Stock</span></td>
-										<td class="align-middle">
-											<div class="btn btn-primary btn-sm">Add to Cart</div>
-										</td>
-										<td class="align-middle "><a href="#" class="text-muted"
-											data-bs-toggle="tooltip" data-bs-placement="top"
-											aria-label="Delete" data-bs-original-title="Delete"> <i
-												class="bi bi-trash"></i>
-										</a></td>
-									</tr>
+											<td class="align-middle">${c.products.price }</td>
+											<td class="align-middle"><span class="badge bg-success">In
+													Stock</span></td>
+											<td class="align-middle">
+												<div class="btn btn-primary btn-sm">Add to Cart</div>
+											</td>
+											<td class="align-middle "><a href="#" class="text-muted"
+												data-bs-toggle="tooltip" data-bs-placement="top"
+												aria-label="Delete" data-bs-original-title="Delete"> <i
+													class="bi bi-trash"></i>
+											</a></td>
+										</tr>
 
-								</tbody>
+									</tbody>
+
+								</c:forEach>
+
 							</table>
 						</div>
 

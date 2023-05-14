@@ -22,3 +22,19 @@ $('.owl-carousel').owlCarousel({
 
 var myAlert = document.getElementById('alert-btn')
 var bsAlert = new bootstrap.Alert(myAlert)
+
+const toastTrigger = document.querySelectorAll('.liveToastBtn')
+const toastLiveExample = document.getElementById('liveToast')
+
+
+toastTrigger.forEach((element) => {
+
+	element.onclick = function() {
+		element.addEventListener('click', () => {
+			const toast = new bootstrap.Toast(toastLiveExample);
+			toast.show();
+		})
+
+
+	}
+});

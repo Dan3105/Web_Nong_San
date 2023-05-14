@@ -1,60 +1,83 @@
 package tad.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import tad.bean.Cart;
+import tad.bean.Company;
+import tad.dao.AccountDAO;
+import tad.dao.CartDAO;
+import tad.dao.CategoryDAO;
+import tad.entity.Account;
+import tad.entity.Cart;
+import tad.entity.Category;
 
 @Controller
-@RequestMapping("card")
+@RequestMapping("cart")
+
 public class CartController {
-	@RequestMapping(value = "add/{productId}.htm")
-	public String addView(ModelMap modelMap, HttpSession session, @PathVariable("productID") int productID) {
-		@SuppressWarnings("unchecked")
-		HashMap<Integer, Cart> cartItems = (HashMap<Integer, Cart>) session.getAttribute("mycartItems");
-		if (cartItems == null) {
-			cartItems = new HashMap<>();
 
+	@Autowired
+	private CartDAO cartDAO;
+	@Autowired
+	private AccountDAO accountDAO;
+	@Autowired
+	private Company company;
+	@Autowired
+	private CategoryDAO categoryDAO;
+
+	// Trả về ds giỏ hàng
+	@RequestMapping(value = "index")
+	public String cart(ModelMap model, HttpSession session) {
+		float total = 0;
+		// Account user = (Account) session.getAttribute("account");
+		Account user = accountDAO.listAccounts().get(1);
+
+		List<Cart> list = cartDAO.getCart(user.getAccountID());
+
+		for (Cart c : list) {
+			total += c.getQuantity() * c.getProduct().getPrice();
 		}
-		modelMap.addAttribute("mycartItems", cartItems);
-		return "page/home";
 
+		model.addAttribute("carts", list);
+		model.addAttribute("total", total);
+		// Slider + Banner
+		model.addAttribute("company", company);
+		// Category for banner
+		List<Category> category = categoryDAO.listCategories();
+		model.addAttribute("category", category);
+
+		return "cart/index";
 	}
 
-	@RequestMapping(value = "remove{productID}.htm")
-	public String remove(ModelMap modelMap, HttpSession session, @PathVariable("productID") int productID) {
-		@SuppressWarnings("unchecked")
-		HashMap<Integer, Cart> cartItems = (HashMap<Integer, Cart>) session.getAttribute("mycartItems");
-		if (cartItems == null) {
-			cartItems = new HashMap<>();
-
-		}
-		if (cartItems.containsKey(productID)) {
-			cartItems.remove(productID);
-
-		}
-		modelMap.addAttribute("mycartItems", cartItems);
-		modelMap.addAttribute("mycartTotal", totalPrice(cartItems));
-		modelMap.addAttribute("mycartItems", cartItems);
-		return "page/home";
-
+	@RequestMapping(value = "delete/{productID}.htm")
+	public String delete(ModelMap model, HttpSession session, @PathVariable("productID") String productID) {
+		// Account user = (Account) session.getAttribute("account");
+		Account user = accountDAO.listAccounts().get(1);
+		cartDAO.delete(cartDAO.getCart(user.getAccountID(), Integer.parseInt(productID)));
+		List<Cart> list = cartDAO.getCart(user.getAccountID());
+		model.addAttribute("cart", list);
+		return "redirect:/cart/index.htm";
 	}
 
-	public double totalPrice(HashMap<Integer, Cart> cartItems) {
-		double total = 0;
-		for (Entry<Integer, Cart> list : cartItems.entrySet()) {
-			total += list.getValue().getTotalPrice();
+	@RequestMapping(value = "quantity/plus", params = { "productID", "quantity" })
+	public String qtyPlus(ModelMap model, @RequestParam("productID") int id, @RequestParam("quantity") int qty) {
+		cartDAO.updateQuantity(id, qty + 1);
 
-		}
-		return total;
+		return "redirect:/cart/index.htm";
+	}
+
+	@RequestMapping(value = "quantity/minus", params = { "productID", "quantity" })
+	public String qtyMinus(ModelMap model, @RequestParam("productID") int id, @RequestParam("quantity") int qty) {
+		cartDAO.updateQuantity(id, qty - 1);
+		return "redirect:/cart/index.htm";
 	}
 
 }

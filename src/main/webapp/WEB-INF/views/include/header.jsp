@@ -106,8 +106,11 @@
 							class="position-absolute top-10 start-80 translate-middle badge rounded-pill  ">1
 								<span class="visually-hidden">unread messages</span>
 						</span>
-						</a> <a href="#" class="profile icon"> <i class="bi bi-person"></i>
-						</a> <a href="#cart-slide" data-bs-toggle="offcanvas"
+						</a> <a
+							href='<c:url value = "account/index.htm?language=${pageContext.response.locale}"/>'
+							class="profile icon"> <i class="bi bi-person"></i>
+						</a> <a
+							href='<c:url value = "cart/index.htm?language=${pageContext.response.locale}"/>'
 							class="cart icon position-relative"> <i class="bi bi-cart3"></i><span
 							class="position-absolute top-10 start-80 translate-middle badge rounded-pill ">5
 								<span class="visually-hidden">unread messages</span>
@@ -122,4 +125,4 @@
 
 	</nav>
 	<!--End Navbar  -->
-	<%@include file="/WEB-INF/views/include/cart.jsp"%>
+	<%-- <%@include file="/WEB-INF/views/cart/index.jsp"%> --%>

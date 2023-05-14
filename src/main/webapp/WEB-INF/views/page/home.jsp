@@ -175,27 +175,27 @@
 
 							<div class="text-center position-relative ">
 								<div class=" position-absolute top-0 start-0">
-									<span class="badge bg-danger"> <fmt:formatNumber
-											value="${p.coupons.discount }" type="percent" /></span>
+									<c:if test="${p.coupons.discount != null}">
+										<span class="badge bg-danger"> <fmt:formatNumber
+												value="${p.coupons.discount }" type="percent" /></span>
+									</c:if>
+
 								</div>
 								<a href="#!"> <img src="${p.image }"
 									alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
 
 								<div class="card-product-action">
-									<a
-										href='<c:url value = "product/index.htm?productID=${p.productID }"/>'
-										class="btn-action" data-bs-toggle="ahihi"><i
-										class="bi bi-eye"></i></a> <a
-										href='<c:url value = "product/card.htm?productID=${p.productID }"/>'
-										class="btn-action" data-bs-toggle="abc"><i
-										class="bi bi-cart"></i></a>
-									<!-- <a href="#!" class="btn-action" data-bs-toggle="tooltip"
+									<a href="#!" class="btn-action" data-bs-toggle="modal"
+										data-bs-target="#quickViewModal"><i class="bi bi-eye"
+										data-bs-toggle="tooltip" data-bs-html="true"
+										aria-label="Quick View" data-bs-original-title="Quick View"></i></a>
+									<a href="#!" class="btn-action" data-bs-toggle="modal"
+										data-bs-target="#quickViewModal"><i class="bi bi-heart"></i></a>
+									<a href="#!" class="btn-action" data-bs-toggle="tooltip"
 										data-bs-html="true" aria-label="Compare"
 										data-bs-original-title="Compare"><i
-										class="bi bi-arrow-left-right"></i></a> -->
+										class="bi bi-arrow-left-right"></i></a>
 								</div>
-
-
 
 							</div>
 							<div class="text-small mb-1">
@@ -215,11 +215,33 @@
 							<div
 								class="d-flex justify-content-between align-items-center mt-3">
 								<div>
+
 									<span class="text-dark"><fmt:formatNumber
 											value="${p.price - (p.price * p.coupons.discount)}"
 											type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
-									<span class="text-decoration-line-through text-muted"> <fmt:formatNumber
-											value="${p.price }" type="currency" /></span>
+
+									<c:if test="${p.coupons.discount != null}">
+										<span class="text-decoration-line-through text-muted">
+											<fmt:formatNumber value="${p.price }" type="currency"
+												currencySymbol="đ" maxFractionDigits="0" />
+										</span>
+									</c:if>
+								</div>
+								<div>
+									<a
+										href='<c:url value = "product/addToCart.htm?productID=${p.productID }"/>'
+										type="button" class="btn btn-primary liveToastBtn"> <svg
+											xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+											viewBox="0 0 24 24" fill="none" stroke="currentColor"
+											stroke-width="2" stroke-linecap="round"
+											stroke-linejoin="round" class="feather feather-plus">
+                                            <line x1="12" y1="5" x2="12"
+												y2="19"></line>
+                                            <line x1="5" y1="12" x2="19"
+												y2="12"></line>
+                                        </svg> Add
+									</a>
+
 								</div>
 							</div>
 						</div>
@@ -249,8 +271,11 @@
 
 								<div class="text-center position-relative ">
 									<div class=" position-absolute top-0 start-0">
-										<span class="badge bg-danger"> <fmt:formatNumber
-												value="${p.coupons.discount }" type="percent" /></span>
+										<c:if test="${p.coupons.discount != null}">
+											<span class="badge bg-danger"> <fmt:formatNumber
+													value="${p.coupons.discount }" type="percent" /></span>
+										</c:if>
+
 									</div>
 									<a href="#!"> <img src="${p.image }"
 										alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
@@ -286,14 +311,22 @@
 								<div
 									class="d-flex justify-content-between align-items-center mt-3">
 									<div>
+
 										<span class="text-dark"><fmt:formatNumber
 												value="${p.price - (p.price * p.coupons.discount)}"
-												type="currency" /></span> <span
-											class="text-decoration-line-through text-muted"> <fmt:formatNumber
-												value="${p.price }" type="currency" /></span>
+												type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
+
+										<c:if test="${p.coupons.discount != null}">
+											<span class="text-decoration-line-through text-muted">
+												<fmt:formatNumber value="${p.price }" type="currency"
+													currencySymbol="đ" maxFractionDigits="0" />
+											</span>
+										</c:if>
 									</div>
 									<div>
-										<a href="#!" class="btn btn-primary btn-sm"> <svg
+										<a
+											href='<c:url value = "product/addToCart.htm?productID=${p.productID }"/>'
+											type="button" class="btn btn-primary liveToastBtn"> <svg
 												xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 												viewBox="0 0 24 24" fill="none" stroke="currentColor"
 												stroke-width="2" stroke-linecap="round"
@@ -304,6 +337,7 @@
 													y2="12"></line>
                                         </svg> Add
 										</a>
+
 									</div>
 								</div>
 							</div>
@@ -319,16 +353,7 @@
 
 </c:forEach>
 
-<div class='modal' id='addToCart'>
-	<div class='modal-dialog'>
-		<div class="alert alert-success alert-dismissible fade show"
-			role="alert">
-			<strong>Add to cart successfully !</strong> You should check in now
-			<button type="button" class="btn-close" data-bs-dismiss="alert"
-				aria-label="Close"></button>
-		</div>
-	</div>
-</div>
+
 <!-- Why choose us -->
 <section class="my-lg-14 my-8 why-choose-us container mb-5">
 	<div class="container">
