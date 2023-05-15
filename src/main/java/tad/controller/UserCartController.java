@@ -1,5 +1,7 @@
 package tad.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,12 @@ import tad.DAO.IAccountDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.ICategoryDAO;
 import tad.bean.Company;
+import tad.entity.Account;
+import tad.entity.Cart;
+import tad.entity.Category;
 
 @Controller
-@RequestMapping("/cart")
+@RequestMapping("/cart/")
 
 public class UserCartController {
 
@@ -33,20 +38,24 @@ public class UserCartController {
 	public String cart(ModelMap model, HttpSession session) {
 		float total = 0;
 		// Account user = (Account) session.getAttribute("account");
-		//Account user = accountDAO.GetRoleViaEnum(1).get(1);
+		Account user = (Account) accountDAO.getAccount(39);
 
-		//List<Cart> list = cartDAO.getCart(user.getAccountID());
+		List<Cart> list = (List<Cart>) cartDAO.getCart(user.getAccountId());
 
-		/*
-		 * for (Cart c : list) { total += c.getQuantity() * c.getProduct().getPrice(); }
-		 *
-		 * model.addAttribute("carts", list); model.addAttribute("total", total);
-		 */
-		// Slider + Banner
+		if (list != null) {
+			for (Cart c : list) {
+				total += c.getQuantity() * c.getProduct().getPrice();
+			}
+
+		}
+
+		model.addAttribute("carts", list);
+		model.addAttribute("total", total);
+
 		model.addAttribute("company", company);
-		// Category for banner
-		//List<Category> category = categoryDAO.listCategories();
-		//model.addAttribute("category", category);
+
+		List<Category> category = categoryDAO.getListCategories();
+		model.addAttribute("category", category);
 
 		return "cart/index";
 	}
@@ -54,10 +63,11 @@ public class UserCartController {
 	@RequestMapping(value = "delete/{productID}.htm")
 	public String delete(ModelMap model, HttpSession session, @PathVariable("productID") String productID) {
 		// Account user = (Account) session.getAttribute("account");
-		//Account user = accountDAO.listAccounts().get(1);
-		//cartDAO.delete(cartDAO.getCart(user.getAccountID(), Integer.parseInt(productID)));
-		//List<Cart> list = cartDAO.getCart(user.getAccountID());
-		//model.addAttribute("cart", list);
+		// Account user = accountDAO.listAccounts().get(1);
+		// cartDAO.delete(cartDAO.getCart(user.getAccountID(),
+		// Integer.parseInt(productID)));
+		// List<Cart> list = cartDAO.getCart(user.getAccountID());
+		// model.addAttribute("cart", list);
 		return "redirect:/cart/index.htm";
 	}
 

@@ -26,7 +26,8 @@
 				<value>classpath:search_vi</value>
 				<value>classpath:global</value>
 				<value>classpath:global_vi</value>
-				<value>classpath:home.about</value>
+				<value>classpath:global.search</value>
+				<value>classpath:global.search_vi</value>
 			</list>
 		</property>
 	</bean>

@@ -16,5 +16,5 @@ public interface ICategoryDAO {
 
 	public boolean updateCategory(Category changedCategory);
 
-	public List<Category> listCategoriesHasProducts(int i);
+	public List<Category> listCategoriesHasProducts(int limit);
 }

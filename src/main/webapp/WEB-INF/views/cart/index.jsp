@@ -50,6 +50,7 @@
 							<thead class="table-light">
 								<tr>
 									<th><s:message code="cart.name" /></th>
+									<th><s:message code="cart.des" /></th>
 									<th><s:message code="cart.price" /></th>
 									<th><s:message code="cart.amount" /></th>
 									<th><s:message code="cart.total" /></th>
@@ -62,9 +63,17 @@
 										<td class="align-middle">
 											<div class="d-flex align-items-center">
 												<div class="image">
-													<a href="#"><img src="${c.product.image }"
+													<a href="#"><img
+														src="<c:url value="/assets/img/products/${c.product.image}"/>"
 														class="icon-shape" alt=""> </a>
 												</div>
+
+											</div>
+
+
+										</td>
+										<td class="align-middle">
+											<div class="d-flex align-items-center">
 												<div class="text">
 													<h5 class="fs-6 mb-0">
 														<a href="#" class="text-inherit">${c.product.productName }</a>
@@ -72,8 +81,6 @@
 													<small>${c.product.detail }</small>
 												</div>
 											</div>
-
-
 										</td>
 
 										<td class="align-middle"><fmt:formatNumber
@@ -81,21 +88,21 @@
 												currencySymbol="đ" maxFractionDigits="0" /></td>
 										<td class="align-middle"><c:if test="${c.quantity > 1}">
 												<a role="button"
-													href="cart/quantity/minus.htm?productID=${c.product.productID}&quantity=${c.quantity}"
+													href="cart/quantity/minus.htm?productID=${c.product.productId}&quantity=${c.quantity}"
 													class="  btn btn-light">-</a>
 											</c:if> <c:if test="${c.quantity == 1}">
 												<a role="button" aria-disabled="true"
-													href="cart/quantity/minus.htm?productID=${c.product.productID}&quantity=${c.quantity}"
+													href="cart/quantity/minus.htm?productID=${c.product.productId}&quantity=${c.quantity}"
 													class="disabled btn btn-light">-</a>
 											</c:if> <label class="border border-light px-3 py-1 pb-1">${c.quantity}</label>
 											<a role="button"
-											href="cart/quantity/plus.htm?productID=${c.product.productID}&quantity=${c.quantity}"
+											href="cart/quantity/plus.htm?productID=${c.product.productId}&quantity=${c.quantity}"
 											class="btn btn-light">+</a></td>
 										<td class="align-middle"><fmt:formatNumber
 												value="${c.product.price * c.quantity }" type="currency"
 												currencySymbol="đ" maxFractionDigits="0" /></td>
 										<td class="align-middle "><a
-											href='<c:url value = "cart/delete/${c.product.productID}.htm"/>'
+											href='<c:url value = "cart/delete/${c.product.productId}.htm"/>'
 											class="text-muted" data-bs-toggle="tooltip"
 											data-bs-placement="top" aria-label="Delete"
 											data-bs-original-title="Delete"> <i class="bi bi-trash"></i>

@@ -68,14 +68,14 @@ public class CartDAOImpl implements ICartDAO {
 	}
 
 	@Override
-	public Cart getCart(int accountID, int productID) {
+	public Cart getCart(int accountId, int productId) {
 		Session session = sessionFactory.getCurrentSession();
 
-		String hql = "FROM Cart WHERE accounts.accountID = :accountID AND products.productID = :productID";
+		String hql = "FROM Cart  WHERE account.accountId = :accountId AND product.productId = :productId";
 		Query query = session.createQuery(hql);
 
-		query.setInteger("accountID", accountID);
-		query.setInteger("productID", productID);
+		query.setInteger("accountId", accountId);
+		query.setInteger("productId", productId);
 
 		Cart cart = (Cart) query.uniqueResult();
 		return cart;
@@ -83,8 +83,15 @@ public class CartDAOImpl implements ICartDAO {
 
 	@Override
 	public List<Cart> getCart(int accountId) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+
+		String hql = "FROM Cart WHERE account.accountId = :accountId";
+		Query query = session.createQuery(hql);
+		query.setInteger("accountId", accountId);
+
+		@SuppressWarnings("unchecked")
+		List<Cart> list = query.list();
+		return list;
 	}
 
 	@Override

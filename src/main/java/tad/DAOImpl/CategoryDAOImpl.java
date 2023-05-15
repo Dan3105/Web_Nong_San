@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import tad.DAO.ICategoryDAO;
+import tad.entity.Account;
 import tad.entity.Category;
 
 @Transactional
@@ -85,7 +86,6 @@ public class CategoryDAOImpl implements ICategoryDAO {
 
 	@Override
 	public boolean updateCategory(Category changedCategory) {
-		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
 		try {
@@ -105,9 +105,11 @@ public class CategoryDAOImpl implements ICategoryDAO {
 	}
 
 	@Override
-	public List<Category> listCategoriesHasProducts(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Category> listCategoriesHasProducts(int limit) {
+		Session session = sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		List<Category> list = session.createQuery("FROM Category C WHERE SIZE(C.products) > 0 ORDER BY SIZE(C.products) DESC").list();
+		return list;
 	}
 
 }

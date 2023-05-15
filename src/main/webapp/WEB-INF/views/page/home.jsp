@@ -90,7 +90,8 @@
 				<div class="card mb-3">
 					<div class="card-body text-center py-6 text-center ">
 						<div class="my-3">
-							<a href="#"> <img class="card-img-top" src="${c.image }"
+							<a href="#"> <img class="card-img-top"
+								src="<c:url value="/assets/img/category/${c.image}"/>"
 								alt="Card image cap">
 							</a>
 						</div>
@@ -170,18 +171,19 @@
 		<div class="row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3">
 			<c:forEach var="p" items="${products }">
 				<div class="col">
-					<div class="card card-product">
+					<div class="card card-product ">
 						<div class="card-body">
 
 							<div class="text-center position-relative ">
 								<div class=" position-absolute top-0 start-0">
-									<c:if test="${p.coupons.discount != null}">
+									<c:if test="${p.coupon.discount != null}">
 										<span class="badge bg-danger"> <fmt:formatNumber
-												value="${p.coupons.discount }" type="percent" /></span>
+												value="${p.coupon.discount }" type="percent" /></span>
 									</c:if>
 
 								</div>
-								<a href="#!"> <img src="${p.image }"
+								<a href="#!"> <img
+									src="<c:url value="/assets/img/products/${p.image}"/>"
 									alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
 
 								<div class="card-product-action">
@@ -199,7 +201,7 @@
 
 							</div>
 							<div class="text-small mb-1">
-								<a href="#!" class="text-decoration-none text-muted"><small>${p.categoryID.name }</small></a>
+								<a href="#!" class="text-decoration-none text-muted"><small>${p.category.name }</small></a>
 							</div>
 							<h2 class="fs-6">
 								<a href="./pages/shop-single.html"
@@ -217,19 +219,20 @@
 								<div>
 
 									<span class="text-dark"><fmt:formatNumber
-											value="${p.price - (p.price * p.coupons.discount)}"
+											value="${p.price - (p.price * p.coupon.discount)}"
 											type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
 
-									<c:if test="${p.coupons.discount != null}">
+									<c:if test="${p.coupon.discount != null}">
 										<span class="text-decoration-line-through text-muted">
 											<fmt:formatNumber value="${p.price }" type="currency"
 												currencySymbol="đ" maxFractionDigits="0" />
 										</span>
 									</c:if>
 								</div>
+
 								<div>
 									<a
-										href='<c:url value = "product/addToCart.htm?productID=${p.productID }"/>'
+										href='<c:url value = "product/addToCart.htm?productId=${p.productId }"/>'
 										type="button" class="btn btn-primary liveToastBtn"> <svg
 											xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 											viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -271,14 +274,17 @@
 
 								<div class="text-center position-relative ">
 									<div class=" position-absolute top-0 start-0">
-										<c:if test="${p.coupons.discount != null}">
+										<c:if test="${p.coupon.discount != null}">
 											<span class="badge bg-danger"> <fmt:formatNumber
-													value="${p.coupons.discount }" type="percent" /></span>
+													value="${p.coupon.discount }" type="percent" /></span>
 										</c:if>
 
 									</div>
-									<a href="#!"> <img src="${p.image }"
-										alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
+									<a href="#!"> <img
+										src="<c:url value="/assets/img/products/${p.image}"/>"
+										alt="
+										Grocery Ecommerce Template"
+										class="mb-3 img-fluid"></a>
 
 									<div class="card-product-action">
 										<a href="#!" class="btn-action" data-bs-toggle="modal"
@@ -295,7 +301,7 @@
 
 								</div>
 								<div class="text-small mb-1">
-									<a href="#!" class="text-decoration-none text-muted"><small>${p.categoryID.name }</small></a>
+									<a href="#!" class="text-decoration-none text-muted"><small>${p.category.name }</small></a>
 								</div>
 								<h2 class="fs-6">
 									<a href="./pages/shop-single.html"
@@ -313,10 +319,10 @@
 									<div>
 
 										<span class="text-dark"><fmt:formatNumber
-												value="${p.price - (p.price * p.coupons.discount)}"
+												value="${p.price - (p.price * p.coupon.discount)}"
 												type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
 
-										<c:if test="${p.coupons.discount != null}">
+										<c:if test="${p.coupon.discount != null}">
 											<span class="text-decoration-line-through text-muted">
 												<fmt:formatNumber value="${p.price }" type="currency"
 													currencySymbol="đ" maxFractionDigits="0" />
@@ -325,7 +331,7 @@
 									</div>
 									<div>
 										<a
-											href='<c:url value = "product/addToCart.htm?productID=${p.productID }"/>'
+											href='<c:url value = "product/addToCart.htm?productId=${p.productId }"/>'
 											type="button" class="btn btn-primary liveToastBtn"> <svg
 												xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 												viewBox="0 0 24 24" fill="none" stroke="currentColor"

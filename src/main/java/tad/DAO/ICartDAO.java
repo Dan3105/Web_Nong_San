@@ -17,11 +17,11 @@ public interface ICartDAO {
 
 	int updateQuantity(int foodID, int qty);
 
-	Cart getCart(int accountID, int productID);
+	Cart getCart(int accountId, int productId);
 
-	List<Cart> getCart(int accountID);
+	List<Cart> getCart(int accountId);
 
-	int removeCart(int accountID);
+	int removeCart(int accountId);
 
 	int updateCoupon(String coupon, int amount);
 

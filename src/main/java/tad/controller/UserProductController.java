@@ -17,7 +17,7 @@ import tad.entity.Cart;
 
 @Controller
 @RequestMapping("/product/")
-public class ProductController {
+public class UserProductController {
 
 	@Autowired
 	private IProductDAO productDAO;

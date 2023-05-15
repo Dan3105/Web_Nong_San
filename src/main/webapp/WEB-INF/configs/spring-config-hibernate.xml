@@ -33,7 +33,11 @@
 			</props>
 		</property>
 		<property name="packagesToScan" value="tad.entity" />
+		
+
 	</bean>
+
+
 
 	<!-- Transaction Manager -->
 	<bean id="transactionManager"

@@ -14,11 +14,11 @@ public class Cart {
 	@EmbeddedId
 	private CartId id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "AccountID", nullable = false, insertable = false, updatable = false)
 	private Account account;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
 	private Product product;
 
