@@ -10,12 +10,12 @@ public interface ICartDAO {
 	boolean insertCart(Cart cart);
 
 	boolean deleteCart(Cart cart);
-	
+
 	boolean updateCart(Cart cart);
 
 	Coupon getCoupon(String coupon);
 
-	int updateQuantity(int foodID, int qty);
+	int updateQuantity(int productId, int quantity);
 
 	Cart getCart(int accountId, int productId);
 

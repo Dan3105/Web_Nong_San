@@ -14,6 +14,7 @@ import tad.DAO.ICartDAO;
 import tad.DAO.IProductDAO;
 import tad.entity.Account;
 import tad.entity.Cart;
+import tad.entity.CartId;
 
 @Controller
 @RequestMapping("/product/")
@@ -28,9 +29,9 @@ public class UserProductController {
 	@Autowired
 	private ICartDAO cartDAO;
 
-	@RequestMapping(value = "addToCart", params = { "productID" })
+	@RequestMapping(value = "addToCart", params = { "productId" })
 	public String addToCart(ModelMap model, HttpServletRequest request, HttpSession session,
-			@RequestParam("productID") int productID) {
+			@RequestParam("productId") int productID) {
 		// Lấy tạm thằng account số 1
 		Account user = accountDAO.listAccounts().get(1);
 
@@ -46,10 +47,12 @@ public class UserProductController {
 				cartDAO.updateCart(cart);
 			} else {
 				cart = new Cart();
-				cart.setAccount(accountDAO.getAccount(user.getAccountId()));
+				cart.setId(new CartId(productID, user.getAccountId()));
+				cart.setAccount(user);
 				cart.setProduct(productDAO.getProduct(productID));
 				cart.setQuantity(1);
-				cartDAO.insertCart(cart);
+				boolean s = cartDAO.insertCart(cart);
+				
 
 			}
 

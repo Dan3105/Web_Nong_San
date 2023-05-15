@@ -78,7 +78,7 @@ public class OrderDAOImpl implements IOrderDAO {
 		String hql = "From Orders where StatusOrder = 0";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
-		List<Orders> listOrders = (List<Orders>) query.list();
+		List<Orders> listOrders = query.list();
 		return listOrders;
 	}
 
@@ -87,7 +87,7 @@ public class OrderDAOImpl implements IOrderDAO {
 		String hql = "From Orders where StatusOrder = 1";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
-		List<Orders> listOrders = (List<Orders>) query.list();
+		List<Orders> listOrders = query.list();
 		return listOrders;
 	}
 

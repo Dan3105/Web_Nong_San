@@ -34,7 +34,7 @@ public class AdminControllerOrders {
 	@RequestMapping("unresolve-order")
 	public String gListUnresolvedOrder(ModelMap model) {
 		List<Orders> orders = orderDAO.getUnresolveOrders();
-		List<OrderDetailBean> detailOrderBean = new ArrayList<OrderDetailBean>();
+		List<OrderDetailBean> detailOrderBean = new ArrayList<>();
 		for (Orders order : orders) {
 			order = orderDAO.fetchOrderDetail(order);
 			detailOrderBean.add(new OrderDetailBean(order));
@@ -49,7 +49,7 @@ public class AdminControllerOrders {
 	@RequestMapping("moving-order")
 	public String gListMovingOrder(ModelMap model) {
 		List<Orders> orders = orderDAO.getMovingOrders();
-		List<OrderDetailBean> detailOrderBean = new ArrayList<OrderDetailBean>();
+		List<OrderDetailBean> detailOrderBean = new ArrayList<>();
 		for (Orders order : orders) {
 			order = orderDAO.fetchOrderDetail(order);
 			detailOrderBean.add(new OrderDetailBean(order));
@@ -64,7 +64,7 @@ public class AdminControllerOrders {
 	@RequestMapping("resolved-order")
 	public String gListResolveOrder(ModelMap model) {
 		List<Orders> orders = orderDAO.getResolveOrders();
-		List<OrderDetailBean> detailOrderBean = new ArrayList<OrderDetailBean>();
+		List<OrderDetailBean> detailOrderBean = new ArrayList<>();
 		for (Orders order : orders) {
 			order = orderDAO.fetchOrderDetail(order);
 			detailOrderBean.add(new OrderDetailBean(order));
@@ -79,7 +79,7 @@ public class AdminControllerOrders {
 	@RequestMapping("cancel-order")
 	public String gListCancelOrder(ModelMap model) {
 		List<Orders> orders = orderDAO.getCancelOrders();
-		List<OrderDetailBean> detailOrderBean = new ArrayList<OrderDetailBean>();
+		List<OrderDetailBean> detailOrderBean = new ArrayList<>();
 		for (Orders order : orders) {
 			order = orderDAO.fetchOrderDetail(order);
 			detailOrderBean.add(new OrderDetailBean(order));

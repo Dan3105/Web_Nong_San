@@ -22,9 +22,9 @@ public interface IAccountDAO {
 	public boolean addAccountToDB(Account acc);
 
 	public List<Account> listAccountWithRole(EnumRoleID roleID);
-	
+
 	public List<Account> listAccounts();
-	
+
 	public boolean updateAccount(Account account);
 
 	public boolean deleteAccount(Account account);

@@ -3,9 +3,6 @@
 <%@include file="/WEB-INF/views/include/header.jsp"%>
 
 
-
-
-
 <!-- Slider -->
 <div class="container slider mb-5">
 	<div id="carouselExampleIndicators" class="carousel slide">

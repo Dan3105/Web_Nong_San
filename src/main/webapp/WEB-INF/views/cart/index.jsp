@@ -44,7 +44,7 @@
 
 			<div class="row">
 				<!-- table -->
-				<div class="col-9">
+				<div class="col-12">
 					<div class="table-responsive">
 						<table class="table text-nowrap">
 							<thead class="table-light">
@@ -117,6 +117,9 @@
 					</div>
 				</div>
 				<!-- Chi tiết đặt hàng -->
+
+			</div>
+			<div class="row">
 				<div class="col-3">
 					<div class="bg-success bg-opacity-10 p-2 mb-2">
 						<!-- Địa chỉ -->

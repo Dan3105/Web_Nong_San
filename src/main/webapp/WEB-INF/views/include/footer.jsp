@@ -60,7 +60,7 @@
 
 			<div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
 				<h5 class="text-uppercase mb-4 font-weight-bold text-white ">
-					<s:message code="global.col3.title" />
+					<s:message code="global.col2.title" />
 				</h5>
 				<p>
 					<a href="#" class="text-white" style="text-decoration: none;">Paymentsr</a>
@@ -78,6 +78,28 @@
 				<p>
 					<a href="#" class="text-white" style="text-decoration: none;">Product
 						Returns</a>
+				</p>
+
+			</div>
+
+			<div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+				<h5 class="text-uppercase mb-4 font-weight-bold text-white ">
+					<s:message code="global.col3.title" />
+				</h5>
+				<p>
+					<a href="#" class="text-white" style="text-decoration: none;">Home
+						Page</a>
+				</p>
+				<p>
+					<a href="#" class="text-white" style="text-decoration: none;">Product
+					</a>
+				</p>
+				<p>
+					<a href="#" class="text-white" style="text-decoration: none;">FAQ</a>
+				</p>
+				<p>
+					<a href="#" class="text-white" style="text-decoration: none;">Contact
+						Us 	</a>
 				</p>
 
 			</div>

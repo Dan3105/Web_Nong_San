@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity
@@ -15,10 +16,12 @@ public class Cart {
 	private CartId id;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@MapsId("accountId")
 	@JoinColumn(name = "AccountID", nullable = false, insertable = false, updatable = false)
 	private Account account;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@MapsId("productId")
 	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
 	private Product product;
 

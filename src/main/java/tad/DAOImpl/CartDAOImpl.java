@@ -62,11 +62,16 @@ public class CartDAOImpl implements ICartDAO {
 	}
 
 	@Override
-	public int updateQuantity(int foodId, int qty) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateQuantity(int productId, int quantity) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "UPDATE Cart SET quantity = :quantity " + "WHERE product.productId = :productId";
+		Query query = session.createQuery(hql);
+		query.setParameter("productId", productId);
+		query.setParameter("quantity", quantity);
+		int result = query.executeUpdate();
+		return result;
 	}
-
+	
 	@Override
 	public Cart getCart(int accountId, int productId) {
 		Session session = sessionFactory.getCurrentSession();

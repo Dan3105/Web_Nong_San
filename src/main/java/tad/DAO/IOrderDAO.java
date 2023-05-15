@@ -1,6 +1,5 @@
 package tad.DAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import tad.entity.OrderDetail;

@@ -38,9 +38,9 @@ public class UserCartController {
 	public String cart(ModelMap model, HttpSession session) {
 		float total = 0;
 		// Account user = (Account) session.getAttribute("account");
-		Account user = (Account) accountDAO.getAccount(39);
+		Account user = accountDAO.listAccounts().get(1);
 
-		List<Cart> list = (List<Cart>) cartDAO.getCart(user.getAccountId());
+		List<Cart> list = cartDAO.getCart(user.getAccountId());
 
 		if (list != null) {
 			for (Cart c : list) {
@@ -63,11 +63,10 @@ public class UserCartController {
 	@RequestMapping(value = "delete/{productID}.htm")
 	public String delete(ModelMap model, HttpSession session, @PathVariable("productID") String productID) {
 		// Account user = (Account) session.getAttribute("account");
-		// Account user = accountDAO.listAccounts().get(1);
-		// cartDAO.delete(cartDAO.getCart(user.getAccountID(),
-		// Integer.parseInt(productID)));
-		// List<Cart> list = cartDAO.getCart(user.getAccountID());
-		// model.addAttribute("cart", list);
+		Account user = accountDAO.listAccounts().get(1);
+		cartDAO.deleteCart(cartDAO.getCart(user.getAccountId(), Integer.parseInt(productID)));
+		List<Cart> list = cartDAO.getCart(user.getAccountId());
+		model.addAttribute("cart", list);
 		return "redirect:/cart/index.htm";
 	}
 
