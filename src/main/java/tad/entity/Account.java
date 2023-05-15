@@ -47,25 +47,25 @@ public class Account {
 	private String password;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	private Set<Address> addresses = new HashSet<Address>(0);
+	private Set<Address> addresses = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	private Set<Orders> orders = new HashSet<Orders>(0);
+	private Set<Orders> orders = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	private Set<Coupon> coupons = new HashSet<Coupon>(0);
+	private Set<Coupon> coupons = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	private Set<Product> products = new HashSet<Product>(0);
+	private Set<Product> products = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	private Set<Feedback> feedbacks = new HashSet<Feedback>(0);
+	private Set<Feedback> feedbacks = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	private Set<Comment> comments = new HashSet<Comment>(0);
+	private Set<Comment> comments = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	private Set<Cart> carts = new HashSet<Cart>(0);
+	private Set<Cart> carts = new HashSet<>(0);
 
 	public Account() {
 	}
@@ -78,7 +78,7 @@ public class Account {
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.avatar = avatar;
-		this.status = 1; // Tao tk moi set trang thai ve 1 
+		this.status = 1; // Tao tk moi set trang thai ve 1
 		this.password = password;
 	}
 
@@ -103,6 +103,7 @@ public class Account {
 		this.carts = carts;
 	}
 
+	@Override
 	public String toString() {
 		return String.format("Account ID: {0}", accountId);
 	}

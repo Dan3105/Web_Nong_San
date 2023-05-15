@@ -17,7 +17,7 @@ public class AddressUserBean
 		districtId = -1;
 		provinceId = -1;
 		addressLine = "";
-		
+
 	}
 	public void setWardId(int wardId) {
 		this.wardId = wardId;

@@ -38,7 +38,7 @@ public class ProductBean {
 		image = "";
 		quantity = 0;
 		detail = "";
-		
+
 		Date crrDate = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String formattedDate = formatter.format(crrDate);
@@ -47,7 +47,7 @@ public class ProductBean {
 		discount = 0;
 		discountId = -1;
 	}
-	
+
 	public ProductBean(Product product)
 	{
 		productId = product.getProductId();
@@ -132,10 +132,10 @@ public class ProductBean {
 	}
 
 	public String getPostingDate() {
-		
+
 		return postingDate;
 	}
-	
+
 
 	public void setPostingDate(String postingDate) {
 		this.postingDate = postingDate;

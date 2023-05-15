@@ -1,6 +1,7 @@
 package tad.bean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -63,9 +64,9 @@ public class CategoryBean {
 		return this.id;
 	}
 
-	public static ArrayList<CategoryBean> ConvertListCategory(ArrayList<Category> listCategory) {
-		ArrayList<CategoryBean> categories = new ArrayList<CategoryBean>();
-		for (var categoryData : listCategory) {
+	public static ArrayList<CategoryBean> ConvertListCategory(List<Category> list) {
+		ArrayList<CategoryBean> categories = new ArrayList<>();
+		for (var categoryData : list) {
 			CategoryBean bean = new CategoryBean(categoryData.getCategoryId(), categoryData.getName(),
 					categoryData.getImage());
 			categories.add(bean);
@@ -76,10 +77,10 @@ public class CategoryBean {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	/*
 	 * public void SetImageStringViaFileImage(String path) {
-	 * 
+	 *
 	 * }
 	 */
 }

@@ -12,7 +12,7 @@ import tad.utility.DefineAttribute;
 
 public class EmployeeInterceptor extends HandlerInterceptorAdapter {
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) 
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception{
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
@@ -23,6 +23,6 @@ public class EmployeeInterceptor extends HandlerInterceptorAdapter {
 		}
 		response.sendRedirect(request.getContextPath() + "/index.htm");
 		return false;
-		
+
 	}
 }

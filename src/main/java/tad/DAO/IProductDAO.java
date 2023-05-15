@@ -17,13 +17,13 @@ public interface IProductDAO {
 
 	List<Product> listProductsWithCoupon();
 
-	boolean insert(Product product);
+	boolean insertProduct(Product product);
 
-	boolean update(Product product);
+	boolean updateProduct(Product product);
 
-	boolean delete(Product product);
+	boolean deleteProduct(Product product);
 
-	public Product GetProduct(int id);
-	
-	public Account FetchProductsAccount(Account acc);
+	public Product getProduct(int id);
+
+	public Account fetchProductsAccount(Account acc);
 }

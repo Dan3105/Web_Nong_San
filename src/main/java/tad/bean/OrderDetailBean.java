@@ -9,7 +9,7 @@ import tad.entity.Orders;
 public class OrderDetailBean {
 	public class DetailProduct
 	{
-		
+
 		public int getQuantity() {
 			return quantity;
 		}
@@ -24,15 +24,15 @@ public class OrderDetailBean {
 		}
 		private ProductBean productBean;
 		private int quantity;
-		
-		
+
+
 		public DetailProduct(int quantity, ProductBean productBean) {
-		
+
 			this.quantity = quantity;
 			this.productBean = productBean;
 		}
 	}
-	
+
 	public String getDeliveryDate() {
 		return deliveryDate;
 	}
@@ -88,8 +88,8 @@ public class OrderDetailBean {
 	private short status;
 	private String accName;
 
-	private Set<DetailProduct> products = new HashSet<DetailProduct>();
-	
+	private Set<DetailProduct> products = new HashSet<>();
+
 	public short getStatus() {
 		return status;
 	}
@@ -100,17 +100,17 @@ public class OrderDetailBean {
 
 	OrderDetailBean()
 	{
-		
+
 	}
-	
+
 	public OrderDetailBean(Orders order)
 	{
 		this.idOrder = order.getOrderId();
 		this.accName = order.getAccount().getLastName() + " " + order.getAccount().getFirstName();
-		
+
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		
-		this.deliveryDate = formatter.format(order.getOrderTime()); 
+
+		this.deliveryDate = formatter.format(order.getOrderTime());
 		if(order.getDeliveryTime() != null)
 		 this.receivedDate = formatter.format(order.getDeliveryTime());
 		this.address = order.getAddress();
@@ -122,7 +122,7 @@ public class OrderDetailBean {
 			products.add(detailBean);
 		}
 	}
-	
+
 	public double getTotalPrice()
 	{
 		double value = 0;

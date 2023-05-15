@@ -35,7 +35,7 @@ public class OrderDetail {
 
 	@JoinColumn(name="Quantity", nullable = false)
 	private int quantity;
-	
+
 	public OrderDetail() {
 		quantity =0;
 	}

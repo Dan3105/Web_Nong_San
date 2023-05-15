@@ -19,16 +19,16 @@ public class Category {
 	@GeneratedValue
 	@Column(name = "CategoryID", unique = true, nullable = false)
 	private int categoryId;
-	
+
 	@Column(name = "Name", nullable = false)
 	private String name;
-	
+
 	@Column(name = "Image")
 	private String image;
-	
+
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
-	private Set<Product> products = new HashSet<Product>(0);
+	private Set<Product> products = new HashSet<>(0);
 
 	public Category() {
 	}
@@ -54,7 +54,7 @@ public class Category {
 		this.categoryId = categoryId;
 	}
 
-	
+
 	public String getName() {
 		return this.name;
 	}

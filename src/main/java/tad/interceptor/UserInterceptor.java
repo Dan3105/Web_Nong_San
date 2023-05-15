@@ -13,7 +13,7 @@ import tad.entity.Account;
 import tad.utility.DefineAttribute;
 
 public class UserInterceptor extends HandlerInterceptorAdapter {
-	
+
 	@Autowired
 	IAccountDAO accountDAO;
 

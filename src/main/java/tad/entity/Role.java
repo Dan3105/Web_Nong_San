@@ -6,8 +6,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -27,8 +25,8 @@ public class Role {
 	private String roleName;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
-	private Set<Account> accounts = new HashSet<Account>(0);
-	
+	private Set<Account> accounts = new HashSet<>(0);
+
 	public Role() {
 	}
 

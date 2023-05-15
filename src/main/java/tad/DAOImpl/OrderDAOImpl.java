@@ -1,6 +1,6 @@
 package tad.DAOImpl;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
@@ -23,19 +23,19 @@ public class OrderDAOImpl implements IOrderDAO {
 	}
 
 	@Override
-	public ArrayList<Orders> GetOrderFromAccount(int idAccount) {
+	public List<Orders> getOrderFromAccount(int idAccount) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Orders> GetOrderFromProduct(int idProduct) {
+	public List<Orders> getOrderFromProduct(int idProduct) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<OrderDetail> GetOrderDetail(int orderId) {
+	public List<OrderDetail> getOrderDetail(int orderId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -73,39 +73,40 @@ public class OrderDAOImpl implements IOrderDAO {
 	}
 
 	@Override
-	public ArrayList<Orders> GetUnresolveOrders() {
+	public List<Orders> getUnresolveOrders() {
 		// TODO Auto-generated method stub
 		String hql = "From Orders where StatusOrder = 0";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
-		ArrayList<Orders> listOrders = (ArrayList<Orders>) query.list();
+		List<Orders> listOrders = (List<Orders>) query.list();
 		return listOrders;
 	}
 
 	@Override
-	public ArrayList<Orders> GetMovingOrders() {
+	public List<Orders> getMovingOrders() {
 		String hql = "From Orders where StatusOrder = 1";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
-		ArrayList<Orders> listOrders = (ArrayList<Orders>) query.list();
+		List<Orders> listOrders = (List<Orders>) query.list();
 		return listOrders;
 	}
 
 	@Override
-	public ArrayList<Orders> GetResolveOrders() {
+	public List<Orders> getResolveOrders() {
 		String hql = "From Orders where StatusOrder = 2";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
-		ArrayList<Orders> listOrders = (ArrayList<Orders>) query.list();
+		List<Orders> listOrders = query.list();
 		return listOrders;
 	}
 
 	@Override
-	public ArrayList<Orders> GetCancelOrders() {
+	public List<Orders> getCancelOrders() {
 		String hql = "From Orders where StatusOrder = 3";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
-		ArrayList<Orders> listOrders = (ArrayList<Orders>) query.list();
+		@SuppressWarnings("unchecked")
+		List<Orders> listOrders = query.list();
 		return listOrders;
 	}
 
@@ -131,7 +132,7 @@ public class OrderDAOImpl implements IOrderDAO {
 	}
 
 	@Override
-	public Orders FetchOrderDetail(Orders order) {
+	public Orders fetchOrderDetail(Orders order) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		Orders tOrder = null;

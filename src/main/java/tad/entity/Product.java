@@ -51,23 +51,23 @@ public class Product {
 
 	@Column(name = "Unit")
 	private String unit;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CouponID")
 	private Coupon coupon;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "AccountID", nullable = false)
 	private Account account;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-	private Set<Cart> carts = new HashSet<Cart>(0);
+	private Set<Cart> carts = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
+	private Set<OrderDetail> orderDetails = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-	private Set<Feedback> feedbacks = new HashSet<Feedback>(0);
+	private Set<Feedback> feedbacks = new HashSet<>(0);
 
 	public Product() {
 	}

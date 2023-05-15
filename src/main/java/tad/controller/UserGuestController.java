@@ -25,7 +25,7 @@ import tad.utility.DefineAttribute;
 
 @Controller
 @RequestMapping("/guest")
-public class GuestController {
+public class UserGuestController {
 	@Autowired
 	private IAccountDAO accountDAO;
 
@@ -38,7 +38,7 @@ public class GuestController {
 
 	@RequestMapping(params = "guest-login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("user") LoginBean user, ModelMap modelMap, HttpSession session) {
-		Account ValidateAdmin = accountDAO.FindUserByEmail(user.getUsername());
+		Account ValidateAdmin = accountDAO.findAccountByEmail(user.getUsername());
 
 		if (ValidateAdmin != null && ValidateAdmin.getPassword().equals(user.getPassword())) {
 			if (ValidateAdmin.getRole().getRoleId().equals(EnumRoleID.ADMIN.toString())) {
@@ -84,11 +84,11 @@ public class GuestController {
 				}
 			}
 
-			Role role = accountDAO.GetRoleViaEnum(EnumRoleID.GUEST);
+			Role role = accountDAO.getRoleViaEnum(EnumRoleID.GUEST);
 			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
 					user.getPhoneNumber(), user.getAvatarDir(), user.getPassword());
 
-			if (accountDAO.AddUserToDB(account)) {
+			if (accountDAO.addAccountToDB(account)) {
 
 				return "redirect:/";
 			}

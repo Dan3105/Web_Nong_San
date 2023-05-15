@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tad.DAO.IProductDAO;
 import tad.entity.Account;
-import tad.entity.Category;
 import tad.entity.Product;
 
 @Transactional
@@ -41,7 +40,7 @@ public class ProductDAOImpl implements IProductDAO {
 	}
 
 	@Override
-	public boolean insert(Product product) {
+	public boolean insertProduct(Product product) {
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
 		try {
@@ -59,7 +58,7 @@ public class ProductDAOImpl implements IProductDAO {
 	}
 
 	@Override
-	public boolean update(Product product) {
+	public boolean updateProduct(Product product) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
@@ -80,7 +79,7 @@ public class ProductDAOImpl implements IProductDAO {
 	}
 
 	@Override
-	public boolean delete(Product product) {
+	public boolean deleteProduct(Product product) {
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
 		try {
@@ -122,7 +121,7 @@ public class ProductDAOImpl implements IProductDAO {
 	public List<Product> listProductsWithCoupon() {
 		Session session = sessionFactory.getCurrentSession();
 
-		String hql = "FROM Product P ORDER BY P.coupons.discount DESC";
+		String hql = "FROM Product P ORDER BY P.coupon.discount DESC";
 		@SuppressWarnings("unchecked")
 		List<Product> list = session.createQuery(hql).list();
 
@@ -130,7 +129,7 @@ public class ProductDAOImpl implements IProductDAO {
 	}
 
 	@Override
-	public Account FetchProductsAccount(Account account) {
+	public Account fetchProductsAccount(Account account) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -153,7 +152,7 @@ public class ProductDAOImpl implements IProductDAO {
 	}
 
 	@Override
-	public Product GetProduct(int id) {
+	public Product getProduct(int id) {
 		String hql = "FROM Product WHERE id = :id";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);

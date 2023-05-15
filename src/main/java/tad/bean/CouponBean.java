@@ -1,7 +1,6 @@
 package tad.bean;
 
 import java.text.SimpleDateFormat;
-import java.time.Period;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -96,9 +95,7 @@ public class CouponBean {
 
 	// private boolean valid;
 	public boolean getValid() {
-		if (!status)
-			return false;
-		if (quantity <= 0)
+		if (!status || (quantity <= 0))
 			return false;
 		try {
 			SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -122,7 +119,7 @@ public class CouponBean {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
-	
+
 	public long getDays()
 	{
 		try
@@ -130,7 +127,7 @@ public class CouponBean {
 			SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date exdate = inputFormat.parse(expiryDate);
 			Date crrdate = new Date();
-			
+
 			return TimeUnit.DAYS.convert(exdate.getTime() - crrdate.getTime(), TimeUnit.MILLISECONDS);
 		}
 		catch(Exception ex)

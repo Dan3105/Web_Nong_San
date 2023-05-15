@@ -7,25 +7,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import tad.DAO.ICategoryDAO;
 import tad.bean.Company;
-import tad.dao.CategoryDAO;
 import tad.entity.Category;
 
 @Controller
-@RequestMapping(value = "account")
-public class AccountController {
+@RequestMapping(value = "/account")
+public class UserAccountController {
 
 	@Autowired
 	private Company company;
 	@Autowired
-	private CategoryDAO categoryDAO;
+	private ICategoryDAO categoryDAO;
 
 	@RequestMapping(value = "index")
 	public String index(ModelMap modelMap) {
 		// Slider + Banner
 		modelMap.addAttribute("company", company);
 
-		List<Category> category = categoryDAO.listCategories();
+		List<Category> category = categoryDAO.getListCategories();
 		modelMap.addAttribute("category", category);
 
 		return "account/index";

@@ -10,13 +10,13 @@ public class AddressBean {
 	private ArrayList<WardBean> wardBean;
 	private ArrayList<DistrictBean> districtBean;
 	private ArrayList<ProvinceBean> provinceBean;
-	
+
 	public AddressBean() {
-		wardBean = new ArrayList<WardBean>();
-		districtBean = new ArrayList<DistrictBean>();
-		provinceBean = new ArrayList<ProvinceBean>();
+		wardBean = new ArrayList<>();
+		districtBean = new ArrayList<>();
+		provinceBean = new ArrayList<>();
 	}
-	
+
 	public ArrayList<WardBean> getWardBean() {
 		return wardBean;
 	}

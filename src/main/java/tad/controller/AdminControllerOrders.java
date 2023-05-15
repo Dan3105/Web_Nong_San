@@ -2,6 +2,7 @@ package tad.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,15 +33,13 @@ public class AdminControllerOrders {
 
 	@RequestMapping("unresolve-order")
 	public String gListUnresolvedOrder(ModelMap model) {
-		ArrayList<Orders> orders = orderDAO.GetUnresolveOrders();
-		ArrayList<OrderDetailBean> detailOrderBean = new ArrayList<OrderDetailBean>();
+		List<Orders> orders = orderDAO.getUnresolveOrders();
+		List<OrderDetailBean> detailOrderBean = new ArrayList<OrderDetailBean>();
 		for (Orders order : orders) {
-			order = orderDAO.FetchOrderDetail(order);
+			order = orderDAO.fetchOrderDetail(order);
 			detailOrderBean.add(new OrderDetailBean(order));
 		}
-		
-		
-		
+
 		model.addAttribute("orders", detailOrderBean);
 		model.addAttribute("mapStatus", mapStatus());
 		model.addAttribute("source", "unresolve-order.htm");
@@ -49,15 +48,13 @@ public class AdminControllerOrders {
 
 	@RequestMapping("moving-order")
 	public String gListMovingOrder(ModelMap model) {
-		ArrayList<Orders> orders = orderDAO.GetMovingOrders();
-		ArrayList<OrderDetailBean> detailOrderBean = new ArrayList<OrderDetailBean>();
+		List<Orders> orders = orderDAO.getMovingOrders();
+		List<OrderDetailBean> detailOrderBean = new ArrayList<OrderDetailBean>();
 		for (Orders order : orders) {
-			order = orderDAO.FetchOrderDetail(order);
+			order = orderDAO.fetchOrderDetail(order);
 			detailOrderBean.add(new OrderDetailBean(order));
 		}
-		
-		
-		
+
 		model.addAttribute("orders", detailOrderBean);
 		model.addAttribute("mapStatus", mapStatus());
 		model.addAttribute("source", "moving-order.htm");
@@ -66,15 +63,13 @@ public class AdminControllerOrders {
 
 	@RequestMapping("resolved-order")
 	public String gListResolveOrder(ModelMap model) {
-		ArrayList<Orders> orders = orderDAO.GetResolveOrders();
-		ArrayList<OrderDetailBean> detailOrderBean = new ArrayList<OrderDetailBean>();
+		List<Orders> orders = orderDAO.getResolveOrders();
+		List<OrderDetailBean> detailOrderBean = new ArrayList<OrderDetailBean>();
 		for (Orders order : orders) {
-			order = orderDAO.FetchOrderDetail(order);
+			order = orderDAO.fetchOrderDetail(order);
 			detailOrderBean.add(new OrderDetailBean(order));
 		}
-		
-		
-		
+
 		model.addAttribute("orders", detailOrderBean);
 		model.addAttribute("mapStatus", mapStatus());
 		model.addAttribute("source", "resolved-order.htm");
@@ -83,40 +78,39 @@ public class AdminControllerOrders {
 
 	@RequestMapping("cancel-order")
 	public String gListCancelOrder(ModelMap model) {
-		ArrayList<Orders> orders = orderDAO.GetCancelOrders();
-		ArrayList<OrderDetailBean> detailOrderBean = new ArrayList<OrderDetailBean>();
+		List<Orders> orders = orderDAO.getCancelOrders();
+		List<OrderDetailBean> detailOrderBean = new ArrayList<OrderDetailBean>();
 		for (Orders order : orders) {
-			order = orderDAO.FetchOrderDetail(order);
+			order = orderDAO.fetchOrderDetail(order);
 			detailOrderBean.add(new OrderDetailBean(order));
 		}
-		
-		
-		
+
 		model.addAttribute("orders", detailOrderBean);
 		model.addAttribute("mapStatus", mapStatus());
 		model.addAttribute("source", "cancel-order.htm");
 		return "admin/admin-orders";
 	}
 
-	@RequestMapping(value = "update-order{id}", method=RequestMethod.POST)
-	public String updateOrder(@PathVariable("id") int id, HttpServletRequest request, @RequestParam("source") String source) {
+	@RequestMapping(value = "update-order{id}", method = RequestMethod.POST)
+	public String updateOrder(@PathVariable("id") int id, HttpServletRequest request,
+			@RequestParam("source") String source) {
 		Orders order = orderDAO.findOrder(id);
 
 		if (order != null && (order.getStatus() != 3 || order.getStatus() != 2)) {
 			String statusChanged = request.getParameter("statusSelect" + order.getOrderId());
 			System.out.println("Hell: " + statusChanged);
 			if (statusChanged != null) {
-			    short shortValue = Short.parseShort(statusChanged);
-			    order.setStatus(shortValue);
-			    orderDAO.update(order);
+				short shortValue = Short.parseShort(statusChanged);
+				order.setStatus(shortValue);
+				orderDAO.update(order);
 			}
-			
+
 		}
 		return "redirect:" + source;
 	}
 
 	private Map<Short, String> mapStatus() {
-		Map<Short, String> status = new HashMap<Short, String>();
+		Map<Short, String> status = new HashMap<>();
 		status.put((short) 0, "Chờ xác nhận");
 		status.put((short) 1, "Đang vận chuyển");
 		status.put((short) 2, "Đã giao!");

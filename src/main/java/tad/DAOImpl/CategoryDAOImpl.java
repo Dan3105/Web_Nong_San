@@ -1,6 +1,5 @@
 package tad.DAOImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -22,30 +21,25 @@ public class CategoryDAOImpl implements ICategoryDAO {
 	}
 
 	@Override
-	public boolean DeleteCategory(Category category) {
+	public boolean deleteCategory(Category category) {
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
-		try
-		{
+		try {
 			session.delete(category);
 			t.commit();
 			return true;
-			
-		}
-		catch(Exception e)
-		{
+
+		} catch (Exception e) {
 			t.rollback();
 			System.out.println(e);
-		}
-		finally
-		{
+		} finally {
 			session.close();
 		}
 		return false;
 	}
 
 	@Override
-	public boolean AddCategory(Category newCategory) {
+	public boolean addCategory(Category newCategory) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
@@ -63,17 +57,18 @@ public class CategoryDAOImpl implements ICategoryDAO {
 	}
 
 	@Override
-	public ArrayList<Category> GetListCategories() {
-		// TODO
+	public List<Category> getListCategories() {
+
 		String hql = "From Category";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
-		ArrayList<Category> listCategory = (ArrayList<Category>) query.list();
+		@SuppressWarnings("unchecked")
+		List<Category> listCategory = query.list();
 		return listCategory;
 	}
 
 	@Override
-	public Category GetCategory(int id) { // TODO Auto-generated method stub
+	public Category getCategory(int id) {
 		String hql = "FROM Category WHERE id = :id";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
@@ -89,7 +84,7 @@ public class CategoryDAOImpl implements ICategoryDAO {
 	}
 
 	@Override
-	public boolean UpdateCategory(Category changedCategory) {
+	public boolean updateCategory(Category changedCategory) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();

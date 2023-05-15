@@ -1,20 +1,20 @@
 package tad.bean;
 
 public class LoginBean {
-	
+
 	public LoginBean()
 	{
 		this.username = "";
 		this.password = "";
 	}
-	
+
 	public LoginBean(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
 	private String username;
 	private String password;
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -27,5 +27,5 @@ public class LoginBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 }

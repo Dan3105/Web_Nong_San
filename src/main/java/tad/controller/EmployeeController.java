@@ -30,7 +30,7 @@ import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping("/employee")
+@RequestMapping("/employee/")
 public class EmployeeController {
 	@RequestMapping("overview")
 	public String overview(ModelMap model) {
@@ -41,12 +41,12 @@ public class EmployeeController {
 	public String index(ModelMap model) {
 		return "redirect:/employee/overview.htm";
 	}
-	
+
 	@RequestMapping("logout.htm")
 	public String logout(ModelMap model, HttpSession session) {
 		return "redirect:/guest/logout.htm";
 	}
-	
+
 	@RequestMapping("profile.htm")
 	public String gInfo(ModelMap model, HttpSession session) {
 		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
@@ -59,18 +59,18 @@ public class EmployeeController {
 		model.addAttribute(DefineAttribute.UserBeanAttribute, userBean);
 		return "employee/employee-profile";
 	}
-	
+
 	@Autowired
 	@Qualifier("accountImgDir")
 	private UploadFile uploadFile;
-	
+
 
 	@Autowired
 	private IAccountDAO accountDAO;
-	
+
 	@Autowired
 	private ConverterUploadHandler convertHandler;
-	
+
 	@RequestMapping(value = "profile.htm", params = "update", method = RequestMethod.POST)
 	public String pInfo(@Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user,
 			BindingResult errors, HttpSession session, ModelMap modelMap) {
@@ -103,13 +103,13 @@ public class EmployeeController {
 		if (!user.getAvatarDir().isEmpty())
 			acc.setAvatar(user.getAvatarDir());
 
-		accountDAO.UpdateAccount(acc);
+		accountDAO.updateAccount(acc);
 
 		modelMap.addAttribute(user);
 		modelMap.addAttribute("message", true);
 		return "employee/employee-profile";
 	}
-	
+
 	@Autowired
 	private IAddressDAO addressDAO;
 
@@ -119,8 +119,8 @@ public class EmployeeController {
 		if (acc == null) {
 			return "redirect:/";
 		}
-		acc = addressDAO.FetchAddressAccount(acc);
-		ArrayList<Province> province = addressDAO.GetProvinceList();
+		acc = addressDAO.fetchAddressAccount(acc);
+		ArrayList<Province> province = addressDAO.getProvinceList();
 		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
 
 		AddressUserBean useraddress = new AddressUserBean();
@@ -142,13 +142,13 @@ public class EmployeeController {
 		{
 			return "redirect:/admin/address.htm";
 		}
-		Ward ward = addressDAO.GetWard(userAddress.getWardId());
+		Ward ward = addressDAO.getWard(userAddress.getWardId());
 		if (ward == null) {
 			return "redirect:/";
 		}
 		Address address = new Address(ward, acc);
 		address.setName(userAddress.getAddressLine());
-		addressDAO.CreateAddress(acc, address);
+		addressDAO.createAddress(acc, address);
 		return "redirect:/employee/address.htm";
 	}
 
@@ -164,7 +164,7 @@ public class EmployeeController {
 			return "redirect:/employee/address.htm";
 		}
 		Address address = null;
-		acc = addressDAO.FetchAddressAccount(acc);
+		acc = addressDAO.fetchAddressAccount(acc);
 		for (Address uAddress : acc.getAddresses()) {
 			if (uAddress.getAddressId() == id) {
 				address = uAddress;
@@ -175,14 +175,14 @@ public class EmployeeController {
 			return "redirect:/";
 		}
 
-		Ward ward = addressDAO.GetWard(user.getWardId());
-		
+		Ward ward = addressDAO.getWard(user.getWardId());
+
 		address.setName(user.getAddressLine());
 		address.setWard(ward);
-		addressDAO.UpdateAddress(address);
+		addressDAO.updateAddress(address);
 		return "redirect:/employee/address.htm";
 	}
-	
+
 	@RequestMapping(value = "address/delete{id}", method = RequestMethod.POST)
 	public String pDeleteAddressAccount(@Validated @ModelAttribute("useraddress") AddressUserBean user,
 			BindingResult errors, @PathVariable("id") int id, HttpSession session) {
@@ -195,22 +195,22 @@ public class EmployeeController {
 			return "redirect:/employee/address.htm";
 		}
 		Address address = null;
-		acc = addressDAO.FetchAddressAccount(acc);
+		acc = addressDAO.fetchAddressAccount(acc);
 		for (Address uAddress : acc.getAddresses()) {
 			if (uAddress.getAddressId() == id) {
 				address = uAddress;
 				break;
 			}
 		}
-		
+
 		if(address != null)
 		{
-			if(addressDAO.DeleteAddress(address))
+			if(addressDAO.deleteAddress(address))
 			{
-				
+
 			}
 		}
-		
+
 		return "redirect:/employee/address.htm";
 	}
 }

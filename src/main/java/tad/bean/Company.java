@@ -1,6 +1,6 @@
 package tad.bean;
 
-/*File luu tru cac tai nguyen cua cong ty giup nguoi dung ko 
+/*File luu tru cac tai nguyen cua cong ty giup nguoi dung ko
  * can doi code chi can doi source*/
 public class Company {
 	private String logoNavImg;

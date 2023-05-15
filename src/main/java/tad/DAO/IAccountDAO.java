@@ -1,6 +1,6 @@
 package tad.DAO;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,19 +13,21 @@ public interface IAccountDAO {
 		GUEST, ADMIN, EMPLOYEE,
 	}
 
-	public Account FindUserByEmail(String login);
+	public Account findAccountByEmail(String login);
+
+	public Account getAccount(int id);
+
+	public Role getRoleViaEnum(EnumRoleID roleID);
+
+	public boolean addAccountToDB(Account acc);
+
+	public List<Account> listAccountWithRole(EnumRoleID roleID);
 	
-	public Account GetUser(int id);
-
-	public Role GetRoleViaEnum(EnumRoleID roleID);
-
-	public boolean AddUserToDB(Account acc);
+	public List<Account> listAccounts();
 	
-	public ArrayList<Account> GetListAccountWithRole(EnumRoleID roleID);
+	public boolean updateAccount(Account account);
 
-	public boolean UpdateAccount(Account account);
-	
-	public boolean DeleteAccount(Account account);
+	public boolean deleteAccount(Account account);
 
-	public void FindAddressUser(Account account);
+	public void findAddressAccount(Account account);
 }

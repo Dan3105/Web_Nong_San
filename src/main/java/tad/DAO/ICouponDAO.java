@@ -12,13 +12,13 @@ public interface ICouponDAO {
 	List<Product> listProductWithCoupon(int limit);
 
 	Account FetchAccountCoupon(Account acc);
-	
+
 	boolean add(Coupon coupon);
 
 	boolean update(Coupon coupon);
 
 	boolean delete(Coupon coupon);
-	
+
 	Coupon getCoupon(int id);
 
 }

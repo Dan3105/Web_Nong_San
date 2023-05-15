@@ -33,16 +33,16 @@ public class Address {
 	private Account account;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "address")
-	private Set<Orders> orders = new HashSet<Orders>(0);
-	
+	private Set<Orders> orders = new HashSet<>(0);
+
 	public Address() {
-		
+
 	}
 
 	public Address(Ward ward, Account account) {
 		this.ward = ward;
 		this.account = account;
-		
+
 	}
 
 	public Address(int addressId, Ward ward, String name) {

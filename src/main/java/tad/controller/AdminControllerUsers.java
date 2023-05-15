@@ -1,6 +1,6 @@
 package tad.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,7 +36,7 @@ public class AdminControllerUsers {
 
 	@RequestMapping("get-guest")
 	public String gUserListGuest(ModelMap modelMap) {
-		ArrayList<Account> accounts = accountDAO.GetListAccountWithRole(EnumRoleID.GUEST);
+		List<Account> accounts = accountDAO.listAccountWithRole(EnumRoleID.GUEST);
 		modelMap.addAttribute("accounts", accounts);
 		modelMap.addAttribute("source", "get-guest.htm");
 		return "admin/admin-user-manager";
@@ -44,41 +44,39 @@ public class AdminControllerUsers {
 
 	@RequestMapping("get-employee")
 	public String gUserListEmployee(ModelMap modelMap) {
-		ArrayList<Account> accounts = accountDAO.GetListAccountWithRole(EnumRoleID.EMPLOYEE);
+		List<Account> accounts = accountDAO.listAccountWithRole(EnumRoleID.EMPLOYEE);
 		modelMap.addAttribute("accounts", accounts);
 		modelMap.addAttribute("source", "get-employee.htm");
 		return "admin/admin-user-manager";
 	}
 
-	@RequestMapping(value="enable{id}")
+	@RequestMapping(value = "enable{id}")
 	public String gEnableStatusUser(@PathVariable("id") int id, ModelMap modelMap,
 			@RequestParam("source") String source) {
-	
-		Account acc = accountDAO.GetUser(id);
+
+		Account acc = accountDAO.getAccount(id);
 		if (acc != null) {
 			System.out.println(acc.getStatus());
 			if (acc.getStatus() == 1)
 				acc.setStatus(0);
 			else if (acc.getStatus() == 0)
 				acc.setStatus(1);
-			accountDAO.UpdateAccount(acc);
+			accountDAO.updateAccount(acc);
 		}
 
 		return "redirect:" + source;
 	}
-	
-	@RequestMapping(value="delete{id}")
-	public String gDeleteUser(@PathVariable("id") int id, ModelMap modelMap,
-			@RequestParam("source") String source) {
+
+	@RequestMapping(value = "delete{id}")
+	public String gDeleteUser(@PathVariable("id") int id, ModelMap modelMap, @RequestParam("source") String source) {
 		System.out.println(id);
-		Account acc = accountDAO.GetUser(id);
+		Account acc = accountDAO.getAccount(id);
 		if (acc != null) {
-			if(accountDAO.DeleteAccount(acc))
-			{
-				
+			if (accountDAO.deleteAccount(acc)) {
+
 			}
 		}
-		
+
 		return "redirect:" + source;
 	}
 
@@ -92,7 +90,7 @@ public class AdminControllerUsers {
 	@Autowired
 	@Qualifier("accountImgDir")
 	private UploadFile uploadFile;
-	
+
 	@Autowired
 	private ConverterUploadHandler convertHandler;
 
@@ -107,7 +105,7 @@ public class AdminControllerUsers {
 				}
 			}
 
-			Role role = accountDAO.GetRoleViaEnum(EnumRoleID.EMPLOYEE);
+			Role role = accountDAO.getRoleViaEnum(EnumRoleID.EMPLOYEE);
 			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
 					user.getPhoneNumber(), avatarDir, user.getPassword());
 
@@ -115,7 +113,7 @@ public class AdminControllerUsers {
 				account.setAvatar(user.getAvatarDir());
 			}
 
-			if (accountDAO.AddUserToDB(account)) {
+			if (accountDAO.addAccountToDB(account)) {
 
 				return "redirect:get-employee.htm";
 			}

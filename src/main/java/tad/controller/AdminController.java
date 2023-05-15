@@ -30,7 +30,7 @@ import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/")
 public class AdminController {
 	@RequestMapping("overview")
 	public String overview(ModelMap model) {
@@ -102,7 +102,7 @@ public class AdminController {
 		if (!user.getAvatarDir().isEmpty())
 			acc.setAvatar(user.getAvatarDir());
 
-		accountDAO.UpdateAccount(acc);
+		accountDAO.updateAccount(acc);
 
 		modelMap.addAttribute(user);
 		modelMap.addAttribute("message", true);
@@ -118,8 +118,8 @@ public class AdminController {
 		if (acc == null) {
 			return "redirect:/";
 		}
-		acc = addressDAO.FetchAddressAccount(acc);
-		ArrayList<Province> province = addressDAO.GetProvinceList();
+		acc = addressDAO.fetchAddressAccount(acc);
+		ArrayList<Province> province = addressDAO.getProvinceList();
 		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
 
 		AddressUserBean useraddress = new AddressUserBean();
@@ -141,13 +141,13 @@ public class AdminController {
 		{
 			return "redirect:/admin/address.htm";
 		}
-		Ward ward = addressDAO.GetWard(userAddress.getWardId());
+		Ward ward = addressDAO.getWard(userAddress.getWardId());
 		if (ward == null) {
 			return "redirect:/";
 		}
 		Address address = new Address(ward, acc);
 		address.setName(userAddress.getAddressLine());
-		addressDAO.CreateAddress(acc, address);
+		addressDAO.createAddress(acc, address);
 		return "redirect:/admin/address.htm";
 	}
 
@@ -163,7 +163,7 @@ public class AdminController {
 			return "redirect:/admin/address.htm";
 		}
 		Address address = null;
-		acc = addressDAO.FetchAddressAccount(acc);
+		acc = addressDAO.fetchAddressAccount(acc);
 		for (Address uAddress : acc.getAddresses()) {
 			if (uAddress.getAddressId() == id) {
 				address = uAddress;
@@ -174,14 +174,14 @@ public class AdminController {
 			return "redirect:/";
 		}
 
-		Ward ward = addressDAO.GetWard(user.getWardId());
-		
+		Ward ward = addressDAO.getWard(user.getWardId());
+
 		address.setName(user.getAddressLine());
 		address.setWard(ward);
-		addressDAO.UpdateAddress(address);
+		addressDAO.updateAddress(address);
 		return "redirect:/admin/address.htm";
 	}
-	
+
 	@RequestMapping(value = "address/delete{id}", method = RequestMethod.POST)
 	public String pDeleteAddressAccount(@Validated @ModelAttribute("useraddress") AddressUserBean user,
 			BindingResult errors, @PathVariable("id") int id, HttpSession session) {
@@ -194,22 +194,22 @@ public class AdminController {
 			return "redirect:/admin/address.htm";
 		}
 		Address address = null;
-		acc = addressDAO.FetchAddressAccount(acc);
+		acc = addressDAO.fetchAddressAccount(acc);
 		for (Address uAddress : acc.getAddresses()) {
 			if (uAddress.getAddressId() == id) {
 				address = uAddress;
 				break;
 			}
 		}
-		
+
 		if(address != null)
 		{
-			if(addressDAO.DeleteAddress(address))
+			if(addressDAO.deleteAddress(address))
 			{
-				
+
 			}
 		}
-		
+
 		return "redirect:/admin/address.htm";
 	}
 }

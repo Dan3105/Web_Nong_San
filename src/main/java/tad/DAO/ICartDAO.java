@@ -7,9 +7,11 @@ import tad.entity.Coupon;
 
 public interface ICartDAO {
 
-	boolean insert(Cart cart);
+	boolean insertCart(Cart cart);
 
-	boolean delete(Cart cart);
+	boolean deleteCart(Cart cart);
+	
+	boolean updateCart(Cart cart);
 
 	Coupon getCoupon(String coupon);
 

@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.multipart.MultipartFile;
 
 public class UserBean {
-	
+
 	@NotBlank(message = "Email is required")
 	@Email(message = "Email is not valid")
 	private String email;
@@ -28,7 +28,7 @@ public class UserBean {
 	private MultipartFile avatar;
 
 	private String avatarDir;
-	
+
 	public UserBean() {
 		email = "";
 		password = "";

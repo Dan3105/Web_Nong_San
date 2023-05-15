@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value = "/order/")
-public class OrderController {
+public class UserOrderController {
 	/*
 	 * @Autowired OrderDAO orderDAO;
 	 */
@@ -25,12 +25,12 @@ public class OrderController {
 		 * Account user = (Account) session.getAttribute("account"); List<Order> list =
 		 * orderDAO.getOrder(user.getAccountId());
 		 */
-		
+
 		/*
 		 * PagedListHolder pagedListHolder = new PagedListHolder(list); int page =
 		 * ServletRequestUtils.getIntParameter(request, "p", 0);
 		 * pagedListHolder.setPage(page); pagedListHolder.setMaxLinkedPages(5);
-		 * 
+		 *
 		 * pagedListHolder.setPageSize(10); //model.addAttribute("orders", list);
 		 * model.addAttribute("pagedListHolder", pagedListHolder);
 		 */
@@ -48,7 +48,7 @@ public class OrderController {
 		 * (list.get(0).getOrder().getCoupons() != null) { discountValue =
 		 * list.get(0).getOrder().getCoupons().getValue(); discountType =
 		 * list.get(0).getOrder().getCoupons().getType(); }
-		 * 
+		 *
 		 * for (OrderDetail o : list) { total += o.getAmount() * o.getPrice(); }
 		 */
 

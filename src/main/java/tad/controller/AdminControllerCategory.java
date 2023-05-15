@@ -19,7 +19,7 @@ import tad.entity.Category;
 import tad.utility.ConverterUploadHandler;
 
 @Controller
-@RequestMapping("/admin/category")
+@RequestMapping("/admin/category/")
 public class AdminControllerCategory {
 	@Autowired
 	private SessionFactory factory;
@@ -29,7 +29,7 @@ public class AdminControllerCategory {
 
 	@RequestMapping()
 	public String gCategoryList(ModelMap model) throws InterruptedException {
-		ArrayList<CategoryBean> categories = CategoryBean.ConvertListCategory(categoryDAO.GetListCategories());
+		ArrayList<CategoryBean> categories = CategoryBean.ConvertListCategory(categoryDAO.getListCategories());
 		model.addAttribute("list", categories);
 
 		return "admin/admin-category";
@@ -45,7 +45,7 @@ public class AdminControllerCategory {
 
 	@RequestMapping("update{id}")
 	public String gCategoryUpdate(@PathVariable("id") int id, ModelMap modelMap) {
-		Category category = categoryDAO.GetCategory(id);
+		Category category = categoryDAO.getCategory(id);
 		CategoryBean categoryBean = new CategoryBean(category);
 		modelMap.addAttribute("updateBean", categoryBean);
 		return "admin/admin-category-form";
@@ -62,7 +62,7 @@ public class AdminControllerCategory {
 					category.setImage(converter.SetImageNameViaMultipartFile(categoryBean.getFileImage()));
 				}
 			}
-			categoryDAO.AddCategory(category);
+			categoryDAO.addCategory(category);
 		}
 
 		return "redirect:/admin/category.htm";
@@ -77,7 +77,7 @@ public class AdminControllerCategory {
 
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public String pCategoryUpdate(@ModelAttribute("updateBean") CategoryBean categoryBean) {
-		Category category = categoryDAO.GetCategory(categoryBean.getId());
+		Category category = categoryDAO.getCategory(categoryBean.getId());
 		if (category != null) {
 			category.setName(categoryBean.getName());
 
@@ -86,7 +86,7 @@ public class AdminControllerCategory {
 					category.setImage(converter.SetImageNameViaMultipartFile(categoryBean.getFileImage()));
 				}
 			}
-			categoryDAO.UpdateCategory(category);
+			categoryDAO.updateCategory(category);
 
 		} else {
 			System.out.println(String.format("Error in getting id: %d", categoryBean.getId()));
@@ -97,31 +97,31 @@ public class AdminControllerCategory {
 
 	@RequestMapping(value = "delete{id}", method = RequestMethod.GET)
 	public String pCategoryDelete(@PathVariable int id, ModelMap model) {
-		Category category = categoryDAO.GetCategory(id);
+		Category category = categoryDAO.getCategory(id);
 		if (category != null) {
 			if (category.getProducts().size() > 0) {
 				model.addAttribute("error-description", "");
 				return "redirect:/admin/category.htm";
 			} else {
-				if (categoryDAO.DeleteCategory(category)) {
+				if (categoryDAO.deleteCategory(category)) {
 					model.addAttribute("success-description", "Xóa thành công");
 				} else {
 					model.addAttribute("error-description", "Xóa thất bại!");
 				}
 			}
 		}
-		
+
 		return "redirect:/admin/category.htm";
 	}
 }
 
 /*
  * @Autowired private IAddressDAO addressDAO;
- * 
- * 
+ *
+ *
  * @RequestMapping(value = "register", method = RequestMethod.GET) public String
  * userRegisterGET(ModelMap model) {
- * 
+ *
  * ArrayList<Province> provinceDatas = addressDAO.GetProvinceList();
  * AddressDatasBean addrDataBean = new AddressDatasBean(); AddressBean address =
  * addrDataBean.ConvertToDataAddressBean(provinceDatas);

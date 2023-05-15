@@ -20,12 +20,12 @@ public class GlobalInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+
 		HttpSession session = request.getSession();
 		Account user = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		// If there is user try to add information of user
 		if (user != null) {
-			Account acc = accountDAO.FindUserByEmail(user.getEmail());
+			Account acc = accountDAO.findAccountByEmail(user.getEmail());
 			if (acc != null) {
 				request.setAttribute(DefineAttribute.UserAttribute, acc);
 			}

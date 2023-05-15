@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,17 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import tad.DAO.ICouponDAO;
 import tad.bean.CouponBean;
-import tad.bean.ProductBean;
-import tad.bean.UploadFile;
 import tad.entity.Account;
-import tad.entity.Category;
 import tad.entity.Coupon;
-import tad.entity.Product;
-import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping("/employee/vouchers")
+@RequestMapping("/employee/vouchers/")
 public class EmployeeControllerVouchers {
 	@Autowired
 	private SessionFactory factory;
@@ -46,7 +40,7 @@ public class EmployeeControllerVouchers {
 
 		Account tacc = couponDAO.FetchAccountCoupon(currentAcc);
 		if (tacc != null) {
-			ArrayList<CouponBean> coupons = new ArrayList<CouponBean>();
+			ArrayList<CouponBean> coupons = new ArrayList<>();
 			for (Coupon coupon : tacc.getCoupons()) {
 				CouponBean cp = new CouponBean(coupon);
 				coupons.add(cp);
@@ -89,7 +83,7 @@ public class EmployeeControllerVouchers {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (couponDAO.update(findCoupon) == false) {
+			if (!couponDAO.update(findCoupon)) {
 				System.out.println("checking error");
 			}
 		}
@@ -104,7 +98,7 @@ public class EmployeeControllerVouchers {
 			return "redirect:employee/logout.htm";
 		}
 		Coupon findCoupon = new Coupon();
-		findCoupon.setAccount(acc);;
+		findCoupon.setAccount(acc);
 		// 4
 		findCoupon.setName(coupon.getName());
 		// 5
@@ -133,13 +127,13 @@ public class EmployeeControllerVouchers {
 			e.printStackTrace();
 			/* return "redirect:/employee/vouchers.htm"; */
 		}
-		if(couponDAO.add(findCoupon) == false)
+		if(!couponDAO.add(findCoupon))
 		{
 			System.out.println("Error in add");
 		}
 		return "redirect:/employee/vouchers.htm";
 	}
-	
+
 	@RequestMapping(value = "delete{id}.htm", method = RequestMethod.POST)
 	public String pDeleteProduct(@PathVariable("id") int id) {
 		Coupon findCoupon = couponDAO.getCoupon(id);

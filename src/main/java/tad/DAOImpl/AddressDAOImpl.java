@@ -28,7 +28,7 @@ public class AddressDAOImpl implements IAddressDAO {
 	private IAccountDAO accountDAO;
 
 	@Override
-	public Account FetchAddressAccount(Account account) {
+	public Account fetchAddressAccount(Account account) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -37,7 +37,7 @@ public class AddressDAOImpl implements IAddressDAO {
 			taccount = (Account) session.get(Account.class, account.getAccountId());
 			Hibernate.initialize(taccount.getAddresses());
 			tx.commit();
-			
+
 		} catch (Exception e) {
 			tx.rollback();
 			System.out.println("Fetch Address occur error");
@@ -49,7 +49,7 @@ public class AddressDAOImpl implements IAddressDAO {
 	}
 
 	@Override
-	public ArrayList<Province> GetProvinceList() {
+	public ArrayList<Province> getProvinceList() {
 		// TODO Auto-generated method stub
 		String hql = "From Province";
 		Session session = sessionFactory.getCurrentSession();
@@ -59,7 +59,7 @@ public class AddressDAOImpl implements IAddressDAO {
 	}
 
 	@Override
-	public boolean CreateAddress(Account account, Address address) {
+	public boolean createAddress(Account account, Address address) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
@@ -67,11 +67,11 @@ public class AddressDAOImpl implements IAddressDAO {
 			session.save(address);
 			t.commit();
 			session.close();
-			
-			account = FetchAddressAccount(account);
+
+			account = fetchAddressAccount(account);
 			account.getAddresses().add(address);
 
-			return accountDAO.UpdateAccount(account);
+			return accountDAO.updateAccount(account);
 		} catch (Exception ex) {
 			t.rollback();
 			System.out.println("Create Address occur error");
@@ -84,7 +84,7 @@ public class AddressDAOImpl implements IAddressDAO {
 	}
 
 	@Override
-	public boolean UpdateAddress(Address address) {
+	public boolean updateAddress(Address address) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
@@ -105,7 +105,7 @@ public class AddressDAOImpl implements IAddressDAO {
 	}
 
 	@Override
-	public boolean DeleteAddress(Address address) {
+	public boolean deleteAddress(Address address) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
@@ -124,7 +124,7 @@ public class AddressDAOImpl implements IAddressDAO {
 	}
 
 	@Override
-	public Address GetAddress(int id) {
+	public Address getAddress(int id) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "From Address Where AddressID = :id";
@@ -140,7 +140,7 @@ public class AddressDAOImpl implements IAddressDAO {
 	}
 
 	@Override
-	public Ward GetWard(int id) {
+	public Ward getWard(int id) {
 		// TODO Auto-generated method stub
 		String hql = "From Ward where WardID = :id";
 		Session session = sessionFactory.getCurrentSession();

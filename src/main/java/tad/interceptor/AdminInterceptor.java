@@ -17,7 +17,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		HttpSession session = request.getSession();
 		Account user = (Account) session.getAttribute(DefineAttribute.UserAttribute);
-		
+
 		if (user == null) {
 			response.sendRedirect(request.getContextPath() + "/guest.htm"); // guest.htm
 			return false;

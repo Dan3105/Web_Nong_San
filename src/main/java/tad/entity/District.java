@@ -3,6 +3,7 @@ package tad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,14 +27,14 @@ public class District {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ProvinceID", nullable = false)
 	private Province province;
-	
+
 
 	@Column(name = "Name", nullable = false)
 	private String name;
-	
+
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "district")
-	private Set<Ward> wards = new HashSet<Ward>(0);
+	private Set<Ward> wards = new HashSet<>(0);
 
 	public District() {
 	}

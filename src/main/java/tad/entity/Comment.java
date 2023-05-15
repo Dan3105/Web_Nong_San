@@ -4,6 +4,7 @@ package tad.entity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,9 +40,9 @@ public class Comment {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "PostingDate", length = 23)
 	private Date postingDate;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "comments")
-	private Set<Feedback> feedbacks = new HashSet<Feedback>(0);
+	private Set<Feedback> feedbacks = new HashSet<>(0);
 
 	public Comment() {
 	}

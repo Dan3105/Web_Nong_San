@@ -1,7 +1,5 @@
 package tad.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,27 +9,24 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import tad.bean.Company;
-import tad.dao.AccountDAO;
-import tad.dao.CartDAO;
-import tad.dao.CategoryDAO;
-import tad.dao.ProductDAO;
+import tad.DAO.IAccountDAO;
+import tad.DAO.ICartDAO;
+import tad.DAO.IProductDAO;
 import tad.entity.Account;
 import tad.entity.Cart;
-import tad.entity.Category;
 
 @Controller
-@RequestMapping("product")
-public class AProductController {
+@RequestMapping("/product/")
+public class ProductController {
 
 	@Autowired
-	private ProductDAO productDAO;
+	private IProductDAO productDAO;
 
 	@Autowired
-	private AccountDAO accountDAO;
+	private IAccountDAO accountDAO;
 
 	@Autowired
-	private CartDAO cartDAO;
+	private ICartDAO cartDAO;
 
 	@RequestMapping(value = "addToCart", params = { "productID" })
 	public String addToCart(ModelMap model, HttpServletRequest request, HttpSession session,
@@ -44,17 +39,17 @@ public class AProductController {
 
 		} else {
 
-			Cart cart = cartDAO.getCart(user.getAccountID(), productID);
-			user = accountDAO.getAccount(user.getAccountID());
+			Cart cart = cartDAO.getCart(user.getAccountId(), productID);
+			user = accountDAO.getAccount(user.getAccountId());
 			if (cart != null) {
 				cart.setQuantity(cart.getQuantity() + 1);
-				cartDAO.update(cart);
+				cartDAO.updateCart(cart);
 			} else {
 				cart = new Cart();
-				cart.setAccount(accountDAO.getAccount(user.getAccountID()));
-				cart.setProduct(productDAO.getProductById(productID));
+				cart.setAccount(accountDAO.getAccount(user.getAccountId()));
+				cart.setProduct(productDAO.getProduct(productID));
 				cart.setQuantity(1);
-				cartDAO.insert(cart);
+				cartDAO.insertCart(cart);
 
 			}
 

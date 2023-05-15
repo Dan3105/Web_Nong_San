@@ -30,7 +30,7 @@ import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping("/employee/products")
+@RequestMapping("/employee/products/")
 public class EmployeeControllerProducts {
 	@Autowired
 	private SessionFactory factory;
@@ -48,8 +48,8 @@ public class EmployeeControllerProducts {
 			return "redirect:/";
 		}
 
-		Account tacc = productDAO.FetchProductsAccount(currentAcc);
-		ArrayList<ProductBean> products = new ArrayList<ProductBean>();
+		Account tacc = productDAO.fetchProductsAccount(currentAcc);
+		ArrayList<ProductBean> products = new ArrayList<>();
 
 		for (Product product : tacc.getProducts()) {
 			ProductBean bean = new ProductBean(product);
@@ -59,16 +59,16 @@ public class EmployeeControllerProducts {
 		ProductBean beanForm = new ProductBean();
 
 		model.addAttribute("products", products);
-		model.addAttribute("categories", categoryDAO.GetListCategories());
+		model.addAttribute("categories", categoryDAO.getListCategories());
 		model.addAttribute("productForm", beanForm);
 		return "employee/employee-product";
 	}
 
 	@RequestMapping(value = "delete{id}.htm", method = RequestMethod.POST)
 	public String pDeleteProduct(@PathVariable("id") int id) {
-		Product findProduct = productDAO.GetProduct(id);
+		Product findProduct = productDAO.getProduct(id);
 		if (findProduct != null) {
-			productDAO.delete(findProduct);
+			productDAO.deleteProduct(findProduct);
 		}
 		// productDAO.delete(null)
 		return "redirect:/employee/products.htm";
@@ -85,11 +85,11 @@ public class EmployeeControllerProducts {
 
 	@RequestMapping(value = "update-product{id}.htm", method = RequestMethod.POST)
 	public String pUpdateProduct(@PathVariable("id") int id, @ModelAttribute("productForm") ProductBean product) {
-		Product findProduct = productDAO.GetProduct(id);
+		Product findProduct = productDAO.getProduct(id);
 
 		if (findProduct != null) {
 			// 1
-			Category category = categoryDAO.GetCategory(product.getCategoryId());
+			Category category = categoryDAO.getCategory(product.getCategoryId());
 			if (category != null) {
 				findProduct.setCategory(category);
 			}
@@ -126,7 +126,7 @@ public class EmployeeControllerProducts {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(productDAO.update(findProduct) == false) { System.out.println("checking error");}
+			if(!productDAO.updateProduct(findProduct)) { System.out.println("checking error");}
 		}
 
 		return "redirect:/employee/products.htm";
@@ -143,7 +143,7 @@ public class EmployeeControllerProducts {
 		//0
 		newProduct.setAccount(acc);
 		//1
-		Category category = categoryDAO.GetCategory(product.getCategoryId());
+		Category category = categoryDAO.getCategory(product.getCategoryId());
 		if (category != null) {
 			newProduct.setCategory(category);
 		}
@@ -185,12 +185,12 @@ public class EmployeeControllerProducts {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		if(productDAO.insert(newProduct) == false)
+
+		if(!productDAO.insertProduct(newProduct))
 		{
 			System.out.println("error in adding");
 		}
-		
+
 		return "redirect:/employee/products.htm";
 	}
 }

@@ -18,7 +18,7 @@ public class AddressDatasBean {
 		public ProvinceBean(int id, String name) {
 			this.id = id;
 			this.name = name;
-			this.districts = new ArrayList<DistrictBean>();
+			this.districts = new ArrayList<>();
 		}
 
 		public int getId() {
@@ -59,7 +59,7 @@ public class AddressDatasBean {
 			this.id = id;
 			this.name = name;
 			this.province = province;
-			this.wards = new ArrayList<WardBean>();
+			this.wards = new ArrayList<>();
 		}
 		public int getId() {
 			return id;
@@ -139,10 +139,10 @@ public class AddressDatasBean {
 					datasAddress.getWardBean().add(wardBean);
 				}
 			}
-			
+
 		}
 		return datasAddress;
 	}
-	
-	
+
+
 }

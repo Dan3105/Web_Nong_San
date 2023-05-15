@@ -34,7 +34,7 @@ public class Coupon {
 
 	@Column(name = "Discount", nullable = false, precision = 53, scale = 0)
 	private double discount;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "PostingDate", nullable = false, length = 23)
 	private Date postingDate;
@@ -51,13 +51,13 @@ public class Coupon {
 
 	@Column(name = "Status", nullable = false)
 	private boolean status;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "AccountID", nullable = false, updatable = true)
 	private Account account;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
-	private Set<Product> products = new HashSet<Product>(0);
+	private Set<Product> products = new HashSet<>(0);
 
 	public Coupon() {
 	}
@@ -151,7 +151,7 @@ public class Coupon {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	
+
 	public Set<Product> getProducts() {
 		return this.products;
 	}

@@ -11,48 +11,47 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import net.sf.cglib.core.Local;
+import tad.DAO.IAccountDAO;
+import tad.DAO.ICategoryDAO;
+import tad.DAO.ICouponDAO;
+import tad.DAO.IProductDAO;
 import tad.bean.Company;
-import tad.dao.AccountDAO;
-import tad.dao.CategoryDAO;
-import tad.dao.CouponDAO;
-import tad.dao.ProductDAO;
-import tad.entity.Category;
-import tad.entity.Coupon;
-import tad.entity.Product;
 import tad.entity.Account;
+import tad.entity.Category;
+import tad.entity.Product;
 
 @Controller
-public class HomeController {
+public class UserHomeController {
 	@Autowired
 	private Company company;
 	@Autowired
 	private SessionFactory sessionFactory;
 	@Autowired
-	private ProductDAO productDAO;
+	private IProductDAO productDAO;
 	@Autowired
-	private CategoryDAO categoryDAO;
+	private ICategoryDAO categoryDAO;
 	@Autowired
-	private CouponDAO couponDAO;
+	private ICouponDAO couponDAO;
 	@Autowired
-	private AccountDAO accountDAO;
+	private IAccountDAO accountDAO;
 
 	@RequestMapping("index")
 	public String index(ModelMap modelMap, HttpSession session) {
 		// Slider + Banner
+
 		modelMap.addAttribute("company", company);
 
 		List<Category> categoryHasProducts = categoryDAO.listCategoriesHasProducts(3);
 		modelMap.addAttribute("categoryHasProducts", categoryHasProducts);
 
-		List<Category> category = categoryDAO.listCategories();
+		List<Category> category = categoryDAO.getListCategories();
 		modelMap.addAttribute("category", category);
 
 		List<Product> products = productDAO.listProductsWithCoupon();
 		modelMap.addAttribute("products", products);
 
 		Account user = (Account) session.getAttribute("account");
-		int userId = user == null ? -1 : user.getAccountID();
+		int userId = user == null ? -1 : user.getAccountId();
 
 		return "page/home";
 	}
@@ -79,7 +78,7 @@ public class HomeController {
 	public String login(HttpSession session) {
 		// Fake login vào tài khoản số 1
 		Account account = accountDAO.getAccount(1);
-		System.out.println(account.getLastName() + " " + account.getAccountID());
+		System.out.println(account.getLastName() + " " + account.getAccountId());
 		session.setAttribute("account", account);
 		return "page/home";
 	}

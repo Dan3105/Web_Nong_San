@@ -1,6 +1,6 @@
 package tad.DAOImpl;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -11,10 +11,28 @@ import org.springframework.transaction.annotation.Transactional;
 import tad.DAO.IAccountDAO;
 import tad.entity.Account;
 import tad.entity.Role;
+
 @Transactional
 public class AccountDAOImpl implements IAccountDAO {
+
 	@Override
-	public boolean DeleteAccount(Account account) {
+	public Account findAccountByEmail(String username) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "From Account Where Email = :username";
+		Query query = session.createQuery(hql);
+		query.setString("username", username);
+		Account acc = null;
+		try {
+			acc = (Account) query.uniqueResult();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return acc;
+	}
+
+	@Override
+	public boolean deleteAccount(Account account) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
@@ -33,12 +51,13 @@ public class AccountDAOImpl implements IAccountDAO {
 	}
 
 	@Override
-	public ArrayList<Account> GetListAccountWithRole(EnumRoleID roleID) {
+	public List<Account> listAccountWithRole(EnumRoleID roleID) {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "From Account Where RoleID = :role";
 		Query query = session.createQuery(hql);
 		query.setString("role", roleID.toString());
-		ArrayList<Account> acc = (ArrayList<Account>) query.list();
+		@SuppressWarnings("unchecked")
+		List<Account> acc = query.list();
 		return acc;
 	}
 
@@ -49,23 +68,7 @@ public class AccountDAOImpl implements IAccountDAO {
 	}
 
 	@Override
-	public Account FindUserByEmail(String username) {
-		Session session = sessionFactory.getCurrentSession();
-		String hql = "From Account Where Email = :username";
-		Query query = session.createQuery(hql);
-		query.setString("username", username);
-		Account acc = null;
-		try {
-			acc = (Account) query.uniqueResult();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		return acc;
-	}
-
-	@Override
-	public Account GetUser(int id) {
+	public Account getAccount(int id) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "From Account Where AccountID = :id";
@@ -81,7 +84,7 @@ public class AccountDAOImpl implements IAccountDAO {
 	}
 
 	@Override
-	public Role GetRoleViaEnum(EnumRoleID role) {
+	public Role getRoleViaEnum(EnumRoleID role) {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "From Role Where RoleID = :roleGetterID";
 		Query query = session.createQuery(hql);
@@ -97,7 +100,7 @@ public class AccountDAOImpl implements IAccountDAO {
 	}
 
 	@Override
-	public boolean UpdateAccount(Account account) {
+	public boolean updateAccount(Account account) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
@@ -118,14 +121,12 @@ public class AccountDAOImpl implements IAccountDAO {
 	}
 
 	@Override
-	public void FindAddressUser(Account account) {
-		// TODO Auto-generated method stub
-		
+	public void findAddressAccount(Account account) {
+
 	}
 
 	@Override
-	public boolean AddUserToDB(Account acc) {
-		// TODO Auto-generated method stub
+	public boolean addAccountToDB(Account acc) {
 
 		try {
 			Session session = sessionFactory.openSession(); // session.refresh(acc);
@@ -139,6 +140,14 @@ public class AccountDAOImpl implements IAccountDAO {
 			return false;
 		}
 
+	}
+
+	@Override
+	public List<Account> listAccounts() {
+		Session session = sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		List<Account> list = session.createQuery("FROM Account").list();
+		return list;
 	}
 
 }

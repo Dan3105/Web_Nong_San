@@ -27,7 +27,7 @@ public class Orders  {
 	@GeneratedValue
 	@Column(name = "OrderID", unique = true, nullable = false)
 	private int orderId;
-	
+
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "AccountID", nullable = false)
@@ -40,15 +40,15 @@ public class Orders  {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DeliveryTime", length = 23)
 	private Date deliveryTime;
-	
+
 	@Column(name = "StatusOrder", nullable = false)
 	private short status;
 
 	@Column(name = "AddressDetail", nullable = false)
 	private String address;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-	private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
+	private Set<OrderDetail> orderDetails = new HashSet<>(0);
 
 	public Orders() {
 	}
@@ -70,7 +70,7 @@ public class Orders  {
 		this.orderDetails = orderDetails;
 	}
 
-	
+
 	public int getOrderId() {
 		return this.orderId;
 	}
