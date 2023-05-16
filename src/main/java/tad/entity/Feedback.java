@@ -1,5 +1,4 @@
 package tad.entity;
-// Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -10,9 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -50,10 +48,7 @@ public class Feedback {
 	@Column(name = "PostingDate", nullable = false, length = 23)
 	private Date postingDate;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "FeedbackHistory", schema = "dbo", catalog = "DB_Tad", joinColumns = {
-			@JoinColumn(name = "FeedbackID", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "CommentID", nullable = false, updatable = false) })
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "feedback")
 	private Set<Comment> comments = new HashSet<>(0);
 
 	public Feedback() {

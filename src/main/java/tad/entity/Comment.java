@@ -41,8 +41,9 @@ public class Comment {
 	@Column(name = "PostingDate", length = 23)
 	private Date postingDate;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "comments")
-	private Set<Feedback> feedbacks = new HashSet<>(0);
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "FeedbackID", nullable = false)
+	private Feedback feedback;
 
 	public Comment() {
 	}
