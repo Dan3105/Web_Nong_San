@@ -23,7 +23,7 @@
 		</div>
 		<div class="form-group">
 			<p>Current Image Display</p>
-			<img class="width-100" src="<c:url value="/assets/img/category/${crrBean.image}"/>"
+			<img class="width-100" style="width:210px" src="<c:url value="/assets/img/category/${crrBean.image}"/>"
 				alt="Image not found" />
 		</div>
 
@@ -33,7 +33,7 @@
 			<form:input id="image" type="file" class="form-control"
 				accept="image/*" path="fileImage" />
 		</div>
-		<button type="submit" class="btn btn-primary">Submit</button>
+		<button type="submit" class="mt-3 btn btn-primary">Submit</button>
 	</form:form>
 </body>
 </html>
