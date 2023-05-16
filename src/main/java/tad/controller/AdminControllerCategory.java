@@ -19,7 +19,7 @@ import tad.entity.Category;
 import tad.utility.ConverterUploadHandler;
 
 @Controller
-@RequestMapping("/admin/category/")
+@RequestMapping("/admin/category")
 public class AdminControllerCategory {
 	@Autowired
 	private SessionFactory factory;
