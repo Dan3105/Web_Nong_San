@@ -55,13 +55,13 @@ public class Comment {
 	}
 
 	public Comment(int commentId, Account account, String commentContent, boolean status, Date postingDate,
-			Set<Feedback> feedbacks) {
+			Feedback feedback) {
 		this.commentId = commentId;
 		this.account = account;
 		this.commentContent = commentContent;
 		this.status = status;
 		this.postingDate = postingDate;
-		this.feedbacks = feedbacks;
+		this.feedback = feedback;
 	}
 
 	public int getCommentId() {
@@ -104,12 +104,12 @@ public class Comment {
 		this.postingDate = postingDate;
 	}
 
-	public Set<Feedback> getFeedbacks() {
-		return this.feedbacks;
+	public Feedback getFeedback() {
+		return this.feedback;
 	}
 
-	public void setFeedbacks(Set<Feedback> feedbacks) {
-		this.feedbacks = feedbacks;
+	public void setFeedbacks(Feedback feedback) {
+		this.feedback = feedback;
 	}
 
 }

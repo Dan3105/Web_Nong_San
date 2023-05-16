@@ -61,8 +61,6 @@ public class EmployeeControllerVouchers {
 			findCoupon.setName(coupon.getName());
 			// 5
 			findCoupon.setStatus(coupon.getStatus());
-			// 6
-			findCoupon.setQuantity(coupon.getQuantity());
 			// 7
 			findCoupon.setDetail(coupon.getDetail());
 			findCoupon.setDiscount(coupon.getDiscount());			// 8
@@ -103,8 +101,6 @@ public class EmployeeControllerVouchers {
 		findCoupon.setName(coupon.getName());
 		// 5
 		findCoupon.setStatus(coupon.getStatus());
-		// 6
-		findCoupon.setQuantity(coupon.getQuantity());
 		// 7
 		findCoupon.setDetail(coupon.getDetail());
 		findCoupon.setDiscount(coupon.getDiscount());

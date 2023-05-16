@@ -43,9 +43,6 @@ public class Coupon {
 	@Column(name = "ExpiryDate", nullable = false, length = 23)
 	private Date expiryDate;
 
-	@Column(name = "Quantity", nullable = false)
-	private int quantity;
-
 	@Column(name = "Detail")
 	private String detail;
 
@@ -69,7 +66,7 @@ public class Coupon {
 		this.discount = discount;
 		this.postingDate = postingDate;
 		this.expiryDate = expiryDate;
-		this.quantity = quantity;
+		
 		this.status = status;
 	}
 
@@ -80,7 +77,6 @@ public class Coupon {
 		this.discount = discount;
 		this.postingDate = postingDate;
 		this.expiryDate = expiryDate;
-		this.quantity = quantity;
 		this.detail = detail;
 		this.status = status;
 		this.products = products;
@@ -126,14 +122,6 @@ public class Coupon {
 
 	public void setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
-	}
-
-	public int getQuantity() {
-		return this.quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 
 	public String getDetail() {

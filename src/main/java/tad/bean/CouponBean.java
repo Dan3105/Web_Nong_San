@@ -12,7 +12,6 @@ public class CouponBean {
 	private double discount;
 	private String postingDate;
 	private String expiryDate;
-	private int quantity;
 	private boolean status;
 	private String detail;
 	public CouponBean() {
@@ -21,7 +20,6 @@ public class CouponBean {
 		discount = 0;
 		postingDate = "";
 		expiryDate = "";
-		quantity = 0;
 		status = false;
 	}
 
@@ -29,7 +27,6 @@ public class CouponBean {
 		this.couponId = coupon.getCouponId();
 		this.name = coupon.getName();
 		this.discount = coupon.getDiscount();
-		this.quantity = coupon.getQuantity();
 
 		Date crrDate = coupon.getPostingDate();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -85,17 +82,9 @@ public class CouponBean {
 		this.expiryDate = expiryDate;
 	}
 
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
 	// private boolean valid;
 	public boolean getValid() {
-		if (!status || (quantity <= 0))
+		if (!status)
 			return false;
 		try {
 			SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
