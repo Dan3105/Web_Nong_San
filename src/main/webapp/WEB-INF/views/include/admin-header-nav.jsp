@@ -1,6 +1,26 @@
 <link rel="stylesheet"
 	href="<c:url value="/assets/css/admincss/admin-menu.css"/>">
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<style>
+
+	.btn-outline {
+		color: #4fbfa8;
+		background-color: #ffffff;
+		border-color: #4fbfa8;
+		font-weight: bold;
+		}
+	
+	.btn-outline: hover,
+	.btn-outline: active,
+	.btn-outline: focus,
+	btn-outline.active{
+		background: #4fbfa8;
+		color: #ffffff;
+		border-color: #4fbfa8;
+		}
+		
+	
+</style>
 <!-- Admin menu vertical -->
 <nav id="sidebar">
 	<div class="p-4">
@@ -18,7 +38,7 @@
 					</button></a>
 				<ul class="collapse list-unstyled " id="manager-menu">
 					<li><a href="${path }/admin/overview.htm"><button
-								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
+								class="btn btn-outline p-4 border w-100 text-start ">
 								<i class="pe-2 ti-pie-chart"></i>Overview
 							</button></a></li>
 					<li class="nav-item w-100"><a href="${path }/admin/user.htm"><button
