@@ -87,7 +87,8 @@
 				<div class="card mb-3">
 					<div class="card-body text-center py-6 text-center ">
 						<div class="my-3">
-							<a href="#"> <img class="card-img-top"
+							<a href="product/index.htm?categoryId=${c.categoryId }"> <img
+								class="card-img-top"
 								src="<c:url value="/assets/img/category/${c.image}"/>"
 								alt="Card image cap">
 							</a>

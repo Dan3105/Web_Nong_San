@@ -67,26 +67,13 @@
 						aria-current="page"
 						href='<c:url value = "index.htm?language=${pageContext.response.locale}"/>'><s:message
 								code="global.nav_item1" /> </a></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" role="button"
-						data-bs-toggle="dropdown" aria-expanded="false"> <s:message
-								code="global.nav_item2" />
-					</a> <!-- Xu li DB -->
-						<ul class="dropdown-menu">
-							<c:forEach var="c" items="${category }">
-								<li><a class="dropdown-item "
-									href="index.htm?language=${pageContext.response.locale}">${c.name }</a></li>
-							</c:forEach>
-							<li>
-								<hr class="dropdown-divider">
-							</li>
-							<li><a class="dropdown-item" href="#"><s:message
-										code="global.see_all" /></a></li>
-						</ul></li>
+					<li class="nav-item"><a class="nav-link"
+						href="product/index.htm"><s:message
+								code="global.nav_item2" /></a></li>
 					<li class="nav-item"><a class="nav-link" href="#"><s:message
 								code="global.nav_item3" /></a></li>
 					<li class="nav-item"><a class="nav-link" href="#"><s:message
-								code="global.nav_item4" /></a></li>
+								code="global.nav_item4" /></a></li>	
 
 				</ul>
 				<div class="search-and-icons d-flex position-relative">

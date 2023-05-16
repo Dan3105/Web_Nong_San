@@ -3,6 +3,7 @@ package tad.DAO;
 import java.util.List;
 
 import tad.entity.Category;
+import tad.entity.Product;
 
 public interface ICategoryDAO {
 
@@ -17,4 +18,6 @@ public interface ICategoryDAO {
 	public boolean updateCategory(Category changedCategory);
 
 	public List<Category> listCategoriesHasProducts(int limit);
+	
+	
 }

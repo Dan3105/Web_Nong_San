@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tad.DAO.ICategoryDAO;
 import tad.entity.Category;
+import tad.entity.Product;
 
 @Transactional
 public class CategoryDAOImpl implements ICategoryDAO {
@@ -110,5 +111,7 @@ public class CategoryDAOImpl implements ICategoryDAO {
 		List<Category> list = session.createQuery("FROM Category C WHERE SIZE(C.products) > 0 ORDER BY SIZE(C.products) DESC").list();
 		return list;
 	}
+
+	
 
 }

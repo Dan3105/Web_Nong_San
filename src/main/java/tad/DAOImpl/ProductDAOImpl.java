@@ -1,5 +1,6 @@
 package tad.DAOImpl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -164,6 +165,15 @@ public class ProductDAOImpl implements IProductDAO {
 			System.out.println(e);
 		}
 		return product;
+	}
+
+	@Override
+	public ArrayList<Product> listProductsInCategory(int categoryId) {
+		Session session = sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		ArrayList<Product> list = (ArrayList<Product>) session
+				.createQuery("FROM Product WHERE category.categoryId=" + categoryId).list();
+		return list;
 	}
 
 }
