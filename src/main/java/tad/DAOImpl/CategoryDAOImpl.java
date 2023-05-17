@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tad.DAO.ICategoryDAO;
 import tad.entity.Category;
-import tad.entity.Product;
 
 @Transactional
 public class CategoryDAOImpl implements ICategoryDAO {
@@ -106,12 +105,14 @@ public class CategoryDAOImpl implements ICategoryDAO {
 
 	@Override
 	public List<Category> listCategoriesHasProducts(int limit) {
+		String hql = "FROM Category C WHERE SIZE(C.products) > 0 ORDER BY SIZE(C.products) DESC";
 		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		query.setMaxResults(limit);
 		@SuppressWarnings("unchecked")
-		List<Category> list = session.createQuery("FROM Category C WHERE SIZE(C.products) > 0 ORDER BY SIZE(C.products) DESC").list();
-		return list;
-	}
+		List<Category> listCategory = query.list();
+		return listCategory;
 
-	
+	}
 
 }

@@ -66,7 +66,7 @@ public class Coupon {
 		this.discount = discount;
 		this.postingDate = postingDate;
 		this.expiryDate = expiryDate;
-		
+
 		this.status = status;
 	}
 

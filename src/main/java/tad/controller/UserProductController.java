@@ -1,8 +1,5 @@
 package tad.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -13,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.IAccountDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.ICategoryDAO;
 import tad.DAO.IProductDAO;
+import tad.DAO.IWishlistDAO;
 import tad.bean.Company;
 import tad.entity.Account;
 import tad.entity.Cart;
@@ -26,6 +25,8 @@ import tad.entity.CartId;
 import tad.entity.Category;
 import tad.entity.Feedback;
 import tad.entity.Product;
+import tad.entity.Wishlist;
+import tad.entity.WishlistId;
 
 @Controller
 @RequestMapping("/product/")
@@ -39,6 +40,9 @@ public class UserProductController {
 
 	@Autowired
 	private ICartDAO cartDAO;
+
+	@Autowired
+	private IWishlistDAO wishlistDAO;
 
 	@Autowired
 	private ICategoryDAO categoryDAO;
@@ -197,7 +201,7 @@ public class UserProductController {
 				cart.setAccount(user);
 				cart.setProduct(productDAO.getProduct(productID));
 				cart.setQuantity(1);
-				boolean s = cartDAO.insertCart(cart);
+				cartDAO.insertCart(cart);
 
 			}
 
@@ -207,4 +211,48 @@ public class UserProductController {
 
 	}
 
+	@RequestMapping(value = "addToWishlist", params = { "productId" })
+	public String addToWishlist(ModelMap model, HttpServletRequest request, HttpSession session,
+			@RequestParam("productId") int productID) {
+		// Lấy tạm thằng account số 1
+		Account user = accountDAO.listAccounts().get(1);
+
+		if (user == null) {
+			System.out.println("User is null");
+
+		} else {
+
+			Wishlist wishlist = wishlistDAO.getWishlist(user.getAccountId(), productID);
+			user = accountDAO.getAccount(user.getAccountId());
+			if (wishlist != null) {
+
+			} else {
+				wishlist = new Wishlist();
+				wishlist.setId(new WishlistId(productID, user.getAccountId()));
+				wishlist.setAccount(user);
+				wishlist.setProduct(productDAO.getProduct(productID));
+				wishlistDAO.insertWishlist(wishlist);
+
+			}
+
+		}
+
+		return "redirect:" + request.getHeader("Referer");
+
+	}
+
+	@RequestMapping(value = "detail", params = { "productId" })
+	public String detail(ModelMap modelMap, @RequestParam("productId") int productId) {
+		Product product = productDAO.getProduct(productId);
+		modelMap.addAttribute("product", product);
+
+		return "product/detail";
+	}
+
+	@RequestMapping(value = "rating", params = { "productId", "rating", "content" }, method = RequestMethod.POST)
+	public String detail1(ModelMap modelMap, HttpServletRequest request, @RequestParam("productId") int productId,
+			@RequestParam("rating") int rating, @RequestParam("content") String content) {
+
+		return "redirect:" + request.getHeader("Referer");
+	}
 }

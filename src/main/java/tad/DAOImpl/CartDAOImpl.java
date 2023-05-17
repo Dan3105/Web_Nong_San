@@ -71,7 +71,7 @@ public class CartDAOImpl implements ICartDAO {
 		int result = query.executeUpdate();
 		return result;
 	}
-	
+
 	@Override
 	public Cart getCart(int accountId, int productId) {
 		Session session = sessionFactory.getCurrentSession();

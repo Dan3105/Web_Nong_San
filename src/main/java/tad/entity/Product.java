@@ -48,7 +48,6 @@ public class Product {
 	@Column(name = "PostingDate", nullable = false, length = 10)
 	private Date postingDate;
 
-
 	@Column(name = "Unit")
 	private String unit;
 
@@ -68,6 +67,9 @@ public class Product {
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
 	private Set<Feedback> feedbacks = new HashSet<>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+	private Set<Wishlist> wishlist = new HashSet<>(0);
 
 	public Product() {
 	}

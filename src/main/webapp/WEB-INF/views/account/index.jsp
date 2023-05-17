@@ -142,7 +142,7 @@
 
 
 <%@include file="/WEB-INF/views/include/footer.jsp"%>
-<script type="text/javascript" src="assets/css/account.css"></script>
+<script type="text/javascript" src="assets/css/user/account.css"></script>
 
 
 </body>
