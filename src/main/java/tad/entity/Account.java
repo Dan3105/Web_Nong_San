@@ -66,6 +66,9 @@ public class Account {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Cart> carts = new HashSet<>(0);
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+	private Set<Wishlist> wishlist = new HashSet<>(0);
 
 	public Account() {
 	}

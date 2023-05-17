@@ -54,4 +54,8 @@
 	<bean id="OrderDAO" class="tad.DAOImpl.OrderDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+	<bean id="WishlistDAO" class="tad.DAOImpl.WishlistDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 </beans>

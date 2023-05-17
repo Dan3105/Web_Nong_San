@@ -29,16 +29,16 @@ public class UserOrderController {
 
 	@RequestMapping(value = "index")
 	public String index(ModelMap model, HttpSession session, HttpServletRequest request) {
-		
+
 		//Account user = (Account) session.getAttribute("account");
-		Account user = (Account) accountDAO.getAccount(39);
+		Account user = accountDAO.getAccount(39);
 		List<Orders> list = orderDAO.getOrderFromAccount(user.getAccountId());
-		
-		
+
+
 
 		return "order/index";
 
-		
+
 	}
 
 	@RequestMapping(value = "detail/{id}.htm")

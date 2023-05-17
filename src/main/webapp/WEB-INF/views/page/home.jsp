@@ -87,7 +87,8 @@
 				<div class="card mb-3">
 					<div class="card-body text-center py-6 text-center ">
 						<div class="my-3">
-							<a href="#"> <img class="card-img-top"
+							<a href="product/index.htm?categoryId=${c.categoryId }"> <img
+								class="card-img-top"
 								src="<c:url value="/assets/img/category/${c.image}"/>"
 								alt="Card image cap">
 							</a>
@@ -121,8 +122,8 @@
 						<p class="mb-4">
 							<s:message code="global.banner1.des" />
 						</p>
-						<a href="#!" class="btn btn-dark"><s:message
-								code="global.banner1.btn" /></a>
+						<a href="<a href="product/detail.htm?productId=${p.productId }">"
+							class="btn btn-dark"><s:message code="global.banner1.btn" /></a>
 					</div>
 				</div>
 
@@ -179,20 +180,16 @@
 									</c:if>
 
 								</div>
-								<a href="#!"> <img
+								<a href="product/detail.htm?productId=${p.productId }"> <img
 									src="<c:url value="/assets/img/products/${p.image}"/>"
 									alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
 
 								<div class="card-product-action">
-									<a href="#!" class="btn-action" data-bs-toggle="modal"
-										data-bs-target="#quickViewModal"><i class="bi bi-eye"
-										data-bs-toggle="tooltip" data-bs-html="true"
-										aria-label="Quick View" data-bs-original-title="Quick View"></i></a>
-									<a href="#!" class="btn-action" data-bs-toggle="modal"
-										data-bs-target="#quickViewModal"><i class="bi bi-heart"></i></a>
-									<a href="#!" class="btn-action" data-bs-toggle="tooltip"
-										data-bs-html="true" aria-label="Compare"
-										data-bs-original-title="Compare"><i
+									<a href="#!" class="btn-action"><i class="bi bi-eye"></i></a>
+									<a
+										href='<c:url value = "product/addToWishlist.htm?productId=${p.productId }"/>'
+										class="btn-action"><i class="bi bi-heart"></i></a> <a
+										href="#!" class="btn-action"><i
 										class="bi bi-arrow-left-right"></i></a>
 								</div>
 
@@ -277,22 +274,18 @@
 										</c:if>
 
 									</div>
-									<a href="#!"> <img
+									<a href="product/detail.htm?productId=${p.productId }"> <img
 										src="<c:url value="/assets/img/products/${p.image}"/>"
 										alt="
 										Grocery Ecommerce Template"
 										class="mb-3 img-fluid"></a>
 
 									<div class="card-product-action">
-										<a href="#!" class="btn-action" data-bs-toggle="modal"
-											data-bs-target="#quickViewModal"><i class="bi bi-eye"
-											data-bs-toggle="tooltip" data-bs-html="true"
-											aria-label="Quick View" data-bs-original-title="Quick View"></i></a>
-										<a href="#!" class="btn-action" data-bs-toggle="modal"
-											data-bs-target="#quickViewModal"><i class="bi bi-heart"></i></a>
-										<a href="#!" class="btn-action" data-bs-toggle="tooltip"
-											data-bs-html="true" aria-label="Compare"
-											data-bs-original-title="Compare"><i
+										<a href="#!" class="btn-action"><i class="bi bi-eye"></i></a>
+										<a
+											href='<c:url value = "product/addToWishlist.htm?productId=${p.productId }"/>'
+											class="btn-action"><i class="bi bi-heart"></i></a> <a
+											href="#!" class="btn-action"><i
 											class="bi bi-arrow-left-right"></i></a>
 									</div>
 

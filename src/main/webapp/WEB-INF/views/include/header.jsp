@@ -67,22 +67,8 @@
 						aria-current="page"
 						href='<c:url value = "index.htm?language=${pageContext.response.locale}"/>'><s:message
 								code="global.nav_item1" /> </a></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" role="button"
-						data-bs-toggle="dropdown" aria-expanded="false"> <s:message
-								code="global.nav_item2" />
-					</a> <!-- Xu li DB -->
-						<ul class="dropdown-menu">
-							<c:forEach var="c" items="${category }">
-								<li><a class="dropdown-item "
-									href="index.htm?language=${pageContext.response.locale}">${c.name }</a></li>
-							</c:forEach>
-							<li>
-								<hr class="dropdown-divider">
-							</li>
-							<li><a class="dropdown-item" href="#"><s:message
-										code="global.see_all" /></a></li>
-						</ul></li>
+					<li class="nav-item"><a class="nav-link"
+						href="product/index.htm"><s:message code="global.nav_item2" /></a></li>
 					<li class="nav-item"><a class="nav-link" href="#"><s:message
 								code="global.nav_item3" /></a></li>
 					<li class="nav-item"><a class="nav-link" href="#"><s:message
@@ -101,19 +87,21 @@
 
 
 					<div class="user-icons d-flex justify-content-center gap-2 ">
-						<a href="wishlist.htm" class="wishlist icon position-relative">
-							<i class="bi bi-heart"></i><span
-							class="position-absolute top-10 start-80 translate-middle badge rounded-pill  ">1
-								<span class="visually-hidden">unread messages</span>
+						<a
+							href='<c:url value = "wishlist/index.htm?language=${pageContext.response.locale}"/>'
+							class="wishlist icon position-relative"> <i
+							class="bi bi-heart"></i><span
+							class="position-absolute top-10 start-80 translate-middle badge rounded-pill  ">${totalWishlist }
 						</span>
 						</a> <a
 							href='<c:url value = "account/index.htm?language=${pageContext.response.locale}"/>'
 							class="profile icon"> <i class="bi bi-person"></i>
 						</a> <a
 							href='<c:url value = "cart/index.htm?language=${pageContext.response.locale}"/>'
-							class="cart icon position-relative"> <i class="bi bi-cart3"></i><span
-							class="position-absolute top-10 start-80 translate-middle badge rounded-pill ">5
-								<span class="visually-hidden">unread messages</span>
+							class="cart icon position-relative"> <i class="bi bi-cart3"></i>
+							<span
+							class="position-absolute top-10 start-80 translate-middle badge rounded-pill ">${totalCart }
+
 						</span>
 						</a>
 

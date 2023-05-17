@@ -60,8 +60,8 @@
 
 
 <!-- Custom Css-->
-<link rel="stylesheet" href="assets/css/main.css" type="text/css">
-<link rel="stylesheet" href="assets/css/wishlist.css" type="text/css">
+<link rel="stylesheet" href="assets/css/user/main.css" type="text/css">
+<link rel="stylesheet" href="assets/css/user/wishlist.css" type="text/css">
 <link rel="stylesheet" href="assets/owlcarousel/owl.carousel.min.css"
 	type="text/css">
 <link rel="stylesheet"

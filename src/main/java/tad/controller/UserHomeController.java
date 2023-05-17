@@ -12,13 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.IAccountDAO;
+import tad.DAO.ICartDAO;
 import tad.DAO.ICategoryDAO;
 import tad.DAO.ICouponDAO;
 import tad.DAO.IProductDAO;
+import tad.DAO.IWishlistDAO;
 import tad.bean.Company;
 import tad.entity.Account;
+import tad.entity.Cart;
 import tad.entity.Category;
 import tad.entity.Product;
+import tad.entity.Wishlist;
 
 @Controller
 public class UserHomeController {
@@ -34,6 +38,11 @@ public class UserHomeController {
 	private ICouponDAO couponDAO;
 	@Autowired
 	private IAccountDAO accountDAO;
+	@Autowired
+	private IWishlistDAO wishlistDAO;
+
+	@Autowired
+	private ICartDAO cartDAO;
 
 	@RequestMapping("index")
 	public String index(ModelMap modelMap, HttpSession session) {
@@ -50,9 +59,16 @@ public class UserHomeController {
 		List<Product> products = productDAO.listProductsWithCoupon();
 		modelMap.addAttribute("products", products);
 
-		Account user = (Account) session.getAttribute("account");
-		int userId = user == null ? -1 : user.getAccountId();
+		//Account user = (Account) session.getAttribute("account");
+		//int userId = user == null ? -1 : user.getAccountId();
 
+		Account user = accountDAO.listAccounts().get(1);
+		List<Cart> list = cartDAO.getCart(user.getAccountId());
+		List<Wishlist> wishlist  = wishlistDAO.getWishlist(user.getAccountId());
+		int totalCart = list.size();
+		int totalWishlist = wishlist.size();
+		modelMap.addAttribute("totalCart", totalCart);
+		modelMap.addAttribute("totalWishlist", totalWishlist);
 		return "page/home";
 	}
 
