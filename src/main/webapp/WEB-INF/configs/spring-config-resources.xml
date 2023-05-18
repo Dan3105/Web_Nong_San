@@ -24,6 +24,8 @@
 				<value>classpath:cart_vi</value>
 				<value>classpath:home</value>
 				<value>classpath:home_vi</value>
+				<value>classpath:wishlist_vi</value>
+				<value>classpath:wishlist</value>
 			
 			</list>
 		</property>

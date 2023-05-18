@@ -185,8 +185,7 @@
 									alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
 
 								<div class="card-product-action">
-									<a href="#!" class="btn-action"><i class="bi bi-eye"></i></a>
-									<a
+									<a href="#!" class="btn-action"><i class="bi bi-eye"></i></a> <a
 										href='<c:url value = "product/addToWishlist.htm?productId=${p.productId }"/>'
 										class="btn-action"><i class="bi bi-heart"></i></a> <a
 										href="#!" class="btn-action"><i
@@ -201,13 +200,7 @@
 								<a href="./pages/shop-single.html"
 									class="text-inherit text-decoration-none">${p.productName }</a>
 							</h2>
-							<div>
-
-								<small class="text-warning"> <i class="bi bi-star-fill"></i>
-									<i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i>
-									<i class="bi bi-star-fill"></i> <i class="bi bi-star-half"></i></small>
-								<span class="text-muted small">4.5(149)</span>
-							</div>
+							
 							<div
 								class="d-flex justify-content-between align-items-center mt-3">
 								<div>
@@ -297,13 +290,7 @@
 									<a href="./pages/shop-single.html"
 										class="text-inherit text-decoration-none">${p.productName }</a>
 								</h2>
-								<div>
-
-									<small class="text-warning"> <i class="bi bi-star-fill"></i>
-										<i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i>
-										<i class="bi bi-star-fill"></i> <i class="bi bi-star-half"></i></small>
-									<span class="text-muted small">4.5(149)</span>
-								</div>
+								
 								<div
 									class="d-flex justify-content-between align-items-center mt-3">
 									<div>

@@ -30,12 +30,9 @@
 <div class=" mt-8 mb-lg-14 mb-8">
 	<div class="container">
 		<div class="row gx-10">
-			<%@include file="/WEB-INF/views/product/productAsideBar.jsp"%>
-			<section class="col-lg-9 col-md-12">
-				<%@include file="/WEB-INF/views/product/productDetail.jsp"%>
 
-				<input type="text" name="resolution" id="resolution" value="">
-			</section>
+
+			<%@include file="/WEB-INF/views/product/productDetail.jsp"%>
 			<%@include file="/WEB-INF/views/product/rating.jsp"%>
 			<%@include file="/WEB-INF/views/product/relatedItems.jsp"%>
 		</div>

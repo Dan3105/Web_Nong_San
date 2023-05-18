@@ -1,5 +1,6 @@
 package tad.controller;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import tad.DAO.IAccountDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.ICategoryDAO;
+import tad.DAO.IFeedbackDAO;
 import tad.DAO.IProductDAO;
 import tad.DAO.IWishlistDAO;
 import tad.bean.Company;
@@ -27,6 +29,7 @@ import tad.entity.Feedback;
 import tad.entity.Product;
 import tad.entity.Wishlist;
 import tad.entity.WishlistId;
+import tad.utility.Ultis;
 
 @Controller
 @RequestMapping("/product/")
@@ -48,14 +51,26 @@ public class UserProductController {
 	private ICategoryDAO categoryDAO;
 
 	@Autowired
+	private IFeedbackDAO feedbackDAO;
+
+	@Autowired
 	private Company company;
 
-	@RequestMapping("index")
+	@RequestMapping(value = "index")
+
 	public String index(ModelMap modelMap) {
 		// Slider + Banner
 		modelMap.addAttribute("company", company);
 		List<Category> category = categoryDAO.getListCategories();
 		modelMap.addAttribute("category", category);
+		Account user = accountDAO.listAccounts().get(1);
+		List<Cart> list = cartDAO.getCart(user.getAccountId());
+		List<Wishlist> wishlist = wishlistDAO.getWishlist(user.getAccountId());
+		int totalCart = list.size();
+		int totalWishlist = wishlist.size();
+		modelMap.addAttribute("totalCart", totalCart);
+		modelMap.addAttribute("totalWishlist", totalWishlist);
+		modelMap.addAttribute("index", 0);
 		return "product/index";
 	}
 
@@ -69,6 +84,13 @@ public class UserProductController {
 		modelMap.addAttribute("productsFilterWithCategory", productsFilterWithCategory);
 		Category currentCategory = categoryDAO.getCategory(categoryId);
 		modelMap.addAttribute("currentCategory", currentCategory);
+		Account user = accountDAO.listAccounts().get(1);
+		List<Cart> list = cartDAO.getCart(user.getAccountId());
+		List<Wishlist> wishlist = wishlistDAO.getWishlist(user.getAccountId());
+		int totalCart = list.size();
+		int totalWishlist = wishlist.size();
+		modelMap.addAttribute("totalCart", totalCart);
+		modelMap.addAttribute("totalWishlist", totalWishlist);
 		return "product/index";
 
 	}
@@ -141,7 +163,9 @@ public class UserProductController {
 			});
 			break;
 		}
-		case 4: {
+		case 4:
+
+		{
 			productsFilterWithCategory.sort(new Comparator<Product>() {
 
 				@Override
@@ -175,7 +199,7 @@ public class UserProductController {
 		Category currentCategory = categoryDAO.getCategory(categoryId);
 		modelMap.addAttribute("currentCategory", currentCategory);
 		modelMap.addAttribute("productsFilterWithCategory", productsFilterWithCategory);
-
+		modelMap.addAttribute("index", index);
 		return "product/index";
 	}
 
@@ -242,17 +266,52 @@ public class UserProductController {
 	}
 
 	@RequestMapping(value = "detail", params = { "productId" })
-	public String detail(ModelMap modelMap, @RequestParam("productId") int productId) {
+	public String detail(ModelMap modelMap, @RequestParam("productId") int productId,
+			@RequestParam(value = "filterStar", required = false, defaultValue = "0") int filterStar) {
 		Product product = productDAO.getProduct(productId);
 		modelMap.addAttribute("product", product);
+		// Slider + Banner
+		modelMap.addAttribute("company", company);
 
+		Account user = accountDAO.listAccounts().get(1);
+		List<Cart> list = cartDAO.getCart(user.getAccountId());
+		List<Wishlist> wishlist = wishlistDAO.getWishlist(user.getAccountId());
+		int totalCart = list.size();
+		int totalWishlist = wishlist.size();
+		modelMap.addAttribute("totalCart", totalCart);
+		modelMap.addAttribute("totalWishlist", totalWishlist);
+
+		// 5 sao co bnhiu danh gia, 4 sao co bnhiu danh gia ,...
+		List<Feedback> feedbacks = feedbackDAO.listFeedback(productId);
+		int[] countStar = new int[6];
+		for (int i = 1; i < 6; i++) {
+			countStar[i] = 0;
+		}
+
+		for (Feedback f : feedbacks) {
+			countStar[f.getRatingStar()]++;
+		}
+		List<Feedback> rateds = feedbackDAO.listByStars(productId, filterStar);
+		double avgStar = Ultis.getAvgStar(product);
+		List<Product> listProductSameCategory = productDAO
+				.listProductsInCategory(product.getCategory().getCategoryId());
+		Collections.shuffle(listProductSameCategory);
+		listProductSameCategory = listProductSameCategory.subList(0, Math.min(5, listProductSameCategory.size()));
+		modelMap.addAttribute("avgStar", avgStar);
+		modelMap.addAttribute("countStar", countStar);
+		modelMap.addAttribute("feedbacks", feedbacks);
+		modelMap.addAttribute("listProductSameCategory", listProductSameCategory);
+		modelMap.addAttribute("rateds", rateds);
+		System.out.println(rateds.size());
+		modelMap.addAttribute("filterStar", filterStar);
 		return "product/detail";
 	}
 
 	@RequestMapping(value = "rating", params = { "productId", "rating", "content" }, method = RequestMethod.POST)
-	public String detail1(ModelMap modelMap, HttpServletRequest request, @RequestParam("productId") int productId,
+	public String comment(ModelMap modelMap, HttpServletRequest request, @RequestParam("productId") int productId,
 			@RequestParam("rating") int rating, @RequestParam("content") String content) {
 
 		return "redirect:" + request.getHeader("Referer");
 	}
+
 }

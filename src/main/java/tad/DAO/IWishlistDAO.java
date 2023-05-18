@@ -16,7 +16,7 @@ public interface IWishlistDAO {
 	List<Wishlist> Wishlist(int accountId);
 
 	int removeWishlist(int accountId);
-	
+
 	List<Wishlist> getWishlist(int accountId);
 
 }

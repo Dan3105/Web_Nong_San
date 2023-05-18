@@ -119,60 +119,54 @@
 				<!-- Chi tiết đặt hàng -->
 
 			</div>
-			<div class="row">
-				<div class="col-3">
-					<div class="bg-success bg-opacity-10 p-2 mb-2">
-						<!-- Địa chỉ -->
-						<div class="fs-6 fw-bold">Giao tới</div>
-						<div class="h5 ps-3">
-							<%-- ${sessionScope.user.lastName } --%>
-							AHIHI
+			<div class="row mb-4">
+				<div class="col-7"></div>
+				<div
+					class="col-lg-5 col-sm-12 p-2 text-dark bg-opacity-10"
+					>
+					<div class="  mb-5 mb-lg-0">
+						<div class="card-body p-4">
+							<div class="row">
+
+								<div class="d-flex " style="font-weight: 500;">
+									<p class="mb-2 me-2 me-auto ">Tạm Tính</p>
+									<p class="mb-2">
+										<fmt:formatNumber value="${total }" type="currency"
+											currencySymbol="đ" maxFractionDigits="0" />
+									</p>
+								</div>
+
+								<div class="d-flex  " style="font-weight: 500;">
+									<p class="mb-0 me-2 me-auto">Giảm Giá</p>
+									<p class="mb-0 ms-auto">
+										<fmt:formatNumber value="${total }" type="currency"
+											currencySymbol="đ" maxFractionDigits="0" />
+									</p>
+								</div>
+
+								<hr class="my-4">
+
+								<div class="d-flex   mb-4" style="font-weight: 500;">
+									<p class="mb-2 me-2 me-auto">Tổng Cộng</p>
+									<p class="mb-2 ms-auto">
+										<fmt:formatNumber value="${total }" type="currency"
+											currencySymbol="đ" maxFractionDigits="0" />
+									</p>
+								</div>
+
+								<a href="#" type="button" class="btn btn-primary mb-4 ">
+									Tiếp tục mua hàng </a> <a type="button" href="#"
+									class="btn btn-success  ${cart.size() == 0 ? 'disabled' : ''}">
+									Thanh Toán </a>
+
+							</div>
+
+
 						</div>
-						<div class="text-secondary">Số điện thoại: AHIHI</div>
-						<div class="text-secondary fst-italic">AHIHI</div>
 					</div>
 
-					<div class="bg-success bg-opacity-10 p-2 mb-2">
-						<!-- Giảm giá -->
-						<div class="fw-bold">Chưa có chương trình giảm giá</div>
-						<!-- Tiêu đề cho chương trình giảm giá -->
-						<div class="fst-italic">Giảm: 0%</div>
-					</div>
-
-					<div class="bg-success bg-opacity-10 p-2 mb-2 ">
-						<!-- Bảng giá -->
-						<div class="row">
-							<div class="col">Tạm tính:</div>
-							<div class="col text-end">
-								<fmt:formatNumber value="${total }" type="currency"
-									currencySymbol="đ" maxFractionDigits="0" />
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">Giảm giá:</div>
-							<div class="col text-end">-0 đ</div>
-						</div>
-						<hr>
-						<div class="row fw-bolder">
-							<div class="col">Tổng cộng:</div>
-							<div class="col text-end">
-								<fmt:formatNumber value="${total }" type="currency"
-									currencySymbol="đ" maxFractionDigits="0" />
-							</div>
-						</div>
-					</div>
-					<div class="p-2 d-grid">
-						<!-- Button -->
-						<a class="btn btn-warning bg-gradient" href="home.htm"
-							role="button">Tiếp tục mua sắm</a>
-					</div>
-					<div class="p-2 d-grid">
-						<!-- Button -->
-						<a
-							class="btn btn-danger bg-gradient ${cart.size() == 0 ? 'disabled' : ''}"
-							href="user/checkout.htm" role="button">Mua hàng</a>
-					</div>
 				</div>
+
 			</div>
 
 

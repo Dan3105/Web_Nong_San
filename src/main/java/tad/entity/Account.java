@@ -66,7 +66,7 @@ public class Account {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Cart> carts = new HashSet<>(0);
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Wishlist> wishlist = new HashSet<>(0);
 
@@ -105,6 +105,8 @@ public class Account {
 		this.comments = comments;
 		this.carts = carts;
 	}
+	
+	
 
 	@Override
 	public String toString() {
@@ -118,6 +120,7 @@ public class Account {
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
+	
 
 	public Role getRole() {
 		return role;
@@ -238,5 +241,8 @@ public class Account {
 
 	public void setCarts(Set<Cart> carts) {
 		this.carts = carts;
+	}
+	public String getName() {
+		return lastName + " " + firstName;
 	}
 }

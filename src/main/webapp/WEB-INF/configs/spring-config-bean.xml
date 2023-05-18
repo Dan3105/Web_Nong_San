@@ -58,4 +58,7 @@
 	<bean id="WishlistDAO" class="tad.DAOImpl.WishlistDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="FeedbackDAO" class="tad.DAOImpl.FeedbackDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 </beans>

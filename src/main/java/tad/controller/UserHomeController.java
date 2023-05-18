@@ -15,6 +15,7 @@ import tad.DAO.IAccountDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.ICategoryDAO;
 import tad.DAO.ICouponDAO;
+import tad.DAO.IFeedbackDAO;
 import tad.DAO.IProductDAO;
 import tad.DAO.IWishlistDAO;
 import tad.bean.Company;
@@ -43,6 +44,8 @@ public class UserHomeController {
 
 	@Autowired
 	private ICartDAO cartDAO;
+	@Autowired
+	private IFeedbackDAO feedbackDAO;
 
 	@RequestMapping("index")
 	public String index(ModelMap modelMap, HttpSession session) {
@@ -69,6 +72,8 @@ public class UserHomeController {
 		int totalWishlist = wishlist.size();
 		modelMap.addAttribute("totalCart", totalCart);
 		modelMap.addAttribute("totalWishlist", totalWishlist);
+		
+		
 		return "page/home";
 	}
 

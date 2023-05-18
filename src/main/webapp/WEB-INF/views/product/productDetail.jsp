@@ -11,21 +11,28 @@
 			<div class="col-md-6">
 				<!-- img slide -->
 				<img src="<c:url value="/assets/img/products/${product.image}"/>"
-					class="img-thumbnail" alt="..." style="height: 250px">
+					class="img-thumbnail" alt="..." style="width: 350px; height: 350px">
 
 			</div>
 			<div class="col-md-6">
 				<div class="ps-lg-10 mt-6 mt-md-0">
 
 					<!-- heading -->
-					<h1 class="mb-1">${product.productName}</h1>
+					<h1 class="mb-1 text-success">${product.productName}</h1>
 					<div class="mb-4">
 						<!-- rating -->
-						<!-- rating -->
-						<small class="text-warning"> <i class="bi bi-star-fill"></i>
-							<i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i> <i
-							class="bi bi-star-fill"></i> <i class="bi bi-star-half"></i></small><a
-							href="#" class="ms-2">(30 reviews)</a>
+						<c:forEach begin="1" end="5" varStatus="index">
+							<c:choose>
+								<c:when test="${index.count <= avgStar}">
+									<i class="bi bi-star-fill text-warning"></i>
+								</c:when>
+								<c:otherwise>
+									<i class="bi bi-star-fill " style="color: #e6e6e6;"></i>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						<span class="ms-2 text-success">(${feedbacks.size()}
+							reviews)</span>
 					</div>
 					<div class="fs-4">
 						<!-- price -->
@@ -42,30 +49,30 @@
 						</c:if>
 
 					</div>
-					<!-- hr -->
+
 
 					<hr class="my-6">
 
 
 				</div>
-				
+
 				<div class="mt-3 row justify-content-start g-2 align-items-center">
 
 					<div class="col-xxl-4 col-lg-4 col-md-5 col-5 d-grid">
 						<!-- button -->
 						<!-- btn -->
 						<a href="product/addToCart.htm?productId=${product.productId }"
-							 class="btn btn-success btn-lg ">Add To Cart</a>
+							class="btn btn-success btn-lg ">Add To Cart</a>
 
-						
+
 
 					</div>
 					<div class="col-md-4 col-4">
 						<!-- btn -->
+						<a
+							href='<c:url value = "product/addToWishlist.htm?productId=${product.productId }"/>'
+							class="btn btn-light  "><i class="bi bi-heart"></i></a>
 
-						<a class="btn btn-light " href="shop-wishlist.html"
-							data-bs-toggle="tooltip" data-bs-html="true"
-							aria-label="Wishlist"><i class="feather-icon icon-heart"></i></a>
 					</div>
 				</div>
 				<!-- hr -->

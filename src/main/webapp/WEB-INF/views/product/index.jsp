@@ -35,7 +35,7 @@
 				<div class="card mb-4 bg-light border-0">
 					<!-- card body -->
 					<div class=" card-body p-9">
-						<h2 class="mb-0 fs-1">${currentCategory.name }</h2>
+						<h2 class="mb-0 fs-1 ">${currentCategory.name }</h2>
 					</div>
 				</div>
 				<!-- list icon -->
@@ -47,7 +47,7 @@
 						</p>
 					</div>
 
-					<!-- icon -->
+
 					<div class="d-md-flex justify-content-between align-items-center">
 
 						<div>
@@ -56,7 +56,27 @@
 							<div class="dropdown">
 								<button class="btn btn-success dropdown-toggle" type="button"
 									data-bs-toggle="dropdown" aria-expanded="false">
-									Filter</button>
+									<c:choose>
+										<c:when test="${index==0}">
+            							None
+         								</c:when>
+										<c:when test="${index==1}">
+           								 Low to High
+         								</c:when>
+										<c:when test="${index==2}">
+           								 High To Low
+         								</c:when>
+										<c:when test="${index==3}">
+           								 Release Date
+         								</c:when>
+										<c:when test="${index==4}">
+           								 Rating
+         								</c:when>
+										<c:otherwise>
+            								Filter
+         								</c:otherwise>
+									</c:choose>
+								</button>
 								<ul class="dropdown-menu">
 									<li><a class="dropdown-item"
 										href="product/filter.htm?index=0&categoryId=${currentCategory.categoryId }">
@@ -120,18 +140,6 @@
 											class="text-inherit text-decoration-none">${p.productName }</a>
 									</h2>
 
-									<!-- rating -->
-									<div>
-										<span style="font-size: 110%; color: rgb(255, 187, 0);">&starf;</span>
-										<span style="font-size: 110%; color: rgb(255, 187, 0);">&starf;</span>
-										<span style="font-size: 110%; color: rgb(255, 187, 0);">&starf;</span>
-										<span style="font-size: 110%; color: rgb(255, 187, 0);">&starf;</span>
-										<span style="font-size: 110%; color: rgb(255, 187, 0);">&#11242;</span>
-
-
-
-										<span class="text-muted small">4.5(149)</span>
-									</div>
 
 									<!-- price -->
 									<div

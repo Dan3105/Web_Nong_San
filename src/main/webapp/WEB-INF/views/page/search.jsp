@@ -52,13 +52,7 @@
 								<a href="./pages/shop-single.html"
 									class="text-inherit text-decoration-none">${p.productName }</a>
 							</h2>
-							<div>
-
-								<small class="text-warning"> <i class="bi bi-star-fill"></i>
-									<i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i>
-									<i class="bi bi-star-fill"></i> <i class="bi bi-star-half"></i></small>
-								<span class="text-muted small">4.5(149)</span>
-							</div>
+							
 							<div
 								class="d-flex justify-content-between align-items-center mt-3">
 								<div>
