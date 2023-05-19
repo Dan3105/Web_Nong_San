@@ -26,7 +26,8 @@
 				<value>classpath:home_vi</value>
 				<value>classpath:wishlist_vi</value>
 				<value>classpath:wishlist</value>
-			
+				<value>classpath:product_vi</value>
+				<value>classpath:product</value>
 			</list>
 		</property>
 	</bean>

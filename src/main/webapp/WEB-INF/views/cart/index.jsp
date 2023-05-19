@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/include/header.jsp"%>
 
-<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt"%>
 
 <body>
 

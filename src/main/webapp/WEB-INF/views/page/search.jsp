@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/views/include/library.jsp"%>
 <%@include file="/WEB-INF/views/include/header.jsp"%>
 
 <body>
@@ -52,7 +53,7 @@
 								<a href="./pages/shop-single.html"
 									class="text-inherit text-decoration-none">${p.productName }</a>
 							</h2>
-							
+
 							<div
 								class="d-flex justify-content-between align-items-center mt-3">
 								<div>

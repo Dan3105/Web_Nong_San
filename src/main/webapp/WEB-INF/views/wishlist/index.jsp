@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@include file="/WEB-INF/views/include/header.jsp"%>
 
-<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt"%>
+<%@include file="/WEB-INF/views/include/header.jsp"%>
 
 <body>
 
@@ -12,7 +11,8 @@
 				<div class="col-12">
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb mb-0">
-							<li class="breadcrumb-item"><a href="#!">Home</a></li>
+							<li class="breadcrumb-item"><a href="#!"><s:message
+										code="cart.amount" /></a></li>
 							<li class="breadcrumb-item active" aria-current="page"><s:message
 									code="wishlist.name" /></li>
 						</ol>
@@ -49,7 +49,7 @@
 						<table class="table text-nowrap">
 							<thead class="table-light">
 								<tr>
-									<th><s:message code="wishlist.name" /></th>
+									<th><s:message code="cart.amount" /></th>
 									<th><s:message code="wishlist.des" /></th>
 									<th><s:message code="wishlist.price" /></th>
 									<th><s:message code="wishlist.action" /></th>
@@ -85,10 +85,9 @@
 										<td class="align-middle"><fmt:formatNumber
 												value="${c.product.price}" type="currency"
 												currencySymbol="đ" maxFractionDigits="0" /></td>
-										<td class="align-middle">
-											<a href = '<c:url value = "wishlist/addToCart/${c.product.productId}.htm"/>'type="button" class="btn btn-success">Add To
-												Cart</a>
-										</td>
+										<td class="align-middle"><a
+											href='<c:url value = "wishlist/addToCart/${c.product.productId}.htm"/>'
+											type="button" class="btn btn-success">Add To Cart</a></td>
 
 										<td class="align-middle "><a
 											href='<c:url value = "wishlist/delete/${c.product.productId}.htm"/>'

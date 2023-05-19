@@ -28,11 +28,6 @@
 	font-size: 14px;
 }
 
-/* Language */
-.language {
-	background-color: var(--grayColor);
-}
-
 /* Navbar */
 .navbar-brand img {
 	max-width: 150px;
@@ -59,7 +54,7 @@
 
 .category a {
 	color: black;
-	font-weight: 500;	
+	font-weight: 500;
 }
 
 .category a:hover {

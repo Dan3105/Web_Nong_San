@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import tad.DAO.IAccountDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.ICategoryDAO;
-import tad.DAO.ICouponDAO;
-import tad.DAO.IFeedbackDAO;
 import tad.DAO.IProductDAO;
 import tad.DAO.IWishlistDAO;
 import tad.bean.Company;
@@ -30,67 +27,82 @@ public class UserHomeController {
 	@Autowired
 	private Company company;
 	@Autowired
-	private SessionFactory sessionFactory;
-	@Autowired
 	private IProductDAO productDAO;
 	@Autowired
 	private ICategoryDAO categoryDAO;
 	@Autowired
-	private ICouponDAO couponDAO;
-	@Autowired
 	private IAccountDAO accountDAO;
 	@Autowired
 	private IWishlistDAO wishlistDAO;
-
 	@Autowired
 	private ICartDAO cartDAO;
-	@Autowired
-	private IFeedbackDAO feedbackDAO;
 
 	@RequestMapping("index")
 	public String index(ModelMap modelMap, HttpSession session) {
-		// Slider + Banner
 
-		modelMap.addAttribute("company", company);
-
-		List<Category> categoryHasProducts = categoryDAO.listCategoriesHasProducts(3);
-		modelMap.addAttribute("categoryHasProducts", categoryHasProducts);
+		// Account user = (Account) session.getAttribute("account");
+		// int userId = user == null ? -1 : user.getAccountId();
 
 		List<Category> category = categoryDAO.getListCategories();
-		modelMap.addAttribute("category", category);
-
 		List<Product> products = productDAO.listProductsWithCoupon();
-		modelMap.addAttribute("products", products);
-
-		//Account user = (Account) session.getAttribute("account");
-		//int userId = user == null ? -1 : user.getAccountId();
-
 		Account user = accountDAO.listAccounts().get(1);
+
+		// Lay tam
 		List<Cart> list = cartDAO.getCart(user.getAccountId());
-		List<Wishlist> wishlist  = wishlistDAO.getWishlist(user.getAccountId());
+		List<Wishlist> wishlist = wishlistDAO.getWishlist(user.getAccountId());
+
 		int totalCart = list.size();
 		int totalWishlist = wishlist.size();
+
+		modelMap.addAttribute("company", company);
+		modelMap.addAttribute("products", products.subList(0, Math.min(10, products.size())));
+		modelMap.addAttribute("category", category);
 		modelMap.addAttribute("totalCart", totalCart);
 		modelMap.addAttribute("totalWishlist", totalWishlist);
-		
-		
+		modelMap.addAttribute("productsWithCategory", category.subList(0, Math.min(3, category.size())));
+		// Category đầu tiên để vào mục sản phẩm
+		modelMap.addAttribute("firstCategory", category.get(0).getCategoryId());
+
 		return "page/home";
 	}
 
 	@RequestMapping("searchFood")
 	public String search(@RequestParam(required = false, value = "search") String search, ModelMap modelMap) {
-		modelMap.addAttribute("company", company);
+		// Lay tam
+		Account user = accountDAO.listAccounts().get(1);
+		List<Category> category = categoryDAO.getListCategories();
+		List<Cart> list = cartDAO.getCart(user.getAccountId());
+		List<Wishlist> wishlist = wishlistDAO.getWishlist(user.getAccountId());
 		List<Product> products = productDAO.filterProductByName(search);
-		// Data from SQL
-		modelMap.addAttribute("products", products);
-		return "page/search";
 
+		int totalCart = list.size();
+		int totalWishlist = wishlist.size();
+
+		modelMap.addAttribute("totalCart", totalCart);
+		modelMap.addAttribute("totalWishlist", totalWishlist);
+		modelMap.addAttribute("company", company);
+		modelMap.addAttribute("products", products);
+		modelMap.addAttribute("firstCategory", category.get(0).getCategoryId());
+
+		return "page/search";
 	}
 
 	@RequestMapping("wishlist")
 	public String wishlist(ModelMap modelMap, HttpSession session) {
+		// Lay tam
+		Account user = accountDAO.listAccounts().get(1);
+		List<Category> category = categoryDAO.getListCategories();
+		List<Cart> list = cartDAO.getCart(user.getAccountId());
+		List<Wishlist> wishlist = wishlistDAO.getWishlist(user.getAccountId());
+
+		int totalCart = list.size();
+		int totalWishlist = wishlist.size();
+
 		modelMap.addAttribute("company", company);
-		// Data from SQL
+		modelMap.addAttribute("totalCart", totalCart);
+		modelMap.addAttribute("totalWishlist", totalWishlist);
+		modelMap.addAttribute("firstCategory", category.get(0).getCategoryId());
+
 		return "page/wishlist";
 
 	}

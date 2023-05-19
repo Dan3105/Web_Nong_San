@@ -105,8 +105,8 @@ public class Account {
 		this.comments = comments;
 		this.carts = carts;
 	}
-	
-	
+
+
 
 	@Override
 	public String toString() {
@@ -120,7 +120,7 @@ public class Account {
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
-	
+
 
 	public Role getRole() {
 		return role;

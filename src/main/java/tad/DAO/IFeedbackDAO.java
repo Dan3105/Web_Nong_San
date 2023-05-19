@@ -16,7 +16,7 @@ public interface IFeedbackDAO {
 	List<Feedback> listFeedback(int productId);
 
 	List<Feedback> listFeedback(int productId, int feedbackFilter);
-	
+
 	//0 Moi Nhat
 	//1 Tu 5 sao - 1 sao
 	// 2 Loc 5 Sao
@@ -24,6 +24,6 @@ public interface IFeedbackDAO {
 	// 4 Loc 3 sao
 	// 5 Loc 2 sao
 	// 6 Loc 1 sao
-	
+
 	List<Feedback> listByStars(int productId, int rateFilter);
 }

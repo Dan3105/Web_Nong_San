@@ -1,6 +1,5 @@
 package tad.DAO;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +17,7 @@ public interface IProductDAO {
 
 	List<Product> listProductsWithCoupon();
 
-	ArrayList<Product> listProductsInCategory(int categoryId);
+	List<Product> listProductsInCategory(int categoryId);
 
 	boolean insertProduct(Product product);
 

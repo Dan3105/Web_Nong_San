@@ -59,7 +59,7 @@ public class CategoryDAOImpl implements ICategoryDAO {
 	@Override
 	public List<Category> getListCategories() {
 
-		String hql = "From Category";
+		String hql = "From Category WHERE SIZE(products) > 0";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
 		@SuppressWarnings("unchecked")
@@ -101,18 +101,6 @@ public class CategoryDAOImpl implements ICategoryDAO {
 
 		}
 		return false;
-	}
-
-	@Override
-	public List<Category> listCategoriesHasProducts(int limit) {
-		String hql = "FROM Category C WHERE SIZE(C.products) > 0 ORDER BY SIZE(C.products) DESC";
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(hql);
-		query.setMaxResults(limit);
-		@SuppressWarnings("unchecked")
-		List<Category> listCategory = query.list();
-		return listCategory;
-
 	}
 
 }

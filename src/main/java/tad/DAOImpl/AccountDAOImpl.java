@@ -78,7 +78,6 @@ public class AccountDAOImpl implements IAccountDAO {
 		try {
 			acc = (Account) query.uniqueResult();
 		} catch (Exception e) {
-			System.out.println(e);
 		}
 		return acc;
 	}
@@ -94,7 +93,6 @@ public class AccountDAOImpl implements IAccountDAO {
 		try {
 			roleDB = (Role) query.uniqueResult();
 		} catch (Exception ex) {
-			System.out.println(ex);
 		}
 		return roleDB;
 	}
