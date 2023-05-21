@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 
 
+<%@include file="/WEB-INF/views/include/library.jsp"%>
+<%@include file="/WEB-INF/views/include/languageBar.jsp"%>
 <%@include file="/WEB-INF/views/include/header.jsp"%>
 
 <%@include file="/WEB-INF/views/include/slider.jsp"%>

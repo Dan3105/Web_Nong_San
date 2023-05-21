@@ -177,7 +177,7 @@
 									</a>
 								</c:if>
 								<c:if test="${canCheckOut == 1 }">
-									<a type="button" href="order/index.htm" class="btn btn-outline-success ">
+									<a type="button" href="#" class="btn btn-outline-success ">
 										<s:message code="cart.checkout" />
 									</a>
 								</c:if>

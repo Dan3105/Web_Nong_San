@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.IAccountDAO;
 import tad.DAO.ICartDAO;
@@ -43,17 +44,22 @@ public class UserWishlistController {
 
 	// Trả về ds giỏ hàng
 	@RequestMapping(value = "index")
-	public String cart(ModelMap model, HttpSession session) {
-		float total = 0;
-		// Account user = (Account) session.getAttribute("account");
-		Account user = accountDAO.listAccounts().get(1);
+	public String cart(ModelMap model) {
 
+		// Account user = (Account) session.getAttribute("account");
+		Account user = accountDAO.getAccount(36);
 		List<Wishlist> list = wishlistDAO.getWishlist(user.getAccountId());
+		List<Cart> listCart = cartDAO.getCart(user.getAccountId());
+		List<Wishlist> wishlist = wishlistDAO.getWishlist(user.getAccountId());
+		List<Category> category = categoryDAO.getListCategories();
+
+		int totalCart = listCart.size();
+		int totalWishlist = wishlist.size();
 
 		model.addAttribute("wishlists", list);
-
 		model.addAttribute("company", company);
-		List<Category> category = categoryDAO.getListCategories();
+		model.addAttribute("totalCart", totalCart);
+		model.addAttribute("totalWishlist", totalWishlist);
 		model.addAttribute("category", category);
 
 		return "wishlist/index";
@@ -62,7 +68,7 @@ public class UserWishlistController {
 	@RequestMapping(value = "delete/{productID}.htm")
 	public String delete(ModelMap model, HttpSession session, @PathVariable("productID") String productID) {
 		// Account user = (Account) session.getAttribute("account");
-		Account user = accountDAO.listAccounts().get(1);
+		Account user = accountDAO.getAccount(36);
 		wishlistDAO.deleteWishlist(wishlistDAO.getWishlist(user.getAccountId(), Integer.parseInt(productID)));
 		List<Wishlist> list = wishlistDAO.getWishlist(user.getAccountId());
 		model.addAttribute("wishlists", list);
@@ -73,7 +79,7 @@ public class UserWishlistController {
 	public String addToCart(ModelMap model, HttpServletRequest request, HttpSession session,
 			@PathVariable("productID") String productID) {
 		// Lấy tạm thằng account số 1
-		Account user = accountDAO.listAccounts().get(1);
+		Account user = accountDAO.getAccount(36);
 
 		if (user == null) {
 			System.out.println("User is null");

@@ -42,13 +42,41 @@ public class OrderDAOImpl implements IOrderDAO {
 
 	@Override
 	public boolean insertOrder(Orders order) {
-		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+
+			session.save(order);
+			t.commit();
+			return true;
+
+		} catch (Exception e) {
+			System.out.println(e);
+			t.rollback();
+		} finally {
+			session.close();
+
+		}
 		return false;
 	}
 
 	@Override
 	public boolean insertOrderDetail(OrderDetail orderDetail) {
-		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+
+			session.save(orderDetail);
+			t.commit();
+			return true;
+
+		} catch (Exception e) {
+			System.out.println(e);
+			t.rollback();
+		} finally {
+			session.close();
+
+		}
 		return false;
 	}
 

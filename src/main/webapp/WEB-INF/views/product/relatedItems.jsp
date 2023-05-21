@@ -16,39 +16,43 @@
 		<!-- row -->
 		<div class="row g-4 row-cols-lg-5 row-cols-2 row-cols-md-2 mt-2">
 			<!-- col -->
+
 			<c:forEach var="p" items="${listProductSameCategory }">
+				<!-- col -->
 				<div class="col">
-					<div class="card card-product ">
+					<!-- card -->
+					<div class="card card-product">
 						<div class="card-body">
 
+							<!-- badge -->
 							<div class="text-center position-relative ">
-								<div class=" position-absolute top-0 start-0">
-									<c:if test="${p.coupon.discount != null}">
-										<span class="badge bg-danger"> <fmt:formatNumber
-												value="${p.coupon.discount }" type="percent" /></span>
-									</c:if>
-
-								</div>
+								<c:if test="${p.coupon.discount != null}">
+									<div class=" position-absolute top-0 start-0">
+										<span class="badge bg-danger">30%</span>
+									</div>
+								</c:if>
 								<a href="product/detail.htm?productId=${p.productId }"> <img
 									src="<c:url value="/assets/img/products/${p.image}"/>"
-									alt="Grocery Ecommerce Template" class="mb-3 img-fluid"></a>
-
+									alt="Product" class=" img-fluid">
+								</a>
 								<div class="card-product-action">
-									<a href="#!" class="btn-action"><i class="bi bi-eye"></i></a> <a
+									<a href="product/detail.htm?productId=${p.productId }"
+										class="btn-action"><i class="bi bi-eye"></i></a> <a
 										href='<c:url value = "product/addToWishlist.htm?productId=${p.productId }"/>'
 										class="btn-action"><i class="bi bi-heart"></i></a> <a
-										href="#!" class="btn-action"><i
-										class="bi bi-arrow-left-right"></i></a>
+										href='<c:url value = "product/addToCart.htm?productId=${p.productId }"/>'
+										class="btn-action"><i class="bi bi-cart-plus"></i></a>
 								</div>
 
 							</div>
-							<div class="text-small mb-1">
-								<a href="#!" class="text-decoration-none text-muted"><small>${p.category.name }</small></a>
+
+							<!-- heading category -->
+							<div class="text-small mt-2 mb-1 text-muted">
+								<small>${p.category.name }</small>
 							</div>
-							<h2 class="fs-6">
-								<a href="./pages/shop-single.html"
-									class="text-inherit text-decoration-none">${p.productName }</a>
-							</h2>
+
+							<h2 class="fs-6 text-inherit text-success">${p.productName }</h2>
+
 
 							<div
 								class="d-flex justify-content-between align-items-center mt-3">
@@ -66,27 +70,13 @@
 									</c:if>
 								</div>
 
-								<div>
-									<a
-										href='<c:url value = "product/addToCart.htm?productId=${p.productId }"/>'
-										type="button" class="btn btn-primary liveToastBtn"> <svg
-											xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-											viewBox="0 0 24 24" fill="none" stroke="currentColor"
-											stroke-width="2" stroke-linecap="round"
-											stroke-linejoin="round" class="feather feather-plus">
-                                            <line x1="12" y1="5" x2="12"
-												y2="19"></line>
-                                            <line x1="5" y1="12" x2="19"
-												y2="12"></line>
-                                        </svg> Add
-									</a>
 
-								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</c:forEach>
+
 
 		</div>
 

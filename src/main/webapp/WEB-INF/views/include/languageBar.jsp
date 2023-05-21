@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@include file="/WEB-INF/views/include/library.jsp"%>
-<c:set var="localeCode" value="${pageContext.response.locale}" />
+
 <body>
+	<c:set var="localeCode" value="${pageContext.response.locale}" />
 	<!-- Language Bar -->
 	<div class="language bg-light">
 		<div class="container">

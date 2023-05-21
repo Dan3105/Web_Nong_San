@@ -1,17 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!--JSTL  -->
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <section class="">
 	<div class="container">
 		<div class="row">
 
-			<div class="col-md-6">
+			<div class="col-md-6 mt-3">
 				<!-- img slide -->
 				<img src="<c:url value="/assets/img/products/${product.image}"/>"
-					class="img-thumbnail" alt="..." style="width: 350px; height: 350px">
+					class="img-thumbnail" style="width: 400px; height: 400px">
 
 			</div>
 			<div class="col-md-6">
@@ -62,7 +60,13 @@
 						<!-- button -->
 						<!-- btn -->
 						<a href="product/addToCart.htm?productId=${product.productId }"
-							class="btn btn-success btn-lg ">Add To Cart</a>
+							class="btn btn-success btn-lg  ${(product.quantity == 0) ? 'disabled' : '' }">
+							<c:if test="${(product.quantity == 0) }">
+								<s:message code="wishlist.out_of_item" />
+							</c:if> <c:if test="${(product.quantity > 0) }">
+								<s:message code="wishlist.add_to_cart" />
+							</c:if>
+						</a>
 
 
 
@@ -71,7 +75,8 @@
 						<!-- btn -->
 						<a
 							href='<c:url value = "product/addToWishlist.htm?productId=${product.productId }"/>'
-							class="btn btn-light  "><i class="bi bi-heart"></i></a>
+							class="btn btn-light  ${(product.quantity == 0) ? 'disabled' : '' } "><i
+							class="bi bi-heart"></i></a>
 
 					</div>
 				</div>
@@ -79,33 +84,40 @@
 				<hr class="my-6">
 				<div>
 					<!-- table -->
-					<table class="table table-borderless mb-0">
+					<table class="table  table-borderless mb-0">
 
 						<tbody>
 							<tr>
-								<td>Product ID:</td>
+								<td class="fw-bold">ID:</td>
 								<td>${product.productId }</td>
 
 							</tr>
 
 							<tr>
-								<td>Category:</td>
+								<td class="fw-bold"><s:message code="product.category" />:</td>
 								<td>${product.category.name }</td>
 
 							</tr>
 
 							<tr>
-								<td>Total:</td>
-								<td>${product.quantity }</td>
+								<td class="fw-bold"><s:message code="product.total" />:</td>
+								<c:if test="${(product.quantity == 0) }">
+									<td><s:message code="wishlist.out_of_item" /></td>
+
+								</c:if>
+								<c:if test="${(product.quantity > 0) }">
+									<td>${product.quantity }${product.unit }</td>
+								</c:if>
+
 
 							</tr>
 							<tr>
-								<td>Des:</td>
+								<td class="fw-bold"><s:message code="product.des" />:</td>
 								<td>${product.detail }</td>
 
 							</tr>
 							<tr>
-								<td>Unit:</td>
+								<td class="fw-bold"><s:message code="product.unit" />:</td>
 								<td>${product.unit }</td>
 
 							</tr>
@@ -119,6 +131,7 @@
 				</div>
 
 			</div>
+
 		</div>
 
 	</div>

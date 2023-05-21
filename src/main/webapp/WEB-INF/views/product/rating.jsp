@@ -63,26 +63,26 @@
 											data-bs-toggle="dropdown" aria-expanded="false">
 											<c:choose>
 												<c:when test="${filterStar==0}">
-            										Newest
-         										</c:when>
+													<s:message code="product.filter_0" />
+												</c:when>
 												<c:when test="${filterStar==1}">
-           								 			Highest Stars
-         										</c:when>
+													<s:message code="product.filter_4" />
+												</c:when>
 												<c:when test="${filterStar==2}">
-           								 			5 Stars
-         										</c:when>
+           								 			5 <s:message code="product.stars" />
+												</c:when>
 												<c:when test="${filterStar==3}">
-           								 			4 Stars
-         										</c:when>
+           								 			4 <s:message code="product.stars" />
+												</c:when>
 												<c:when test="${filterStar==4}">
-           								 			3 Stars
-         										</c:when>
+           								 			3 <s:message code="product.stars" />
+												</c:when>
 												<c:when test="${filterStar==5}">
-           								 			2 Stars
-         										</c:when>
+           								 			2 <s:message code="product.stars" />
+												</c:when>
 												<c:when test="${filterStar==6}">
-           								 			1 Star
-         										</c:when>
+           								 			1 <s:message code="product.star" />
+												</c:when>
 												<c:otherwise>
             										Filter
          										</c:otherwise>
@@ -91,25 +91,31 @@
 										<ul class="dropdown-menu">
 											<li><a class="dropdown-item"
 												href="product/detail.htm?filterStar=0&productId=${product.productId }">
-													Newest</a></li>
+													<s:message code="product.filter_0" />
+											</a></li>
 											<li><a class="dropdown-item"
-												href="product/detail.htm?filterStar=1&productId=${product.productId }">High
-													Stars</a></li>
+												href="product/detail.htm?filterStar=1&productId=${product.productId }"><s:message
+														code="product.filter_4" /></a></li>
 											<li><a class="dropdown-item"
-												href="product/detail.htm?filterStar=2&productId=${product.productId }">5
-													Stars</a></li>
+												href="product/detail.htm?filterStar=2&productId=${product.productId }">
+													5 <s:message code="product.stars" />
+											</a></li>
 											<li><a class="dropdown-item"
 												href="product/detail.htm?filterStar=3&productId=${product.productId }">4
-													Stars </a></li>
+													<s:message code="product.stars" />
+											</a></li>
 											<li><a class="dropdown-item"
 												href="product/detail.htm?filterStar=4&productId=${product.productId }">3
-													Stars </a></li>
+													<s:message code="product.stars" />
+											</a></li>
 											<li><a class="dropdown-item"
 												href="product/detail.htm?filterStar=5&productId=${product.productId }">2
-													Stars </a></li>
+													<s:message code="product.stars" />
+											</a></li>
 											<li><a class="dropdown-item"
 												href="product/detail.htm?filterStar=6&productId=${product.productId }">1
-													Star </a></li>
+													<s:message code="product.star" />
+											</a></li>
 										</ul>
 									</div>
 
@@ -161,6 +167,18 @@
 									</div>
 
 								</div>
+								<c:if test="${f.comment != null }">
+									<div class="d-flex flex-column ms-5 mt-3 bg-body-tertiary p-3 ">
+										<div class="heading mb-2 fw-bold text-primary">Phản Hồi
+											Người Bán</div>
+										<p class="small">
+											<span class="text-dark"><fmt:formatDate
+													value="${f.comment.postingDate}" pattern="dd-MM-yyyy" /></span>
+										</p>
+										<div class="text-muted ">${f.comment.commentContent }</div>
+									</div>
+								</c:if>
+
 								<hr>
 							</c:forEach>
 
@@ -203,6 +221,34 @@
 							</div>
  --%>
 						</div>
+					</div>
+					<div class="row mt-5 ">
+
+						<!-- nav -->
+						<nav>
+							<ul class="pagination d-flex justify-content-center ms-2">
+								<li class="page-item ${(currentPage == 1) ? 'disabled' : '' }"><a
+									class="page-link  mx-1 " aria-label="Previous"
+									href="product/detail.htm?prodcutId=${currentProductId }&currentPage=${in.count  }&filterStar=${filterStar}">
+										<span aria-hidden="true">&laquo;</span>
+								</a></li>
+								<c:forEach var="i" begin="1" end="${totalPage }" varStatus="in">
+
+									<li class="page-item "><a
+										class="page-link  mx-1 ${(currentPage == in.count) ? 'active' : '' }"
+										href="product/detail.htm?productId=${currentProductId}&currentPage=${in.count  }&filterStar=${filterStar }">${in.count}</a></li>
+								</c:forEach>
+								<li class="page-item"><a
+									class="page-link mx-1 text-body ${(currentPage == totalPage) ? 'disabled' : '' }"
+									aria-label="Next"
+									href="product/detail.htm?productId=${currentProductId}&currentPage=${currentPage + 1  }&filterStar=${filterStar}">
+										<span aria-hidden="true">&raquo;</span>
+								</a></li>
+							</ul>
+						</nav>
+
+
+
 					</div>
 				</div>
 			</div>

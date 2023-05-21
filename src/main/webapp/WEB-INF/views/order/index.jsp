@@ -1,21 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<base href="${pageContext.servletContext.contextPath}/">
+<%@include file="/WEB-INF/views/include/library.jsp"%>
 <%@include file="/WEB-INF/views/include/header.jsp"%>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <br>
 <div class="container">
 	<div class="row">
 
 		<div class="col-9 mbg-azure p-3">
-			<!-- Khai báo pagedListHolder với param p -->
-			<%-- <jsp:useBean id="pagedListHolder" scope="request"
-				type="org.springframework.beans.support.PagedListHolder" /> --%>
-			<c:url value="user/order.htm" var="pagedLink">
-				<c:param name="p" value="~" />
-			</c:url>
+
 			<div class="h4 text-uppercase">Đơn hàng</div>
 			<hr>
 			<table class="table table-hover">
@@ -29,24 +22,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="order" items="${pagedListHolder.pageList }">
-						<tr>
-							<td class="text-center"><a class="link-primary"
-								href="user/orderDetail.htm?id=${order.id }" role="button"><i
-									class="fas fa-info-circle"></i></a></td>
-							<td>${order.date }</td>
-							<td>
-								<ul>
-									<c:forEach var="orderDetail" items="${order.orderDetails }">
-										<li>${orderDetail.products.name }</li>
-									</c:forEach>
-								</ul>
-							</td>
-							<td><fmt:formatNumber value="${order.totalPrice }"
-									type="currency" currencySymbol="đ" maxFractionDigits="0" /></td>
-							<td>${order.status.description }</td>
-						</tr>
-					</c:forEach>
+
 				</tbody>
 			</table>
 			<%-- <tg:paging pagedListHolder="${pagedListHolder}"

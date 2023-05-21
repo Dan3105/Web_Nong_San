@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@include file="/WEB-INF/views/include/library.jsp"%>
 <%@include file="/WEB-INF/views/include/header.jsp"%>
 
 <div class="my-4">
@@ -39,12 +39,51 @@
 				</div>
 				<!-- list icon -->
 				<div class="d-lg-flex justify-content-between align-items-center">
-					<div class="mb-3 mb-lg-0">
-						<p class="mb-0">
-							<span class="text-dark">${totalSize } </span>
-							<s:message code="product.find" />
-						</p>
-					</div>
+					<h5 class="mb-3 mb-lg-0 text-success">
+						<c:choose>
+							<c:when test="${filterPrice==0}">
+								<s:message code="product.all" />
+							</c:when>
+							<c:when test="${filterPrice==1}">
+								<s:message code="product.price_below" />
+								<fmt:formatNumber value="100000" type="currency"
+									currencySymbol="VND" maxFractionDigits="0" />
+							</c:when>
+							<c:when test="${filterPrice==2}">
+								<fmt:formatNumber value="100000" type="currency"
+									currencySymbol="VND" maxFractionDigits="0" /> - <fmt:formatNumber
+									value="200000" type="currency" currencySymbol="VND"
+									maxFractionDigits="0" />
+							</c:when>
+							<c:when test="${filterPrice==3}">
+								<fmt:formatNumber value="200000" type="currency"
+									currencySymbol="VND" maxFractionDigits="0" /> - <fmt:formatNumber
+									value="300000" type="currency" currencySymbol="VND"
+									maxFractionDigits="0" />
+							</c:when>
+							<c:when test="${filterPrice==4}">
+								<fmt:formatNumber value="300000" type="currency"
+									currencySymbol="VND" maxFractionDigits="0" />-<fmt:formatNumber
+									value="500000" type="currency" currencySymbol="VND"
+									maxFractionDigits="0" />
+							</c:when>
+							<c:when test="${filterPrice==5}">
+								<fmt:formatNumber value="500000" type="currency"
+									currencySymbol="VND" maxFractionDigits="0" />-<fmt:formatNumber
+									value="1000000" type="currency" currencySymbol="VND"
+									maxFractionDigits="0" />
+							</c:when>
+							<c:when test="${filterPrice==6}">
+								<s:message code="product.price_above" />
+								<fmt:formatNumber value="1000000" type="currency"
+									currencySymbol="VND" maxFractionDigits="0" />
+							</c:when>
+							<c:otherwise>
+							AHIH
+							</c:otherwise>
+
+						</c:choose>
+					</h5>
 
 
 					<div class="d-md-flex justify-content-between align-items-center">
@@ -97,7 +136,11 @@
 					</div>
 				</div>
 
-
+				<c:if test="${productsFilterWithCategory.size() == 0 }">
+					<div class="mt-2 alert alert-warning  green-alert section" role="alert">
+						<s:message
+									code="product.none" /></div>
+				</c:if>
 				<div
 					class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
 					<c:forEach var="p" items="${productsFilterWithCategory }">
@@ -116,7 +159,7 @@
 										</c:if>
 										<a href="product/detail.htm?productId=${p.productId }"> <img
 											src="<c:url value="/assets/img/products/${p.image}"/>"
-											alt="Product" class=" img-fluid">
+											alt="Product" class=" img-fluid" style="width: 200px; height: 200px">
 										</a>
 										<div class="card-product-action">
 											<a href="product/detail.htm?productId=${p.productId }"
@@ -169,7 +212,7 @@
 </div>
 
 
-<!-- Phaan trang -->
+<!-- Phan trang -->
 <div class="row mt-5 ">
 
 	<!-- nav -->
@@ -177,23 +220,25 @@
 		<ul class="pagination d-flex justify-content-center ms-2">
 			<li class="page-item ${(currentPage == 1) ? 'disabled' : '' }"><a
 				class="page-link  mx-1 " aria-label="Previous"
-				href="product/index.htm?index=${currentPage - 1 }&currentPage=${in.count  }&categoryId=${currentCategory.categoryId }">
+				href="product/index.htm?index=${currentPage - 1 }&currentPage=${in.count  }&categoryId=${currentCategory.categoryId }&filterPrice=${filterPrice}">
 					<span aria-hidden="true">&laquo;</span>
 			</a></li>
 			<c:forEach var="i" begin="1" end="${totalPage	 }" varStatus="in">
 
 				<li class="page-item "><a
 					class="page-link  mx-1 ${(currentPage == in.count) ? 'active' : '' }"
-					href="product/index.htm?index=${index }&currentPage=${in.count  }&categoryId=${currentCategory.categoryId }">${in.count}</a></li>
+					href="product/index.htm?index=${index }&currentPage=${in.count  }&categoryId=${currentCategory.categoryId }&filterPrice=${filterPrice}">${in.count}</a></li>
 			</c:forEach>
 			<li class="page-item"><a
 				class="page-link mx-1 text-body ${(currentPage == totalPage) ? 'disabled' : '' }"
 				aria-label="Next"
-				href="product/index.htm?index=${index}&currentPage=${currentPage + 1  }&categoryId=${currentCategory.categoryId }">
+				href="product/index.htm?index=${index}&currentPage=${currentPage + 1  }&categoryId=${currentCategory.categoryId }&filterPrice=${filterPrice}">
 					<span aria-hidden="true">&raquo;</span>
 			</a></li>
 		</ul>
 	</nav>
+
+
 
 </div>
 

@@ -20,14 +20,11 @@
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="basenames">
 			<list>
-				<value>classpath:cart</value>
-				<value>classpath:cart_vi</value>
+				<value>classpath:global</value>
+				<value>classpath:global_vi</value>
 				<value>classpath:home</value>
 				<value>classpath:home_vi</value>
-				<value>classpath:wishlist_vi</value>
-				<value>classpath:wishlist</value>
-				<value>classpath:product_vi</value>
-				<value>classpath:product</value>
+
 			</list>
 		</property>
 	</bean>

@@ -21,6 +21,7 @@ import tad.entity.Cart;
 import tad.entity.Category;
 import tad.entity.Product;
 import tad.entity.Wishlist;
+import tad.utility.Constants;
 
 @Controller
 public class UserHomeController {
@@ -45,7 +46,7 @@ public class UserHomeController {
 
 		List<Category> category = categoryDAO.getListCategories();
 		List<Product> products = productDAO.listProductsWithCoupon();
-		Account user = accountDAO.listAccounts().get(1);
+		Account user = accountDAO.getAccount(36);
 
 		// Lay tam
 		List<Cart> list = cartDAO.getCart(user.getAccountId());
@@ -55,37 +56,20 @@ public class UserHomeController {
 		int totalWishlist = wishlist.size();
 
 		modelMap.addAttribute("company", company);
-		modelMap.addAttribute("products", products.subList(0, Math.min(10, products.size())));
+		modelMap.addAttribute("products",
+				products.subList(0, Math.min(Constants.PRODUCT_PER_CATEGORY_IN_HOME, products.size())));
 		modelMap.addAttribute("category", category);
 		modelMap.addAttribute("totalCart", totalCart);
 		modelMap.addAttribute("totalWishlist", totalWishlist);
-		modelMap.addAttribute("productsWithCategory", category.subList(0, Math.min(3, category.size())));
+		modelMap.addAttribute("productsWithCategory",
+				category.subList(0, Math.min(Constants.CATEGORY_IN_HOME, category.size())));
 		// Category đầu tiên để vào mục sản phẩm
 		modelMap.addAttribute("firstCategory", category.get(0).getCategoryId());
 
 		return "page/home";
 	}
 
-	@RequestMapping("searchFood")
-	public String search(@RequestParam(required = false, value = "search") String search, ModelMap modelMap) {
-		// Lay tam
-		Account user = accountDAO.listAccounts().get(1);
-		List<Category> category = categoryDAO.getListCategories();
-		List<Cart> list = cartDAO.getCart(user.getAccountId());
-		List<Wishlist> wishlist = wishlistDAO.getWishlist(user.getAccountId());
-		List<Product> products = productDAO.filterProductByName(search);
-
-		int totalCart = list.size();
-		int totalWishlist = wishlist.size();
-
-		modelMap.addAttribute("totalCart", totalCart);
-		modelMap.addAttribute("totalWishlist", totalWishlist);
-		modelMap.addAttribute("company", company);
-		modelMap.addAttribute("products", products);
-		modelMap.addAttribute("firstCategory", category.get(0).getCategoryId());
-
-		return "page/search";
-	}
+	
 
 	@RequestMapping("wishlist")
 	public String wishlist(ModelMap modelMap, HttpSession session) {

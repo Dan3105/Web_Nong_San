@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import tad.DAO.IAccountDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.ICategoryDAO;
+import tad.DAO.IComment;
 import tad.DAO.IFeedbackDAO;
 import tad.DAO.IProductDAO;
 import tad.DAO.IWishlistDAO;
@@ -30,6 +31,8 @@ import tad.entity.Wishlist;
 import tad.entity.WishlistId;
 import tad.utility.Constants;
 import tad.utility.Ultis;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/product/")
@@ -55,14 +58,19 @@ public class UserProductController {
 
 	@Autowired
 	private Company company;
+	
+	@Autowired
+	private IComment commentDAO;
+
 
 	@RequestMapping(value = "index")
 	public String index(ModelMap modelMap, @RequestParam(value = "categoryId", required = false) int categoryId,
 
 			@RequestParam(value = "index", required = false, defaultValue = "0") int index,
-			@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {
+			@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+			@RequestParam(value = "filterPrice", required = false, defaultValue = "0") int filterPrice) {
 		// Lay tam
-		Account user = accountDAO.listAccounts().get(1);
+		Account user = accountDAO.getAccount(36);
 		List<Category> category = categoryDAO.getListCategories();
 		List<Cart> list = cartDAO.getCart(user.getAccountId());
 		List<Wishlist> wishlist = wishlistDAO.getWishlist(user.getAccountId());
@@ -72,89 +80,9 @@ public class UserProductController {
 
 		List<Product> productsFilterWithCategory = productDAO.listProductsInCategory(categoryId);
 
-		switch (index) {
-		case 0: {
+		Ultis.filterProductByIndex(index, productsFilterWithCategory);
+		productsFilterWithCategory = Ultis.filterProductByPrice(filterPrice, productsFilterWithCategory);
 
-			break;
-		}
-		case 1: {
-			productsFilterWithCategory.sort(new Comparator<Product>() {
-
-				@Override
-				public int compare(Product o1, Product o2) {
-					double price1 = o1.getPrice();
-					double price2 = o2.getPrice();
-					if (o1.getCoupon() != null)
-						price1 -= o1.getPrice() * o1.getCoupon().getDiscount();
-					if (o2.getCoupon() != null)
-						price2 -= o2.getPrice() * o2.getCoupon().getDiscount();
-
-					if (price1 < price2)
-						return 1;
-					else if (price1 > price2)
-						return -1;
-					return 0;
-				}
-
-			});
-
-			break;
-		}
-		case 2: {
-			productsFilterWithCategory.sort(new Comparator<Product>() {
-
-				@Override
-				public int compare(Product o1, Product o2) {
-					double price1 = o1.getPrice();
-					double price2 = o2.getPrice();
-					if (o1.getCoupon() != null)
-						price1 -= o1.getPrice() * o1.getCoupon().getDiscount();
-					if (o2.getCoupon() != null)
-						price2 -= o2.getPrice() * o2.getCoupon().getDiscount();
-					if (price2 < price1)
-						return 1;
-					else if (price2 > price1)
-						return -1;
-					return 0;
-
-				}
-			});
-			break;
-		}
-
-		case 3:
-
-		{
-			productsFilterWithCategory.sort(new Comparator<Product>() {
-
-				@Override
-				public int compare(Product o1, Product o2) {
-					double ra = 0, rb = 0;
-
-					if (o1.getFeedbacks() != null && o1.getFeedbacks().size() > 0) {
-						for (Feedback f : o1.getFeedbacks()) {
-							ra += f.getRatingStar();
-						}
-						ra /= o1.getFeedbacks().size();
-					}
-
-					if (o2.getFeedbacks() != null && o2.getFeedbacks().size() > 0) {
-						for (Feedback f : o2.getFeedbacks()) {
-							rb += f.getRatingStar();
-						}
-						rb /= o2.getFeedbacks().size();
-					}
-					if (ra < rb)
-						return 1;
-					else if (ra > rb)
-						return -1;
-					return 0;
-				}
-			});
-			break;
-		}
-
-		}
 		int startIndex = (currentPage - 1) * Constants.PRODUCT_PER_PAGE;
 		int totalPage = 1;
 		if (productsFilterWithCategory.size() <= Constants.PRODUCT_PER_PAGE)
@@ -165,7 +93,6 @@ public class UserProductController {
 				totalPage++;
 			}
 		}
-
 		modelMap.addAttribute("productsFilterWithCategory", productsFilterWithCategory.subList(startIndex,
 				Math.min(startIndex + Constants.PRODUCT_PER_PAGE, productsFilterWithCategory.size())));
 		modelMap.addAttribute("company", company);
@@ -178,6 +105,7 @@ public class UserProductController {
 		modelMap.addAttribute("currentPage", currentPage);
 		modelMap.addAttribute("totalSize", productsFilterWithCategory.size());
 		modelMap.addAttribute("firstCategory", category.get(0).getCategoryId());
+		modelMap.addAttribute("filterPrice", filterPrice);
 		return "product/index";
 	}
 
@@ -185,7 +113,7 @@ public class UserProductController {
 	public String addToCart(ModelMap model, HttpServletRequest request, HttpSession session,
 			@RequestParam("productId") int productID) {
 		// Lấy tạm thằng account số 1
-		Account user = accountDAO.listAccounts().get(1);
+		Account user = accountDAO.getAccount(36);
 
 		if (user == null) {
 			System.out.println("User is null");
@@ -217,8 +145,7 @@ public class UserProductController {
 	public String addToWishlist(ModelMap model, HttpServletRequest request, HttpSession session,
 			@RequestParam("productId") int productID) {
 		// Lấy tạm
-		Account user = accountDAO.listAccounts().get(1);
-
+		Account user = accountDAO.getAccount(36);
 		if (user == null) {
 			System.out.println("User is null");
 
@@ -245,13 +172,14 @@ public class UserProductController {
 
 	@RequestMapping(value = "detail", params = { "productId" })
 	public String detail(ModelMap modelMap, @RequestParam("productId") int productId,
-			@RequestParam(value = "filterStar", required = false, defaultValue = "0") int filterStar) {
+			@RequestParam(value = "filterStar", required = false, defaultValue = "0") int filterStar,
+			@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {
 		Product product = productDAO.getProduct(productId);
 		modelMap.addAttribute("product", product);
 		// Slider + Banner
 		modelMap.addAttribute("company", company);
 
-		Account user = accountDAO.listAccounts().get(1);
+		Account user = accountDAO.getAccount(36);
 		List<Cart> list = cartDAO.getCart(user.getAccountId());
 		List<Wishlist> wishlist = wishlistDAO.getWishlist(user.getAccountId());
 		int totalCart = list.size();
@@ -275,13 +203,29 @@ public class UserProductController {
 				.listProductsInCategory(product.getCategory().getCategoryId());
 		Collections.shuffle(listProductSameCategory);
 		listProductSameCategory = listProductSameCategory.subList(0, Math.min(5, listProductSameCategory.size()));
+		int startIndex = (currentPage - 1) * Constants.COMMENT_PER_PAGE;
+		int totalPage = 1;
+		if (rateds.size() <= Constants.COMMENT_PER_PAGE)
+			totalPage = 1;
+		else {
+			totalPage = rateds.size() / Constants.COMMENT_PER_PAGE;
+			if (rateds.size() % Constants.COMMENT_PER_PAGE != 0) {
+				totalPage++;
+			}
+		}
+		
 		modelMap.addAttribute("avgStar", avgStar);
 		modelMap.addAttribute("countStar", countStar);
 		modelMap.addAttribute("feedbacks", feedbacks);
 		modelMap.addAttribute("listProductSameCategory", listProductSameCategory);
-		modelMap.addAttribute("rateds", rateds);
-		System.out.println(rateds.size());
+		modelMap.addAttribute("rateds",
+				rateds.subList(startIndex, Math.min(startIndex + Constants.COMMENT_PER_PAGE, rateds.size())));
+		modelMap.addAttribute("currentCategoryId", product.getCategory().getCategoryId());
+
 		modelMap.addAttribute("filterStar", filterStar);
+		modelMap.addAttribute("currentPage", currentPage);
+		modelMap.addAttribute("totalPage", totalPage);
+		modelMap.addAttribute("currentProductId", productId);
 		return "product/detail";
 	}
 
