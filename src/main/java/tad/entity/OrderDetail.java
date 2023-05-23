@@ -1,14 +1,13 @@
 package tad.entity;
 // Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 /**
@@ -19,32 +18,30 @@ import javax.persistence.Table;
 public class OrderDetail {
 
 	@EmbeddedId
-	@AttributeOverrides({
-			@AttributeOverride(name = "productId", column = @Column(name = "ProductID", nullable = false)),
-			@AttributeOverride(name = "orderId", column = @Column(name = "OrderID", nullable = false)),
-			})
 	private OrderDetailId id;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@MapsId("orderId")
 	@JoinColumn(name = "OrderID", nullable = false, insertable = false, updatable = false)
 	private Orders order;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@MapsId("productId")
 	@JoinColumn(name = "ProductID", nullable = false, insertable = false, updatable = false)
 	private Product product;
 
-	@JoinColumn(name="Quantity", nullable = false)
+	@Column(name = "Quantity", nullable = false)
 	private int quantity;
-
-	public OrderDetail() {
-		quantity =0;
-	}
 
 	public OrderDetail(OrderDetailId id, Orders order, Product product, int quantity) {
 		this.id = id;
 		this.order = order;
 		this.product = product;
 		this.quantity = quantity;
+	}
+
+	public OrderDetail() {
+
 	}
 
 	public OrderDetailId getId() {
@@ -78,6 +75,5 @@ public class OrderDetail {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
 
 }

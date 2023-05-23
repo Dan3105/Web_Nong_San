@@ -6,7 +6,7 @@
 			<h2 class="fs-4">
 				<s:message code="product.breadcrumb_2" />
 			</h2>
-			<hr>	
+			<hr>
 
 			<ul
 				class="nav nav-pills flex-column mb-auto me-auto text-decoration-none overflow-auto">
@@ -17,7 +17,7 @@
 				</c:forEach>
 
 			</ul>
-			
+
 
 		</div>
 
@@ -40,9 +40,9 @@
 				</a></li>
 				<li class="nav-item"><a
 					href="product/index.htm?categoryId=${currentCategory.categoryId}&currentPage=1&filterPrice=1&index=${index}"
-					class="nav-link link-success "><s:message code="product.price_below" /> <fmt:formatNumber
-							value="100000" type="currency" currencySymbol="VND"
-							maxFractionDigits="0" /></a></li>
+					class="nav-link link-success "><s:message
+							code="product.price_below" /> <fmt:formatNumber value="100000"
+							type="currency" currencySymbol="VND" maxFractionDigits="0" /></a></li>
 				<li class="nav-item"><a
 					href="product/index.htm?categoryId=${currentCategory.categoryId}&currentPage=1&filterPrice=2&index=${index}"
 					class="nav-link link-success "> <fmt:formatNumber
@@ -69,13 +69,13 @@
 							type="currency" currencySymbol="VND" maxFractionDigits="0" /></a></li>
 				<li class="nav-item"><a
 					href="product/index.htm?categoryId=${currentCategory.categoryId}&currentPage=1&filterPrice=6&index=${index}"
-					class="nav-link link-success "> <s:message code="product.price_above" />  <fmt:formatNumber
-							value="1000000" type="currency" currencySymbol="VND"
-							maxFractionDigits="0" /></a></li>
+					class="nav-link link-success "> <s:message
+							code="product.price_above" /> <fmt:formatNumber value="1000000"
+							type="currency" currencySymbol="VND" maxFractionDigits="0" /></a></li>
 
 
 			</ul>
-			
+
 
 		</div>
 

@@ -40,6 +40,7 @@ public class Account {
 
 	@Column(name = "Avatar")
 	private String avatar;
+
 	@Column(name = "Status", nullable = false)
 	private int status;
 
@@ -48,6 +49,26 @@ public class Account {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Address> addresses = new HashSet<>(0);
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "DefaultAddress")
+	private Address defaultAddress;
+
+	public Address getDefaultAddress() {
+		return defaultAddress;
+	}
+
+	public void setDefaultAddress(Address defaultAddress) {
+		this.defaultAddress = defaultAddress;
+	}
+
+	public Set<Wishlist> getWishlist() {
+		return wishlist;
+	}
+
+	public void setWishlist(Set<Wishlist> wishlist) {
+		this.wishlist = wishlist;
+	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Orders> orders = new HashSet<>(0);
@@ -73,8 +94,8 @@ public class Account {
 	public Account() {
 	}
 
-	public Account(Role role, String lastName, String firstName, String email, String phoneNumber,
-			String avatar, String password) {
+	public Account(Role role, String lastName, String firstName, String email, String phoneNumber, String avatar,
+			String password) {
 		this.role = role;
 		this.lastName = lastName;
 		this.firstName = firstName;
@@ -106,8 +127,6 @@ public class Account {
 		this.carts = carts;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return String.format("Account ID: {0}", accountId);
@@ -120,7 +139,6 @@ public class Account {
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
-
 
 	public Role getRole() {
 		return role;
@@ -242,6 +260,7 @@ public class Account {
 	public void setCarts(Set<Cart> carts) {
 		this.carts = carts;
 	}
+
 	public String getName() {
 		return lastName + " " + firstName;
 	}

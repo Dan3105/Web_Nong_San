@@ -1,4 +1,5 @@
 package tad.entity;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,11 +30,11 @@ public class Address {
 	private String name;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="AccountID", nullable = false)
+	@JoinColumn(name = "AccountID", nullable = false)
 	private Account account;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "addressDefaultId")
-	private Set<Orders> orders = new HashSet<>(0);
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultAddress")
+	private Set<Account> accounts = new HashSet<>(0);
 
 	public Address() {
 
@@ -63,6 +64,14 @@ public class Address {
 		return this.ward;
 	}
 
+	public Set<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
+	}
+
 	public void setWard(Ward ward) {
 		this.ward = ward;
 	}
@@ -83,6 +92,9 @@ public class Address {
 		this.account = account;
 	}
 
-
+	public String getFullAddress() {
+		return getName() + ", " + getWard().getName() + ", " + getWard().getDistrict().getName() + ", "
+				+ getWard().getDistrict().getProvince().getName();
+	}
 
 }

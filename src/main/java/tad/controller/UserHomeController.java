@@ -42,58 +42,60 @@ public class UserHomeController {
 	public String index(ModelMap modelMap, HttpSession session) {
 
 		// Account user = (Account) session.getAttribute("account");
-		// int userId = user == null ? -1 : user.getAccountId();
+		Account account = accountDAO.getAccount(36);
 
 		List<Category> category = categoryDAO.getListCategories();
 		List<Product> products = productDAO.listProductsWithCoupon();
-		Account user = accountDAO.getAccount(36);
-
-		// Lay tam
-		List<Cart> list = cartDAO.getCart(user.getAccountId());
-		List<Wishlist> wishlist = wishlistDAO.getWishlist(user.getAccountId());
+		List<Cart> list = cartDAO.getCart(account.getAccountId());
+		List<Wishlist> wishlist = wishlistDAO.getWishlist(account.getAccountId());
 
 		int totalCart = list.size();
 		int totalWishlist = wishlist.size();
 
-		modelMap.addAttribute("company", company);
-		modelMap.addAttribute("products",
-				products.subList(0, Math.min(Constants.PRODUCT_PER_CATEGORY_IN_HOME, products.size())));
-		modelMap.addAttribute("category", category);
-		modelMap.addAttribute("totalCart", totalCart);
-		modelMap.addAttribute("totalWishlist", totalWishlist);
+		session.setAttribute("company", company);
+		session.setAttribute("category", category);
+		session.setAttribute("totalCart", totalCart);
+		session.setAttribute("totalWishlist", totalWishlist);
+		session.setAttribute("firstCategory", category.get(0).getCategoryId());
+		session.setAttribute("account", account);
+
 		modelMap.addAttribute("productsWithCategory",
 				category.subList(0, Math.min(Constants.CATEGORY_IN_HOME, category.size())));
-		// Category đầu tiên để vào mục sản phẩm
-		modelMap.addAttribute("firstCategory", category.get(0).getCategoryId());
-
+		modelMap.addAttribute("products",
+				products.subList(0, Math.min(Constants.PRODUCT_PER_CATEGORY_IN_HOME, products.size())));
 		return "page/home";
 	}
 
-	
+	@RequestMapping("searchFood")
+	public String search(@RequestParam(required = false, value = "search") String search,
+			@RequestParam(required = false, value = "currentPage", defaultValue = "1") int currentPage,
+			ModelMap modelMap) {
 
-	@RequestMapping("wishlist")
-	public String wishlist(ModelMap modelMap, HttpSession session) {
-		// Lay tam
-		Account user = accountDAO.listAccounts().get(1);
-		List<Category> category = categoryDAO.getListCategories();
-		List<Cart> list = cartDAO.getCart(user.getAccountId());
-		List<Wishlist> wishlist = wishlistDAO.getWishlist(user.getAccountId());
+		List<Product> products = productDAO.filterProductByName(search);
 
-		int totalCart = list.size();
-		int totalWishlist = wishlist.size();
+		int startIndex = (currentPage - 1) * Constants.PRODUCT_PER_PAGE;
+		int totalPage = 1;
+		if (products.size() <= Constants.PRODUCT_PER_PAGE)
+			totalPage = 1;
+		else {
+			totalPage = products.size() / Constants.PRODUCT_PER_PAGE;
+			if (products.size() % Constants.PRODUCT_PER_PAGE != 0) {
+				totalPage++;
+			}
+		}
 
-		modelMap.addAttribute("company", company);
-		modelMap.addAttribute("totalCart", totalCart);
-		modelMap.addAttribute("totalWishlist", totalWishlist);
-		modelMap.addAttribute("firstCategory", category.get(0).getCategoryId());
+		modelMap.addAttribute("products",
+				products.subList(startIndex, Math.min(startIndex + Constants.PRODUCT_PER_PAGE, products.size())));
+		modelMap.addAttribute("currentPage", currentPage);
+		modelMap.addAttribute("totalPage", totalPage);
+		modelMap.addAttribute("search", search);
+		modelMap.addAttribute("total", products.size());
 
-		return "page/wishlist";
-
+		return "search/index";
 	}
 
 	@RequestMapping("login")
 	public String login(HttpSession session) {
-		// Fake login vào tài khoản số 1
 		Account account = accountDAO.getAccount(1);
 		System.out.println(account.getLastName() + " " + account.getAccountId());
 		session.setAttribute("account", account);

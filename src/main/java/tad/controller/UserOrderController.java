@@ -13,17 +13,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.IAccountDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.ICategoryDAO;
 import tad.DAO.IOrderDAO;
+import tad.DAO.IWishlistDAO;
 import tad.entity.Account;
 import tad.entity.Cart;
+import tad.entity.Category;
 import tad.entity.OrderDetail;
 import tad.entity.OrderDetailId;
 import tad.entity.Orders;
+import tad.entity.Wishlist;
 
 @Controller
 @RequestMapping(value = "/order/")
@@ -32,24 +36,29 @@ public class UserOrderController {
 	@Autowired
 	private IOrderDAO orderDAO;
 	@Autowired
-	private IAccountDAO accountDAO;
-	@Autowired
 	private ICartDAO cartDAO;
-	@Autowired
-	private ICategoryDAO categoryDAO;
 
 	@RequestMapping(value = "index")
-	public String detail(ModelMap model) {
+	public String detail(ModelMap model, HttpSession session) {
 
-		Account user = accountDAO.getAccount(36);
-		List<Cart> list = cartDAO.getCart(user.getAccountId());
+		Account account = (Account) session.getAttribute("account");
+
+		model.addAttribute("user", new Account());
+
+		return "account/accountProfile";
+
+	}
+
+	public void ahihi(HttpSession session) {
+		Account account = (Account) session.getAttribute("account");
+		List<Cart> listCarts = cartDAO.getCart(account.getAccountId());
 		Orders orders = new Orders();
 
 		Calendar c1 = Calendar.getInstance();
 		Date in = new Date();
 		LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
 		Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-		orders.setAccount(user);
+		orders.setAccount(account);
 		orders.setOrderTime(out);
 
 		c1.setTime(out);
@@ -58,10 +67,14 @@ public class UserOrderController {
 		orders.setDeliveryTime(c1.getTime());
 		orders.setStatus(0);
 
-		orderDAO.insertOrder(orders);
-		// address default is still empty
+		if (account.getDefaultAddress() != null)
+			orders.setDefaultAddress(account.getDefaultAddress().getFullAddress());
 
-		for (Cart c : list) {
+		else
+			orders.setDefaultAddress("a");
+		orderDAO.insertOrder(orders);
+
+		for (Cart c : listCarts) {
 			OrderDetail orderDetail = new OrderDetail();
 			orderDetail.setId(new OrderDetailId(orders.getOrderId(), c.getProduct().getProductId()));
 			orderDetail.setProduct(c.getProduct());
@@ -70,20 +83,6 @@ public class UserOrderController {
 			orderDAO.insertOrderDetail(orderDetail);
 		}
 
-		return "order/index";
-
 	}
 
-	@RequestMapping("index")
-	public String index(ModelMap model, @PathVariable("id") int id) {
-
-		return "order/index";
-	}
-
-	@RequestMapping(value = "status", params = { "orderId", "status" })
-	public String updateStatus(ModelMap model, @RequestParam("orderId") int orderId, @RequestParam("status") int status,
-			HttpSession session) {
-		/* orderDAO.updateStatus(orderId, status); */
-		return "redirect:/order/index.htm";
-	}
 }

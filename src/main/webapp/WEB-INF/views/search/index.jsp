@@ -56,7 +56,7 @@
 									src="<c:url value="/assets/img/products/${p.image}"/>"
 									alt="Product" class=" img-fluid" style="width: 200px; height: 200px">
 								</a>
-								<div class="card-product-action">
+								<div class="card-product-action ${(p.quantity == 0)?  'invisible' : 'visible' }">
 									<a href="product/detail.htm?productId=${p.productId }"
 										class="btn-action"><i class="bi bi-eye"></i></a> <a
 										href='<c:url value = "product/addToWishlist.htm?productId=${p.productId }"/>'

@@ -52,12 +52,12 @@ public class OrderDetailBean {
 		this.receivedDate = receivedDate;
 	}
 
-	public Address getAddressDefaultID() {
-		return addressDefaultId;
+	public String getDefaultAddress() {
+		return defaultAddress;
 	}
 
-	public void setAddressDefaultID(Address addressDefaultId) {
-		this.addressDefaultId = addressDefaultId;
+	public void setDefaultAdress(String defaultAddress) {
+		this.defaultAddress = defaultAddress;
 	}
 
 	public String getAccName() {
@@ -88,7 +88,7 @@ public class OrderDetailBean {
 
 	private String deliveryDate;
 	private String receivedDate;
-	private Address addressDefaultId;
+	private String defaultAddress;
 	private int status;
 	private String accName;
 
@@ -115,7 +115,7 @@ public class OrderDetailBean {
 		this.deliveryDate = formatter.format(order.getOrderTime());
 		if (order.getDeliveryTime() != null)
 			this.receivedDate = formatter.format(order.getDeliveryTime());
-		this.addressDefaultId = order.getAddress();
+		this.defaultAddress = order.getDefaultAddress();
 
 		this.status = order.getStatus();
 		for (var detail : order.getOrderDetails()) {

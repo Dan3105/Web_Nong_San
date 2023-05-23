@@ -24,6 +24,8 @@
 </div>
 
 
+
+
 <section class="mt-8 mb-14">
 	<div class="container">
 		<div class="row">
@@ -47,6 +49,38 @@
 
 			</div>
 		</div>
+
+
+		<div class="row">
+			<div class="col-12 ">
+				<div class="mb-4 ">
+					<div class="d-flex">
+						<div class="fw-bold text-success">
+							<i class="bi bi-geo-alt-fill"></i> Địa chỉ nhận hàng
+						</div>
+
+						<div class="col text-end">
+							<a class="btn btn-outline-success btn-sm"
+								href="user/shipping.htm" role="button">Thay đổi</a>
+						</div>
+					</div>
+
+
+					<div class="h5 ps-3">${account.getName() }
+						<span>(+84)</span> ${account.phoneNumber }
+					</div>
+					<div class="text-secondary fst-italic">
+						<c:if test="${account.defaultAddress == null }">
+				Chưa có địa chỉ mặc định
+			</c:if>
+						<c:if test="${account.defaultAddress != null }">
+			${account.defaultAddress.getFullAddress()}
+			</c:if>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<c:if test="${carts.size() > 0 }">
 			<div class="row">
 				<!-- table -->
@@ -161,24 +195,60 @@
 										<fmt:formatNumber value="${subtotal }" type="currency"
 											currencySymbol="đ" maxFractionDigits="0" />
 									</p>
+
+								</div>
+								<div class="d-flex " style="font-weight: 500;">
+									<p class="mb-2 me-2 me-auto ">
+										<s:message code="cart.sale" />
+									</p>
+									<p class="mb-2">
+										<span>-</span>
+										<fmt:formatNumber value="0" type="currency" currencySymbol="đ"
+											maxFractionDigits="0" />
+									</p>
+								</div>
+								<div class="d-flex pb-2 " style="font-weight: 500;">
+									<p class="mb-2 me-2 me-auto ">
+										<s:message code="cart.ship" />
+									</p>
+									<p class="mb-2">
+										<fmt:formatNumber value="20000" type="currency"
+											currencySymbol="đ" maxFractionDigits="0" />
+									</p>
 								</div>
 
 
-								<hr class="my-4">
+								<hr class="p-1 ">
+								<div class="d-flex " style="font-weight: 500;">
+									<p class="mb-2 me-2 me-auto ">
+										<s:message code="cart.total" />
+									</p>
+									<p class="mb-2">
+										<fmt:formatNumber value="${subtotal + 20000 }" type="currency"
+											currencySymbol="đ" maxFractionDigits="0" />
+									</p>
+								</div>
 
 
 								<a href="#" type="button" class="btn btn-outline-primary mb-4 ">
 									<s:message code="cart.continue_shopping" />
 								</a>
 								<c:if test="${canCheckOut == 0 }">
-									<a type="button" class="btn btn-outline-success disabled " tabindex="-1"
-										role="button" aria-disabled="true"> <s:message
+									<a type="button" class="btn btn-outline-success disabled "
+										tabindex="-1" role="button" aria-disabled="true"> <s:message
+											code="cart.checkout" />
+									</a>
+								</c:if>
+								<c:if test="${account.defaultAddress == null }">
+									<a type="button" class="btn btn-outline-success disabled "
+										tabindex="-1" role="button" aria-disabled="true"> <s:message
 											code="cart.checkout" />
 									</a>
 								</c:if>
 								<c:if test="${canCheckOut == 1 }">
-									<a type="button" href="order/index.htm" class="btn btn-outline-success ">
-										<s:message code="cart.checkout" />
+									<a type="button" href="order/index.htm"
+										class="btn btn-outline-success "> <s:message
+											code="cart.checkout" />
 									</a>
 								</c:if>
 
@@ -194,7 +264,6 @@
 			</div>
 		</c:if>
 	</div>
-
 </section>
 
 
