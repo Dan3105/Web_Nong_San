@@ -33,7 +33,7 @@ public class Product {
 	private String productName;
 
 	@Column(name = "Price", nullable = false, scale = 4)
-	private Double price;
+	private double price;
 
 	@Column(name = "Image")
 	private String image;
@@ -74,7 +74,7 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(int productId, Category category, String productName, Double price, int quantity, Date postingDate) {
+	public Product(int productId, Category category, String productName, double price, int quantity, Date postingDate) {
 		this.productId = productId;
 		this.category = category;
 		this.productName = productName;
@@ -83,7 +83,7 @@ public class Product {
 		this.postingDate = postingDate;
 	}
 
-	public Product(int productId, Category category, String productName, Double price, String image, int quantity,
+	public Product(int productId, Category category, String productName, double price, String image, int quantity,
 			String detail, Date postingDate, Date expiryDate, Set<Cart> carts, Set<OrderDetail> orderDetails,
 			Set<Coupon> coupons, Set<Feedback> feedbacks) {
 		this.productId = productId;
@@ -123,11 +123,11 @@ public class Product {
 		this.productName = productName;
 	}
 
-	public Double getPrice() {
+	public double getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 

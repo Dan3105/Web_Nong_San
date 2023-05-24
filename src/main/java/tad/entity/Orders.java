@@ -22,12 +22,11 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "Orders", schema = "dbo", catalog = "DB_Tad")
-public class Orders  {
+public class Orders {
 	@Id
 	@GeneratedValue
 	@Column(name = "OrderID", unique = true, nullable = false)
 	private int orderId;
-
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "AccountID", nullable = false)
@@ -42,34 +41,21 @@ public class Orders  {
 	private Date deliveryTime;
 
 	@Column(name = "StatusOrder", nullable = false)
-	private short status;
+	private int status;
 
-	@Column(name = "AddressDetail", nullable = false)
-	private String address;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
 	private Set<OrderDetail> orderDetails = new HashSet<>(0);
 
-	public Orders() {
+	@Column(name = "DefaultAddress")
+	private String defaultAddress;
+
+	public String getDefaultAddress() {
+		return defaultAddress;
 	}
 
-	public Orders(int orderId, Account account, Date orderTime, short status) {
-		this.orderId = orderId;
-		this.account = account;
-		this.orderTime = orderTime;
-		this.status = status;
+	public void setDefaultAddress(String defaultAddress) {
+		this.defaultAddress = defaultAddress;
 	}
-
-	public Orders(int orderId, Account account, Date orderTime, Date deliveryTime, short status,
-			Set<OrderDetail> orderDetails) {
-		this.orderId = orderId;
-		this.account = account;
-		this.orderTime = orderTime;
-		this.deliveryTime = deliveryTime;
-		this.status = status;
-		this.orderDetails = orderDetails;
-	}
-
 
 	public int getOrderId() {
 		return this.orderId;
@@ -103,12 +89,12 @@ public class Orders  {
 		this.deliveryTime = deliveryTime;
 	}
 
-	public short getStatus() {
+	public int getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(short status) {
-		this.status = status;
+	public void setStatus(int i) {
+		this.status = i;
 	}
 
 	public Set<OrderDetail> getOrderDetails() {
@@ -117,14 +103,6 @@ public class Orders  {
 
 	public void setOrderDetails(Set<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 }

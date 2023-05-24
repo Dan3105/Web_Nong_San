@@ -4,27 +4,30 @@ import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 
+import tad.entity.Address;
 import tad.entity.Orders;
 
 public class OrderDetailBean {
-	public class DetailProduct
-	{
+	public class DetailProduct {
 
 		public int getQuantity() {
 			return quantity;
 		}
+
 		public void setQuantity(int quantity) {
 			this.quantity = quantity;
 		}
+
 		public ProductBean getProductBean() {
 			return productBean;
 		}
+
 		public void setProductBean(ProductBean productBean) {
 			this.productBean = productBean;
 		}
+
 		private ProductBean productBean;
 		private int quantity;
-
 
 		public DetailProduct(int quantity, ProductBean productBean) {
 
@@ -49,12 +52,12 @@ public class OrderDetailBean {
 		this.receivedDate = receivedDate;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getDefaultAddress() {
+		return defaultAddress;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setDefaultAdress(String defaultAddress) {
+		this.defaultAddress = defaultAddress;
 	}
 
 	public String getAccName() {
@@ -74,6 +77,7 @@ public class OrderDetailBean {
 	}
 
 	private int idOrder;
+
 	public int getIdOrder() {
 		return idOrder;
 	}
@@ -84,50 +88,46 @@ public class OrderDetailBean {
 
 	private String deliveryDate;
 	private String receivedDate;
-	private String address;
-	private short status;
+	private String defaultAddress;
+	private int status;
 	private String accName;
 
 	private Set<DetailProduct> products = new HashSet<>();
 
-	public short getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(short status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
-	OrderDetailBean()
-	{
+	OrderDetailBean() {
 
 	}
 
-	public OrderDetailBean(Orders order)
-	{
+	public OrderDetailBean(Orders order) {
 		this.idOrder = order.getOrderId();
 		this.accName = order.getAccount().getLastName() + " " + order.getAccount().getFirstName();
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
 		this.deliveryDate = formatter.format(order.getOrderTime());
-		if(order.getDeliveryTime() != null)
-		 this.receivedDate = formatter.format(order.getDeliveryTime());
-		this.address = order.getAddress();
+		if (order.getDeliveryTime() != null)
+			this.receivedDate = formatter.format(order.getDeliveryTime());
+		this.defaultAddress = order.getDefaultAddress();
+
 		this.status = order.getStatus();
-		for(var detail : order.getOrderDetails())
-		{
+		for (var detail : order.getOrderDetails()) {
 			ProductBean product = new ProductBean(detail.getProduct());
 			DetailProduct detailBean = new DetailProduct(detail.getQuantity(), product);
 			products.add(detailBean);
 		}
 	}
 
-	public double getTotalPrice()
-	{
+	public double getTotalPrice() {
 		double value = 0;
-		for(DetailProduct product : products)
-		{
+		for (DetailProduct product : products) {
 			value += product.getQuantity() * product.getProductBean().getTotalPrice();
 		}
 		return value;

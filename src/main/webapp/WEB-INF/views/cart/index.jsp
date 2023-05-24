@@ -1,59 +1,100 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/views/include/library.jsp"%>
 <%@include file="/WEB-INF/views/include/header.jsp"%>
 
-<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt"%>
+<div class="my-4">
+	<div class="container">
+		<div class="row ">
+			<div class="col-12">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb mb-0 text-muted fs-6 fw-semibold">
+						<li class="breadcrumb-item  "><a href="index.htm"
+							class="text-decoration-none text-success "><s:message
+									code="cart.breadcrumb_1" /> </a></li>
+						<li class="breadcrumb-item active" aria-current="page"
+							class="text-decoration-none"><s:message
+								code="cart.breadcrumb_2" /></li>
+					</ol>
 
-<body>
-
-	<div class="m-4 cart-breadcrumb">
-		<div class="container">
-			<div class="row ">
-				<div class="col-12">
-					<nav aria-label="breadcrumb">
-						<ol class="breadcrumb mb-0">
-							<li class="breadcrumb-item"><a href="#!">Home</a></li>
-							<li class="breadcrumb-item"><a href="#!">Shop</a></li>
-							<li class="breadcrumb-item active" aria-current="page">Cart</li>
-						</ol>
-					</nav>
-				</div>
+				</nav>
 			</div>
 		</div>
 	</div>
+</div>
 
-	<section class="mt-8 mb-14">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="mb-8">
 
-						<h1 class="mb-1">
-							<s:message code="cart.title" />
-						</h1>
-						<p class="mb-4">
-							<s:message code="cart.detail1" />
-							<span>5</span>
-							<s:message code="cart.detail2" />
-						</p>
+
+
+<section class="mt-8 mb-14">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="mb-8">
+
+					<h1 class="mb-1">
+						<s:message code="cart.title" />
+					</h1>
+					<p class="mb-4">
+						<c:if test="${carts.size() > 0 }">
+							<span>${carts.size()}</span>
+							<s:message code="cart.find" />
+						</c:if>
+						<c:if test="${carts.size() == 0 }">
+							<s:message code="cart.none" />
+						</c:if>
+					</p>
+				</div>
+
+
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-12 ">
+				<div class="mb-4 ">
+					<div class="d-flex">
+						<div class="fw-bold text-success">
+							<i class="bi bi-geo-alt-fill"></i> Địa chỉ nhận hàng
+						</div>
+
+						<div class="col text-end">
+							<a class="btn btn-outline-success btn-sm"
+								href="user/shipping.htm" role="button">Thay đổi</a>
+						</div>
 					</div>
 
 
+					<div class="h5 ps-3">${account.getName() }
+						<span>(+84)</span> ${account.phoneNumber }
+					</div>
+					<div class="text-secondary fst-italic">
+						<c:if test="${account.defaultAddress == null }">
+				Chưa có địa chỉ mặc định
+			</c:if>
+						<c:if test="${account.defaultAddress != null }">
+			${account.defaultAddress.getFullAddress()}
+			</c:if>
+					</div>
 				</div>
 			</div>
+		</div>
 
+		<c:if test="${carts.size() > 0 }">
 			<div class="row">
 				<!-- table -->
 				<div class="col-12">
 					<div class="table-responsive">
 						<table class="table text-nowrap">
-							<thead class="table-light">
+							<thead class="table-success">
 								<tr>
 									<th><s:message code="cart.name" /></th>
 									<th><s:message code="cart.des" /></th>
 									<th><s:message code="cart.price" /></th>
 									<th><s:message code="cart.amount" /></th>
 									<th><s:message code="cart.total" /></th>
+									<th><s:message code="cart.status" /></th>
 									<th><s:message code="cart.remove" /></th>
 								</tr>
 							</thead>
@@ -65,9 +106,9 @@
 												<div class="image">
 													<a href="#"><img
 														src="<c:url value="/assets/img/products/${c.product.image}"/>"
-														class="icon-shape" alt=""> </a>
+														class="icon-shape" alt="" width="200" height="200">
+													</a>
 												</div>
-
 											</div>
 
 
@@ -76,16 +117,24 @@
 											<div class="d-flex align-items-center">
 												<div class="text">
 													<h5 class="fs-6 mb-0">
-														<a href="#" class="text-inherit">${c.product.productName }</a>
+														<a
+															href="product/detail.htm?productId=${c.product.productId }"
+															class="text-inherit link-success
+																">${c.product.productName }</a>
 													</h5>
-													<small>${c.product.detail }</small>
+													<small class="text-muted text-wrap">${c.product.unit }</small>
 												</div>
 											</div>
 										</td>
 
-										<td class="align-middle"><fmt:formatNumber
-												value="${c.product.price}" type="currency"
-												currencySymbol="đ" maxFractionDigits="0" /></td>
+										<td class="align-middle"><span class="fw-bold text-dark"><fmt:formatNumber
+													value="${c.product.price}" type="currency"
+													currencySymbol="đ" maxFractionDigits="0" /></span> <c:if
+												test="${c.product.coupon != null }">
+												<span class="text-decoration-line-through text-muted"><fmt:formatNumber
+														value="${c.product.price - (c.product.price * c.product.coupon.discount)}"
+														type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
+											</c:if></td>
 										<td class="align-middle"><c:if test="${c.quantity > 1}">
 												<a role="button"
 													href="cart/quantity/minus.htm?productID=${c.product.productId}&quantity=${c.quantity}"
@@ -101,11 +150,20 @@
 										<td class="align-middle"><fmt:formatNumber
 												value="${c.product.price * c.quantity }" type="currency"
 												currencySymbol="đ" maxFractionDigits="0" /></td>
+										<td class="align-middle"><c:if
+												test="${(c.product.quantity == 0) }">
+												<span class="badge bg-danger"> <s:message
+														code="cart.out_of_item" />
+												</span>
+											</c:if> <c:if test="${(c.product.quantity > 0) }">
+												<span class="badge bg-success"> <s:message
+														code="cart.stocking" />
+												</span>
+											</c:if></td>
+
 										<td class="align-middle "><a
 											href='<c:url value = "cart/delete/${c.product.productId}.htm"/>'
-											class="text-muted" data-bs-toggle="tooltip"
-											data-bs-placement="top" aria-label="Delete"
-											data-bs-original-title="Delete"> <i class="bi bi-trash"></i>
+											class="text-muted"> <i class="bi bi-trash"></i>
 										</a></td>
 									</tr>
 
@@ -116,71 +174,104 @@
 						</table>
 					</div>
 				</div>
-				<!-- Chi tiết đặt hàng -->
+
+
 
 			</div>
-			<div class="row">
-				<div class="col-3">
-					<div class="bg-success bg-opacity-10 p-2 mb-2">
-						<!-- Địa chỉ -->
-						<div class="fs-6 fw-bold">Giao tới</div>
-						<div class="h5 ps-3">
-							<%-- ${sessionScope.user.lastName } --%>
-							AHIHI
+		</c:if>
+
+		<c:if test="${carts.size() > 0 }">
+			<div class="row mb-4">
+				<div class="ms-auto col-lg-4 col-sm-4 text-dark bg-opacity-10">
+					<div class="  mb-5 mb-lg-0">
+						<div class="card-body p-4">
+							<div class="row">
+
+								<div class="d-flex " style="font-weight: 500;">
+									<p class="mb-2 me-2 me-auto ">
+										<s:message code="cart.tempo" />
+									</p>
+									<p class="mb-2">
+										<fmt:formatNumber value="${subtotal }" type="currency"
+											currencySymbol="đ" maxFractionDigits="0" />
+									</p>
+
+								</div>
+								<div class="d-flex " style="font-weight: 500;">
+									<p class="mb-2 me-2 me-auto ">
+										<s:message code="cart.sale" />
+									</p>
+									<p class="mb-2">
+										<span>-</span>
+										<fmt:formatNumber value="0" type="currency" currencySymbol="đ"
+											maxFractionDigits="0" />
+									</p>
+								</div>
+								<div class="d-flex pb-2 " style="font-weight: 500;">
+									<p class="mb-2 me-2 me-auto ">
+										<s:message code="cart.ship" />
+									</p>
+									<p class="mb-2">
+										<fmt:formatNumber value="20000" type="currency"
+											currencySymbol="đ" maxFractionDigits="0" />
+									</p>
+								</div>
+
+
+								<hr class="p-1 ">
+								<div class="d-flex " style="font-weight: 500;">
+									<p class="mb-2 me-2 me-auto ">
+										<s:message code="cart.total" />
+									</p>
+									<p class="mb-2">
+										<fmt:formatNumber value="${subtotal + 20000 }" type="currency"
+											currencySymbol="đ" maxFractionDigits="0" />
+									</p>
+								</div>
+
+
+								<a href="#" type="button" class="btn btn-outline-primary mb-4 ">
+									<s:message code="cart.continue_shopping" />
+								</a>
+								<c:if test="${canCheckOut == 0 }">
+									<a type="button" class="btn btn-outline-success disabled "
+										tabindex="-1" role="button" aria-disabled="true"> <s:message
+											code="cart.checkout" />
+									</a>
+								</c:if>
+								<c:if test="${account.defaultAddress == null }">
+									<a type="button" class="btn btn-outline-success disabled "
+										tabindex="-1" role="button" aria-disabled="true"> <s:message
+											code="cart.checkout" />
+									</a>
+								</c:if>
+								<c:if test="${canCheckOut == 1 }">
+									<a type="button" href="order/index.htm"
+										class="btn btn-outline-success "> <s:message
+											code="cart.checkout" />
+									</a>
+								</c:if>
+
+
+							</div>
+
+
 						</div>
-						<div class="text-secondary">Số điện thoại: AHIHI</div>
-						<div class="text-secondary fst-italic">AHIHI</div>
 					</div>
 
-					<div class="bg-success bg-opacity-10 p-2 mb-2">
-						<!-- Giảm giá -->
-						<div class="fw-bold">Chưa có chương trình giảm giá</div>
-						<!-- Tiêu đề cho chương trình giảm giá -->
-						<div class="fst-italic">Giảm: 0%</div>
-					</div>
-
-					<div class="bg-success bg-opacity-10 p-2 mb-2 ">
-						<!-- Bảng giá -->
-						<div class="row">
-							<div class="col">Tạm tính:</div>
-							<div class="col text-end">
-								<fmt:formatNumber value="${total }" type="currency"
-									currencySymbol="đ" maxFractionDigits="0" />
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">Giảm giá:</div>
-							<div class="col text-end">-0 đ</div>
-						</div>
-						<hr>
-						<div class="row fw-bolder">
-							<div class="col">Tổng cộng:</div>
-							<div class="col text-end">
-								<fmt:formatNumber value="${total }" type="currency"
-									currencySymbol="đ" maxFractionDigits="0" />
-							</div>
-						</div>
-					</div>
-					<div class="p-2 d-grid">
-						<!-- Button -->
-						<a class="btn btn-warning bg-gradient" href="home.htm"
-							role="button">Tiếp tục mua sắm</a>
-					</div>
-					<div class="p-2 d-grid">
-						<!-- Button -->
-						<a
-							class="btn btn-danger bg-gradient ${cart.size() == 0 ? 'disabled' : ''}"
-							href="user/checkout.htm" role="button">Mua hàng</a>
-					</div>
 				</div>
+
 			</div>
+		</c:if>
+	</div>
+</section>
 
 
 
-		</div>
-	</section>
-	<!--End cart -->
-	<%@include file="/WEB-INF/views/include/footer.jsp"%>
+
+
+<!--End cart -->
+<%@include file="/WEB-INF/views/include/footer.jsp"%>
 
 </body>
 </html>

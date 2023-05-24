@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import tad.DAO.IAccountDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.ICategoryDAO;
 import tad.bean.Company;
@@ -27,46 +26,56 @@ public class UserCartController {
 	@Autowired
 	private ICartDAO cartDAO;
 	@Autowired
-	private IAccountDAO accountDAO;
+	private ICategoryDAO categoryDAO;
 	@Autowired
 	private Company company;
-	@Autowired
-	private ICategoryDAO categoryDAO;
-
-	// Trả về ds giỏ hàng
+	
 	@RequestMapping(value = "index")
-	public String cart(ModelMap model, HttpSession session) {
-		float total = 0;
-		// Account user = (Account) session.getAttribute("account");
-		Account user = accountDAO.listAccounts().get(1);
+	public String cart(ModelMap modelMap, HttpSession session) {
 
-		List<Cart> list = cartDAO.getCart(user.getAccountId());
+		float subtotal = 0;
+		Account account = (Account) session.getAttribute("account");
+
+		List<Cart> list = cartDAO.getCart(account.getAccountId());
+		List<Category> category = categoryDAO.getListCategories();
+
+		int canCheckOut = 1;
 
 		if (list != null) {
 			for (Cart c : list) {
-				total += c.getQuantity() * c.getProduct().getPrice();
+				// Chi tinh nhung sp con hang
+				if (c.getProduct().getQuantity() > 0) {
+					subtotal += c.getQuantity() * c.getProduct().getPrice();
+
+				}
+
+			}
+
+			for (Cart c : list) {
+				if (c.getProduct().getQuantity() == 0) {
+					canCheckOut = 0;
+					break;
+				}
 			}
 
 		}
 
-		model.addAttribute("carts", list);
-		model.addAttribute("total", total);
-
-		model.addAttribute("company", company);
-
-		List<Category> category = categoryDAO.getListCategories();
-		model.addAttribute("category", category);
+		modelMap.addAttribute("company", company);
+		modelMap.addAttribute("firstCategory", category.get(0).getCategoryId());
+		modelMap.addAttribute("carts", list);
+		modelMap.addAttribute("subtotal", subtotal);
+		modelMap.addAttribute("category", category);
+		modelMap.addAttribute("canCheckOut", canCheckOut);
 
 		return "cart/index";
 	}
 
 	@RequestMapping(value = "delete/{productID}.htm")
 	public String delete(ModelMap model, HttpSession session, @PathVariable("productID") String productID) {
-		// Account user = (Account) session.getAttribute("account");
-		Account user = accountDAO.listAccounts().get(1);
-		cartDAO.deleteCart(cartDAO.getCart(user.getAccountId(), Integer.parseInt(productID)));
-		List<Cart> list = cartDAO.getCart(user.getAccountId());
-		model.addAttribute("cart", list);
+		Account account = (Account) session.getAttribute("account");
+		cartDAO.deleteCart(cartDAO.getCart(account.getAccountId(), Integer.parseInt(productID)));
+		List<Cart> list = cartDAO.getCart(account.getAccountId());
+		model.addAttribute("carts", list);
 		return "redirect:/cart/index.htm";
 	}
 

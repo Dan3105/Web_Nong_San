@@ -3,12 +3,14 @@ package tad.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,8 +40,8 @@ public class Comment {
 	@Column(name = "PostingDate", length = 23)
 	private Date postingDate;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "FeedbackID", nullable = false)
+	@OneToOne
+	@JoinColumn(name = "FeedbackId", nullable = false)
 	private Feedback feedback;
 
 	public Comment() {
@@ -49,16 +51,6 @@ public class Comment {
 		this.commentId = commentId;
 		this.account = account;
 		this.status = status;
-	}
-
-	public Comment(int commentId, Account account, String commentContent, boolean status, Date postingDate,
-			Feedback feedback) {
-		this.commentId = commentId;
-		this.account = account;
-		this.commentContent = commentContent;
-		this.status = status;
-		this.postingDate = postingDate;
-		this.feedback = feedback;
 	}
 
 	public int getCommentId() {
@@ -102,10 +94,10 @@ public class Comment {
 	}
 
 	public Feedback getFeedback() {
-		return this.feedback;
+		return feedback;
 	}
 
-	public void setFeedbacks(Feedback feedback) {
+	public void setFeedback(Feedback feedback) {
 		this.feedback = feedback;
 	}
 

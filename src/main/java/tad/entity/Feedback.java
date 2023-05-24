@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,31 +50,20 @@ public class Feedback {
 	@Column(name = "PostingDate", nullable = false, length = 23)
 	private Date postingDate;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "feedback")
-	private Set<Comment> comments = new HashSet<>(0);
+	@OneToOne(mappedBy = "feedback")
+	private Comment comment;
 
 	public Feedback() {
 	}
 
-	public Feedback(int feedbackId, Account account, Product product, short ratingStar, short status, Date postingDate) {
+	public Feedback(int feedbackId, Account account, Product product, short ratingStar, short status,
+			Date postingDate) {
 		this.feedbackId = feedbackId;
 		this.account = account;
 		this.product = product;
 		this.ratingStar = ratingStar;
 		this.status = status;
 		this.postingDate = postingDate;
-	}
-
-	public Feedback(int feedbackId, Account account, Product product, short ratingStar, short status, String feedbackContent,
-			Date postingDate, Set<Comment> comments) {
-		this.feedbackId = feedbackId;
-		this.account = account;
-		this.product = product;
-		this.ratingStar = ratingStar;
-		this.status = status;
-		this.feedbackContent = feedbackContent;
-		this.postingDate = postingDate;
-		this.comments = comments;
 	}
 
 	public int getFeedbackId() {
@@ -82,7 +73,6 @@ public class Feedback {
 	public void setFeedbackId(int feedbackId) {
 		this.feedbackId = feedbackId;
 	}
-
 
 	public Account getAccount() {
 		return this.account;
@@ -124,17 +114,16 @@ public class Feedback {
 		this.postingDate = postingDate;
 	}
 
-
-	public Set<Comment> getComments() {
-		return this.comments;
-	}
-
-	public void setComments(Set<Comment> comments) {
-		this.comments = comments;
-	}
-
 	public short getStatus() {
 		return status;
+	}
+
+	public Comment getComment() {
+		return comment;
+	}
+
+	public void setComment(Comment comment) {
+		this.comment = comment;
 	}
 
 	public void setStatus(short status) {

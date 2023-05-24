@@ -1,6 +1,5 @@
 package tad.DAOImpl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -168,11 +167,14 @@ public class ProductDAOImpl implements IProductDAO {
 	}
 
 	@Override
-	public ArrayList<Product> listProductsInCategory(int categoryId) {
+	public List<Product> listProductsInCategory(int categoryId) {
 		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM Product WHERE category.categoryId = :categoryId ORDER BY postingDate DESC";
+		Query query = session.createQuery(hql);
+		query.setParameter("categoryId", categoryId);
 		@SuppressWarnings("unchecked")
-		ArrayList<Product> list = (ArrayList<Product>) session
-				.createQuery("FROM Product WHERE category.categoryId=" + categoryId).list();
+		List<Product> list = query.list();
+
 		return list;
 	}
 

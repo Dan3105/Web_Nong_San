@@ -1,17 +1,17 @@
 package tad.entity;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import java.io.Serializable;
 
 @Embeddable
-public class CartId implements java.io.Serializable {
+public class CartId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-
 	@Column(name = "ProductID", nullable = false)
 	private int productId;
-
 
 	@Column(name = "AccountID", nullable = false)
 	private int accountId;
@@ -23,7 +23,6 @@ public class CartId implements java.io.Serializable {
 		this.productId = productId;
 		this.accountId = accountId;
 	}
-
 
 	public int getProductId() {
 		return this.productId;
