@@ -14,7 +14,7 @@
 	</div>
 	<hr>
 	<ul class="nav nav-pills flex-column mb-auto">
-		<li class="nav-item"><a href="account/accountProfile.htm"
+		<li class="nav-item"><a href="account/index.htm"
 			class="nav-link" aria-current="page"> <i class="bi bi-info-circle-fill"></i></i>
 				Thông tin tài khoản
 		</a></li>

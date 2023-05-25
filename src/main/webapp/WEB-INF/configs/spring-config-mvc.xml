@@ -29,6 +29,6 @@
 		base-package="tad.controller, tad.bean" />
 
 	<!-- Cấu hình resources -->
-	<mvc:resources mapping="/assets/**"
-		location="/assets/" />
+	<!-- <mvc:resources mapping="/assets/**"
+		location="/assets/" /> -->
 </beans>

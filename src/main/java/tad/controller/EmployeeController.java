@@ -64,7 +64,6 @@ public class EmployeeController {
 	@Qualifier("accountImgDir")
 	private UploadFile uploadFile;
 
-
 	@Autowired
 	private IAccountDAO accountDAO;
 
@@ -138,8 +137,7 @@ public class EmployeeController {
 		if (acc == null) {
 			return "redirect:/";
 		}
-		if(errors.hasErrors())
-		{
+		if (errors.hasErrors()) {
 			return "redirect:/admin/address.htm";
 		}
 		Ward ward = addressDAO.getWard(userAddress.getWardId());
@@ -148,7 +146,7 @@ public class EmployeeController {
 		}
 		Address address = new Address(ward, acc);
 		address.setName(userAddress.getAddressLine());
-		addressDAO.createAddress(acc, address);
+		addressDAO.insertAddress(acc, address);
 		return "redirect:/employee/address.htm";
 	}
 
@@ -159,8 +157,7 @@ public class EmployeeController {
 		if (acc == null) {
 			return "redirect:/";
 		}
-		if(errors.hasErrors())
-		{
+		if (errors.hasErrors()) {
 			return "redirect:/employee/address.htm";
 		}
 		Address address = null;
@@ -190,8 +187,7 @@ public class EmployeeController {
 		if (acc == null) {
 			return "redirect:/";
 		}
-		if(errors.hasErrors())
-		{
+		if (errors.hasErrors()) {
 			return "redirect:/employee/address.htm";
 		}
 		Address address = null;
@@ -203,10 +199,8 @@ public class EmployeeController {
 			}
 		}
 
-		if(address != null)
-		{
-			if(addressDAO.deleteAddress(address))
-			{
+		if (address != null) {
+			if (addressDAO.deleteAddress(address)) {
 
 			}
 		}

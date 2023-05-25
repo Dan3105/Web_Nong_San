@@ -7,15 +7,11 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.multipart.MultipartFile;
 
-public class UserBean {
+public class ProfileBean {
 
 	@NotBlank(message = "Email is required")
 	@Email(message = "Email is not valid")
 	private String email;
-
-	@NotBlank(message = "Password is required")
-	@Length(min = 6, max=50, message = "Password must be between 8 and 50 characters")
-	private String password;
 
 	@NotBlank(message = "First name is required")
 	private String firstName;
@@ -25,21 +21,20 @@ public class UserBean {
 
 	@Pattern(regexp = "^0\\d{9}$|^$", message = "Invalid phone number format, number phone must be: 0xxxxxxxxx")
 	private String phoneNumber;
-	
+
 	private MultipartFile avatar;
 
 	private String avatarDir;
 
-	public UserBean() {
+	public ProfileBean() {
 		email = "";
-		password = "";
 		lastName = "";
 		firstName = "";
 		phoneNumber = "";
 		avatarDir = "";
 	}
 
-	public UserBean(String email, String firstName, String lastName, String phoneNumber) {
+	public ProfileBean(String email, String firstName, String lastName, String phoneNumber) {
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -52,14 +47,6 @@ public class UserBean {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getLastName() {

@@ -1,6 +1,7 @@
 package tad.DAOImpl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
@@ -8,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import tad.DAO.IAccountDAO;
 import tad.DAO.IAddressDAO;
@@ -16,6 +18,7 @@ import tad.entity.Address;
 import tad.entity.Province;
 import tad.entity.Ward;
 
+@Transactional
 public class AddressDAOImpl implements IAddressDAO {
 
 	private SessionFactory sessionFactory;
@@ -59,7 +62,7 @@ public class AddressDAOImpl implements IAddressDAO {
 	}
 
 	@Override
-	public boolean createAddress(Account account, Address address) {
+	public boolean insertAddress(Account account, Address address) {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
@@ -154,6 +157,18 @@ public class AddressDAOImpl implements IAddressDAO {
 			System.out.println(e);
 		}
 		return ward;
+	}
+
+	@Override
+	public List<Address> getAddressesByAccountId(int accountId) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "From Address Where account.accountId = :accountId";
+		Query query = session.createQuery(hql);
+		query.setParameter("accountId", accountId);
+		@SuppressWarnings("unchecked")
+		List<Address> a = query.list();
+		return a;
 	}
 
 }

@@ -147,7 +147,7 @@ public class AdminController {
 		}
 		Address address = new Address(ward, acc);
 		address.setName(userAddress.getAddressLine());
-		addressDAO.createAddress(acc, address);
+		addressDAO.insertAddress(acc, address);
 		return "redirect:/admin/address.htm";
 	}
 
