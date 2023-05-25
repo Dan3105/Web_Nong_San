@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import tad.entity.Account;
+import tad.entity.Address;
 import tad.entity.Role;
 
 @Transactional
@@ -29,5 +30,5 @@ public interface IAccountDAO {
 
 	public boolean deleteAccount(Account account);
 
-	public void findAddressAccount(Account account);
+	
 }

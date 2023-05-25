@@ -45,7 +45,7 @@
 					</c:when>
 				</c:choose>
 			</c:if>
-			<form:form method="post" modelAttribute="accountBean"
+			<form:form method="post" modelAttribute="profileBean"
 				enctype="multipart/form-data" action="account/index.htm">
 
 				<div class="row">
