@@ -46,7 +46,7 @@
 				</c:choose>
 			</c:if>
 			<form:form method="post" modelAttribute="profileBean"
-				enctype="multipart/form-data" action="account/index.htm">
+				enctype="multipart/form-data" action="account/editProfile.htm">
 
 				<div class="row">
 					<div class="col-8">
@@ -121,16 +121,7 @@
 	</div>
 </div>
 
-<script>
-	var loadFile = function(event) {
-		var output = document.getElementById('output');
-		$("#output").show();
-		output.src = URL.createObjectURL(event.target.files[0]);
-		output.onload = function() {
-			URL.revokeObjectURL(output.src) // free memory
-		}
-	};
-</script>
 
+<script type="text/javascript" src="assets/js/user/account.js"></script>
 
 <%@include file="/WEB-INF/views/include/footer.jsp"%>

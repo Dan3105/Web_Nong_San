@@ -47,7 +47,7 @@ public class Account {
 	@Column(name = "Password", nullable = false)
 	private String password;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
 	private Set<Address> addresses = new HashSet<>(0);
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -70,25 +70,25 @@ public class Account {
 		this.wishlist = wishlist;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
 	private Set<Orders> orders = new HashSet<>(0);
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
 	private Set<Coupon> coupons = new HashSet<>(0);
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
 	private Set<Product> products = new HashSet<>(0);
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
 	private Set<Feedback> feedbacks = new HashSet<>(0);
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
 	private Set<Comment> comments = new HashSet<>(0);
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
 	private Set<Cart> carts = new HashSet<>(0);
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
 	private Set<Wishlist> wishlist = new HashSet<>(0);
 
 	public Account() {

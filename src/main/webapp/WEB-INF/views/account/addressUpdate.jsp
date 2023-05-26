@@ -3,8 +3,10 @@
 
 <%@include file="/WEB-INF/views/include/library.jsp"%>
 <%@include file="/WEB-INF/views/include/header.jsp"%>
+
 <br>
 <script src="<c:url value="/assets/js/admin/AddressHandler.js"/>"></script>
+
 <div class="container">
 	<div class="row">
 		<div class="col-3 d-none d-lg-block">
@@ -12,35 +14,34 @@
 		</div>
 
 		<div class="col-9 p-3">
-			<div class="h4 text-uppercase">Thêm địa chỉ mới</div>
+			<div class="h4 text-uppercase">Chỉnh Sửa Địa Chỉ</div>
 			<hr>
-			<c:if test="${not empty message}">
-				<c:choose>
-					<c:when test="${message == false}">
-						<div class="  alert alert-danger alert-dismissible fade show"
-							role="alert">
-							Cập nhật thất bại!
-							<button type="button" class="ms-auto btn-close"
-								data-bs-dismiss="alert" aria-label="Close"></button>
-						</div>
+
+			<c:choose>
+				<c:when test="${message == 0}">
+					<div class="  alert alert-danger alert-dismissible fade show"
+						role="alert">
+						Cập nhật thất bại!
+						<button type="button" class="ms-auto btn-close"
+							data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
 
 
-					</c:when>
-					<c:when test="${message == true}">
-						<div class=" alert alert-success alert-dismissible fade show"
-							role="alert">
-							Cập nhật thành công!
-							<button type="button" class="btn-close" data-bs-dismiss="alert"
-								aria-label="Close"></button>
-						</div>
-					</c:when>
+				</c:when>
+				<c:when test="${message == 1}">
+					<div class=" alert alert-success alert-dismissible fade show"
+						role="alert">
+						Cập nhật thành công!
+						<button type="button" class="btn-close" data-bs-dismiss="alert"
+							aria-label="Close"></button>
+					</div>
+				</c:when>
 
-				</c:choose>
-			</c:if>
+			</c:choose>
 
-			<form:form action="account/addressDetail.htm" id="address-form"
-				method="post" modelAttribute="userAddress">
 
+			<form:form action="account/update.htm?addressID=${addressID }"
+				id="address-form" modelAttribute="userAddress" method="post">
 
 				<div class="row mb-3">
 					<label class="col-sm-3 col-form-label text-start" for="province">Province:</label>
@@ -48,7 +49,7 @@
 						<form:select class="form-select"
 							aria-label="Default select example" id="province"
 							path="provinceId">
-							<form:option value="0">-- Select Province --</form:option>
+							<form:option value="0">-- Select province--</form:option>
 							<c:forEach items="${address.provinceBean}" var="province">
 								<option value="${province.id}">${province.name}</option>
 							</c:forEach>
@@ -62,7 +63,7 @@
 					<div class="col-sm-8">
 						<form:select path="districtId" class="form-select"
 							aria-label="Default select example" id="district">
-							<option value="">-- Select District --</option>
+							<option value="">--Select District--</option>
 							<c:forEach items="${address.districtBean}" var="district">
 								<option value="${district.id}"
 									data-province="${district.province.id}">${district.name}</option>
@@ -77,7 +78,7 @@
 					<div class="col-sm-8">
 						<form:select id="ward" path="wardId" class="form-select"
 							aria-label="Default select example">
-							<option value="">-- Select Ward --</option>
+							<option value="">--Select Ward--</option>
 							<c:forEach items="${address.wardBean}" var="ward">
 								<option value="${ward.id}" data-district="${ward.district.id}">${ward.name}</option>
 							</c:forEach>
@@ -90,8 +91,8 @@
 					</label>
 					<div class="col-sm-8">
 						<form:textarea id="address-input" type="text" class="form-control"
-							placeholder="enter address line" value="" path="addressLine"
-							rows="3" />
+							placeholder="enter address line" value="${addressObject.name}"
+							path="addressLine" rows="3" />
 					</div>
 				</div>
 				<script>
@@ -101,8 +102,9 @@
 				<div class="row mb-3 ">
 					<label class="col-sm-3 col-form-label"></label>
 					<div class="col-sm-8">
-						<a href="account/add.htm" class="btn btn-success btn-sm"><i
-							class="bi bi-plus-lg"></i>Tạo mới</a>
+						<a href="#">
+							<button type="submit" class="btn btn-success">Submit</button>
+						</a>
 					</div>
 				</div>
 
@@ -110,5 +112,7 @@
 		</div>
 	</div>
 
+
 </div>
-</div>
+<script>UpdateAddress(${addressID }, ${addressObject.ward.wardId}, ${ addressObject.ward.district.districtId}, ${addressObject.ward.district.province.provinceId }, '${addressObject.name}' )</script>
+<script type="text/javascript" src="assets/js/user/account.js"></script>

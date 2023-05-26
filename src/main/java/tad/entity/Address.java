@@ -33,7 +33,7 @@ public class Address {
 	@JoinColumn(name = "AccountID", nullable = false)
 	private Account account;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultAddress")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "defaultAddress")
 	private Set<Account> accounts = new HashSet<>(0);
 
 	public Address() {

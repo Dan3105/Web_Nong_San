@@ -19,7 +19,6 @@ import javax.persistence.Table;
 public class Province {
 
 	@Id
-
 	@Column(name = "ProvinceID", unique = true, nullable = false)
 	private int provinceId;
 
