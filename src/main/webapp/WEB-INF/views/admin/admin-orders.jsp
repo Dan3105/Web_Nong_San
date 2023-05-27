@@ -36,9 +36,6 @@
 											class="btn me-1 ms-1 btn-outline-info">
 											<p class="fw-normal mb-0">Detail Receivie</p>
 										</button>
-										<button type="button" class="btn me-1 ms-1 btn-outline-danger">
-											<p class="fw-normal mb-0">Cancel Order</p>
-										</button>
 									</div>
 								</div>
 
@@ -145,7 +142,7 @@
 
 									<p class="text-muted mb-0">
 										<span class="fw-bold me-4">Address Delivery</span>
-										${item.address }
+										${item.defaultAddress }
 									</p>
 								</div>
 								<!-- Total -->
@@ -161,7 +158,7 @@
 														${map.key == item.status ? 'selected' :'' }>${map.value }</option>
 												</c:forEach>
 											</select>
-
+											
 										</div>
 
 										<p class="text-muted mb-0">
@@ -169,10 +166,12 @@
 											${item.receivedDate }
 										</p>
 									</div>
+									<c:if test="${item.status eq 0 or item.status eq 1 }">
 									<div class="d-flex align-itmes-center p-2 justify-content-end">
 										<button type="submit" class="btn btn-outline-success">Update</button>
-										</a>
+										
 									</div>
+									</c:if>
 								</form>
 							</div>
 						</div>

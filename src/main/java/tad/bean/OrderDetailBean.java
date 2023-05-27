@@ -92,7 +92,7 @@ public class OrderDetailBean {
 	private int status;
 	private String accName;
 
-	private Set<DetailProduct> products = new HashSet<>();
+	private Set<DetailProduct> products = new HashSet<DetailProduct>();
 
 	public int getStatus() {
 		return status;

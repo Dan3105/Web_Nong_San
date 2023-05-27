@@ -41,7 +41,7 @@ td {
 			<div class="row mt-4 h-100">
 				<div class="col h-100 overflow-y-scroll position-relative">
 					<table class="table table-hover table-striped table-categories">
-						<thead  class="position-sticky top-0">
+						<thead class="position-sticky top-0 bg-white">
 							<tr>
 								<th class="p-3">Avatar</th>
 								<th class="p-3">Fullname</th>
@@ -118,7 +118,16 @@ td {
 					</table>
 				</div>
 			</div>
+			<div class="d-flex align-items-center justify-content-end">
+			<div class="row">
+				<div class="col-4 d-flex align-items-center justify-content-between">
+					<a href="${source }?crrPage=${crrPage - 1}" class=" m-2"><button class="btn btn-outline-info"><i class="ti-angle-double-left"></i></button></a>
+					<a href="${source }?crrPage=${crrPage + 1}" class=" m-2"><button class="btn btn-outline-info"><i class="ti-angle-double-right"></i></button></a>
+				</div>	
+			</div>
 		</div>
-
+		</div>
+		
 	</div>
-	<%@include file="/WEB-INF/views/include/admin-footer.jsp"%>
+</body>
+</html>

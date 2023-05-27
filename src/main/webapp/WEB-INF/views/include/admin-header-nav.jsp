@@ -9,14 +9,6 @@
 			class="p-1 w-100">
 		</a>
 		<ul class="list-unstyled components mb-5">
-			<li class="active"><a href="#" type="button"
-				data-bs-toggle="collapse" aria-expanded="false"
-				class="navbar-toggle" data-bs-target="#manager-menu"><button
-						id="manager-collapse"
-						class="btn btn-outline-success p-4 border-0 w-100 text-start">
-						<i class="pe-2 ti-layout-menu-v"></i>Manager
-					</button></a>
-				<ul class="collapse list-unstyled " id="manager-menu">
 					<li><a href="${path }/admin/overview.htm"><button
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-pie-chart"></i>Overview
@@ -30,26 +22,12 @@
 								<i class="pe-2 ti-light-bulb"></i>Orders
 							</button></a></li>
 					<li class="nav-item w-100"><a
-						href="${path }/admin/voucher.htm"><button
-								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
-								<i class="pe-2 ti-ticket"></i>Voucher
-							</button></a></li>
-					<li class="nav-item w-100"><a
 						href="${path }/admin/category.htm"><button
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-briefcase"></i>Category
 							</button></a></li>
-				</ul></li>
-			<li><a href="#" type="button" data-bs-toggle="collapse"
-				aria-expanded="false" class="navbar-toggle"
-				data-bs-target="#info-account"><button
-						id="info-account-collaspe"
-						class="btn btn-outline-success p-4 border-0 w-100 text-start">
-						<i class="pe-2 ti-light-bulb"></i>About Admin
-					</button></a>
-
-
-				<ul class="collapse list-unstyled" id="info-account">
+				
+				<li class="collapse list-unstyled" id="info-account">
 					<li class="nav-item w-100"><a href="${path}/admin/profile.htm"><button
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-user"></i>Profile
@@ -58,9 +36,8 @@
 								class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 								<i class="pe-2 ti-map"></i>Address
 							</button></a></li>
-				</ul></li>
-
-			<li><a href="${path }/admin/logout.htm"><button
+							
+				<li><a href="${path }/admin/logout.htm"><button
 						class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
 						<i class="pe-2 ti-power-off"></i>Logout
 					</button></a></li>
@@ -76,17 +53,6 @@
 				href = href.slice(0, -4);
 				if (currentUrl.includes(href)) {
 					button.classList.add('active');
-					var parentSub = button.parentElement.parentElement.parentElement;
-					parentSub.classList.add('show')
-					if (parentSub.id == 'info-account') {
-						var element = document
-								.getElementById('info-account-collaspe');
-						element.classList.add('active');
-					} else {
-						var element = document
-								.getElementById('manager-collapse');
-						element.classList.add('active');
-					}
 				} else {
 					button.classList.remove('active');
 				}
@@ -101,16 +67,7 @@
 		id="navbarBlur" data-scroll="true">
 		<div
 			class="container-fluid d-flex py-1 align-items-center justify-content-between">
-			<nav aria-label="breadcrumb">
-				<ol
-					class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-					<li class="breadcrumb-item text-sm"><a
-						class="opacity-5 fs-5 text-dark" href="#">Pages</a></li>
-					<li class="breadcrumb-item fs-5 text-sm text-dark active"
-						aria-current="page">index</li>
-				</ol>
-				<h6 class="font-weight-bolder mb-0">index</h6>
-
+			<nav>			
 			</nav>
 			<div class="navbar mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
 				<ul class="w-100 navbar-nav justify-content-end">
@@ -131,4 +88,3 @@
 			</div>
 		</div>
 	</nav>
-</div>

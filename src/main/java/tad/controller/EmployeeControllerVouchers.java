@@ -3,6 +3,8 @@ package tad.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
@@ -15,15 +17,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.ICouponDAO;
 import tad.bean.CouponBean;
 import tad.entity.Account;
 import tad.entity.Coupon;
+import tad.utility.Constants;
 import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping("/employee/vouchers/")
+@RequestMapping("/employee/vouchers")
 public class EmployeeControllerVouchers {
 	@Autowired
 	private SessionFactory factory;
@@ -32,7 +36,8 @@ public class EmployeeControllerVouchers {
 	private ICouponDAO couponDAO;
 
 	@RequestMapping()
-	public String gVoucherList(ModelMap model, HttpSession session) {
+	public String gVoucherList(ModelMap model, HttpSession session,
+			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
 		Account currentAcc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (currentAcc == null) {
 			return "redirect:/";
@@ -40,15 +45,34 @@ public class EmployeeControllerVouchers {
 
 		Account tacc = couponDAO.FetchAccountCoupon(currentAcc);
 		if (tacc != null) {
+			List<Coupon> couponCreator = new ArrayList<Coupon>(tacc.getCoupons());; 
+			Collections.sort(couponCreator, (item1, item2) -> {return item2.getPostingDate().compareTo(item1.getPostingDate());});
+			
+			int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+			
+			if(startIndex >= couponCreator.size())
+			{
+				crrPage = crrPage - 1; // lui lai trang truoc do
+				startIndex =  Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+			}
+			
 			ArrayList<CouponBean> coupons = new ArrayList<>();
-			for (Coupon coupon : tacc.getCoupons()) {
+			for (Coupon coupon : couponCreator.subList(startIndex,
+					Math.min(startIndex + Constants.PRODUCT_PER_PAGE, couponCreator.size()))) {
 				CouponBean cp = new CouponBean(coupon);
 				coupons.add(cp);
 			}
+			
 			model.addAttribute("coupons", coupons);
+			
+			
 		}
+		
+		
+		
 		CouponBean cbean = new CouponBean();
 		model.addAttribute("couponBean", cbean);
+		model.addAttribute("crrPage", crrPage);
 		return "employee/employee-voucher";
 	}
 

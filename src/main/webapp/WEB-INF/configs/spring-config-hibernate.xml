@@ -18,10 +18,10 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		p:driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-		p:url="jdbc:sqlserver://localhost:1433;Database=DB_Tad;integratedSecurity=false;trustServerCertificate=true;"
-		p:username="sa" p:password="123">
+		p:url="jdbc:sqlserver://DESKTOP-5Q314UD:1433;Database=DB_Tad;integratedSecurity=false;trustServerCertificate=true;"
+		p:username="sa" p:password="kc">
 	</bean>
-
+ 
 	<!-- Cấu hình Hibernate -->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">

@@ -14,7 +14,7 @@ public class LoginBean {
 	}
 	private String username;
 	private String password;
-
+	private boolean isRemember;
 	public String getUsername() {
 		return username;
 	}
@@ -26,6 +26,14 @@ public class LoginBean {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean getIsRemember() {
+		return isRemember;
+	}
+
+	public void setIsRemember(boolean isRemember) {
+		this.isRemember = isRemember;
 	}
 
 }
