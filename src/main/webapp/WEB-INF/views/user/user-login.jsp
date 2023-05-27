@@ -34,7 +34,9 @@
 											<form:input type="password" class="form-control"
 												path="password" id="password" />
 										</div>
-
+										 <label>
+        									<form:checkbox path="isRemember"/> Remember me
+    									</label>
 										<div class="text-center pt-1 mb-5 pb-1">
 											<button name="guest-login"
 												class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"

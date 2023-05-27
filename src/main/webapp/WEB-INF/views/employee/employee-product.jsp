@@ -118,6 +118,14 @@
 
 			</c:forEach>
 		</div>
+		<div class="d-flex align-items-center justify-content-end">
+			<div class="row">
+				<div class="col-4 d-flex align-items-center justify-content-between">
+					<a href="?crrPage=${crrPage - 1}" class=" m-2"><button class="btn btn-outline-info"><i class="ti-angle-double-left"></i></button></a>
+					<a href="?crrPage=${crrPage + 1}" class=" m-2"><button class="btn btn-outline-info"><i class="ti-angle-double-right"></i></button></a>
+				</div>	
+			</div>
+		</div>
 	</section>
 	<div class="position-fixed top-0 start-0"
 		style="width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.4);"

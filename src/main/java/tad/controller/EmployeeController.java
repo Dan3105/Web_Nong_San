@@ -86,7 +86,7 @@ public class EmployeeController {
 
 			modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 			modelMap.addAttribute("message", false);
-			return "admin/admin-profile";
+			return "employee/employee-profile";
 		}
 		acc.setLastName(user.getLastName());
 		acc.setFirstName(user.getFirstName());
@@ -138,7 +138,7 @@ public class EmployeeController {
 			return "redirect:/";
 		}
 		if (errors.hasErrors()) {
-			return "redirect:/admin/address.htm";
+			return "redirect:/employee/address.htm";
 		}
 		Ward ward = addressDAO.getWard(userAddress.getWardId());
 		if (ward == null) {
@@ -205,6 +205,25 @@ public class EmployeeController {
 			}
 		}
 
+		return "redirect:/employee/address.htm";
+	}
+	
+	@RequestMapping("set-addr-default{id}")
+	public String setDefaultAddress(@PathVariable("id") int id, HttpSession session)
+	{
+		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
+		if (acc == null) {
+			return "redirect:/";
+		}
+		acc = addressDAO.fetchAddressAccount(acc);
+		for (Address uAddress : acc.getAddresses()) {
+			if (uAddress.getAddressId() == id) {
+				acc.setDefaultAddress(uAddress);
+				accountDAO.updateAccount(acc);
+				break;
+			}
+		}
+		
 		return "redirect:/employee/address.htm";
 	}
 }

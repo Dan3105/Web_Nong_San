@@ -1,7 +1,11 @@
 package tad.controller;
 
+import java.util.Base64;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,6 +16,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+
+import javax.servlet.http.HttpServletResponse;
 
 import tad.DAO.IAccountDAO;
 import tad.DAO.IAccountDAO.EnumRoleID;
@@ -29,27 +36,81 @@ public class UserGuestController {
 	@Autowired
 	private IAccountDAO accountDAO;
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String index(ModelMap modelMap) {
+	
+	public Cookie read(HttpServletRequest request, String name) {
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equalsIgnoreCase(name)) {
+					String decodedvalue = new String(Base64.getDecoder().decode(cookie.getValue()));
+					cookie.setValue(decodedvalue);
+					return cookie;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public Cookie create(String name, String value, int days) {
+		String encodedValue = Base64.getEncoder().encodeToString(value.getBytes());
+		Cookie cookie = new Cookie(name, encodedValue);
+		cookie.setMaxAge(days * 24 * 60 * 60);
+		cookie.setPath("/");
+		return cookie;
+
+	}
+	
+	public void delete(String name) {
+		this.create(name, "", 0);
+	}
+
+
+	@RequestMapping()
+	public String index(ModelMap modelMap, HttpServletRequest request) {
 		LoginBean emptyLogin = new LoginBean();
+		Cookie ckemail = this.read(request, "email");
+		Cookie ckpw = this.read(request, "pass");
+		if (ckemail != null) {
+			String email = ckemail.getValue();
+			String pwd = ckpw.getValue();
+			
+			emptyLogin.setUsername(email);
+			emptyLogin.setPassword(pwd);
+		}
 		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, emptyLogin);
 		return "user/user-login";
 	}
-
+	
 	@RequestMapping(params = "guest-login", method = RequestMethod.POST)
-	public String login(@ModelAttribute("user") LoginBean user, ModelMap modelMap, HttpSession session) {
+	public String login(@ModelAttribute("user") LoginBean user, ModelMap modelMap, HttpSession session,
+			HttpServletResponse response) {
 		Account ValidateAdmin = accountDAO.findAccountByEmail(user.getUsername());
 
-		if (ValidateAdmin != null && ValidateAdmin.getPassword().equals(user.getPassword())) {
-			if (ValidateAdmin.getRole().getRoleId().equals(EnumRoleID.ADMIN.toString())) {
-				session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin);
-				return "redirect:admin/";
-			}
-			else if(ValidateAdmin.getRole().getRoleId().equals(EnumRoleID.EMPLOYEE.toString()))
-			{
-				session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin);
-				return "redirect:employee/";
-			}
+		if (ValidateAdmin != null
+				&& ValidateAdmin.getStatus() != 0
+				&& ValidateAdmin.getPassword().equals(user.getPassword())) {
+			
+
+			// Ghi nho tai khoan bang cookie
+			if (user.getIsRemember() == true) {
+				Cookie ckemail = this.create("email", ValidateAdmin.getEmail(), 30);
+				Cookie ckpass = this.create("pass", user.getPassword(), 30);
+
+				response.addCookie(ckemail);
+				response.addCookie(ckpass);
+
+				
+				  } else { this.delete("email"); this.delete("pass"); }
+				 
+			
+					/*
+					 * if (ValidateAdmin.getRole().getRoleId().equals(EnumRoleID.ADMIN.toString()))
+					 * { session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin); return
+					 * "redirect:admin/"; } else
+					 * if(ValidateAdmin.getRole().getRoleId().equals(EnumRoleID.EMPLOYEE.toString())
+					 * ) { session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin);
+					 * return "redirect:employee/"; }
+					 */
 			return "redirect:/";
 		}
 		if (ValidateAdmin != null) {

@@ -3,7 +3,9 @@ package tad.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.ICategoryDAO;
 import tad.DAO.ICouponDAO;
@@ -26,11 +29,12 @@ import tad.entity.Account;
 import tad.entity.Category;
 import tad.entity.Coupon;
 import tad.entity.Product;
+import tad.utility.Constants;
 import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping("/employee/products/")
+@RequestMapping("/employee/products")
 public class EmployeeControllerProducts {
 	@Autowired
 	private SessionFactory factory;
@@ -41,8 +45,10 @@ public class EmployeeControllerProducts {
 	@Autowired
 	private IProductDAO productDAO;
 
+	
 	@RequestMapping()
-	public String gProductList(ModelMap model, HttpSession session) {
+	public String gProductList(ModelMap model, HttpSession session,
+			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
 		Account currentAcc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (currentAcc == null) {
 			return "redirect:/";
@@ -50,28 +56,49 @@ public class EmployeeControllerProducts {
 
 		Account tacc = productDAO.fetchProductsAccount(currentAcc);
 		ArrayList<ProductBean> products = new ArrayList<>();
+	
 
-		for (Product product : tacc.getProducts()) {
+		List<Product> listProducts = new ArrayList<Product>(tacc.getProducts());
+		
+		
+		
+		Collections.sort(listProducts, (item1, item2) -> {
+			return item2.getPostingDate().compareTo(item1.getPostingDate()) != 0 
+					? item2.getPostingDate().compareTo(item1.getPostingDate()) : 
+						item2.getPrice() > item1.getPrice() ? 1 : 0;
+			
+			});
+		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+		
+		if(startIndex >= listProducts.size())
+		{
+			crrPage = crrPage - 1; // lui lai trang truoc do
+			startIndex =  Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+		}
+		
+		for (Product product : listProducts.subList(startIndex,
+				Math.min(startIndex + Constants.PRODUCT_PER_PAGE, listProducts.size()))) {
 			ProductBean bean = new ProductBean(product);
 			products.add(bean);
 		}
-
+		tacc = couponDAO.FetchAccountCoupon(tacc);
 		ProductBean beanForm = new ProductBean();
-
+		model.addAttribute("crrPage", crrPage);
 		model.addAttribute("products", products);
 		model.addAttribute("categories", categoryDAO.getListCategories());
+		model.addAttribute("coupons", tacc.getCoupons());
 		model.addAttribute("productForm", beanForm);
 		return "employee/employee-product";
 	}
 
 	@RequestMapping(value = "delete{id}.htm", method = RequestMethod.POST)
-	public String pDeleteProduct(@PathVariable("id") int id) {
+	public String pDeleteProduct(@PathVariable("id") int id, HttpSession session) {
 		Product findProduct = productDAO.getProduct(id);
 		if (findProduct != null) {
 			productDAO.deleteProduct(findProduct);
 		}
-		// productDAO.delete(null)
-		return "redirect:/employee/products.htm";
+
+		return String.format("redirect:/employee/products.htm");
 	}
 
 	@Autowired
@@ -128,8 +155,8 @@ public class EmployeeControllerProducts {
 			}
 			if(!productDAO.updateProduct(findProduct)) { System.out.println("checking error");}
 		}
-
-		return "redirect:/employee/products.htm";
+		
+		return String.format("redirect:/employee/products.htm");
 	}
 
 	@RequestMapping(value = "create-product.htm", method = RequestMethod.POST)
@@ -191,6 +218,6 @@ public class EmployeeControllerProducts {
 			System.out.println("error in adding");
 		}
 
-		return "redirect:/employee/products.htm";
+		return String.format("redirect:/employee/products.htm");
 	}
 }

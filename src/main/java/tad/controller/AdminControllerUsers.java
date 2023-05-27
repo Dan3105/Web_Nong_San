@@ -20,6 +20,7 @@ import tad.bean.UploadFile;
 import tad.bean.UserBean;
 import tad.entity.Account;
 import tad.entity.Role;
+import tad.utility.Constants;
 import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
@@ -35,17 +36,42 @@ public class AdminControllerUsers {
 	}
 
 	@RequestMapping("get-guest")
-	public String gUserListGuest(ModelMap modelMap) {
+	public String gUserListGuest(ModelMap modelMap,
+			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
 		List<Account> accounts = accountDAO.listAccountWithRole(EnumRoleID.GUEST);
-		modelMap.addAttribute("accounts", accounts);
+
+		int startIndex = Math.max((crrPage - 1) * Constants.USER_PER_PAGE, 0);
+		if(startIndex >= accounts.size())
+		{
+			crrPage = crrPage - 1; // lui lai trang truoc do
+			startIndex =  Math.max((crrPage - 1) * Constants.USER_PER_PAGE, 0);
+		}
+		modelMap.addAttribute("accounts", accounts.subList(startIndex,
+				Math.min(startIndex + Constants.USER_PER_PAGE, accounts.size())));
+		
+		modelMap.addAttribute("crrPage", crrPage);
+		
 		modelMap.addAttribute("source", "get-guest.htm");
+		
 		return "admin/admin-user-manager";
 	}
 
 	@RequestMapping("get-employee")
-	public String gUserListEmployee(ModelMap modelMap) {
+	public String gUserListEmployee(ModelMap modelMap, 
+			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
 		List<Account> accounts = accountDAO.listAccountWithRole(EnumRoleID.EMPLOYEE);
-		modelMap.addAttribute("accounts", accounts);
+		
+		int startIndex = Math.max((crrPage - 1) * Constants.USER_PER_PAGE, 0);
+		if(startIndex >= accounts.size())
+		{
+			crrPage = crrPage - 1; // lui lai trang truoc do
+			startIndex =  Math.max((crrPage - 1) * Constants.USER_PER_PAGE, 0);
+		}
+		modelMap.addAttribute("accounts", accounts.subList(startIndex,
+				Math.min(startIndex + Constants.USER_PER_PAGE, accounts.size())));
+		
+		modelMap.addAttribute("crrPage", crrPage);
+		
 		modelMap.addAttribute("source", "get-employee.htm");
 		return "admin/admin-user-manager";
 	}

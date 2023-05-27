@@ -20,7 +20,6 @@ function UpdateForm(idItem) {
 	let nameVoucher = document.getElementById(`discountName${idItem}`).innerText;
 	let postingDate = document.getElementById(`discountPosting${idItem}`).value;
 	let expiryDate = document.getElementById(`itemExpiry${idItem}`).value;
-	let quantity = document.getElementById(`discountQuantity${idItem}`).value;
 	let detail = document.getElementById(`discountDetail${idItem}`).innerText;
 	let discount = document.getElementById(`discountPercent${idItem}`).value;
 	let status = document.getElementById(`discountStatus${idItem}`).value;
@@ -32,7 +31,6 @@ function UpdateForm(idItem) {
 	document.getElementById('percentDiscount').value = discount;
 	document.getElementById('displayPercent').value = parseFloat(discount) * 100;
 	document.getElementById('statusDiscount').checked = status === "true";
-	document.getElementById('inputQuantity').value = quantity;
 	document.getElementById('inputDate').value = postingDate;
 	document.getElementById('expiryDate').value = expiryDate;
 
@@ -52,7 +50,6 @@ function CreateForm() {
 	//clear the id address(if have clicked updatebtn before)
 	document.getElementById('inputNameDiscount').value = "";
 	document.getElementById('statusDiscount').value = true;
-	document.getElementById('inputQuantity').value = "";
 	document.getElementById('inputDate').value = "";
 	document.getElementById('expiryDate').value = "";
 	//Open the form

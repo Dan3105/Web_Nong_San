@@ -57,6 +57,16 @@
 												<i class="ti-trash"></i>
 											</button>
 										</form:form>
+										<c:if test="${empty user.defaultAddress or not empty user.defaultAddress and item.addressId ne user.defaultAddress.addressId}">
+										<div>
+											<a href="set-addr-default${ item.addressId}.htm"><button class="btn btn-outline-success">Set as default</button></a>
+										</div>
+									</c:if>
+									<c:if test="${not empty user.defaultAddress and item.addressId eq user.defaultAddress.addressId}">
+										<div>
+											<nav>Default Address</nav>
+										</div>
+									</c:if>
 									</div>
 								</li>
 							</c:forEach>

@@ -212,4 +212,24 @@ public class AdminController {
 
 		return "redirect:/admin/address.htm";
 	}
+	
+	@RequestMapping("set-addr-default{id}")
+	public String setDefaultAddress(@PathVariable("id") int id, HttpSession session)
+	{
+		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
+		if (acc == null) {
+			return "redirect:/";
+		}
+		acc = addressDAO.fetchAddressAccount(acc);
+		for (Address uAddress : acc.getAddresses()) {
+			if (uAddress.getAddressId() == id) {
+				acc.setDefaultAddress(uAddress);
+				accountDAO.updateAccount(acc);
+				break;
+			}
+		}
+		
+		return "redirect:/admin/address.htm";
+	}
+	
 }

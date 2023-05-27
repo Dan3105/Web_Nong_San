@@ -69,9 +69,7 @@ body {
 							id="discountStatus${item.couponId }" value="${item.status }" />
 
 						<input type="hidden" id="itemExpiry${item.couponId }"
-							value="${item.expiryDate }" /> <input type="hidden"
-							id="discountQuantity${item.couponId }" value="${item.quantity }" />
-
+							value="${item.expiryDate }" /> 
 						<div>
 							<c:if test="${item.valid eq true }">
 								<!-- Valid condition -->
@@ -115,8 +113,15 @@ body {
 				</div>
 			</div>
 		</c:forEach>
+		
 	</div>
-
+	<div class="row">
+				<div class="col-8"></div>
+				<div class="col-4 d-flex align-items-center justify-content-between">
+					<a href="?crrPage=${crrPage - 1}" class=" m-2"><button class="btn btn-primary fs-bold"><i class="ti-angle-double-left"></i></button></a>
+					<a href="?crrPage=${crrPage + 1}" class=" m-2"><button class="btn btn-primary fs-bold"><i class="ti-angle-double-right"></i></button></a>
+				</div>	
+		</div>
 	<div class="position-fixed top-0 start-0"
 		style="width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.4);"
 		id="voucher-form-panel">
@@ -157,13 +162,6 @@ body {
 							class="mt-2 d-flex align-items-center justify-content-between">
 							<form:checkbox class="form-check-input ms-1" role="switch"
 								id="statusDiscount" path="status" />
-						</div>
-					</div>
-					<div class="col-md-3 mt-2">
-						<label class="form-check-label ms-1" for="inputQuantity">Quantity</label>
-						<div class=" mb-3">
-							<form:input type="text" class="form-control" path="quantity"
-								placeholder="kg" id="inputQuantity" />
 						</div>
 					</div>
 					<div class="col-md-6 mt-2">
