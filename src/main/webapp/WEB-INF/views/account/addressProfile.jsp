@@ -58,11 +58,16 @@
 
 								</div>
 							</div>
+
 							<div
 								class="d-flex justify-content-between align-items-center w-100 mt-2">
-								<span class="d-block">${a.name }</span> <a href="#"
-									class="btn btn-outline-success btn-sm">Đặt mặc định</a>
+								<span class="d-block">${a.name }</span>
+								<c:if test="${a.addressId != account.defaultAddress.addressId }">
+									<a href="account/setDefault.htm?addressID=${a.addressId }"
+										class="btn btn-outline-success btn-sm">Đặt mặc định</a>
+								</c:if>
 							</div>
+
 
 							<div
 								class="d-flex justify-content-between align-items-center w-100">

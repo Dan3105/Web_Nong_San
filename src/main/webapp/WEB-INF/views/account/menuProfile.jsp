@@ -29,7 +29,7 @@
 				Đổi mật khẩu
 		</a></li>
 
-		<li class="nav-item"><a href="account/order.htm" class="nav-link"
+		<li class="nav-item"><a href="account/ordersHistory.htm" class="nav-link"
 			aria-current="page"> <i class="bi bi-file-earmark-fill"></i> Đơn
 				hàng
 		</a></li>

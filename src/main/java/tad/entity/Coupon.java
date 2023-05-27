@@ -49,7 +49,7 @@ public class Coupon {
 	@Column(name = "Status", nullable = false)
 	private boolean status;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "AccountID", nullable = false, updatable = true)
 	private Account account;
 

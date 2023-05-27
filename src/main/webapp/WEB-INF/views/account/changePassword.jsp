@@ -40,7 +40,7 @@
 			<form:form action="account/changePassword.htm" method="post"
 				modelAttribute="password">
 				<div class="row my-3">
-					<label class="col-sm-4 col-form-label text-end">Mật khẩu
+					<label class="col-sm-4 col-form-label text-start">Mật khẩu
 						hiện tại <label style="color: red;">*</label>
 					</label>
 					<div class="col-sm-8 pe-5">
@@ -53,7 +53,7 @@
 				</div>
 
 				<div class="row mb-3">
-					<label class="col-sm-4 col-form-label text-end">Mật khẩu
+					<label class="col-sm-4 col-form-label text-start">Mật khẩu
 						mới <label style="color: red;">*</label>
 					</label>
 					<div class="col-sm-8 pe-5">
@@ -65,9 +65,8 @@
 					</div>
 				</div>
 
-				<!-- Cái này bắt chước shopee, nhưng nếu phức tạp thì bỏ cũng được :v -->
 				<div class="row mb-3">
-					<label class="col-sm-4 col-form-label text-end">Xác nhận
+					<label class="col-sm-4 col-form-label text-start">Xác nhận
 						mật khẩu <label style="color: red;">*</label>
 					</label>
 					<div class="col-sm-8 pe-5">
@@ -89,5 +88,5 @@
 
 	</div>
 </div>
-
+<script type="text/javascript" src="assets/js/user/account.js"></script>
 <%@include file="/WEB-INF/views/include/footer.jsp"%>

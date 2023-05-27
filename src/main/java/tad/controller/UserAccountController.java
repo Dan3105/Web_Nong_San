@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import tad.DAO.IAccountDAO;
 import tad.DAO.IAddressDAO;
+import tad.DAO.IOrderDAO;
 import tad.bean.AddressBean;
 import tad.bean.AddressDatasBean;
 import tad.bean.AddressUserBean;
@@ -31,6 +32,9 @@ import tad.bean.ProfileBean;
 import tad.bean.UploadFile;
 import tad.entity.Account;
 import tad.entity.Address;
+import tad.entity.OrderDetail;
+import tad.entity.OrderDetailId;
+import tad.entity.Orders;
 import tad.entity.Province;
 import tad.entity.Ward;
 
@@ -39,6 +43,8 @@ import tad.entity.Ward;
 public class UserAccountController {
 	@Autowired
 	private IAccountDAO accountDAO;
+	@Autowired
+	private IOrderDAO ordersDAO;
 	@Autowired
 	private IAddressDAO addressDAO;
 	@Autowired
@@ -284,9 +290,21 @@ public class UserAccountController {
 		return "redirect:/account/address.htm";
 	}
 
+	@RequestMapping(value = "setDefault")
+	public String setDefault(@RequestParam(value = "addressID") int addressID, ModelMap modelMap, HttpSession session) {
+		Account account = (Account) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/account/address.htm";
+		}
+		Address defaultAdress = addressDAO.getAddress(addressID);
+		account.setDefaultAddress(defaultAdress);
+		accountDAO.updateAccount(account);
+		return "redirect:/account/address.htm";
+	}
+
 	@RequestMapping(value = "changePassword", method = RequestMethod.GET)
 	public String changePassword(@ModelAttribute("password") ChangePassword password) {
-		return "acount/changePassword";
+		return "account/changePassword";
 	}
 
 	@RequestMapping(value = "changePassword", method = RequestMethod.POST)
@@ -295,31 +313,46 @@ public class UserAccountController {
 		Account account = (Account) session.getAttribute("account");
 
 		if (!BCrypt.checkpw(password.getOldPass(), account.getPassword())) {
+			System.out.println("Ko đúng");
 			errors.rejectValue("oldPass", "password", "Mật khẩu hiện tại không đúng!");
 		}
-		if (BCrypt.checkpw(password.getNewPass(), account.getPassword()))
-
-		{
+		if (BCrypt.checkpw(password.getNewPass(), account.getPassword())) {
+			System.out.println("Ko trùng");
 			errors.rejectValue("newPass", "password", "Mật khẩu mới trùng với mật khẩu cũ!");
 		}
 		if (!password.getConfirmPass().equalsIgnoreCase(password.getNewPass())) {
+			System.out.println("Ko xác nhận");
 			errors.rejectValue("confirmPass", "password", "Mật khẩu xác nhận không đúng!");
 		}
 
-		if (errors.hasErrors())
+		if (errors.hasErrors()) {
+			System.out.println("Error");
+			model.addAttribute("message", 0);
 			return "account/changePassword";
-		else {
+		} else {
 			account.setPassword(BCrypt.hashpw(password.getNewPass(), BCrypt.gensalt(12)));
 			boolean s = accountDAO.updateAccount(account);
 			if (s) {
+				System.out.println("Đúng");
 				session.setAttribute("account", account);
 				model.addAttribute("message", 1);
-			} else
-
+			} else {
+				System.out.println("Sai	");
 				model.addAttribute("message", 0);
+			}
+
 		}
 
 		return "account/changePassword";
+	}
+
+	@RequestMapping(value = "ordersHistory")
+	public String ordersHistory(ModelMap model, HttpSession session) {
+		Account account = (Account) session.getAttribute("account");
+		List<Orders> orders = ordersDAO.getOrderFromAccount(account.getAccountId());
+		
+		model.addAttribute("orders", orders);
+		return "account/accountOrders";
 	}
 
 }

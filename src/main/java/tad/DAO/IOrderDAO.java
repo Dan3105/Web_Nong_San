@@ -6,9 +6,9 @@ import tad.entity.OrderDetail;
 import tad.entity.Orders;
 
 public interface IOrderDAO {
-	public List<Orders> getOrderFromAccount(int idAccount);
+	public List<Orders> getOrderFromAccount(int accountId);
 
-	public List<Orders> getOrderFromProduct(int idProduct);
+	public List<Orders> getOrderFromProduct(int productId);
 
 	public List<OrderDetail> getOrderDetail(int orderId);
 

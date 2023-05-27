@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import tad.DAO.IAddressDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.ICategoryDAO;
 import tad.bean.Company;
 import tad.entity.Account;
+import tad.entity.Address;
 import tad.entity.Cart;
-import tad.entity.Category;
 
 @Controller
 @RequestMapping("/cart/")
@@ -25,19 +26,17 @@ public class UserCartController {
 
 	@Autowired
 	private ICartDAO cartDAO;
+
 	@Autowired
-	private ICategoryDAO categoryDAO;
-	@Autowired
-	private Company company;
-	
+	private IAddressDAO addressDAO;
+
 	@RequestMapping(value = "index")
 	public String cart(ModelMap modelMap, HttpSession session) {
 
 		float subtotal = 0;
 		Account account = (Account) session.getAttribute("account");
-
+		
 		List<Cart> list = cartDAO.getCart(account.getAccountId());
-		List<Category> category = categoryDAO.getListCategories();
 
 		int canCheckOut = 1;
 
@@ -60,11 +59,9 @@ public class UserCartController {
 
 		}
 
-		modelMap.addAttribute("company", company);
-		modelMap.addAttribute("firstCategory", category.get(0).getCategoryId());
+		modelMap.addAttribute("defaultAddress", account.getDefaultAddress());
 		modelMap.addAttribute("carts", list);
 		modelMap.addAttribute("subtotal", subtotal);
-		modelMap.addAttribute("category", category);
 		modelMap.addAttribute("canCheckOut", canCheckOut);
 
 		return "cart/index";

@@ -74,7 +74,7 @@
 				Chưa có địa chỉ mặc định
 			</c:if>
 						<c:if test="${account.defaultAddress != null }">
-			${account.defaultAddress.getFullAddress()}
+			${account.defaultAddress.name  }, ${account.defaultAddress.ward.name  }, ${account.defaultAddress.ward.district.name},${account.defaultAddress.ward.district.province.name  }   
 			</c:if>
 					</div>
 				</div>

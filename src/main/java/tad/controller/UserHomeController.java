@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.IAccountDAO;
+import tad.DAO.IAddressDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.ICategoryDAO;
 import tad.DAO.IProductDAO;
@@ -22,7 +23,7 @@ import tad.entity.Category;
 import tad.entity.Product;
 import tad.entity.Wishlist;
 import tad.utility.Constants;
-
+import org.mindrot.jbcrypt.BCrypt;
 @Controller
 public class UserHomeController {
 	@Autowired
@@ -34,6 +35,8 @@ public class UserHomeController {
 	@Autowired
 	private IAccountDAO accountDAO;
 	@Autowired
+	private IAddressDAO addressDAO;
+	@Autowired
 	private IWishlistDAO wishlistDAO;
 	@Autowired
 	private ICartDAO cartDAO;
@@ -43,6 +46,9 @@ public class UserHomeController {
 
 		// Account user = (Account) session.getAttribute("account");
 		Account account = accountDAO.getAccount(36);
+		
+		String hashed = BCrypt.hashpw(account.getPassword(), BCrypt.gensalt(12));
+		
 
 		List<Category> category = categoryDAO.getListCategories();
 		List<Product> products = productDAO.listProductsWithCoupon();

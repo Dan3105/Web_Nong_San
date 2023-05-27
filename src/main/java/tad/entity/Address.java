@@ -29,11 +29,11 @@ public class Address {
 	@Column(name = "Name")
 	private String name;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY )
 	@JoinColumn(name = "AccountID", nullable = false)
 	private Account account;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "defaultAddress")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "defaultAddress")
 	private Set<Account> accounts = new HashSet<>(0);
 
 	public Address() {

@@ -23,13 +23,17 @@ public class OrderDAOImpl implements IOrderDAO {
 	}
 
 	@Override
-	public List<Orders> getOrderFromAccount(int idAccount) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Orders> getOrderFromAccount(int accountId) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM Orders WHERE account.accountId = " + accountId;
+		Query query = session.createQuery(hql);
+		@SuppressWarnings("unchecked")
+		List<Orders> list = session.createQuery(hql).list();
+		return list;
 	}
 
 	@Override
-	public List<Orders> getOrderFromProduct(int idProduct) {
+	public List<Orders> getOrderFromProduct(int productId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

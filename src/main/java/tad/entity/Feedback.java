@@ -33,7 +33,7 @@ public class Feedback {
 	@JoinColumn(name = "AccountID", nullable = false)
 	private Account account;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ProductID", nullable = false)
 	private Product product;
 
