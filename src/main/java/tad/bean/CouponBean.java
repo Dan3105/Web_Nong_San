@@ -14,6 +14,7 @@ public class CouponBean {
 	private String expiryDate;
 	private boolean status;
 	private String detail;
+
 	public CouponBean() {
 		couponId = -1;
 		name = "";
@@ -109,21 +110,17 @@ public class CouponBean {
 		this.detail = detail;
 	}
 
-	public long getDays()
-	{
-		try
-		{
+	public long getDays() {
+		try {
 			SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date exdate = inputFormat.parse(expiryDate);
 			Date crrdate = new Date();
 
 			return TimeUnit.DAYS.convert(exdate.getTime() - crrdate.getTime(), TimeUnit.MILLISECONDS);
-		}
-		catch(Exception ex)
-		{
+		} catch (Exception ex) {
 			return -1;
 		}
-		//return -1;
+		// return -1;
 	}
 
 	public boolean getStatus() {

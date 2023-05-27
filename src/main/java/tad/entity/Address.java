@@ -29,7 +29,7 @@ public class Address {
 	@Column(name = "Name")
 	private String name;
 
-	@ManyToOne(fetch = FetchType.LAZY )
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "AccountID", nullable = false)
 	private Account account;
 

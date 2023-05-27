@@ -14,7 +14,7 @@ public class UserBean {
 	private String email;
 
 	@NotBlank(message = "Password is required")
-	@Length(min = 6, max=50, message = "Password must be between 8 and 50 characters")
+	@Length(min = 6, max = 50, message = "Password must be between 8 and 50 characters")
 	private String password;
 
 	@NotBlank(message = "First name is required")
@@ -25,7 +25,7 @@ public class UserBean {
 
 	@Pattern(regexp = "^0\\d{9}$|^$", message = "Invalid phone number format, number phone must be: 0xxxxxxxxx")
 	private String phoneNumber;
-	
+
 	private MultipartFile avatar;
 
 	private String avatarDir;

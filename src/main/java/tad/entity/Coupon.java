@@ -28,7 +28,6 @@ public class Coupon {
 	@Column(name = "CouponID", unique = true, nullable = false)
 	private int couponId;
 
-
 	@Column(name = "Name", nullable = false)
 	private String name;
 
@@ -90,7 +89,6 @@ public class Coupon {
 		this.couponId = couponId;
 	}
 
-
 	public String getName() {
 		return this.name;
 	}
@@ -106,7 +104,6 @@ public class Coupon {
 	public void setDiscount(double discount) {
 		this.discount = discount;
 	}
-
 
 	public Date getPostingDate() {
 		return this.postingDate;

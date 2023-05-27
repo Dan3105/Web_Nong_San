@@ -3,9 +3,9 @@ package tad.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -45,31 +45,30 @@ public class EmployeeControllerVouchers {
 
 		Account tacc = couponDAO.FetchAccountCoupon(currentAcc);
 		if (tacc != null) {
-			List<Coupon> couponCreator = new ArrayList<Coupon>(tacc.getCoupons());; 
-			Collections.sort(couponCreator, (item1, item2) -> {return item2.getPostingDate().compareTo(item1.getPostingDate());});
-			
+			List<Coupon> couponCreator = new ArrayList<>(tacc.getCoupons());
+
+			Collections.sort(couponCreator, (item1, item2) -> {
+				return item2.getPostingDate().compareTo(item1.getPostingDate());
+			});
+
 			int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
-			
-			if(startIndex >= couponCreator.size())
-			{
+
+			if (startIndex >= couponCreator.size()) {
 				crrPage = crrPage - 1; // lui lai trang truoc do
-				startIndex =  Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+				startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
 			}
-			
+
 			ArrayList<CouponBean> coupons = new ArrayList<>();
 			for (Coupon coupon : couponCreator.subList(startIndex,
 					Math.min(startIndex + Constants.PRODUCT_PER_PAGE, couponCreator.size()))) {
 				CouponBean cp = new CouponBean(coupon);
 				coupons.add(cp);
 			}
-			
+
 			model.addAttribute("coupons", coupons);
-			
-			
+
 		}
-		
-		
-		
+
 		CouponBean cbean = new CouponBean();
 		model.addAttribute("couponBean", cbean);
 		model.addAttribute("crrPage", crrPage);
@@ -87,7 +86,7 @@ public class EmployeeControllerVouchers {
 			findCoupon.setStatus(coupon.getStatus());
 			// 7
 			findCoupon.setDetail(coupon.getDetail());
-			findCoupon.setDiscount(coupon.getDiscount());			// 8
+			findCoupon.setDiscount(coupon.getDiscount()); // 8
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			try {
 				Date date = format.parse(coupon.getPostingDate());
@@ -147,8 +146,7 @@ public class EmployeeControllerVouchers {
 			e.printStackTrace();
 			/* return "redirect:/employee/vouchers.htm"; */
 		}
-		if(!couponDAO.add(findCoupon))
-		{
+		if (!couponDAO.add(findCoupon)) {
 			System.out.println("Error in add");
 		}
 		return "redirect:/employee/vouchers.htm";

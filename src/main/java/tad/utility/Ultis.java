@@ -2,7 +2,6 @@ package tad.utility;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import tad.entity.Feedback;
@@ -19,8 +18,7 @@ public class Ultis {
 		return avgStar;
 	}
 
-	public static final void filterProductByIndex(int index,
-			List<Product> productsFilterWithCategory) {
+	public static final void filterProductByIndex(int index, List<Product> productsFilterWithCategory) {
 		switch (index) {
 		case 0: {
 			break;

@@ -137,8 +137,7 @@ public class AdminController {
 		if (acc == null) {
 			return "redirect:/";
 		}
-		if(errors.hasErrors())
-		{
+		if (errors.hasErrors()) {
 			return "redirect:/admin/address.htm";
 		}
 		Ward ward = addressDAO.getWard(userAddress.getWardId());
@@ -158,8 +157,7 @@ public class AdminController {
 		if (acc == null) {
 			return "redirect:/";
 		}
-		if(errors.hasErrors())
-		{
+		if (errors.hasErrors()) {
 			return "redirect:/admin/address.htm";
 		}
 		Address address = null;
@@ -189,8 +187,7 @@ public class AdminController {
 		if (acc == null) {
 			return "redirect:/";
 		}
-		if(errors.hasErrors())
-		{
+		if (errors.hasErrors()) {
 			return "redirect:/admin/address.htm";
 		}
 		Address address = null;
@@ -202,20 +199,17 @@ public class AdminController {
 			}
 		}
 
-		if(address != null)
-		{
-			if(addressDAO.deleteAddress(address))
-			{
+		if (address != null) {
+			if (addressDAO.deleteAddress(address)) {
 
 			}
 		}
 
 		return "redirect:/admin/address.htm";
 	}
-	
+
 	@RequestMapping("set-addr-default{id}")
-	public String setDefaultAddress(@PathVariable("id") int id, HttpSession session)
-	{
+	public String setDefaultAddress(@PathVariable("id") int id, HttpSession session) {
 		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (acc == null) {
 			return "redirect:/";
@@ -228,8 +222,8 @@ public class AdminController {
 				break;
 			}
 		}
-		
+
 		return "redirect:/admin/address.htm";
 	}
-	
+
 }

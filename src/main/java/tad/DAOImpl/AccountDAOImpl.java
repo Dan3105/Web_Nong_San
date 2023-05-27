@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tad.DAO.IAccountDAO;
 import tad.entity.Account;
-import tad.entity.Address;
 import tad.entity.Role;
 
 @Transactional
@@ -118,8 +117,6 @@ public class AccountDAOImpl implements IAccountDAO {
 		}
 		return false;
 	}
-
-	
 
 	@Override
 	public boolean addAccountToDB(Account acc) {

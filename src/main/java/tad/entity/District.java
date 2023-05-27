@@ -28,10 +28,8 @@ public class District {
 	@JoinColumn(name = "ProvinceID", nullable = false)
 	private Province province;
 
-
 	@Column(name = "Name", nullable = false)
 	private String name;
-
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "district")
 	private Set<Ward> wards = new HashSet<>(0);

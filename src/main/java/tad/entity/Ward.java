@@ -23,15 +23,12 @@ public class Ward {
 	@Column(name = "WardID", unique = true, nullable = false)
 	private int wardId;
 
-
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "DistrictID", nullable = false)
 	private District district;
 
-
 	@Column(name = "Name", nullable = false)
 	private String name;
-
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ward")
 	private Set<Address> addresses = new HashSet<>(0);

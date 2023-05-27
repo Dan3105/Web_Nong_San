@@ -26,7 +26,6 @@ public class Category {
 	@Column(name = "Image")
 	private String image;
 
-
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
 	private Set<Product> products = new HashSet<>(0);
 
@@ -45,7 +44,6 @@ public class Category {
 		this.products = products;
 	}
 
-
 	public int getCategoryId() {
 		return this.categoryId;
 	}
@@ -53,7 +51,6 @@ public class Category {
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
-
 
 	public String getName() {
 		return this.name;

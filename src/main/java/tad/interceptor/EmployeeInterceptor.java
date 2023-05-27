@@ -13,12 +13,11 @@ import tad.utility.DefineAttribute;
 public class EmployeeInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception{
+			throws Exception {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		Account acc = (Account)session.getAttribute(DefineAttribute.UserAttribute);
-		if(acc != null && acc.getRole().getRoleId().equals(EnumRoleID.EMPLOYEE.toString()))
-		{
+		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
+		if (acc != null && acc.getRole().getRoleId().equals(EnumRoleID.EMPLOYEE.toString())) {
 			return true;
 		}
 		response.sendRedirect(request.getContextPath() + "/index.htm");

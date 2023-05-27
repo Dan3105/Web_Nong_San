@@ -22,10 +22,8 @@ public class Province {
 	@Column(name = "ProvinceID", unique = true, nullable = false)
 	private int provinceId;
 
-
 	@Column(name = "Name", nullable = false)
 	private String name;
-
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "province")
 	private Set<District> districts = new HashSet<>(0);

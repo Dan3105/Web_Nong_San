@@ -16,7 +16,4 @@ public interface ICategoryDAO {
 
 	public boolean updateCategory(Category changedCategory);
 
-
-
-
 }

@@ -12,12 +12,11 @@ import tad.utility.DefineAttribute;
 public class GuestInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception{
+			throws Exception {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		Account acc = (Account)session.getAttribute(DefineAttribute.UserAttribute);
-		if(acc != null)
-		{
+		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
+		if (acc != null) {
 			return true;
 		}
 		response.sendRedirect(request.getContextPath() + "/index.htm");

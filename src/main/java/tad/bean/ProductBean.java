@@ -21,6 +21,7 @@ public class ProductBean {
 	private int discountId;
 	private double discount;
 	private MultipartFile imageFile;
+
 	public MultipartFile getImageFile() {
 		return imageFile;
 	}
@@ -48,8 +49,7 @@ public class ProductBean {
 		discountId = -1;
 	}
 
-	public ProductBean(Product product)
-	{
+	public ProductBean(Product product) {
 		productId = product.getProductId();
 		categoryId = product.getCategory().getCategoryId();
 		categoryName = product.getCategory().getName();
@@ -136,7 +136,6 @@ public class ProductBean {
 		return postingDate;
 	}
 
-
 	public void setPostingDate(String postingDate) {
 		this.postingDate = postingDate;
 	}
@@ -165,8 +164,7 @@ public class ProductBean {
 		this.discount = discount;
 	}
 
-	public double getTotalPrice()
-	{
+	public double getTotalPrice() {
 		return this.price - this.price * this.discount;
 	}
 }

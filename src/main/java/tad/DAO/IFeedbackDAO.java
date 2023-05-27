@@ -17,8 +17,8 @@ public interface IFeedbackDAO {
 
 	List<Feedback> listFeedback(int productId, int feedbackFilter);
 
-	//0 Moi Nhat
-	//1 Tu 5 sao - 1 sao
+	// 0 Moi Nhat
+	// 1 Tu 5 sao - 1 sao
 	// 2 Loc 5 Sao
 	// 3 Loc 4 sao
 	// 4 Loc 3 sao

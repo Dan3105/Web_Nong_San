@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.IAddressDAO;
 import tad.DAO.ICartDAO;
-import tad.DAO.ICategoryDAO;
-import tad.bean.Company;
 import tad.entity.Account;
-import tad.entity.Address;
 import tad.entity.Cart;
 
 @Controller
@@ -35,7 +32,7 @@ public class UserCartController {
 
 		float subtotal = 0;
 		Account account = (Account) session.getAttribute("account");
-		
+
 		List<Cart> list = cartDAO.getCart(account.getAccountId());
 
 		int canCheckOut = 1;

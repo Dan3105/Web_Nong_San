@@ -207,10 +207,9 @@ public class EmployeeController {
 
 		return "redirect:/employee/address.htm";
 	}
-	
+
 	@RequestMapping("set-addr-default{id}")
-	public String setDefaultAddress(@PathVariable("id") int id, HttpSession session)
-	{
+	public String setDefaultAddress(@PathVariable("id") int id, HttpSession session) {
 		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (acc == null) {
 			return "redirect:/";
@@ -223,7 +222,7 @@ public class EmployeeController {
 				break;
 			}
 		}
-		
+
 		return "redirect:/employee/address.htm";
 	}
 }

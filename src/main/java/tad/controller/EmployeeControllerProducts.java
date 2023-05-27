@@ -45,7 +45,6 @@ public class EmployeeControllerProducts {
 	@Autowired
 	private IProductDAO productDAO;
 
-	
 	@RequestMapping()
 	public String gProductList(ModelMap model, HttpSession session,
 			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
@@ -56,26 +55,22 @@ public class EmployeeControllerProducts {
 
 		Account tacc = productDAO.fetchProductsAccount(currentAcc);
 		ArrayList<ProductBean> products = new ArrayList<>();
-	
 
-		List<Product> listProducts = new ArrayList<Product>(tacc.getProducts());
-		
-		
-		
+		List<Product> listProducts = new ArrayList<>(tacc.getProducts());
+
 		Collections.sort(listProducts, (item1, item2) -> {
-			return item2.getPostingDate().compareTo(item1.getPostingDate()) != 0 
-					? item2.getPostingDate().compareTo(item1.getPostingDate()) : 
-						item2.getPrice() > item1.getPrice() ? 1 : 0;
-			
-			});
+			return item2.getPostingDate().compareTo(item1.getPostingDate()) != 0
+					? item2.getPostingDate().compareTo(item1.getPostingDate())
+					: item2.getPrice() > item1.getPrice() ? 1 : 0;
+
+		});
 		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
-		
-		if(startIndex >= listProducts.size())
-		{
+
+		if (startIndex >= listProducts.size()) {
 			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex =  Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
 		}
-		
+
 		for (Product product : listProducts.subList(startIndex,
 				Math.min(startIndex + Constants.PRODUCT_PER_PAGE, listProducts.size()))) {
 			ProductBean bean = new ProductBean(product);
@@ -153,29 +148,28 @@ public class EmployeeControllerProducts {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(!productDAO.updateProduct(findProduct)) { System.out.println("checking error");}
+			if (!productDAO.updateProduct(findProduct)) {
+				System.out.println("checking error");
+			}
 		}
-		
+
 		return String.format("redirect:/employee/products.htm");
 	}
 
 	@RequestMapping(value = "create-product.htm", method = RequestMethod.POST)
 	public String pCreateProduct(@ModelAttribute("productBean") ProductBean product, HttpSession session) {
 		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
-		if(acc == null)
-		{
+		if (acc == null) {
 			return "redirect:employee/logout.htm";
 		}
 		Product newProduct = new Product();
-		//0
+		// 0
 		newProduct.setAccount(acc);
-		//1
+		// 1
 		Category category = categoryDAO.getCategory(product.getCategoryId());
 		if (category != null) {
 			newProduct.setCategory(category);
-		}
-		else
-		{
+		} else {
 			System.out.println(product.getCategoryId() + "doesnt exissst");
 			return "redirect:/employee/products.htm";
 		}
@@ -213,8 +207,7 @@ public class EmployeeControllerProducts {
 			e.printStackTrace();
 		}
 
-		if(!productDAO.insertProduct(newProduct))
-		{
+		if (!productDAO.insertProduct(newProduct)) {
 			System.out.println("error in adding");
 		}
 

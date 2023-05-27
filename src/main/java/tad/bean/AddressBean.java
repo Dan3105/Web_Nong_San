@@ -20,18 +20,23 @@ public class AddressBean {
 	public ArrayList<WardBean> getWardBean() {
 		return wardBean;
 	}
+
 	public void setWardBean(ArrayList<WardBean> wardBean) {
 		this.wardBean = wardBean;
 	}
+
 	public ArrayList<DistrictBean> getDistrictBean() {
 		return districtBean;
 	}
+
 	public void setDistrictBean(ArrayList<DistrictBean> districtBean) {
 		this.districtBean = districtBean;
 	}
+
 	public ArrayList<ProvinceBean> getProvinceBean() {
 		return provinceBean;
 	}
+
 	public void setProvinceBean(ArrayList<ProvinceBean> provinceBean) {
 		this.provinceBean = provinceBean;
 	}

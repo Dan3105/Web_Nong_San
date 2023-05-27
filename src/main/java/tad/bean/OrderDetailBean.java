@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 
-import tad.entity.Address;
 import tad.entity.Orders;
 
 public class OrderDetailBean {
@@ -92,7 +91,7 @@ public class OrderDetailBean {
 	private int status;
 	private String accName;
 
-	private Set<DetailProduct> products = new HashSet<DetailProduct>();
+	private Set<DetailProduct> products = new HashSet<>();
 
 	public int getStatus() {
 		return status;

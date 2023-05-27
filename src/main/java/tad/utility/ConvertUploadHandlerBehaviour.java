@@ -14,8 +14,7 @@ public class ConvertUploadHandlerBehaviour implements ConverterUploadHandler {
 		if (!fileUpload.isEmpty()) {
 			try {
 				File file = new File(pathDir);
-				if(file.exists())
-				{
+				if (file.exists()) {
 					file.delete();
 				}
 				fileUpload.transferTo(file);

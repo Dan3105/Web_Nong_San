@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,7 +24,7 @@ import tad.entity.Category;
 import tad.entity.Product;
 import tad.entity.Wishlist;
 import tad.utility.Constants;
-import org.mindrot.jbcrypt.BCrypt;
+
 @Controller
 public class UserHomeController {
 	@Autowired
@@ -46,9 +47,8 @@ public class UserHomeController {
 
 		// Account user = (Account) session.getAttribute("account");
 		Account account = accountDAO.getAccount(36);
-		
+
 		String hashed = BCrypt.hashpw(account.getPassword(), BCrypt.gensalt(12));
-		
 
 		List<Category> category = categoryDAO.getListCategories();
 		List<Product> products = productDAO.listProductsWithCoupon();

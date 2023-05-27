@@ -32,8 +32,6 @@ import tad.bean.ProfileBean;
 import tad.bean.UploadFile;
 import tad.entity.Account;
 import tad.entity.Address;
-import tad.entity.OrderDetail;
-import tad.entity.OrderDetailId;
 import tad.entity.Orders;
 import tad.entity.Province;
 import tad.entity.Ward;
@@ -233,10 +231,7 @@ public class UserAccountController {
 		ArrayList<Province> province = addressDAO.getProvinceList();
 		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
 
-		if (account == null) {
-			return "redirect:/account/address";
-		}
-		if (errors.hasErrors()) {
+		if ((account == null) || errors.hasErrors()) {
 			return "redirect:/account/address";
 		}
 
@@ -350,7 +345,7 @@ public class UserAccountController {
 	public String ordersHistory(ModelMap model, HttpSession session) {
 		Account account = (Account) session.getAttribute("account");
 		List<Orders> orders = ordersDAO.getOrderFromAccount(account.getAccountId());
-		
+
 		model.addAttribute("orders", orders);
 		return "account/accountOrders";
 	}
