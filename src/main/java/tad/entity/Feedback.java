@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,8 +22,10 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "Feedback", schema = "dbo", catalog = "DB_Tad", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"AccountID", "ProductID" }))
 public class Feedback {
+
 	@Id
-	@Column(name = "FeedbackID", unique = true, nullable = false)
+	@GeneratedValue
+	@Column(name = "FeedbackID")
 	private int feedbackId;
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -34,13 +37,13 @@ public class Feedback {
 	private Product product;
 
 	@Column(name = "RatingStar", nullable = false)
-	private short ratingStar;
+	private int ratingStar;
 
 	@Column(name = "FeedbackContent")
 	private String feedbackContent;
 
 	@Column(name = "Status", nullable = false)
-	private short status;
+	private int status;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "PostingDate", nullable = false, length = 23)
@@ -52,18 +55,8 @@ public class Feedback {
 	public Feedback() {
 	}
 
-	public Feedback(int feedbackId, Account account, Product product, short ratingStar, short status,
-			Date postingDate) {
-		this.feedbackId = feedbackId;
-		this.account = account;
-		this.product = product;
-		this.ratingStar = ratingStar;
-		this.status = status;
-		this.postingDate = postingDate;
-	}
-
 	public int getFeedbackId() {
-		return this.feedbackId;
+		return feedbackId;
 	}
 
 	public void setFeedbackId(int feedbackId) {
@@ -86,11 +79,11 @@ public class Feedback {
 		this.product = product;
 	}
 
-	public short getRatingStar() {
+	public int getRatingStar() {
 		return this.ratingStar;
 	}
 
-	public void setRatingStar(short ratingStar) {
+	public void setRatingStar(int ratingStar) {
 		this.ratingStar = ratingStar;
 	}
 
@@ -110,7 +103,7 @@ public class Feedback {
 		this.postingDate = postingDate;
 	}
 
-	public short getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
@@ -122,7 +115,7 @@ public class Feedback {
 		this.comment = comment;
 	}
 
-	public void setStatus(short status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 

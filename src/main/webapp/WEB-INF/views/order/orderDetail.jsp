@@ -1,77 +1,91 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <base href="${pageContext.servletContext.contextPath}/">
+<%@include file="/WEB-INF/views/include/library.jsp"%>
 <%@include file="/WEB-INF/views/include/header.jsp"%>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <br>
 <div class="container">
 	<div class="row">
 
-
-		<div class="col-9 mbg-azure p-3">
+		<div class="col-12  p-3">
 			<div class="row">
 				<div class="col">
 					<div class="h4 text-uppercase">Chi tiết đơn hàng</div>
 				</div>
 				<div class="col text-end">
-					<!-- Trạng thái của đơn hàng -->
-					<h1>${result }</h1>
-					<div class="text-success text-uppercase">${order.status.description}</div>
+					<div>
+						<c:if test="${order.status == 0 }">
+							<span class="badge bg-warning"> Chờ Xác Nhận </span>
+						</c:if>
+						<c:if test="${order.status == 1 }">
+							<span class="badge bg-primary"> Đang Giao </span>
+						</c:if>
+						<c:if test="${order.status == 2 }">
+							<span class="badge bg-success"> Đã Giao</span>
+						</c:if>
+						<c:if test="${order.status == 3 }">
+							<span class="badge bg-danger"> Đã Hủy</span>
+						</c:if>
+					</div>
+
 				</div>
 			</div>
 			<hr>
 			<div class="row mb-1">
-				<div class="col-5 border-end">
-					<div class="h5">Địa chỉ nhận hàng</div>
-					<div class="h6">${sessionScope.user.lastName }
-						${sessionScope.user.firstName }</div>
-					<div class="text-secondary">Số điện thoại:
-						${sessionScope.user.phone }</div>
-					<div class="text-secondary fst-italic">Địa chỉ:
-						${sessionScope.user.address.specificAddress },
-						${sessionScope.user.address.ward.prefix}
-						${sessionScope.user.address.ward.name},
-						${sessionScope.user.address.ward.district.prefix}
-						${sessionScope.user.address.ward.district.name},
-						${sessionScope.user.address.ward.district.province.name}</div>
+				<div class="col-9 border-end ">
+					<div class="mb-4 ">
+
+						<div class="fw-bold text-success">
+							<i class="bi bi-geo-alt-fill"></i> Địa chỉ nhận hàng
+						</div>
+
+						<div class="h5 ps-3">${account.getName() }
+							<span>(+84)</span> ${account.phoneNumber }
+						</div>
+						<div class="text-secondary fst-italic">
+							${order.defaultAddress  }</div>
+					</div>
 				</div>
-				<div class="col-3">
-					<c:choose>
-						<c:when test="${order.status.id == 3 }">
-							<div class="alert-warning rounded m-1 p-2" role="alert">
-								Hãy chắc chắn rằng bạn đã nhận được hàng bạn nhé.</div>
-						</c:when>
-						<c:when test="${order.status.id == 2 }">
-							<div class="alert-warning rounded m-1 p-2" role="alert">
-								Bạn có thực sự muốn bỏ qua đơn hàng này?</div>
-						</c:when>
-						<c:when test="${order.status.id == 1 }">
-							<div class="alert-info rounded m-1 p-2" role="alert">Đơn
-								hàng của bạn vẫn đang được chờ xử lý.</div>
-						</c:when>
-					</c:choose>
-				</div>
-				<div class="col-4">
-					<div class="d-grid">
-						<!-- Tùy theo trạng thái mà dùng JSTL để show các nút -->
-						<!-- Ví dụ: "Đang giao" thì show nút "Nhận hàng", "Đang duyệt" và "Chuẩn bị" thì "Hủy"-->
+
+				<div class="col-3 mt-4">
+					<div class="d-grid  ">
 						<c:choose>
-							<c:when test="${order.status.id == 3 }">
-								<a class="btn btn-info text-white m-2"
-									href="user/orderDetail/receive.htm?id=${order.id }"
+							<%-- <c:when test="${order.status == 2 }">
+								<a class="btn m-2 btn-sm btn-success"
+									href="user/orderDetail/receive.htm?id=${order.orderId }"
 									role="button">Nhận được hàng</a>
-							</c:when>
-							<c:when test="${order.status.id == 2 }">
-								<a class="btn btn-warning text-white m-2"
-									href="user/orderDetail/cancelRequest.htm?id=${order.id }"
-									role="button">Hủy yêu cầu</a>
-							</c:when>
-							<c:when test="${order.status.id == 1 }">
-								<a class="btn btn-danger text-white m-2"
-									href="user/orderDetail/requestCancel.htm?id=${order.id }"
-									role="button">Yêu cầu hủy đơn</a>
+							</c:when> --%>
+							<c:when test="${order.status == 0 }">
+
+								<!-- Button trigger modal -->
+								<button type="button" class="btn m-2 btn-sm btn-danger"
+									data-bs-toggle="modal" data-bs-target="#exampleModal">
+									Hủy yêu cầu</button>
+
+								<!-- Modal -->
+								<div class="modal fade" id="exampleModal" tabindex="-1"
+									aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h1 class="modal-title fs-5" id="exampleModalLabel">Modal
+													title</h1>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">Bạn có muốn hủy yêu cầu đặt
+												hàng ?</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">Đóng</button>
+												<a class="btn btn-danger"
+													href="user/orderDetail/cancelRequest.htm?id=${order.orderId }"
+													role="button">Hủy yêu cầu</a>
+
+											</div>
+										</div>
+									</div>
+								</div>
 							</c:when>
 						</c:choose>
 					</div>
@@ -90,38 +104,40 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="o" items="${orderDetail }">
+					<c:forEach var="o" items="${order.orderDetails }">
 						<tr>
 							<td class="py-1">
 								<div class="row">
 									<div class="col-auto">
 										<a target="_blank"
-											href="home/product.htm?id=${o.products.id }"> <img
-											src="resources/images/products/${o.products.image }"
-											style="width: 50px; height: 70px;">
+											href="product/detail.htm?productId=${o.product.productId }">
+											<img
+											src="<c:url value="/assets/img/products/${o.product.image} "/>"
+											style="width: 50px; height: 50px;">
 										</a>
 									</div>
 
 									<div class="col py-2">
-										<div>${o.products.name}</div>
+										<div>${o.product.productName}</div>
 									</div>
 								</div>
 							</td>
-							<td class="py-3"><fmt:formatNumber value="${o.item_price}"
-									type="currency" currencySymbol="đ" maxFractionDigits="0" /></td>
+							<td class="py-3"><fmt:formatNumber
+									value="${o.product.price}" type="currency" currencySymbol="đ"
+									maxFractionDigits="0" /></td>
 							<td class="py-3">${o.quantity}</td>
 							<td class="py-3"><fmt:formatNumber
-									value="${o.item_price * o.quantity}" type="currency"
+									value="${o.product.price * o.quantity}" type="currency"
 									currencySymbol="đ" maxFractionDigits="0" /></td>
 							<td class="py-3 text-center">
 								<!-- icon feedback --> <c:choose>
-									<c:when test="${order.status.id == 4 }">
-										<a class="link-primary"
-											href="user/feedback.htm?productId=${o.products.id}"
-											role="button"><i class="fas fa-comment-dots"></i></a>
+									<c:when test="${order.status == 2 }">
+										<a class="link-success"
+											href="account/feedback.htm?productId=${o.product.productId }"
+											role="button"><i class="bi bi-chat-left-text-fill"></i></a>
 									</c:when>
 									<c:otherwise>
-										<i class="fas fa-comment-dots text-muted"></i>
+										<i class="bi bi-chat-left-text-fill" style="color: #9FA5AA"></i>
 									</c:otherwise>
 								</c:choose>
 							</td>
@@ -130,29 +146,63 @@
 				</tbody>
 			</table>
 
-			<div class="row text-end">
-				<div class="col-8 border py-2">Tổng tiền hàng</div>
-				<div class="col-4 border py-2">
-					<fmt:formatNumber value="${order.totalPrice}" type="currency"
-						currencySymbol="đ" maxFractionDigits="0" />
+			<div class="ms-auto col-lg-4 col-sm-4 text-dark bg-opacity-10">
+				<div class="  mb-5 mb-lg-0">
+					<div class="card-body p-4">
+						<div class="row">
+
+							<div class="d-flex " style="font-weight: 500;">
+								<p class="mb-2 me-2 me-auto ">
+									<s:message code="cart.tempo" />
+								</p>
+								<p class="mb-2">
+									<fmt:formatNumber value="${subtotal }" type="currency"
+										currencySymbol="đ" maxFractionDigits="0" />
+								</p>
+
+							</div>
+							<div class="d-flex " style="font-weight: 500;">
+								<p class="mb-2 me-2 me-auto ">
+									<s:message code="cart.sale" />
+								</p>
+								<p class="mb-2">
+									<span>-</span>
+									<fmt:formatNumber value="0" type="currency" currencySymbol="đ"
+										maxFractionDigits="0" />
+								</p>
+							</div>
+							<div class="d-flex pb-2 " style="font-weight: 500;">
+								<p class="mb-2 me-2 me-auto ">
+									<s:message code="cart.ship" />
+								</p>
+								<p class="mb-2">
+									<fmt:formatNumber value="20000" type="currency"
+										currencySymbol="đ" maxFractionDigits="0" />
+								</p>
+							</div>
+
+
+							<hr class="p-1 ">
+							<div class="d-flex " style="font-weight: 500;">
+								<p class="mb-2 me-2 me-auto ">
+									<s:message code="cart.total" />
+								</p>
+								<p class="mb-2">
+									<fmt:formatNumber value="${price }" type="currency"
+										currencySymbol="đ" maxFractionDigits="0" />
+								</p>
+							</div>
+
+
+						</div>
+
+
+					</div>
 				</div>
+
 			</div>
 
-			<div class="row text-end">
-				<div class="col-8 border py-2">Phí vận chuyển</div>
-				<div class="col-4 border py-2">
-					<fmt:formatNumber value="0" type="currency" currencySymbol="đ"
-						maxFractionDigits="0" />
-				</div>
-			</div>
 
-			<div class="row text-end">
-				<div class="col-8 border py-2">Tổng số tiền</div>
-				<div class="col-4 border py-2 fw-bold">
-					<fmt:formatNumber value="${order.totalPrice}" type="currency"
-						currencySymbol="đ" maxFractionDigits="0" />
-				</div>
-			</div>
 		</div>
 
 	</div>

@@ -39,7 +39,7 @@
 			</c:choose>
 
 
-			<form:form action="account/add.htm" id="address-form"
+			<form:form action="account/createAddress.htm" id="address-form"
 				modelAttribute="userAddress" method="post">
 
 				<div class="row mb-3">

@@ -45,7 +45,7 @@
 					</label>
 					<div class="col-sm-8 pe-5">
 						<form:input path="oldPass" type="password" class="form-control"
-							required="true" />
+							required="true" value="" />
 						<label class="mb-1"> <form:errors path="oldPass"
 								cssClass="errors" />
 						</label>
@@ -58,7 +58,7 @@
 					</label>
 					<div class="col-sm-8 pe-5">
 						<form:input path="newPass" type="password" class="form-control"
-							required="true" />
+							required="true" value="" />
 						<label class="mb-1"> <form:errors path="newPass"
 								cssClass="errors" />
 						</label>
@@ -79,7 +79,7 @@
 				</div>
 
 				<div class="text-center">
-					<button type="submit" class="btn btn-info text-white">Cập
+					<button type="submit" class="btn btn-success">Cập
 						nhật</button>
 				</div>
 			</form:form>

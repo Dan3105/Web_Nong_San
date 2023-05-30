@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.ICartDAO;
 import tad.DAO.IOrderDAO;
@@ -30,18 +31,29 @@ public class UserOrderController {
 	@Autowired
 	private ICartDAO cartDAO;
 
-	@RequestMapping(value = "index")
-	public String detail(ModelMap model, HttpSession session) {
+	@RequestMapping(value = "orderDetail")
+	public String detail(ModelMap model, HttpSession session, @RequestParam("orderId") int orderId) {
 
 		Account account = (Account) session.getAttribute("account");
+		Orders order = orderDAO.findOrder(orderId);
+		List<Cart> list = cartDAO.getCart(account.getAccountId());
+		float subtotal = 0;
+		if (list != null) {
+			for (OrderDetail o : order.getOrderDetails()) {
+				subtotal += (o.getQuantity() * o.getProduct().getPrice());
 
-		model.addAttribute("user", new Account());
-
-		return "account/accountProfile";
+			}
+		}
+		model.addAttribute("order", order);
+		model.addAttribute("subtotal", subtotal);
+		model.addAttribute("price", subtotal + 20000);
+		return "order/orderDetail";
 
 	}
 
-	public void ahihi(HttpSession session) {
+	@RequestMapping("success")
+	public String success(HttpSession session,
+			@RequestParam(value = "totalPrice", defaultValue = "0") float totalPice) {
 		Account account = (Account) session.getAttribute("account");
 		List<Cart> listCarts = cartDAO.getCart(account.getAccountId());
 		Orders orders = new Orders();
@@ -64,9 +76,12 @@ public class UserOrderController {
 
 		else
 			orders.setDefaultAddress("a");
+		orders.setPrice(totalPice);
+
 		orderDAO.insertOrder(orders);
 
 		for (Cart c : listCarts) {
+
 			OrderDetail orderDetail = new OrderDetail();
 			orderDetail.setId(new OrderDetailId(orders.getOrderId(), c.getProduct().getProductId()));
 			orderDetail.setProduct(c.getProduct());
@@ -74,7 +89,10 @@ public class UserOrderController {
 			orderDetail.setQuantity(c.getQuantity());
 			orderDAO.insertOrderDetail(orderDetail);
 		}
+		int s = cartDAO.removeCart(account.getAccountId());
+		System.out.println(s);
 
+		return "order/success";
 	}
 
 }

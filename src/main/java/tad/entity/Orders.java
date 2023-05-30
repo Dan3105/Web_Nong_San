@@ -49,6 +49,17 @@ public class Orders {
 	@Column(name = "DefaultAddress")
 	private String defaultAddress;
 
+	@Column(name = "Price")
+	private float price;
+
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
 	public String getDefaultAddress() {
 		return defaultAddress;
 	}

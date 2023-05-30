@@ -186,40 +186,6 @@
 
 
 
-							<!-- Create review in account -->
-							<%-- <div>
-								<!-- rating -->
-								<h3 class="mb-5">Create Review</h3>
-								<div class="border-bottom py-4 mb-4 rating-box">
-									<h4 class="mb-3">Overall rating</h4>
-									<ul class="stars ">
-										<li><i class="bi bi-star-fill"></i></li>
-										<li><i class="bi bi-star-fill"></i></li>
-										<li><i class="bi bi-star-fill"></i></li>
-										<li><i class="bi bi-star-fill"></i></li>
-										<li><i class="bi bi-star-fill"></i></li>
-									</ul>
-								</div>
-
-
-
-							</div>
-							
-							<div class=" py-4 mb-4">
-								<!-- heading -->
-								<h5>Add a written review</h5>
-								<textarea class="form-control" rows="3" id="content"
-									placeholder="What did you like or dislike? What did you use this product for?"></textarea>
-
-							</div>
-							<!-- button -->
-							<div class="d-flex justify-content-end">
-								<a href="product/detail.htm?productId=${product.productId}" class="btn btn-primary">Submit
-									Review</a>
-								<button class="btn btn-primary" onclick="submit()">Submit
-									Review</button>
-							</div>
- --%>
 						</div>
 					</div>
 					<div class="row mt-5 ">

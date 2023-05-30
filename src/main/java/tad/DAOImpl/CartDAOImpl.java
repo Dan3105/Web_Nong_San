@@ -101,8 +101,12 @@ public class CartDAOImpl implements ICartDAO {
 
 	@Override
 	public int removeCart(int accountId) {
-		// TODO Auto-generated method stub
-		return 0;
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "DELETE FROM Cart " + "WHERE account.accountId = :accountId";
+		Query query = session.createQuery(hql);
+		query.setParameter("accountId", accountId);
+		int result = query.executeUpdate();
+		return result;
 	}
 
 	@Override

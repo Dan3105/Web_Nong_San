@@ -31,7 +31,7 @@ public class District {
 	@Column(name = "Name", nullable = false)
 	private String name;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "district")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "district")
 	private Set<Ward> wards = new HashSet<>(0);
 
 	public District() {

@@ -185,7 +185,7 @@ public class OrderDAOImpl implements IOrderDAO {
 
 	@Override
 	public Orders findOrder(int id) {
-		String hql = "FROM Orders WHERE OrderID = :id";
+		String hql = "FROM Orders WHERE orderId = :id";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);
 		query.setParameter("id", id);

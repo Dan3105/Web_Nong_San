@@ -30,7 +30,7 @@ public class Ward {
 	@Column(name = "Name", nullable = false)
 	private String name;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ward")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "ward")
 	private Set<Address> addresses = new HashSet<>(0);
 
 	public Ward() {

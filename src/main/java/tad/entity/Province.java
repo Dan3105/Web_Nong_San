@@ -25,7 +25,7 @@ public class Province {
 	@Column(name = "Name", nullable = false)
 	private String name;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "province")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "province")
 	private Set<District> districts = new HashSet<>(0);
 
 	public Province() {

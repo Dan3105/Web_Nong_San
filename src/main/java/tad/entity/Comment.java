@@ -1,11 +1,13 @@
 package tad.entity;
 // Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,9 +21,15 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "Comment", schema = "dbo", catalog = "DB_Tad")
-public class Comment {
+public class Comment  implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue
 	@Column(name = "CommentID", unique = true, nullable = false)
 	private int commentId;
 

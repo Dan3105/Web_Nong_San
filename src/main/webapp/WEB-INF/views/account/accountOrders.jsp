@@ -33,7 +33,7 @@
 							<c:forEach var="o" items="${orders }">
 								<tbody>
 									<tr>
-										<td class="align-middle"><a href="#"><i
+										<td class="align-middle"><a href="order/orderDetail.htm?orderId=${o.orderId }"><i
 												class="bi bi-info-circle"></i></a></td>
 										<td class="align-middle"><fmt:formatDate
 												pattern="dd-MM-yyyy" value="${o.orderTime}" /></td>
@@ -47,12 +47,19 @@
 
 										</td>
 
-										<td class="align-middle"></td>
+										<td class="align-middle"><fmt:formatNumber
+												value="${o.price}" type="currency" currencySymbol="đ"
+												maxFractionDigits="0" /></td>
 
-										<td class="align-middle "><a
-											href='<c:url value = "wishlist/delete/${c.product.productId}.htm"/>'
-											class="text-muted"> <i class="bi bi-trash"></i>
-										</a></td>
+										<td class="align-middle "><c:if test="${o.status == 0 }">
+												<span class="badge bg-warning"> Chờ Xác Nhận </span>
+											</c:if> <c:if test="${o.status == 1 }">
+												<span class="badge bg-primary"> Đang Giao </span>
+											</c:if> <c:if test="${o.status == 2 }">
+												<span class="badge bg-success"> Đã Giao</span>
+											</c:if> <c:if test="${o.status == 3 }">
+												<span class="badge bg-danger"> Đã Hủy</span>
+											</c:if></td>
 									</tr>
 
 								</tbody>

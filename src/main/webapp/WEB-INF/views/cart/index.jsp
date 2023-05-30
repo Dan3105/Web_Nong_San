@@ -61,7 +61,7 @@
 
 						<div class="col text-end">
 							<a class="btn btn-outline-success btn-sm"
-								href="user/shipping.htm" role="button">Thay đổi</a>
+								href="account/address.htm" role="button">Thay đổi</a>
 						</div>
 					</div>
 
@@ -245,11 +245,40 @@
 											code="cart.checkout" />
 									</a>
 								</c:if>
-								<c:if test="${canCheckOut == 1 }">
-									<a type="button" href="order/index.htm"
-										class="btn btn-outline-success "> <s:message
-											code="cart.checkout" />
-									</a>
+								<c:if
+									test="${canCheckOut == 1 or  account.defaultAddress != null }">
+
+									<!-- Button trigger modal -->
+									<button type="button" class="btn btn-outline-success"
+										data-bs-toggle="modal" data-bs-target="#exampleModal">
+										<s:message code="cart.checkout" />
+									</button>
+
+									<!-- Modal -->
+									<div class="modal fade" id="exampleModal" tabindex="-1"
+										aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h1 class="modal-title fs-5" id="exampleModalLabel">Confirm
+														Order</h1>
+													<button type="button" class="btn-close"
+														data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">Bạn có muốn xác nhận đặt đơn
+													hàng ?</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-bs-dismiss="modal">Close</button>
+													<a type="button"
+														href="order/success.htm?totalPrice=${subtotal + 20000 }"
+														class="btn btn-success "> <s:message
+															code="cart.checkout" />
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
 								</c:if>
 
 

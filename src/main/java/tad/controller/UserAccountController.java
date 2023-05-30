@@ -1,11 +1,15 @@
 package tad.controller;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -23,7 +27,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import tad.DAO.IAccountDAO;
 import tad.DAO.IAddressDAO;
+import tad.DAO.IFeedbackDAO;
 import tad.DAO.IOrderDAO;
+import tad.DAO.IProductDAO;
 import tad.bean.AddressBean;
 import tad.bean.AddressDatasBean;
 import tad.bean.AddressUserBean;
@@ -32,7 +38,9 @@ import tad.bean.ProfileBean;
 import tad.bean.UploadFile;
 import tad.entity.Account;
 import tad.entity.Address;
+import tad.entity.Feedback;
 import tad.entity.Orders;
+import tad.entity.Product;
 import tad.entity.Province;
 import tad.entity.Ward;
 
@@ -44,7 +52,11 @@ public class UserAccountController {
 	@Autowired
 	private IOrderDAO ordersDAO;
 	@Autowired
+	private IProductDAO productDAO;
+	@Autowired
 	private IAddressDAO addressDAO;
+	@Autowired
+	private IFeedbackDAO feedbackDAO;
 	@Autowired
 	@Qualifier("accountDir")
 	private UploadFile accountDir;
@@ -172,6 +184,7 @@ public class UserAccountController {
 			BindingResult errors, @RequestParam(value = "addressID") int addressID, HttpSession session,
 			ModelMap modelMap) {
 		Account account = (Account) session.getAttribute("account");
+
 		if (account == null) {
 			return "redirect:/account/address.htm";
 		}
@@ -208,9 +221,9 @@ public class UserAccountController {
 	@RequestMapping(value = "createAddress")
 	public String createAddress(ModelMap modelMap, HttpSession session) {
 		Account account = (Account) session.getAttribute("account");
-
+		account = addressDAO.fetchAddressAccount(account);
 		if (account == null) {
-			return "redirect:/account/address";
+			return "redirect:/account/address.htm";
 		}
 		ArrayList<Province> province = addressDAO.getProvinceList();
 		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
@@ -223,7 +236,7 @@ public class UserAccountController {
 	}
 
 	// Bam nut submit tao dia chi moi
-	@RequestMapping(value = "add", method = RequestMethod.POST)
+	@RequestMapping(value = "createAddress", method = RequestMethod.POST)
 	public String addAddress(ModelMap modelMap, HttpSession session,
 			@Validated @ModelAttribute("userAddress") AddressUserBean userAddress, BindingResult errors) {
 		Account account = (Account) session.getAttribute("account");
@@ -232,12 +245,12 @@ public class UserAccountController {
 		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
 
 		if ((account == null) || errors.hasErrors()) {
-			return "redirect:/account/address";
+			return "redirect:/account/address.htm";
 		}
 
 		Ward ward = addressDAO.getWard(userAddress.getWardId());
 		if (ward == null) {
-			return "redirect:/account/address";
+			return "redirect:/account/address.htm";
 		}
 		Address address = new Address(ward, account);
 		address.setName(userAddress.getAddressLine());
@@ -308,31 +321,25 @@ public class UserAccountController {
 		Account account = (Account) session.getAttribute("account");
 
 		if (!BCrypt.checkpw(password.getOldPass(), account.getPassword())) {
-			System.out.println("Ko đúng");
 			errors.rejectValue("oldPass", "password", "Mật khẩu hiện tại không đúng!");
 		}
 		if (BCrypt.checkpw(password.getNewPass(), account.getPassword())) {
-			System.out.println("Ko trùng");
 			errors.rejectValue("newPass", "password", "Mật khẩu mới trùng với mật khẩu cũ!");
 		}
 		if (!password.getConfirmPass().equalsIgnoreCase(password.getNewPass())) {
-			System.out.println("Ko xác nhận");
 			errors.rejectValue("confirmPass", "password", "Mật khẩu xác nhận không đúng!");
 		}
 
 		if (errors.hasErrors()) {
-			System.out.println("Error");
 			model.addAttribute("message", 0);
 			return "account/changePassword";
 		} else {
 			account.setPassword(BCrypt.hashpw(password.getNewPass(), BCrypt.gensalt(12)));
 			boolean s = accountDAO.updateAccount(account);
 			if (s) {
-				System.out.println("Đúng");
 				session.setAttribute("account", account);
 				model.addAttribute("message", 1);
 			} else {
-				System.out.println("Sai	");
 				model.addAttribute("message", 0);
 			}
 
@@ -348,6 +355,54 @@ public class UserAccountController {
 
 		model.addAttribute("orders", orders);
 		return "account/accountOrders";
+	}
+
+	@RequestMapping(value = "feedback")
+	public String feedback(ModelMap model, HttpSession session, @RequestParam("productId") int productId) {
+		Account account = (Account) session.getAttribute("account");
+		if (account == null)
+			return "redirect:/account/address.htm";
+		Product product = productDAO.getProduct(productId);
+		model.addAttribute("p", product);
+		Feedback feedback1 = feedbackDAO.getFeedback(account.getAccountId(), productId);
+		//Neu da ton tai hien thi len thoi ko cho sua
+		if(feedback1 != null) {
+			model.addAttribute("message",1);
+			model.addAttribute("feedback", feedback1);
+		} else {
+			//Neu chua cho add
+			model.addAttribute("message",2);
+			model.addAttribute("feedback", new Feedback());
+		}
+			
+
+		return "account/accountFeedback";
+	}
+
+	@RequestMapping(value = "feedback", method = RequestMethod.POST)
+	public String feedbackSubmit(ModelMap model, HttpSession session, HttpServletRequest request,
+			@RequestParam("productId") int productId, @ModelAttribute("feedback") Feedback feedback) {
+		Account account = (Account) session.getAttribute("account");
+		if (account == null)
+			return "redirect:/account/address.htm";
+
+		Feedback feedback1 = feedbackDAO.getFeedback(account.getAccountId(), productId);
+		Product product = productDAO.getProduct(productId);
+
+		if (feedback1 == null) {
+			feedback1 = feedback;
+			feedback1.setProduct(product);
+			feedback1.setStatus(0);
+			feedback1.setAccount(account);
+			Date in = new Date();
+			LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
+			Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+			feedback1.setPostingDate(out);
+			boolean added = feedbackDAO.insertFeedback(feedback1);
+			System.out.println(added ? "OK update" : "Fail update");
+		}
+
+		return "redirect:" + request.getHeader("Referer");
 	}
 
 }
