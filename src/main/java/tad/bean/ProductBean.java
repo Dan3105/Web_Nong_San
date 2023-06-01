@@ -64,7 +64,15 @@ public class ProductBean {
 		String formattedDate = formatter.format(crrDate);
 		postingDate = formattedDate;
 		unit = product.getUnit();
-		discount = product.getCoupon() != null ? product.getCoupon().getDiscount() : 0;
+		discount = 0;
+		if(product.getCoupon() != null)
+		{
+			CouponBean cp = new CouponBean(product.getCoupon());
+			if(cp.getValid())
+			{
+				discount = product.getCoupon() != null ? product.getCoupon().getDiscount() : 0;
+			}
+		}
 	}
 
 	public int getProductId() {

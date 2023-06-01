@@ -1,6 +1,7 @@
 package tad.bean;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,19 +36,19 @@ public class OrderDetailBean {
 		}
 	}
 
-	public String getDeliveryDate() {
+	public Date getDeliveryDate() {
 		return deliveryDate;
 	}
 
-	public void setDeliveryDate(String deliveryDate) {
+	public void setDeliveryDate(Date deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}
 
-	public String getReceivedDate() {
+	public Date getReceivedDate() {
 		return receivedDate;
 	}
 
-	public void setReceivedDate(String receivedDate) {
+	public void setReceivedDate(Date receivedDate) {
 		this.receivedDate = receivedDate;
 	}
 
@@ -85,8 +86,8 @@ public class OrderDetailBean {
 		this.idOrder = idOrder;
 	}
 
-	private String deliveryDate;
-	private String receivedDate;
+	private Date deliveryDate;
+	private Date receivedDate;
 	private String defaultAddress;
 	private int status;
 	private String accName;
@@ -111,9 +112,9 @@ public class OrderDetailBean {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-		this.deliveryDate = formatter.format(order.getOrderTime());
+		this.deliveryDate = order.getOrderTime();
 		if (order.getDeliveryTime() != null)
-			this.receivedDate = formatter.format(order.getDeliveryTime());
+			this.receivedDate = order.getDeliveryTime();
 		this.defaultAddress = order.getDefaultAddress();
 
 		this.status = order.getStatus();

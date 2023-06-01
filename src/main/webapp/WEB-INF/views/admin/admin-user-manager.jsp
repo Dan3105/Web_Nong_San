@@ -8,12 +8,13 @@ td {
 <body>
 	<%@include file="/WEB-INF/views/include/admin-header-nav.jsp"%>
 	<!-- Main Content -->
-	<div class="d-block w-100" style = "height : 75vh">
+	<div class="d-block w-100" style="height: 75vh">
 		<div class="bg-light h-100">
 			<div class="row">
 				<div class="col-6 h4 ">
-					<a href="create-employee.htm"><button class="btn btn-outline-success btn-hover-nav">Create Employee
-						</button></a>
+					<a href="create-employee.htm"><button
+							class="btn btn-outline-success btn-hover-nav">Create
+							Employee</button></a>
 				</div>
 				<div
 					class="col-6 content-user-filter d-flex justify-content-end align-items-center">
@@ -39,7 +40,8 @@ td {
 				</div>
 			</div>
 			<div class="row mt-4 h-100">
-				<div class="col h-100 overflow-y-scroll position-relative">
+				<div class="col h-100 overflow-y-scroll position-relative"
+					style="height: 100vh">
 					<table class="table table-hover table-striped table-categories">
 						<thead class="position-sticky top-0 bg-white">
 							<tr>
@@ -119,15 +121,42 @@ td {
 				</div>
 			</div>
 			<div class="d-flex align-items-center justify-content-end">
-			<div class="row">
-				<div class="col-4 d-flex align-items-center justify-content-between">
-					<a href="${source }?crrPage=${crrPage - 1}" class=" m-2"><button class="btn btn-outline-info"><i class="ti-angle-double-left"></i></button></a>
-					<a href="${source }?crrPage=${crrPage + 1}" class=" m-2"><button class="btn btn-outline-info"><i class="ti-angle-double-right"></i></button></a>
-				</div>	
+				<div class="row">
+					<div
+						class="col-4 d-flex align-items-center justify-content-between">
+						<c:choose>
+							<c:when test="${crrPage-1 < 1}">
+								<a href="#" class="disabled cursor-not-allowed m-2"><button disabled
+										class="btn btn-outline-info">
+										<i class="ti-angle-double-left"></i>
+									</button></a>
+							</c:when>
+							<c:otherwise>
+								<a href="${source }?crrPage=${crrPage - 1}" class=" m-2"><button
+										class="btn btn-outline-info">
+										<i class="ti-angle-double-left"></i>
+									</button></a>
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
+							<c:when test="${crrPage + 1 <= totalPage  }">
+								<a href="${source }?crrPage=${crrPage + 1}" class=" m-2"><button
+										class="btn btn-outline-info">
+										<i class="ti-angle-double-right"></i>
+									</button></a>
+							</c:when>
+							<c:otherwise>
+								<a href="#" class="disabled  cursor-not-allowed m-2"><button
+										disabled class="btn btn-outline-info">
+										<i class="ti-angle-double-right"></i>
+									</button></a>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</div>
 			</div>
 		</div>
-		</div>
-		
+
 	</div>
 </body>
 </html>

@@ -12,7 +12,7 @@
 	</div>
 
 
-	<div class="container">
+	<div class="container" style="height: 100vh">
 		<c:forEach varStatus="status" var="item" items="${orders}">
 			<!--  -->
 			<input type="hidden" value="${item.idOrder }" />
@@ -74,12 +74,23 @@
 														<!-- Total cash -->
 														<div
 															class="col-md-1 text-center d-flex justify-content-center align-items-center">
-															<p class="text-muted mb-0 small">${detail.productBean.price * detail.quantity}</p>
+
+															<p class="text-muted mb-0 small">
+																<fmt:formatNumber
+																	value="${detail.productBean.price * detail.quantity}"
+																	type="currency" currencySymbol="d"
+																	maxFractionDigits="0" />
+															</p>
 														</div>
 														<!-- Total cash - discount-->
 														<div
 															class="col-md-1 text-center d-flex justify-content-center align-items-center">
-															<p class="text-muted mb-0 small">${detail.productBean.totalPrice * detail.quantity}</p>
+															<p class="text-muted mb-0 small">
+																<fmt:formatNumber
+																	value="${detail.productBean.totalPrice * detail.quantity}"
+																	type="currency" currencySymbol="d"
+																	maxFractionDigits="0" />
+															</p>
 														</div>
 													</div>
 
@@ -138,7 +149,8 @@
 								</div>
 								<!-- Discount -->
 								<div class="d-flex justify-content-between pt-2 pb-2 ms-3 me-3">
-									<p class="text-muted mb-0">Date Order: ${item.deliveryDate}</p>
+									<p class="text-muted mb-0">Date Order: <fmt:formatDate
+													value="${item.deliveryDate}" pattern="dd-MM-yyyy" /></p>
 
 									<p class="text-muted mb-0">
 										<span class="fw-bold me-4">Address Delivery</span>
@@ -158,19 +170,20 @@
 														${map.key == item.status ? 'selected' :'' }>${map.value }</option>
 												</c:forEach>
 											</select>
-											
+
 										</div>
 
 										<p class="text-muted mb-0">
 											<span class="fw-bold me-4">Date Receive</span>
-											${item.receivedDate }
+											<fmt:formatDate
+													value="${item.receivedDate }" pattern="dd-MM-yyyy" />
 										</p>
 									</div>
 									<c:if test="${item.status eq 0 or item.status eq 1 }">
-									<div class="d-flex align-itmes-center p-2 justify-content-end">
-										<button type="submit" class="btn btn-outline-success">Update</button>
-										
-									</div>
+										<div class="d-flex align-itmes-center p-2 justify-content-end">
+											<button type="submit" class="btn btn-outline-success">Update</button>
+
+										</div>
 									</c:if>
 								</form>
 							</div>
@@ -183,5 +196,34 @@
 			</section>
 		</c:forEach>
 	</div>
+	<c:choose>
+		<c:when test="${crrPage-1 < 1}">
+			<a class="disabled cursor-not-allowed" href="#" class=" m-2"><button
+					disabled class="btn btn-outline-info cursor-not-allowed">
+					<i class="ti-angle-double-left"></i>
+				</button></a>
+		</c:when>
+		<c:otherwise>
+			<a href="${source }?crrPage=${crrPage - 1}" class=" m-2"><button
+					class="btn btn-outline-info">
+					<i class="ti-angle-double-left"></i>
+				</button></a>
+		</c:otherwise>
+	</c:choose>
+
+	<c:choose>
+		<c:when test="${crrPage + 1 <= totalPage  }">
+			<a href="${source }?crrPage=${crrPage + 1}" class=" m-2"><button
+					class="btn btn-outline-info">
+					<i class="ti-angle-double-right"></i>
+				</button></a>
+		</c:when>
+		<c:otherwise>
+			<a class="disabled cursor-not-allowed" href="#" class=" m-2"><button
+					disabled class="btn btn-outline-info cursor-not-allowed">
+					<i class="ti-angle-double-right"></i>
+				</button></a>
+		</c:otherwise>
+	</c:choose>
 </body>
 </html>

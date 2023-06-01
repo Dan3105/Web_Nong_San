@@ -64,12 +64,8 @@ body {
 						</div>
 					</div>
 					<div class="tengah py-3 d-flex w-100 justify-content-start">
-						<input type="hidden" id="discountPosting${item.couponId }"
-							value="${item.postingDate }" /> <input type="hidden"
-							id="discountStatus${item.couponId }" value="${item.status }" />
-
 						<input type="hidden" id="itemExpiry${item.couponId }"
-							value="${item.expiryDate }" /> 
+							value="${item.expiryDate }" />
 						<div>
 							<c:if test="${item.valid eq true }">
 								<!-- Valid condition -->
@@ -101,7 +97,8 @@ body {
 									<button type="button" onClick="UpdateForm(${item.couponId})"
 										class="btn btn-sm me-1 btn-outline-success btn-block">
 										Update</button>
-									<form:form action="vouchers/delete${item.couponId }.htm" method="post">
+									<form:form action="vouchers/delete${item.couponId }.htm"
+										method="post">
 										<button type="submit"
 											class="btn btn-sm ms-1 btn-outline-danger btn-block">
 											Delete</button>
@@ -113,15 +110,40 @@ body {
 				</div>
 			</div>
 		</c:forEach>
-		
+
 	</div>
 	<div class="row">
-				<div class="col-8"></div>
-				<div class="col-4 d-flex align-items-center justify-content-between">
-					<a href="?crrPage=${crrPage - 1}" class=" m-2"><button class="btn btn-primary fs-bold"><i class="ti-angle-double-left"></i></button></a>
-					<a href="?crrPage=${crrPage + 1}" class=" m-2"><button class="btn btn-primary fs-bold"><i class="ti-angle-double-right"></i></button></a>
-				</div>	
-		</div>
+		<div class="col-8"></div>
+		<c:choose>
+			<c:when test="${crrPage-1 < 1}">
+				<a class="disabled cursor-not-allowed" href="#" class=" m-2"><button disabled
+						class="btn btn-outline-info">
+						<i class="ti-angle-double-left"></i>
+					</button></a>
+			</c:when>
+			<c:otherwise>
+				<a href="${source }?crrPage=${crrPage - 1}" class=" m-2"><button
+						class="btn btn-outline-info">
+						<i class="ti-angle-double-left"></i>
+					</button></a>
+			</c:otherwise>
+		</c:choose>
+
+		<c:choose>
+			<c:when test="${crrPage + 1 <= totalPage  }">
+				<a href="${source }?crrPage=${crrPage + 1}" class=" m-2"><button
+						class="btn btn-outline-info">
+						<i class="ti-angle-double-right"></i>
+					</button></a>
+			</c:when>
+			<c:otherwise>
+				<a class="disabled cursor-not-allowed" href="#" class=" m-2"><button
+						disabled class="btn btn-outline-info">
+						<i class="ti-angle-double-right"></i>
+					</button></a>
+			</c:otherwise>
+		</c:choose>
+	</div>
 	<div class="position-fixed top-0 start-0"
 		style="width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.4);"
 		id="voucher-form-panel">
@@ -153,15 +175,6 @@ body {
 								oninput="this.nextElementSibling.value = (this.value * 100).toFixed(0)" />
 							<output class="ms-1" id="displayPercent" for="percentDiscount">0</output>
 							%
-						</div>
-					</div>
-					<div class="col-md-4 mt-2 form-check form-switch">
-						<label class="form-check-label ms-1" for="statusDiscount">Open
-							Discount</label>
-						<div
-							class="mt-2 d-flex align-items-center justify-content-between">
-							<form:checkbox class="form-check-input ms-1" role="switch"
-								id="statusDiscount" path="status" />
 						</div>
 					</div>
 					<div class="col-md-6 mt-2">

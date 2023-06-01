@@ -62,7 +62,7 @@
 				<div class="col-md-4 border-right">
 					<div
 						class="d-flex flex-column align-items-center text-center p-3 py-5">
-						<img class="rounded-circle mt-5" width="150px"
+						<img id="ouput" class="rounded-circle mt-5" width="150px"
 							src="<c:url value="/assets/img/account/${user.avatar}"/>"
 							onerror=" 	this.onerror = null;
 										this.src='https://i.pinimg.com/474x/66/da/e1/66dae117263cc353d351949bcc76e1e4.jpg';" /><span
@@ -72,7 +72,7 @@
 					<div
 						class="d-flex justify-content-center align-items-center mt-3 mb-3">
 						<label for="avatar">Avatar:</label>
-						<form:input type="file" class="form-control-file ps-2" id="avatar"
+						<form:input  type="file" class="form-control-file ps-2" id="avatar"
 							path="avatar" accept="image/*" />
 						<form:errors class="text-danger" path="avatar" />
 					</div>

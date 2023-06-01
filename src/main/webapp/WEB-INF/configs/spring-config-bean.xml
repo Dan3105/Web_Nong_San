@@ -5,14 +5,10 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-	   		http://www.springframework.org/schema/beans/spring-beans.xsd
-	   		http://www.springframework.org/schema/context
-	   		http://www.springframework.org/schema/context/spring-context.xsd
-	   		http://www.springframework.org/schema/tx 
-			http://www.springframework.org/schema/tx/spring-tx.xsd
-			http://www.springframework.org/schema/mvc 
-			http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+						http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<bean id="poly" class="tad.bean.Company">
 		<property name="logoNavImg" value="assets/img/logo.png" />
@@ -26,6 +22,28 @@
 		<property name="gmail"
 			value="n20dccn003@student.ptithcm.edu.vn" />
 		<property name="address" value="97 Man Thiện" />
+	</bean>
+
+
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="465" />
+		<property name="username" value="tvphuong1645@gmail.com" />
+		<property name="password" value="rovghoqkdgaeqeqy" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.socketFactory.class">
+					javax.net.ssl.SSLSocketFactory
+				</prop>
+				<prop key="mail.smtp.socketFactory.port">465</prop>
+				<prop key="mail.smtp.starttls.enable">false </prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+
+		</property>
 	</bean>
 
 
@@ -50,11 +68,11 @@
 	<bean id="AddressDAO" class="tad.DAOImpl.AddressDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
+
 	<bean id="OrderDAO" class="tad.DAOImpl.OrderDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
+
 	<bean id="WishlistDAO" class="tad.DAOImpl.WishlistDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>

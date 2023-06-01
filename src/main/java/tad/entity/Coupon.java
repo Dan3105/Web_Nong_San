@@ -48,9 +48,6 @@ public class Coupon {
 	@Column(name = "Detail")
 	private String detail;
 
-	@Column(name = "Status", nullable = false)
-	private boolean status;
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "AccountID", nullable = false, updatable = true)
 	private Account account;
@@ -79,25 +76,23 @@ public class Coupon {
 	}
 
 	public Coupon(int couponId, boolean typeCoupon, String name, double discount, Date postingDate, Date expiryDate,
-			int quantity, boolean status) {
+			int quantity) {
 		this.couponId = couponId;
 		this.name = name;
 		this.discount = discount;
 		this.postingDate = postingDate;
 		this.expiryDate = expiryDate;
 
-		this.status = status;
 	}
 
 	public Coupon(int couponId, boolean typeCoupon, String name, double discount, Date postingDate, Date expiryDate,
-			int quantity, String detail, boolean status, Set<Product> products) {
+			int quantity, String detail, Set<Product> products) {
 		this.couponId = couponId;
 		this.name = name;
 		this.discount = discount;
 		this.postingDate = postingDate;
 		this.expiryDate = expiryDate;
 		this.detail = detail;
-		this.status = status;
 		this.products = products;
 	}
 
@@ -147,14 +142,6 @@ public class Coupon {
 
 	public void setDetail(String detail) {
 		this.detail = detail;
-	}
-
-	public boolean getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
 	}
 
 	public Set<Product> getProducts() {

@@ -66,13 +66,19 @@ public class EmployeeControllerVouchers {
 			}
 
 			model.addAttribute("coupons", coupons);
+			int totalPage = coupons.size() / Constants.PRODUCT_PER_PAGE;
+			if (coupons.size() % Constants.PRODUCT_PER_PAGE != 0) {
+				totalPage += 1;
+			}
+			model.addAttribute("totalPage", totalPage);
+			CouponBean cbean = new CouponBean();
 
+			model.addAttribute("couponBean", cbean);
+			model.addAttribute("crrPage", crrPage);
+			return "employee/employee-voucher";
 		}
 
-		CouponBean cbean = new CouponBean();
-		model.addAttribute("couponBean", cbean);
-		model.addAttribute("crrPage", crrPage);
-		return "employee/employee-voucher";
+		return "redirect:/guest/logout.htm";
 	}
 
 	@RequestMapping(value = "update-voucher{id}.htm", method = RequestMethod.POST)
@@ -82,8 +88,6 @@ public class EmployeeControllerVouchers {
 		if (findCoupon != null) {
 			// 4
 			findCoupon.setName(coupon.getName());
-			// 5
-			findCoupon.setStatus(coupon.getStatus());
 			// 7
 			findCoupon.setDetail(coupon.getDetail());
 			findCoupon.setDiscount(coupon.getDiscount()); // 8
@@ -122,8 +126,6 @@ public class EmployeeControllerVouchers {
 		findCoupon.setAccount(acc);
 		// 4
 		findCoupon.setName(coupon.getName());
-		// 5
-		findCoupon.setStatus(coupon.getStatus());
 		// 7
 		findCoupon.setDetail(coupon.getDetail());
 		findCoupon.setDiscount(coupon.getDiscount());
