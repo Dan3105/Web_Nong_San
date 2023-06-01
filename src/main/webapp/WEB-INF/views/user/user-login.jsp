@@ -3,6 +3,8 @@
 <link rel="stylesheet"
 	href="<c:url value="/assets/css/usercss/user-login.css"/>">
 </head>
+<c:set var="path" value="${pageContext.request.contextPath}" />
+
 <body>
 	<section class="h-100 gradient-form" style="background-color: #eee;">
 		<div class="container py-5 h-100">
@@ -82,25 +84,32 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1 class="modal-title fs-5" id="exampleModalLabel">Password
-							Reset</h1>
+						Reset</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
-					<div class="card text-center w-100">
-						<div class="card-header h5 text-white bg-primary"></div>
-						<div class="card-body px-5">
-							<p class="card-text py-2">Enter your email address and we'll
-								send you an email with instructions to reset your password.</p>
-							<div class="form-outline">
-								<input type="email" id="typeEmail" class="form-control my-3" />
-								<label class="form-label" for="typeEmail">Email input</label>
+				<form action="guest/resend-password.htm" method="post">
+					<div class="modal-body">
+						<div class="card text-center w-100">
+							<div class="card-header h5 text-white bg-primary"></div>
+							<div class="card-body px-5">
+								<p class="card-text py-2">Enter your email address and we'll
+									send you an email with instructions to reset your password.</p>
+								<div class="form-outline">
+									<input name="email" type="email" id="typeEmail"
+										class="form-control my-3" /> <label class="form-label"
+										for="typeEmail">Email input</label>
+								</div>
+
+								<img src="${path }/captcha-image.htm" alt="Captcha Image"><br>
+								<br> <label for="captcha">Enter Captcha:</label> <input
+									type="text" id="captcha" name="captcha"><br> <br>
+								<button class="btn btn-primary" type="submit">Reset
+									password</button>
 							</div>
-							<a href="#" class="btn btn-primary w-100">Reset password</a>
-						
 						</div>
 					</div>
-				</div>
+				</form>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Close</button>

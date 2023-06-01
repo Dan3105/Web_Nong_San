@@ -17,10 +17,11 @@ public class GuestInterceptor extends HandlerInterceptorAdapter {
 		HttpSession session = request.getSession();
 		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (acc != null) {
+			response.sendRedirect(request.getContextPath() + "/index.htm");
 			return true;
 		}
-		response.sendRedirect(request.getContextPath() + "/index.htm");
-		return false;
+		
+		return true;
 
 	}
 }

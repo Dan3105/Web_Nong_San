@@ -1,8 +1,10 @@
 package tad.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Base64;
 
-import javax.mail.internet.MimeMessage;
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +14,6 @@ import javax.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -21,14 +21,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.IAccountDAO;
 import tad.DAO.IAccountDAO.EnumRoleID;
 import tad.bean.LoginBean;
+import tad.bean.MyMailer;
 import tad.bean.UploadFile;
 import tad.bean.UserBean;
 import tad.entity.Account;
 import tad.entity.Role;
+import tad.utility.CaptchaGenerator;
 import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
@@ -66,7 +69,7 @@ public class UserGuestController {
 	}
 
 	@RequestMapping()
-	public String index(ModelMap modelMap, HttpServletRequest request) {
+	public String index(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
 		LoginBean emptyLogin = new LoginBean();
 		Cookie ckemail = this.read(request, "email");
 		Cookie ckpw = this.read(request, "pass");
@@ -83,7 +86,7 @@ public class UserGuestController {
 
 	@RequestMapping(params = "guest-login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("user") LoginBean user, ModelMap modelMap, HttpSession session,
-			HttpServletResponse response) {
+			HttpServletResponse response, HttpServletRequest request) {
 		Account ValidateAdmin = accountDAO.findAccountByEmail(user.getUsername());
 
 		if (ValidateAdmin != null && ValidateAdmin.getStatus() != 0
@@ -91,7 +94,7 @@ public class UserGuestController {
 
 			if (ValidateAdmin.getStatus() == 0) {
 				modelMap.addAttribute("error", "Tài khoản không đúng hoặc sai mật khẩu");
-				modelMap.addAttribute(DefineAttribute.UserBeanAttribute,  user);
+				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 				return "user/user-login";
 			}
 
@@ -108,13 +111,12 @@ public class UserGuestController {
 				this.delete("pass");
 			}
 
-
 			session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin);
 			return "redirect:/";
 		}
 
 		modelMap.addAttribute("error", "Tài khoản không đúng hoặc sai mật khẩu");
-		modelMap.addAttribute(DefineAttribute.UserBeanAttribute,  user);
+		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 		return "user/user-login";
 	}
 
@@ -149,13 +151,12 @@ public class UserGuestController {
 			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
 					user.getPhoneNumber(), user.getAvatarDir(), user.getPassword());
 
-			if(accountDAO.findAccountByEmail(user.getEmail()) != null)
-			{
+			if (accountDAO.findAccountByEmail(user.getEmail()) != null) {
 				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 				modelMap.addAttribute("message", "Email is already exists");
 				return "user/user-register";
 			}
-			
+
 			if (accountDAO.addAccountToDB(account)) {
 
 				return "redirect:/";
@@ -173,13 +174,72 @@ public class UserGuestController {
 			session.removeAttribute(DefineAttribute.UserAttribute);
 		return "redirect:/";
 	}
-	
-	@Autowired
-	JavaMailSender mailer;
 
-	@RequestMapping("resend-password")
-	public String resendPassword()
-	{
-		return "";
+	@Autowired
+	MyMailer mailer;
+
+	@RequestMapping(value = "resend-password", method = RequestMethod.POST)
+	public String resendPassword(@RequestParam("email") String email, ModelMap model, HttpServletRequest request) {
+		// Captcha Handler
+		HttpSession session = request.getSession();
+		String sessionCaptcha = (String) session.getAttribute("captcha");
+
+		// Get the user-entered captcha value from the form
+		String userCaptcha = request.getParameter("captcha");
+		LoginBean emptyLogin = new LoginBean();
+		Account acc = (Account) accountDAO.findAccountByEmail(email);
+		// Compare the user-entered captcha with the one stored in session
+		if (sessionCaptcha.equalsIgnoreCase(userCaptcha) && acc != null) {
+
+			// Email Handler
+			String from = "TadGarden";
+			String to = email;
+			String subject = "Reset password";
+
+			String htmlContent = "Click the link below:" + 
+			"http://localhost:9090/Web_Nong_San/guest/userrequest.htm?email="+email+"&ecypt="+acc.getPassword()+ "";
+
+			String body = "Click at this link to change the password: ";
+			try {
+				mailer.send(from, to, subject, body + htmlContent);
+				model.addAttribute("message", "Gửi email thành công !");
+			} catch (Exception ex) {
+				System.out.println(ex);
+				model.addAttribute("message", "Gửi email thất bại !");
+			}
+
+			return "redirect:/guest.htm";
+
+		} else {
+			model.addAttribute("error", "Lỗi nhập captcha vui lòng làm lại");
+			return "redirect:/guest.htm";
+		}
+
+	}
+
+	@RequestMapping(value="userrequest", method=RequestMethod.GET)
+	private String gResetPassword(@RequestParam("email") String email, @RequestParam("ecypt") String pwwencyt,
+			ModelMap model) {
+		Account accUser = accountDAO.findAccountByEmail(email);
+		if (accUser != null && accUser.getPassword().compareTo(pwwencyt) == 0) {
+			model.addAttribute("email", accUser.getEmail());
+
+			return "user/reset-password";
+		}
+		return "redirect:/guest.htm";
+	}
+
+	@RequestMapping(value = "userrequest", method = RequestMethod.POST)
+	private String pResetPassword(@RequestParam("email") String email, @RequestParam("password") String pw,
+			@RequestParam("confirm-passsword") String cppw, ModelMap model, @RequestParam("oldPath") String oldPath,HttpServletRequest request) {
+		Account accUser = accountDAO.findAccountByEmail(email);
+
+		if (accUser != null && pw.compareTo(cppw) == 0) {
+			accUser.setPassword(BCrypt.hashpw(pw, BCrypt.gensalt(12)));
+			accountDAO.updateAccount(accUser);
+			return "redirect:/guest.htm";
+		}
+		//System.out.println(referringURL);		
+		return "redirect:" +oldPath;
 	}
 }
