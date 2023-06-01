@@ -79,7 +79,7 @@
 												<button type="button" class="btn btn-secondary"
 													data-bs-dismiss="modal">Đóng</button>
 												<a class="btn btn-danger"
-													href="user/orderDetail/cancelRequest.htm?id=${order.orderId }"
+													href="order/cancelRequest.htm?orderId=${order.orderId }"
 													role="button">Hủy yêu cầu</a>
 
 											</div>

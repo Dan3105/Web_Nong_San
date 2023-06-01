@@ -2,6 +2,7 @@ package tad.controller;
 
 import java.util.List;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,19 +71,26 @@ public class UserCartController {
 		cartDAO.deleteCart(cartDAO.getCart(account.getAccountId(), Integer.parseInt(productID)));
 		List<Cart> list = cartDAO.getCart(account.getAccountId());
 		model.addAttribute("carts", list);
+		int totalCart = (int) session.getAttribute("totalCart");
+		if(totalCart > 0)
+			session.setAttribute("totalCart", totalCart - 1);
 		return "redirect:/cart/index.htm";
 	}
 
 	@RequestMapping(value = "quantity/plus", params = { "productID", "quantity" })
-	public String qtyPlus(ModelMap model, @RequestParam("productID") int id, @RequestParam("quantity") int qty) {
+	public String qtyPlus(ModelMap model, HttpSession session, @RequestParam("productID") int id,
+			@RequestParam("quantity") int qty) {
 		cartDAO.updateQuantity(id, qty + 1);
+		
 
 		return "redirect:/cart/index.htm";
 	}
 
 	@RequestMapping(value = "quantity/minus", params = { "productID", "quantity" })
-	public String qtyMinus(ModelMap model, @RequestParam("productID") int id, @RequestParam("quantity") int qty) {
+	public String qtyMinus(ModelMap model, @RequestParam("productID") int id, HttpSession session,
+			@RequestParam("quantity") int qty) {
 		cartDAO.updateQuantity(id, qty - 1);
+
 		return "redirect:/cart/index.htm";
 	}
 

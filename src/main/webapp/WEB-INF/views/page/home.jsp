@@ -23,61 +23,7 @@
 
 		<div class="row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3">
 			<c:forEach var="p" items="${products }">
-				<div class="col">
-					<div class="card card-product ">
-						<div class="card-body">
-
-							<div class="text-center position-relative ">
-								<div class=" position-absolute top-0 start-0">
-									<c:if test="${p.coupon.discount != null}">
-										<span class="badge bg-danger"> <fmt:formatNumber
-												value="${p.coupon.discount }" type="percent" /></span>
-									</c:if>
-
-								</div>
-								<a href="product/detail.htm?productId=${p.productId }"> <img
-									src="<c:url value="/assets/img/products/${p.image} "/>"
-									alt="Product" class=" img-fluid"
-									style="width: 200px; height: 200px"></a>
-
-								<div class="card-product-action ${(p.quantity == 0)?  'invisible' : 'visible' }">
-									<a href="product/detail.htm?productId=${p.productId }"
-										class="btn-action"><i class="bi bi-eye"></i></a> <a
-										href='<c:url value = "product/addToWishlist.htm?productId=${p.productId }"/>'
-										class="btn-action"><i class="bi bi-heart"></i></a> <a
-										href='<c:url value = "product/addToCart.htm?productId=${p.productId }"/>'
-										class="btn-action"><i class="bi bi-cart-plus"></i></a>
-								</div>
-
-							</div>
-							<div class="text-small mb-1 text-muted">
-								<small>${p.category.name }</small>
-							</div>
-							<h2 class="fs-6 text-inherit text-success">${p.productName }
-							</h2>
-
-							<div
-								class="d-flex justify-content-between align-items-center mt-3">
-								<div>
-
-									<span class="text-dark "><fmt:formatNumber
-											value="${p.price - (p.price * p.coupon.discount)}"
-											type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
-
-									<c:if test="${p.coupon.discount != null}">
-										<span class="text-decoration-line-through text-muted">
-											<fmt:formatNumber value="${p.price }" type="currency"
-												currencySymbol="đ" maxFractionDigits="0" />
-										</span>
-									</c:if>
-								</div>
-
-
-							</div>
-						</div>
-					</div>
-				</div>
-
+				<%@include file="/WEB-INF/views/include/listProduct1.jsp"%>
 			</c:forEach>
 		</div>
 	</div>
@@ -95,64 +41,7 @@
 
 			<div class="row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3">
 				<c:forEach var="p" items="${c.products }" begin="0" end="9">
-					<div class="col">
-						<div class="card card-product">
-							<div class="card-body">
-
-								<div class="text-center position-relative ">
-									<div class=" position-absolute top-0 start-0">
-										<c:if test="${p.coupon.discount != null}">
-											<span class="badge bg-danger"> <fmt:formatNumber
-													value="${p.coupon.discount }" type="percent" /></span>
-										</c:if>
-
-									</div>
-									<a href="product/detail.htm?productId=${p.productId }"> <img
-										src="<c:url value="/assets/img/products/${p.image}"/>"
-										alt="
-										Grocery Ecommerce Template"
-										class=" img-fluid" style="width: 200px; height: 200px">
-									</a>
-
-									<div
-										class="card-product-action ${(p.quantity == 0)?  'invisible' : 'visible' }">
-										<a href="product/detail.htm?productId=${p.productId }"
-											class="btn-action"><i class="bi bi-eye"></i></a> <a
-											href='<c:url value = "product/addToWishlist.htm?productId=${p.productId }"/>'
-											class="btn-action"><i class="bi bi-heart"></i></a> <a
-											href='<c:url value = "product/addToCart.htm?productId=${p.productId }"/>'
-											class="btn-action"><i class="bi bi-cart-plus"></i></a>
-									</div>
-
-								</div>
-								<div class="text-small mb-1 text-muted">
-									<small>${p.category.name }</small>
-								</div>
-								<h2 class="fs-6 text-inherit text-success">${p.productName }
-								</h2>
-
-
-
-								<div
-									class="d-flex justify-content-between align-items-center mt-3">
-									<div>
-
-										<span class="text-dark "><fmt:formatNumber
-												value="${p.price - (p.price * p.coupon.discount)}"
-												type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
-
-										<c:if test="${p.coupon.discount != null}">
-											<span class="text-decoration-line-through text-muted">
-												<fmt:formatNumber value="${p.price }" type="currency"
-													currencySymbol="đ" maxFractionDigits="0" />
-											</span>
-										</c:if>
-									</div>
-
-								</div>
-							</div>
-						</div>
-					</div>
+					<%@include file="/WEB-INF/views/include/listProduct1.jsp"%>
 
 				</c:forEach>
 			</div>

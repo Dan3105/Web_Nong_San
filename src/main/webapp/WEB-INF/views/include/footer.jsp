@@ -51,7 +51,8 @@
 				<c:forEach begin="1" end="5" varStatus="status" var="c"
 					items="${category }">
 					<p>
-						<a href="#" class="text-white" style="text-decoration: none;">${c.name }</a>
+						<a href="product/index.htm?categoryId=${c.categoryId }"
+							class="text-white" style="text-decoration: none;">${c.name }</a>
 					</p>
 				</c:forEach>
 			</div>
@@ -63,7 +64,7 @@
 					<s:message code="global.col2.title" />
 				</h5>
 				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Paymentsr</a>
+					<a href="#" class="text-white" style="text-decoration: none;">Payment</a>
 				</p>
 				<p>
 					<a href="#" class="text-white" style="text-decoration: none;">Shipping</a>
@@ -87,19 +88,22 @@
 					<s:message code="global.col3.title" />
 				</h5>
 				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Home
-						Page</a>
-				</p>
-				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Product
+					<a href="index.htm" class="text-white" style="text-decoration: none;">
+						<s:message code="global.nav_item1" />
 					</a>
 				</p>
 				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">FAQ</a>
+					<a href="product/index.htm?categoryId=${firstCategory }"
+						class="text-white" style="text-decoration: none;"><s:message
+							code="global.nav_item2" /> </a>
 				</p>
 				<p>
-					<a href="#" class="text-white" style="text-decoration: none;">Contact
-						Us 	</a>
+					<a href="#" class="text-white" style="text-decoration: none;"><s:message
+							code="global.nav_item3" /></a>
+				</p>
+				<p>
+					<a href="#" class="text-white" style="text-decoration: none;"><s:message
+							code="global.nav_item4" /></a>
 				</p>
 
 			</div>

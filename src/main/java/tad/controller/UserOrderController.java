@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,9 +91,19 @@ public class UserOrderController {
 			orderDAO.insertOrderDetail(orderDetail);
 		}
 		int s = cartDAO.removeCart(account.getAccountId());
-		System.out.println(s);
+		session.setAttribute("totalCart", 0);
 
 		return "order/success";
+	}
+
+	@RequestMapping(value = "cancelRequest")
+	public String cancleRequest(HttpSession session, HttpServletRequest request,
+			@RequestParam(value = "orderId") int orderId) {
+		Orders orders = orderDAO.findOrder(orderId);
+		orders.setStatus(3);
+		orderDAO.update(orders);
+		return "redirect:" + request.getHeader("Referer");
+
 	}
 
 }

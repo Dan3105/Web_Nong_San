@@ -13,7 +13,7 @@ $('.owl-carousel').owlCarousel({
 			nav: true
 		},
 		1000: {
-			items: 7,
+			items: 8,
 			nav: true,
 
 		}

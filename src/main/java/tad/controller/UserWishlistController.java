@@ -53,41 +53,10 @@ public class UserWishlistController {
 		wishlistDAO.deleteWishlist(wishlistDAO.getWishlist(account.getAccountId(), Integer.parseInt(productID)));
 		List<Wishlist> list = wishlistDAO.getWishlist(account.getAccountId());
 		model.addAttribute("wishlists", list);
+		int totalWishlist = (int) session.getAttribute("totalWishlist");
+		if (totalWishlist > 0)
+			session.setAttribute("totalWishlist", totalWishlist - 1);
 		return "redirect:/wishlist/index.htm";
-	}
-
-	@RequestMapping(value = "addToCart/{productID}.htm")
-	public String addToCart(ModelMap model, HttpServletRequest request, HttpSession session,
-			@PathVariable("productID") String productID) {
-		Account account = (Account) session.getAttribute("account");
-
-		if (account == null) {
-			System.out.println("account is null");
-
-		} else {
-
-			Cart cart = cartDAO.getCart(account.getAccountId(), Integer.parseInt(productID));
-			account = accountDAO.getAccount(account.getAccountId());
-			if (cart != null) {
-				cart.setQuantity(cart.getQuantity() + 1);
-				cartDAO.updateCart(cart);
-			} else {
-				cart = new Cart();
-				cart.setId(new CartId(Integer.parseInt(productID), account.getAccountId()));
-				cart.setAccount(account);
-				cart.setProduct(productDAO.getProduct(Integer.parseInt(productID)));
-				cart.setQuantity(1);
-				cartDAO.insertCart(cart);
-
-			}
-
-			wishlistDAO.deleteWishlist(wishlistDAO.getWishlist(account.getAccountId(), Integer.parseInt(productID)));
-			List<Wishlist> list = wishlistDAO.getWishlist(account.getAccountId());
-			model.addAttribute("wishlists", list);
-		}
-
-		return "redirect:" + request.getHeader("Referer");
-
 	}
 
 }

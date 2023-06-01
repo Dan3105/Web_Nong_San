@@ -99,6 +99,7 @@ public class UserProductController {
 			if (cart != null) {
 				cart.setQuantity(cart.getQuantity() + 1);
 				cartDAO.updateCart(cart);
+
 			} else {
 				cart = new Cart();
 				cart.setId(new CartId(productID, account.getAccountId()));
@@ -106,7 +107,8 @@ public class UserProductController {
 				cart.setProduct(productDAO.getProduct(productID));
 				cart.setQuantity(1);
 				cartDAO.insertCart(cart);
-
+				int totalCart = (int) session.getAttribute("totalCart");
+				session.setAttribute("totalCart", totalCart + 1);
 			}
 
 		}
@@ -136,7 +138,8 @@ public class UserProductController {
 				wishlist.setAccount(account);
 				wishlist.setProduct(productDAO.getProduct(productID));
 				wishlistDAO.insertWishlist(wishlist);
-
+				int totalWishlist = (int) session.getAttribute("totalWishlist");
+				session.setAttribute("totalWishlist", totalWishlist + 1);
 			}
 
 		}

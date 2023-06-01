@@ -144,15 +144,18 @@ public class UserAccountController {
 		}
 		List<Address> adresses = addressDAO.getAddressesByAccountId(account.getAccountId());
 		// Chuyen default address len dau
-		int index = -1;
-		for (int i = 0; i < adresses.size(); i++) {
-			if (adresses.get(i).getAddressId() == account.getDefaultAddress().getAddressId()) {
-				index = i;
+		if (account.getDefaultAddress() != null) {
+			int index = -1;
+			for (int i = 0; i < adresses.size(); i++) {
+				if (adresses.get(i).getAddressId() == account.getDefaultAddress().getAddressId()) {
+					index = i;
+				}
+			}
+			if (index != -1) {
+				Collections.swap(adresses, index, 0);
 			}
 		}
-		if (index != -1) {
-			Collections.swap(adresses, index, 0);
-		}
+
 		modelMap.addAttribute("adresses", adresses);
 		return "account/addressProfile";
 	}
@@ -329,6 +332,9 @@ public class UserAccountController {
 		if (!password.getConfirmPass().equalsIgnoreCase(password.getNewPass())) {
 			errors.rejectValue("confirmPass", "password", "Mật khẩu xác nhận không đúng!");
 		}
+		if (password.getNewPass().length() < 6) {
+			errors.rejectValue("newPass", "password", "Mật khẩu quá ngắn cần > 6 ký tự");
+		}
 
 		if (errors.hasErrors()) {
 			model.addAttribute("message", 0);
@@ -365,16 +371,15 @@ public class UserAccountController {
 		Product product = productDAO.getProduct(productId);
 		model.addAttribute("p", product);
 		Feedback feedback1 = feedbackDAO.getFeedback(account.getAccountId(), productId);
-		//Neu da ton tai hien thi len thoi ko cho sua
-		if(feedback1 != null) {
-			model.addAttribute("message",1);
+		// Neu da ton tai hien thi len thoi ko cho sua
+		if (feedback1 != null) {
+			model.addAttribute("message", 1);
 			model.addAttribute("feedback", feedback1);
 		} else {
-			//Neu chua cho add
-			model.addAttribute("message",2);
+			// Neu chua cho add
+			model.addAttribute("message", 2);
 			model.addAttribute("feedback", new Feedback());
 		}
-			
 
 		return "account/accountFeedback";
 	}

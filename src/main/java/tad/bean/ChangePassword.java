@@ -1,5 +1,7 @@
 package tad.bean;
 
+import org.hibernate.validator.constraints.Length;
+
 public class ChangePassword {
 
 	private String oldPass;

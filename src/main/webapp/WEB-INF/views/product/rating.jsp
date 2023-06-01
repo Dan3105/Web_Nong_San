@@ -143,7 +143,7 @@
 										style="width: 30px; height: 30px">
 									<div class="ms-5">
 										<h6 class="mb-1">${f.account.getName()}</h6>
-										<p class="small">
+										< p class="small">
 											<span class="text-muted"><fmt:formatDate
 													value="${f.postingDate}" pattern="dd-MM-yyyy" /></span>
 										</p>

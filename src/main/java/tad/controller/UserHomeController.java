@@ -48,8 +48,6 @@ public class UserHomeController {
 		// Account user = (Account) session.getAttribute("account");
 		Account account = accountDAO.getAccount(36);
 
-		String hashed = BCrypt.hashpw(account.getPassword(), BCrypt.gensalt(12));
-
 		List<Category> category = categoryDAO.getListCategories();
 		List<Product> products = productDAO.listProductsWithCoupon();
 		List<Cart> list = cartDAO.getCart(account.getAccountId());
@@ -70,6 +68,18 @@ public class UserHomeController {
 		modelMap.addAttribute("products",
 				products.subList(0, Math.min(Constants.PRODUCT_PER_CATEGORY_IN_HOME, products.size())));
 		return "page/home";
+	}
+
+	@RequestMapping("aboutUs")
+	public String aboutUs() {
+		return "page/aboutUs";
+
+	}
+
+	@RequestMapping("contactUs")
+	public String contactUs() {
+		return "page/contactUs";
+
 	}
 
 	@RequestMapping("searchFood")

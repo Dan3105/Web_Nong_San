@@ -1,6 +1,9 @@
 package tad.entity;
 // Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -54,6 +57,23 @@ public class Coupon {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
 	private Set<Product> products = new HashSet<>(0);
+
+	@SuppressWarnings("unused")
+	private boolean showCoupon;
+
+	public boolean isShowCoupon() {
+		Date in = new Date();
+		LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
+		Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+		if (out.compareTo(getPostingDate()) >= 0 && out.compareTo(getExpiryDate()) <= 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public void setShowCoupon(boolean showCoupon) {
+		this.showCoupon = showCoupon;
+	}
 
 	public Coupon() {
 	}
