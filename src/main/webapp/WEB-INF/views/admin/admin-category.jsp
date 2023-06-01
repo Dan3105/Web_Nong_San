@@ -16,6 +16,17 @@ td {
 			<p class="h2 bold">Category</p>
 			<a href="category/add.htm"><button class="btn btn-success">Add
 					Category</button></a>
+			<form method="GET" action="${path }/admin/category/searchCategory.htm">
+				<div class="input-group">
+					<div class="input-group mb-3">
+						<input type="text" class="form-control" placeholder="Name Category"
+							aria-label="search"  name="search">
+						<button type="submit" class="btn btn-primary">
+							<i class="ti-search"></i>
+						</button>
+					</div>
+				</div>
+			</form>
 			<div class="category-menu-content">
 				<!-- Bang mat hang -->
 				<div class="h-100 overflow-y-scroll position-relative">
@@ -57,16 +68,17 @@ td {
 													class="btn btn-primary" type="button"
 													id="edit_button${status.index}">
 													<i class="ti-pencil-alt"></i>
-												</button></a> 
+												</button></a>
 										</div>
 									</td>
 									<td>
-										<div class="h-100 d-flex align-items-center justify-content-start">
+										<div
+											class="h-100 d-flex align-items-center justify-content-start">
 											<a id="del_button${status.index }"
 												href="category/delete${item.id}.htm"><button
 													class="btn btn-danger ms-2">
 													<i class="ti-trash"></i>
-											</button></a>
+												</button></a>
 										</div>
 									</td>
 								</tr>
@@ -75,11 +87,39 @@ td {
 					</table>
 
 				</div>
+				<c:choose>
+					<c:when test="${crrPage-1 < 1}">
+						<a class="disabled cursor-not-allowed" href="#" class=" m-2"><button
+								disabled class="btn btn-outline-info  cursor-not-allowed">
+								<i class="ti-angle-double-left"></i>
+							</button></a>
+					</c:when>
+					<c:otherwise>
+						<a href="${source }?crrPage=${crrPage - 1}" class=" m-2"><button
+								class="btn btn-outline-info">
+								<i class="ti-angle-double-left"></i>
+							</button></a>
+					</c:otherwise>
+				</c:choose>
 
+				<c:choose>
+					<c:when test="${crrPage + 1 <= totalPage  }">
+						<a href="${source }?crrPage=${crrPage + 1}" class=" m-2"><button
+								class="btn btn-outline-info">
+								<i class="ti-angle-double-right"></i>
+							</button></a>
+					</c:when>
+					<c:otherwise>
+						<a class="disabled cursor-not-allowed" href="#" class=" m-2"><button
+								disabled class="btn btn-outline-info  cursor-not-allowed">
+								<i class="ti-angle-double-right"></i>
+							</button></a>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>
 
 
 </body>
-	<%@include file="/WEB-INF/views/include/admin-footer.jsp"%>
+<%@include file="/WEB-INF/views/include/admin-footer.jsp"%>

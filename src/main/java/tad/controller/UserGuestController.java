@@ -2,14 +2,18 @@ package tad.controller;
 
 import java.util.Base64;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -83,7 +87,13 @@ public class UserGuestController {
 		Account ValidateAdmin = accountDAO.findAccountByEmail(user.getUsername());
 
 		if (ValidateAdmin != null && ValidateAdmin.getStatus() != 0
-				&& ValidateAdmin.getPassword().equals(user.getPassword())) {
+				&& BCrypt.checkpw(user.getPassword(), ValidateAdmin.getPassword())) {
+
+			if (ValidateAdmin.getStatus() == 0) {
+				modelMap.addAttribute("error", "Tài khoản không đúng hoặc sai mật khẩu");
+				modelMap.addAttribute(DefineAttribute.UserBeanAttribute,  user);
+				return "user/user-login";
+			}
 
 			// Ghi nho tai khoan bang cookie
 			if (user.getIsRemember()) {
@@ -98,20 +108,14 @@ public class UserGuestController {
 				this.delete("pass");
 			}
 
-			/*
-			 * if (ValidateAdmin.getRole().getRoleId().equals(EnumRoleID.ADMIN.toString()))
-			 * { session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin); return
-			 * "redirect:admin/"; } else
-			 * if(ValidateAdmin.getRole().getRoleId().equals(EnumRoleID.EMPLOYEE.toString())
-			 * ) { session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin);
-			 * return "redirect:employee/"; }
-			 */
+
+			session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin);
 			return "redirect:/";
 		}
-		if (ValidateAdmin != null) {
-			System.out.println(user.getPassword() + " vs " + ValidateAdmin.getPassword());
-		}
-		return "redirect:/guest.htm";
+
+		modelMap.addAttribute("error", "Tài khoản không đúng hoặc sai mật khẩu");
+		modelMap.addAttribute(DefineAttribute.UserBeanAttribute,  user);
+		return "user/user-login";
 	}
 
 	@RequestMapping(value = "guest-register", method = RequestMethod.GET)
@@ -145,6 +149,13 @@ public class UserGuestController {
 			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
 					user.getPhoneNumber(), user.getAvatarDir(), user.getPassword());
 
+			if(accountDAO.findAccountByEmail(user.getEmail()) != null)
+			{
+				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
+				modelMap.addAttribute("message", "Email is already exists");
+				return "user/user-register";
+			}
+			
 			if (accountDAO.addAccountToDB(account)) {
 
 				return "redirect:/";
@@ -161,5 +172,14 @@ public class UserGuestController {
 		if (crrAcc != null)
 			session.removeAttribute(DefineAttribute.UserAttribute);
 		return "redirect:/";
+	}
+	
+	@Autowired
+	JavaMailSender mailer;
+
+	@RequestMapping("resend-password")
+	public String resendPassword()
+	{
+		return "";
 	}
 }

@@ -12,14 +12,16 @@
 	display: none !important;
 }
 </style>
-<script src="<c:url value="/assets/js/employee/EmployeeProductFormHandler.js"/>"></script>
+<script
+	src="<c:url value="/assets/js/employee/EmployeeProductFormHandler.js"/>"></script>
 <body>
 	<%@include file="/WEB-INF/views/employee/employee-header-nav.jsp"%>
 	<fmt:setLocale value="vi_VN" />
 	<fmt:setBundle basename="java.text.resources" />
 
 	<section>
-		<button type="button" onclick="CreateProduct()" class="btn btn-success">Add Products</button>
+		<button type="button" onclick="CreateProduct()"
+			class="btn btn-success">Add Products</button>
 		<div class="container py-5 h-100 overflow-y-scroll position-relative">
 			<c:forEach varStatus="status" var="item" items="${products}">
 				<div class="row justify-content-center mb-3">
@@ -56,8 +58,9 @@
 										</div>
 										<div>
 											<!-- Ngay dang - Ngay het han-->
-											<%-- <span class="text-primary"> ${item.postingDate }</span>  --%><input
-												type="hidden" id="postingDate${item.productId }"
+											<%-- <span class="text-primary"> ${item.postingDate }</span>  --%>
+											
+											<input type="hidden" id="postingDate${item.productId }"
 												value="${item.postingDate }">
 										</div>
 										<!-- So luong -->
@@ -79,16 +82,16 @@
 										<!-- Gia giam -->
 										<div class="d-flex flex-row align-items-center mb-1">
 											<h4 class="mb-1 me-2 text-success">
-												<fmt:formatNumber type="currency" pattern="#,##0"
+												<fmt:formatNumber type="currency"
+												currencySymbol="d"
 													value="${item.price - item.price * item.discount} " />
 												<span class="fs-5 fw-normal">/ ${item.unit }</span>
 
 												<!--  -->
 												<input type="hidden" id="unit${item.productId }"
-													value="${item.unit }" />
-												<input type="hidden" id="price${item.productId }"
-													value="${item.price }" /> <input type="hidden"
-													id="discountId${item.productId }"
+													value="${item.unit }" /> <input type="hidden"
+													id="price${item.productId }" value="${item.price }" /> <input
+													type="hidden" id="discountId${item.productId }"
 													value="${item.discountId }" />
 											</h4>
 											<!-- Gia goc -->
@@ -104,7 +107,8 @@
 											<!-- Nut chinh sua mat hang -->
 											<button onclick="UpdateProduct(${item.productId})"
 												class="btn btn-primary btn-sm" type="button">Update</button>
-											<form:form method="post" action="products/delete${item.productId}.htm">
+											<form:form method="post"
+												action="products/delete${item.productId}.htm">
 												<button class="btn btn-outline-danger btn-sm mt-2"
 													type="submit">Delete</button>
 											</form:form>
@@ -120,10 +124,35 @@
 		</div>
 		<div class="d-flex align-items-center justify-content-end">
 			<div class="row">
-				<div class="col-4 d-flex align-items-center justify-content-between">
-					<a href="?crrPage=${crrPage - 1}" class=" m-2"><button class="btn btn-outline-info"><i class="ti-angle-double-left"></i></button></a>
-					<a href="?crrPage=${crrPage + 1}" class=" m-2"><button class="btn btn-outline-info"><i class="ti-angle-double-right"></i></button></a>
-				</div>	
+				<c:choose>
+					<c:when test="${crrPage-1 < 1}">
+						<a class="disabled cursor-not-allowed" href="#" class=" m-2"><button disabled
+								class="btn btn-outline-info">
+								<i class="ti-angle-double-left"></i>
+							</button></a>
+					</c:when>
+					<c:otherwise>
+						<a href="${source }?crrPage=${crrPage - 1}" class=" m-2"><button
+								class="btn btn-outline-info">
+								<i class="ti-angle-double-left"></i>
+							</button></a>
+					</c:otherwise>
+				</c:choose>
+
+				<c:choose>
+					<c:when test="${crrPage + 1 <= totalPage  }">
+						<a href="${source }?crrPage=${crrPage + 1}" class=" m-2"><button
+								class="btn btn-outline-info">
+								<i class="ti-angle-double-right"></i>
+							</button></a>
+					</c:when>
+					<c:otherwise>
+						<a class="disabled cursor-not-allowed" href="#" class=" m-2"><button
+								disabled class="btn btn-outline-info">
+								<i class="ti-angle-double-right"></i>
+							</button></a>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</section>
@@ -161,7 +190,7 @@
 					<div class="col-md-3 mt-2">
 						<label for="inputQuantity" class="form-label">Quantity</label>
 						<form:input path="quantity" type="number" class="form-control"
-							id="inputQuantity"/>
+							id="inputQuantity" />
 					</div>
 					<div class="col-md-3 mt-2">
 						<label for="inputUnit" class="form-label">Unit</label>
@@ -180,8 +209,9 @@
 					</div>
 					<div class="col-md-6 mt-2">
 						<label for="inputDate" class="form-label">Date Posting</label>
+						
 						<form:input type="date" class="form-control" id="inputDate"
-							path="postingDate"/>
+							path="postingDate" />
 					</div>
 					<div class="col-md-6 mt-2">
 						<label for="inputDSId" class="form-label">Discount Apply</label>

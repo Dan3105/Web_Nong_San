@@ -78,6 +78,14 @@ public class EmployeeControllerProducts {
 		}
 		tacc = couponDAO.FetchAccountCoupon(tacc);
 		ProductBean beanForm = new ProductBean();
+		
+		int totalPage = products.size() / Constants.PRODUCT_PER_PAGE;
+		if(products.size() % Constants.PRODUCT_PER_PAGE != 0)
+		{
+			totalPage += 1;
+		}
+		
+		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("crrPage", crrPage);
 		model.addAttribute("products", products);
 		model.addAttribute("categories", categoryDAO.getListCategories());

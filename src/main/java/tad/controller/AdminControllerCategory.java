@@ -1,6 +1,7 @@
 package tad.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.ICategoryDAO;
 import tad.bean.CategoryBean;
 import tad.bean.UploadFile;
 import tad.entity.Category;
+import tad.entity.Product;
+import tad.utility.Constants;
 import tad.utility.ConverterUploadHandler;
 
 @Controller
@@ -28,10 +32,51 @@ public class AdminControllerCategory {
 	private ICategoryDAO categoryDAO;
 
 	@RequestMapping()
-	public String gCategoryList(ModelMap model) throws InterruptedException {
-		ArrayList<CategoryBean> categories = CategoryBean.ConvertListCategory(categoryDAO.getListCategories());
-		model.addAttribute("list", categories);
+	public String gCategoryList(ModelMap model,
+			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
+		
+		List<Category> categories = categoryDAO.getListCategories();
+		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+		if (startIndex >= categories.size()) {
+			crrPage = crrPage - 1; // lui lai trang truoc do
+			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+		}
+		model.addAttribute("crrPage", crrPage);
 
+		int totalPage = categories.size() / Constants.PRODUCT_PER_PAGE;
+		if (categories.size() % Constants.PRODUCT_PER_PAGE != 0) {
+			totalPage += 1;
+		}
+		model.addAttribute("totalPage", totalPage);
+		
+		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(categories.subList(startIndex,
+				Math.min(startIndex + Constants.PRODUCT_PER_PAGE, categories.size())));
+		model.addAttribute("list", categoriesBean);
+		return "admin/admin-category";
+	}
+	
+	@RequestMapping("searchCategory")
+	public String gCategoryWithSearch(@RequestParam(required = false, value = "search") String search,
+			@RequestParam(required = false, value = "crrPage", defaultValue = "1") int crrPage,
+			ModelMap model)
+	{
+		List<Category> categories = categoryDAO.searchCategory(search);
+		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+		if (startIndex >= categories.size()) {
+			crrPage = crrPage - 1; // lui lai trang truoc do
+			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+		}
+		model.addAttribute("crrPage", crrPage);
+
+		int totalPage = categories.size() / Constants.PRODUCT_PER_PAGE;
+		if (categories.size() % Constants.PRODUCT_PER_PAGE != 0) {
+			totalPage += 1;
+		}
+		
+		model.addAttribute("totalPage", totalPage);
+		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(categories.subList(startIndex,
+				Math.min(startIndex + Constants.PRODUCT_PER_PAGE, categories.size())));
+		model.addAttribute("list", categoriesBean);
 		return "admin/admin-category";
 	}
 

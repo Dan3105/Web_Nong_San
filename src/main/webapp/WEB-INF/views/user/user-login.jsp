@@ -34,21 +34,23 @@
 											<form:input type="password" class="form-control"
 												path="password" id="password" />
 										</div>
-										 <label>
-        									<form:checkbox path="isRemember"/> Remember me
-    									</label>
+										<label> <form:checkbox path="isRemember" /> Remember
+											me
+										</label>
 										<div class="text-center pt-1 mb-5 pb-1">
 											<button name="guest-login"
 												class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
 												type="submit">Log in</button>
-											<a class="text-muted" href="#">Forgot password?</a>
+											<a data-bs-toggle="modal" data-bs-target="#exampleModal"
+												class="text-muted" href="#">Forgot password?</a>
+											<!-- Button trigger modal -->
+
 										</div>
 
 										<div
 											class="d-flex align-items-center justify-content-center pb-4">
 											<p class="mb-0 me-2">Don't have an account?</p>
-											<a href="guest/guest-register.htm"><button
-													type="button"
+											<a href="guest/guest-register.htm"><button type="button"
 													class="btn btn-outline-danger">Create new</button></a>
 										</div>
 									</form:form>
@@ -72,4 +74,41 @@
 		</div>
 	</section>
 
-	<%@include file="/WEB-INF/views/include/admin-footer.jsp"%>
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Password
+							Reset</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="card text-center w-100">
+						<div class="card-header h5 text-white bg-primary"></div>
+						<div class="card-body px-5">
+							<p class="card-text py-2">Enter your email address and we'll
+								send you an email with instructions to reset your password.</p>
+							<div class="form-outline">
+								<input type="email" id="typeEmail" class="form-control my-3" />
+								<label class="form-label" for="typeEmail">Email input</label>
+							</div>
+							<a href="#" class="btn btn-primary w-100">Reset password</a>
+						
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<footer></footer>
+</html>

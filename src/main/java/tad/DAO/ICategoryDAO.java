@@ -16,4 +16,5 @@ public interface ICategoryDAO {
 
 	public boolean updateCategory(Category changedCategory);
 
+	public List<Category> searchCategory(String alikeName);
 }

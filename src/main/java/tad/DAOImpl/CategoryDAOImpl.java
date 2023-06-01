@@ -103,4 +103,26 @@ public class CategoryDAOImpl implements ICategoryDAO {
 		return false;
 	}
 
+	@Override
+	public List<Category> searchCategory(String alikeName) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		alikeName = (alikeName == null) ? "%" : "%" + alikeName + "%";
+
+		String hql = "FROM Category WHERE Name LIKE :name";
+
+		Query query = session.createQuery(hql);
+		query.setParameter("name", alikeName);
+
+		@SuppressWarnings("unchecked")
+		List<Category> list = query.list();
+
+		session.getTransaction().commit();
+		session.close();
+		
+		
+		return list;
+	}
+
 }

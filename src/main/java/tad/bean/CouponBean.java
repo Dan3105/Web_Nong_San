@@ -12,7 +12,6 @@ public class CouponBean {
 	private double discount;
 	private String postingDate;
 	private String expiryDate;
-	private boolean status;
 	private String detail;
 
 	public CouponBean() {
@@ -21,7 +20,6 @@ public class CouponBean {
 		discount = 0;
 		postingDate = "";
 		expiryDate = "";
-		status = false;
 	}
 
 	public CouponBean(Coupon coupon) {
@@ -39,7 +37,6 @@ public class CouponBean {
 			String formattedExpiryDate = formatter.format(coupon.getExpiryDate());
 			this.expiryDate = formattedExpiryDate;
 		}
-		this.status = coupon.getStatus();
 		this.detail = coupon.getDetail();
 	}
 
@@ -85,8 +82,6 @@ public class CouponBean {
 
 	// private boolean valid;
 	public boolean getValid() {
-		if (!status)
-			return false;
 		try {
 			SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date exdate = inputFormat.parse(expiryDate);
@@ -123,11 +118,4 @@ public class CouponBean {
 		// return -1;
 	}
 
-	public boolean getStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
 }
