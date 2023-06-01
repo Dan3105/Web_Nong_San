@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.IAccountDAO;
-import tad.DAO.IAddressDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.ICategoryDAO;
 import tad.DAO.IProductDAO;
@@ -35,8 +34,6 @@ public class UserHomeController {
 	@Autowired
 	private IAccountDAO accountDAO;
 	@Autowired
-	private IAddressDAO addressDAO;
-	@Autowired
 	private IWishlistDAO wishlistDAO;
 	@Autowired
 	private ICartDAO cartDAO;
@@ -44,29 +41,32 @@ public class UserHomeController {
 	@RequestMapping("index")
 	public String index(ModelMap modelMap, HttpSession session) {
 
-		// Account user = (Account) session.getAttribute("account");
-		Account account = accountDAO.getAccount(36);
+		Account account = (Account) session.getAttribute("account");
+		int totalCart = 0;
+		int totalWishlist = 0;
 
 		List<Category> category = categoryDAO.getListCategories();
 		List<Product> products = productDAO.listProductsWithCoupon();
 		List<Product> newProducts = productDAO.listNewProducts();
 		List<Product> bestseller = productDAO.listBestSellerProducts();
-		List<Cart> list = cartDAO.getCart(account.getAccountId());
-		List<Wishlist> wishlist = wishlistDAO.getWishlist(account.getAccountId());
+		if (account != null) {
+			List<Cart> list = cartDAO.getCart(account.getAccountId());
+			List<Wishlist> wishlist = wishlistDAO.getWishlist(account.getAccountId());
 
-		int totalCart = list.size();
-		int totalWishlist = wishlist.size();
+			totalCart = list.size();
+			totalWishlist = wishlist.size();
+		}
 
 		session.setAttribute("company", company);
 		session.setAttribute("category", category);
 		session.setAttribute("totalCart", totalCart);
 		session.setAttribute("totalWishlist", totalWishlist);
 		session.setAttribute("firstCategory", category.get(0).getCategoryId());
-		session.setAttribute("account", account);
 
 		modelMap.addAttribute("productsWithCategory",
 				category.subList(0, Math.min(Constants.CATEGORY_IN_HOME, category.size())));
-		modelMap.addAttribute("products", products.subList(0, Math.min(Constants.PRODUCT_PER_PAGE_IN_HOME, products.size())));
+		modelMap.addAttribute("products",
+				products.subList(0, Math.min(Constants.PRODUCT_PER_PAGE_IN_HOME, products.size())));
 		modelMap.addAttribute("newProducts",
 				newProducts.subList(0, Math.min(Constants.PRODUCT_PER_PAGE_IN_HOME, newProducts.size())));
 		modelMap.addAttribute("bestseller",
@@ -104,8 +104,8 @@ public class UserHomeController {
 			}
 		}
 
-		modelMap.addAttribute("products",
-				products.subList(startIndex, Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_CATEGORY, products.size())));
+		modelMap.addAttribute("products", products.subList(startIndex,
+				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_CATEGORY, products.size())));
 		modelMap.addAttribute("currentPage", currentPage);
 		modelMap.addAttribute("totalPage", totalPage);
 		modelMap.addAttribute("search", search);
@@ -117,7 +117,6 @@ public class UserHomeController {
 	@RequestMapping("login")
 	public String login(HttpSession session) {
 		Account account = accountDAO.getAccount(1);
-		System.out.println(account.getLastName() + " " + account.getAccountId());
 		session.setAttribute("account", account);
 		return "page/home";
 	}

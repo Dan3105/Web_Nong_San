@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import tad.DAO.IAddressDAO;
 import tad.DAO.ICartDAO;
 import tad.entity.Account;
 import tad.entity.Cart;
@@ -24,15 +23,14 @@ public class UserCartController {
 	@Autowired
 	private ICartDAO cartDAO;
 
-	@Autowired
-	private IAddressDAO addressDAO;
-
 	@RequestMapping(value = "index")
 	public String cart(ModelMap modelMap, HttpSession session) {
 
 		float subtotal = 0;
 		Account account = (Account) session.getAttribute("account");
-
+		if (account == null) {
+			return "redirect:/admin/overview.htm";
+		}
 		List<Cart> list = cartDAO.getCart(account.getAccountId());
 
 		int canCheckOut = 1;
@@ -71,6 +69,9 @@ public class UserCartController {
 	@RequestMapping(value = "delete/{productID}.htm")
 	public String delete(ModelMap model, HttpSession session, @PathVariable("productID") String productID) {
 		Account account = (Account) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/admin/overview.htm";
+		}
 		cartDAO.deleteCart(cartDAO.getCart(account.getAccountId(), Integer.parseInt(productID)));
 		List<Cart> list = cartDAO.getCart(account.getAccountId());
 		model.addAttribute("carts", list);

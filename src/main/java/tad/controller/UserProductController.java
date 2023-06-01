@@ -91,8 +91,7 @@ public class UserProductController {
 		Account account = (Account) session.getAttribute("account");
 
 		if (account == null) {
-			System.out.println("User is null");
-
+			return "redirect:/admin/overview.htm";
 		} else {
 
 			Cart cart = cartDAO.getCart(account.getAccountId(), productID);
@@ -126,8 +125,7 @@ public class UserProductController {
 		Account account = (Account) session.getAttribute("account");
 
 		if (account == null) {
-			System.out.println("User is null");
-
+			return "redirect:/admin/overview.htm";
 		} else {
 
 			Wishlist wishlist = wishlistDAO.getWishlist(account.getAccountId(), productID);

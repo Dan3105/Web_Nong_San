@@ -8,7 +8,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="offset-lg-1 col-lg-10 col-12">
-					<div class="row align-items-center mb-14">
+					<div class="row align-items-center mb-14 bg-success-subtle p-5">
 						<div class="col-md-6">
 							<div
 								class="ms-xxl-14 me-xxl-15 mb-8 mb-md-0 text-center text-md-start">
@@ -27,7 +27,7 @@
 
 					</div>
 					<!-- row -->
-					<div class="row mb-12">
+					<div class="row mb-12 mt-5">
 						<div class="col-12">
 							<div class="mb-8">
 								<!-- heading -->
@@ -102,12 +102,12 @@
 		</div>
 	</section>
 	<!-- section -->
-	<section class="bg-success py-14 ">
+	<section class="bg-success py-14  mt-5">
 
 		<div class="container">
 			<div class="row">
 				<!-- col -->
-				<div class="offset-lg-1 col-lg-10 py-4">
+				<div class="offset-lg-1 col-lg-10 py-5">
 					<div class="row">
 						<!-- col -->
 						<div class="col-xl-4 col-md-6">
@@ -148,13 +148,13 @@
 		</div>
 	</section>
 	<!-- section -->
-	<section class="mt-14">
+	<section class="mt-5 ">
 		<!-- container -->
 		<div class="container">
-			<div class="row">
+			<div class="row ">
 				<!-- col -->
 				<div class="offset-md-1 col-md-10">
-					<div class="mb-14 py-3">
+					<div class="mb-14 py-3 ">
 						<!-- heading -->
 						<h2>Our Leadership</h2>
 					</div>
@@ -163,7 +163,7 @@
 		</div>
 	</section>
 	<!-- section -->
-	<section class="mb-14 ">
+	<section class="p-5 mb-5 bg-primary-subtle ">
 		<div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
 			<div class="col">
 				<div class="card h-100">

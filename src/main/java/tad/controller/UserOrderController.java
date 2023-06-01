@@ -44,6 +44,9 @@ public class UserOrderController {
 	public String success(HttpSession session,
 			@RequestParam(value = "totalPrice", defaultValue = "0") float totalPice) {
 		Account account = (Account) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/admin/overview.htm";
+		}
 		List<Cart> listCarts = cartDAO.getCart(account.getAccountId());
 		Orders orders = new Orders();
 

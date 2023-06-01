@@ -74,7 +74,7 @@ public class UserAccountController {
 		Account account = (Account) session.getAttribute("account");
 
 		if (account == null) {
-			return "redirect:/account/index.htm";
+			return "redirect:/admin/overview.htm";
 		}
 
 		ProfileBean profileBean = new ProfileBean();
@@ -91,13 +91,14 @@ public class UserAccountController {
 	@RequestMapping(value = "editProfile", method = RequestMethod.POST)
 	public String editProfile(ModelMap model, HttpSession session,
 			@Validated @ModelAttribute("profileBean") ProfileBean profileBean, BindingResult errors) {
-
+		Account account = (Account) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/admin/overview.htm";
+		}
 		if (errors.hasErrors()) {
 			model.addAttribute("message", 0);
 			return "account/accountProfile";
 		}
-
-		Account account = (Account) session.getAttribute("account");
 
 		account.setLastName(profileBean.getLastName());
 		account.setFirstName(profileBean.getFirstName());
@@ -140,7 +141,7 @@ public class UserAccountController {
 	public String address(ModelMap modelMap, HttpSession session) {
 		Account account = (Account) session.getAttribute("account");
 		if (account == null) {
-			return "redirect:/account/index.htm";
+			return "redirect:/admin/overview.htm";
 		}
 		List<Address> adresses = addressDAO.getAddressesByAccountId(account.getAccountId());
 		// Chuyen default address len dau
@@ -167,7 +168,7 @@ public class UserAccountController {
 		Account account = (Account) session.getAttribute("account");
 
 		if (account == null) {
-			return "redirect:/account/index.htm";
+			return "redirect:/admin/overview.htm";
 		}
 		ArrayList<Province> province = addressDAO.getProvinceList();
 		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
@@ -189,7 +190,7 @@ public class UserAccountController {
 		Account account = (Account) session.getAttribute("account");
 
 		if (account == null) {
-			return "redirect:/account/address.htm";
+			return "redirect:/admin/overview.htm";
 		}
 		if (errors.hasErrors()) {
 			modelMap.addAttribute("message", 0);
@@ -226,7 +227,7 @@ public class UserAccountController {
 		Account account = (Account) session.getAttribute("account");
 		account = addressDAO.fetchAddressAccount(account);
 		if (account == null) {
-			return "redirect:/account/address.htm";
+			return "redirect:/admin/overview.htm";
 		}
 		ArrayList<Province> province = addressDAO.getProvinceList();
 		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
@@ -243,11 +244,14 @@ public class UserAccountController {
 	public String addAddress(ModelMap modelMap, HttpSession session,
 			@Validated @ModelAttribute("userAddress") AddressUserBean userAddress, BindingResult errors) {
 		Account account = (Account) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/admin/overview.htm";
+		}
 
 		ArrayList<Province> province = addressDAO.getProvinceList();
 		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
 
-		if ((account == null) || errors.hasErrors()) {
+		if (errors.hasErrors()) {
 			return "redirect:/account/address.htm";
 		}
 
@@ -275,7 +279,7 @@ public class UserAccountController {
 			HttpSession session, ModelMap modelMap) {
 		Account account = (Account) session.getAttribute("account");
 		if (account == null) {
-			return "redirect:/account/address.htm";
+			return "redirect:/admin/overview.htm";
 		}
 		if (errors.hasErrors()) {
 			reAttributes.addFlashAttribute("message", 0);

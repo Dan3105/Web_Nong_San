@@ -34,19 +34,24 @@ public class UserWishlistController {
 
 	// Trả về ds giỏ hàng
 	@RequestMapping(value = "index")
-	public String cart(ModelMap model,HttpSession session) {
+	public String cart(ModelMap model, HttpSession session) {
 
 		Account account = (Account) session.getAttribute("account");
-
+		if (account == null) {
+			return "redirect:/admin/overview.htm";
+		}
 		List<Wishlist> list = wishlistDAO.getWishlist(account.getAccountId());
 		model.addAttribute("wishlists", list);
-	
+
 		return "wishlist/index";
 	}
 
 	@RequestMapping(value = "delete/{productID}.htm")
 	public String delete(ModelMap model, HttpSession session, @PathVariable("productID") String productID) {
 		Account account = (Account) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/admin/overview.htm";
+		}
 		wishlistDAO.deleteWishlist(wishlistDAO.getWishlist(account.getAccountId(), Integer.parseInt(productID)));
 		List<Wishlist> list = wishlistDAO.getWishlist(account.getAccountId());
 		model.addAttribute("wishlists", list);

@@ -5,7 +5,7 @@
 <%@include file="/WEB-INF/views/include/header.jsp"%>
 <section>
 	<div class="container">
-		<div class="row">
+		<div class="row bg-success-subtle p-5" >
 			<h2 class="text-left text-md-center mx-0 mx-md-auto w-100">About
 				Us</h2>
 			<div class="text-left text-md-center">Give us a call or better
