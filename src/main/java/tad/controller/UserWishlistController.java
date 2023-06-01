@@ -2,7 +2,6 @@ package tad.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import tad.DAO.IAccountDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.IProductDAO;
 import tad.DAO.IWishlistDAO;
 import tad.entity.Account;
-import tad.entity.Cart;
-import tad.entity.CartId;
 import tad.entity.Wishlist;
 
 @Controller
@@ -39,9 +37,10 @@ public class UserWishlistController {
 	public String cart(ModelMap model, HttpSession session) {
 
 		Account account = (Account) session.getAttribute("account");
-
+		if (account == null) {
+			return "redirect:/admin/overview.htm";
+		}
 		List<Wishlist> list = wishlistDAO.getWishlist(account.getAccountId());
-
 		model.addAttribute("wishlists", list);
 
 		return "wishlist/index";
@@ -50,44 +49,17 @@ public class UserWishlistController {
 	@RequestMapping(value = "delete/{productID}.htm")
 	public String delete(ModelMap model, HttpSession session, @PathVariable("productID") String productID) {
 		Account account = (Account) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/admin/overview.htm";
+		}
 		wishlistDAO.deleteWishlist(wishlistDAO.getWishlist(account.getAccountId(), Integer.parseInt(productID)));
 		List<Wishlist> list = wishlistDAO.getWishlist(account.getAccountId());
 		model.addAttribute("wishlists", list);
+		int totalWishlist = (int) session.getAttribute("totalWishlist");
+		if (totalWishlist > 0)
+			session.setAttribute("totalWishlist", totalWishlist - 1);
+
 		return "redirect:/wishlist/index.htm";
-	}
-
-	@RequestMapping(value = "addToCart/{productID}.htm")
-	public String addToCart(ModelMap model, HttpServletRequest request, HttpSession session,
-			@PathVariable("productID") String productID) {
-		Account account = (Account) session.getAttribute("account");
-
-		if (account == null) {
-			System.out.println("account is null");
-
-		} else {
-
-			Cart cart = cartDAO.getCart(account.getAccountId(), Integer.parseInt(productID));
-			account = accountDAO.getAccount(account.getAccountId());
-			if (cart != null) {
-				cart.setQuantity(cart.getQuantity() + 1);
-				cartDAO.updateCart(cart);
-			} else {
-				cart = new Cart();
-				cart.setId(new CartId(Integer.parseInt(productID), account.getAccountId()));
-				cart.setAccount(account);
-				cart.setProduct(productDAO.getProduct(Integer.parseInt(productID)));
-				cart.setQuantity(1);
-				cartDAO.insertCart(cart);
-
-			}
-
-			wishlistDAO.deleteWishlist(wishlistDAO.getWishlist(account.getAccountId(), Integer.parseInt(productID)));
-			List<Wishlist> list = wishlistDAO.getWishlist(account.getAccountId());
-			model.addAttribute("wishlists", list);
-		}
-
-		return "redirect:" + request.getHeader("Referer");
-
 	}
 
 }

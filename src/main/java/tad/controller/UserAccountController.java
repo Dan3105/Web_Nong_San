@@ -74,7 +74,7 @@ public class UserAccountController {
 		Account account = (Account) session.getAttribute("account");
 
 		if (account == null) {
-			return "redirect:/account/index.htm";
+			return "redirect:/admin/overview.htm";
 		}
 
 		ProfileBean profileBean = new ProfileBean();
@@ -91,13 +91,14 @@ public class UserAccountController {
 	@RequestMapping(value = "editProfile", method = RequestMethod.POST)
 	public String editProfile(ModelMap model, HttpSession session,
 			@Validated @ModelAttribute("profileBean") ProfileBean profileBean, BindingResult errors) {
-
+		Account account = (Account) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/admin/overview.htm";
+		}
 		if (errors.hasErrors()) {
 			model.addAttribute("message", 0);
 			return "account/accountProfile";
 		}
-
-		Account account = (Account) session.getAttribute("account");
 
 		account.setLastName(profileBean.getLastName());
 		account.setFirstName(profileBean.getFirstName());
@@ -140,19 +141,22 @@ public class UserAccountController {
 	public String address(ModelMap modelMap, HttpSession session) {
 		Account account = (Account) session.getAttribute("account");
 		if (account == null) {
-			return "redirect:/account/index.htm";
+			return "redirect:/admin/overview.htm";
 		}
 		List<Address> adresses = addressDAO.getAddressesByAccountId(account.getAccountId());
 		// Chuyen default address len dau
-		int index = -1;
-		for (int i = 0; i < adresses.size(); i++) {
-			if (adresses.get(i).getAddressId() == account.getDefaultAddress().getAddressId()) {
-				index = i;
+		if (account.getDefaultAddress() != null) {
+			int index = -1;
+			for (int i = 0; i < adresses.size(); i++) {
+				if (adresses.get(i).getAddressId() == account.getDefaultAddress().getAddressId()) {
+					index = i;
+				}
+			}
+			if (index != -1) {
+				Collections.swap(adresses, index, 0);
 			}
 		}
-		if (index != -1) {
-			Collections.swap(adresses, index, 0);
-		}
+
 		modelMap.addAttribute("adresses", adresses);
 		return "account/addressProfile";
 	}
@@ -164,7 +168,7 @@ public class UserAccountController {
 		Account account = (Account) session.getAttribute("account");
 
 		if (account == null) {
-			return "redirect:/account/index.htm";
+			return "redirect:/admin/overview.htm";
 		}
 		ArrayList<Province> province = addressDAO.getProvinceList();
 		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
@@ -186,7 +190,7 @@ public class UserAccountController {
 		Account account = (Account) session.getAttribute("account");
 
 		if (account == null) {
-			return "redirect:/account/address.htm";
+			return "redirect:/admin/overview.htm";
 		}
 		if (errors.hasErrors()) {
 			modelMap.addAttribute("message", 0);
@@ -223,7 +227,7 @@ public class UserAccountController {
 		Account account = (Account) session.getAttribute("account");
 		account = addressDAO.fetchAddressAccount(account);
 		if (account == null) {
-			return "redirect:/account/address.htm";
+			return "redirect:/admin/overview.htm";
 		}
 		ArrayList<Province> province = addressDAO.getProvinceList();
 		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
@@ -240,11 +244,14 @@ public class UserAccountController {
 	public String addAddress(ModelMap modelMap, HttpSession session,
 			@Validated @ModelAttribute("userAddress") AddressUserBean userAddress, BindingResult errors) {
 		Account account = (Account) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/admin/overview.htm";
+		}
 
 		ArrayList<Province> province = addressDAO.getProvinceList();
 		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
 
-		if ((account == null) || errors.hasErrors()) {
+		if (errors.hasErrors()) {
 			return "redirect:/account/address.htm";
 		}
 
@@ -272,7 +279,7 @@ public class UserAccountController {
 			HttpSession session, ModelMap modelMap) {
 		Account account = (Account) session.getAttribute("account");
 		if (account == null) {
-			return "redirect:/account/address.htm";
+			return "redirect:/admin/overview.htm";
 		}
 		if (errors.hasErrors()) {
 			reAttributes.addFlashAttribute("message", 0);
@@ -329,6 +336,9 @@ public class UserAccountController {
 		if (!password.getConfirmPass().equalsIgnoreCase(password.getNewPass())) {
 			errors.rejectValue("confirmPass", "password", "Mật khẩu xác nhận không đúng!");
 		}
+		if (password.getNewPass().length() < 6) {
+			errors.rejectValue("newPass", "password", "Mật khẩu quá ngắn cần > 6 ký tự");
+		}
 
 		if (errors.hasErrors()) {
 			model.addAttribute("message", 0);
@@ -365,16 +375,15 @@ public class UserAccountController {
 		Product product = productDAO.getProduct(productId);
 		model.addAttribute("p", product);
 		Feedback feedback1 = feedbackDAO.getFeedback(account.getAccountId(), productId);
-		//Neu da ton tai hien thi len thoi ko cho sua
-		if(feedback1 != null) {
-			model.addAttribute("message",1);
+		// Neu da ton tai hien thi len thoi ko cho sua
+		if (feedback1 != null) {
+			model.addAttribute("message", 1);
 			model.addAttribute("feedback", feedback1);
 		} else {
-			//Neu chua cho add
-			model.addAttribute("message",2);
+			// Neu chua cho add
+			model.addAttribute("message", 2);
 			model.addAttribute("feedback", new Feedback());
 		}
-			
 
 		return "account/accountFeedback";
 	}

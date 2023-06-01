@@ -1,7 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
 <!-- Slider -->
 <div class="container slider mb-5">
 	<div id="carouselExampleIndicators" class="carousel slide">
-		<ol class="carousel-indicators">
+		<ol class="carousel-indicators  list-unstyled">
 			<li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
 				class="active"></li>
 			<li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
@@ -11,8 +14,8 @@
 				<img class="d-block w-100 img-slider rounded"
 					src="${company.slider1Img }" alt="First slide">
 
-				<div class="carousel-caption d-none d-md-block ">
-					<div class="badge bg-warning text-wrap sale">
+				<div class="carousel-caption d-none d-md-block text-start ">
+					<div class="badge bg-warning text-wrap sale text-sm text-dark	">
 						<s:message code="global.slide1.discount" />
 					</div>
 					<h2 class="mt-5 fs-1 fw-bold text-dark  ">
@@ -30,11 +33,11 @@
 
 			</div>
 			<div class="carousel-item ">
-				<img class="d-block w-100 img-slider rounded"
+				<img class="d-block w-100 img-slider rounded "
 					src="${company.slider2Img }" alt="First slide">
 
-				<div class="carousel-caption d-none d-md-block ">
-					<div class="badge bg-warning text-wrap sale">
+				<div class="carousel-caption d-none d-md-block text-start ">
+					<div class="badge bg-success text-wrap sale">
 						<s:message code="global.slide2.discount" />
 					</div>
 					<h2 class="mt-5 fs-1 fw-bold text-dark  ">
@@ -64,3 +67,4 @@
 		</a>
 	</div>
 </div>
+<!--End Slider -->

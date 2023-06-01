@@ -3,6 +3,36 @@
 <%@include file="/WEB-INF/views/include/library.jsp"%>
 <%@include file="/WEB-INF/views/include/header.jsp"%>
 
+<c:if test="${not empty alert}">
+	<c:choose>
+		<c:when test="${alert == 1}">
+
+			<div class="position-fixed bottom-0 end-0 p-3"  style="z-index: 11">
+				<div class="  alert alert-success alert-dismissible fade show"
+					role="alert">
+					Thêm vào giỏ hàng thành công
+					<button type="button" class="ms-auto btn-close"
+						data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+
+			</div>
+
+
+		</c:when>
+		<c:when test="${alert == 2}">
+			<div class="position-fixed bottom-0 end-0 p-3"  style="z-index: 11">
+				<div class="  alert alert-success alert-dismissible fade show"
+					role="alert">
+					Thêm vào danh sách yêu thích thành công
+					<button type="button" class="ms-auto btn-close"
+						data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+
+			</div>
+		</c:when>
+	</c:choose>
+</c:if>
+
 <div class="my-4">
 	<div class="container">
 		<div class="row ">
@@ -137,70 +167,16 @@
 				</div>
 
 				<c:if test="${productsFilterWithCategory.size() == 0 }">
-					<div class="mt-2 alert alert-warning  green-alert section" role="alert">
-						<s:message
-									code="product.none" /></div>
+					<div class="mt-2 alert alert-warning  green-alert section"
+						role="alert">
+						<s:message code="product.none" />
+					</div>
 				</c:if>
 				<div
 					class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
 					<c:forEach var="p" items="${productsFilterWithCategory }">
 						<!-- col -->
-						<div class="col">
-							<!-- card -->
-							<div class="card card-product">
-								<div class="card-body">
-
-									<!-- badge -->
-									<div class="text-center position-relative ">
-										<c:if test="${p.coupon.discount != null}">
-											<div class=" position-absolute top-0 start-0">
-												<span class="badge bg-danger">30%</span>
-											</div>
-										</c:if>
-										<a href="product/detail.htm?productId=${p.productId }"> <img
-											src="<c:url value="/assets/img/products/${p.image}"/>"
-											alt="Product" class=" img-fluid" style="width: 150px; height: 150px">
-										</a>
-										<div class="card-product-action ${(p.quantity == 0)?  'invisible' : 'visible' }">
-											<a href="product/detail.htm?productId=${p.productId }"
-												class="btn-action"><i class="bi bi-eye"></i></a> <a
-												href='<c:url value = "product/addToWishlist.htm?productId=${p.productId }"/>'
-												class="btn-action"><i class="bi bi-heart"></i></a> <a
-												href='<c:url value = "product/addToCart.htm?productId=${p.productId }"/>'
-												class="btn-action"><i class="bi bi-cart-plus"></i></a>
-										</div>
-
-									</div>
-
-									<!-- heading category -->
-									<div class="text-small mt-2 mb-1 text-muted">
-										<small>${p.category.name }</small>
-									</div>
-
-									<h2 class="fs-6 text-inherit text-success">${p.productName }</h2>
-
-
-									<div
-										class="d-flex justify-content-between align-items-center mt-3">
-										<div>
-
-											<span class="text-dark"><fmt:formatNumber
-													value="${p.price - (p.price * p.coupon.discount)}"
-													type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
-
-											<c:if test="${p.coupon.discount != null}">
-												<span class="text-decoration-line-through text-muted">
-													<fmt:formatNumber value="${p.price }" type="currency"
-														currencySymbol="đ" maxFractionDigits="0" />
-												</span>
-											</c:if>
-										</div>
-
-
-									</div>
-								</div>
-							</div>
-						</div>
+						<%@include file="/WEB-INF/views/include/listProduct1.jsp"%>
 					</c:forEach>
 
 
@@ -244,7 +220,7 @@
 
 <%@include file="/WEB-INF/views/include/footer.jsp"%>
 <script type="text/javascript" src="assets/js/user/product.js"></script>
-
+<script type="text/javascript" src="assets/js/user/account.js"></script>
 
 </body>
 </html>

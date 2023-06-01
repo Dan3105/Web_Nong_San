@@ -120,8 +120,7 @@ public class CategoryDAOImpl implements ICategoryDAO {
 
 		session.getTransaction().commit();
 		session.close();
-		
-		
+
 		return list;
 	}
 

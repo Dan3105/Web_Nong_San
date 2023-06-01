@@ -50,11 +50,10 @@ public class AdminControllerUsers {
 				accounts.subList(startIndex, Math.min(startIndex + Constants.USER_PER_PAGE, accounts.size())));
 
 		int totalPage = accounts.size() / Constants.USER_PER_PAGE;
-		if(accounts.size() % Constants.USER_PER_PAGE != 0)
-		{
+		if (accounts.size() % Constants.USER_PER_PAGE != 0) {
 			totalPage += 1;
 		}
-		
+
 		modelMap.addAttribute("crrPage", crrPage);
 		modelMap.addAttribute("totalPage", totalPage);
 
@@ -68,8 +67,6 @@ public class AdminControllerUsers {
 			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
 		List<Account> accounts = accountDAO.listAccountWithRole(EnumRoleID.EMPLOYEE);
 
-		
-		
 		int startIndex = Math.max((crrPage - 1) * Constants.USER_PER_PAGE, 0);
 		if (startIndex >= accounts.size()) {
 			crrPage = crrPage - 1; // lui lai trang truoc do
@@ -77,13 +74,12 @@ public class AdminControllerUsers {
 		}
 		modelMap.addAttribute("accounts",
 				accounts.subList(startIndex, Math.min(startIndex + Constants.USER_PER_PAGE, accounts.size())));
-		
+
 		int totalPage = accounts.size() / Constants.USER_PER_PAGE;
-		if(accounts.size() % Constants.USER_PER_PAGE != 0)
-		{
+		if (accounts.size() % Constants.USER_PER_PAGE != 0) {
 			totalPage += 1;
 		}
-		
+
 		modelMap.addAttribute("crrPage", crrPage);
 		modelMap.addAttribute("totalPage", totalPage);
 		modelMap.addAttribute("source", "get-employee.htm");

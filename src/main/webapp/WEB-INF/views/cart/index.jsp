@@ -41,7 +41,10 @@
 							<s:message code="cart.find" />
 						</c:if>
 						<c:if test="${carts.size() == 0 }">
-							<s:message code="cart.none" />
+							<div class="mt-2 alert alert-warning  green-alert section"
+								role="alert">
+								<s:message code="cart.none" />
+							</div>
 						</c:if>
 					</p>
 				</div>
@@ -127,13 +130,21 @@
 											</div>
 										</td>
 
-										<td class="align-middle"><span class="fw-bold text-dark"><fmt:formatNumber
-													value="${c.product.price}" type="currency"
-													currencySymbol="đ" maxFractionDigits="0" /></span> <c:if
-												test="${c.product.coupon != null }">
-												<span class="text-decoration-line-through text-muted"><fmt:formatNumber
+										<td class="align-middle"><c:if
+												test="${c.product.coupon != null and c.product.coupon.checkVaildCoupon() == true}">
+												<span class="text-dark fw-bold"><fmt:formatNumber
 														value="${c.product.price - (c.product.price * c.product.coupon.discount)}"
 														type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
+												<span class="text-decoration-line-through text-muted">
+													<fmt:formatNumber value="${c.product.price }"
+														type="currency" currencySymbol="đ" maxFractionDigits="0" />
+												</span>
+											</c:if> <c:if
+												test="${c.product.coupon.discount == null or  c.product.coupon.checkVaildCoupon() == false}">
+												<span class="text-dark fw-bold"> <fmt:formatNumber
+														value="${c.product.price }" type="currency"
+														currencySymbol="đ" maxFractionDigits="0" />
+												</span>
 											</c:if></td>
 										<td class="align-middle"><c:if test="${c.quantity > 1}">
 												<a role="button"
@@ -147,9 +158,17 @@
 											<a role="button"
 											href="cart/quantity/plus.htm?productID=${c.product.productId}&quantity=${c.quantity}"
 											class="btn btn-light">+</a></td>
-										<td class="align-middle"><fmt:formatNumber
-												value="${c.product.price * c.quantity }" type="currency"
-												currencySymbol="đ" maxFractionDigits="0" /></td>
+										<td class="align-middle"><c:if
+												test="${c.product.coupon != null and c.product.coupon.checkVaildCoupon() == true}">
+												<fmt:formatNumber
+													value="${(c.product.price - (c.product.price * c.product.coupon.discount)) * c.quantity }"
+													type="currency" currencySymbol="đ" maxFractionDigits="0" />
+											</c:if> <c:if
+												test="${c.product.coupon.discount == null or  c.product.coupon.checkVaildCoupon() == false}">
+												<fmt:formatNumber value="${c.product.price * c.quantity }"
+													type="currency" currencySymbol="đ" maxFractionDigits="0" />
+											</c:if></td>
+
 										<td class="align-middle"><c:if
 												test="${(c.product.quantity == 0) }">
 												<span class="badge bg-danger"> <s:message
@@ -233,53 +252,39 @@
 								<a href="#" type="button" class="btn btn-outline-primary mb-4 ">
 									<s:message code="cart.continue_shopping" />
 								</a>
-								<c:if test="${canCheckOut == 0 }">
-									<a type="button" class="btn btn-outline-success disabled "
-										tabindex="-1" role="button" aria-disabled="true"> <s:message
-											code="cart.checkout" />
-									</a>
-								</c:if>
-								<c:if test="${account.defaultAddress == null }">
-									<a type="button" class="btn btn-outline-success disabled "
-										tabindex="-1" role="button" aria-disabled="true"> <s:message
-											code="cart.checkout" />
-									</a>
-								</c:if>
-								<c:if
-									test="${canCheckOut == 1 or  account.defaultAddress != null }">
 
-									<!-- Button trigger modal -->
-									<button type="button" class="btn btn-outline-success"
-										data-bs-toggle="modal" data-bs-target="#exampleModal">
-										<s:message code="cart.checkout" />
-									</button>
+								<!-- Button trigger modal -->
+								<button type="button"
+									class="btn btn-outline-success ${(canCheckOut == 0) ? 'disabled' : '' } ${(account.defaultAddress == null) ? 'disabled' : '' } "
+									data-bs-toggle="modal" data-bs-target="#exampleModal">
+									<s:message code="cart.checkout" />
+								</button>
 
-									<!-- Modal -->
-									<div class="modal fade" id="exampleModal" tabindex="-1"
-										aria-labelledby="exampleModalLabel" aria-hidden="true">
-										<div class="modal-dialog">
-											<div class="modal-content">
-												<div class="modal-header">
-													<h1 class="modal-title fs-5" id="exampleModalLabel">Confirm
-														Order</h1>
-													<button type="button" class="btn-close"
-														data-bs-dismiss="modal" aria-label="Close"></button>
-												</div>
-												<div class="modal-body">Bạn có muốn xác nhận đặt đơn
-													hàng ?</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary"
-														data-bs-dismiss="modal">Close</button>
-													<a type="button"
-														href="order/success.htm?totalPrice=${subtotal + 20000 }"
-														class="btn btn-success "> <s:message
-															code="cart.checkout" />
-													</a>
-												</div>
+								<!-- Modal -->
+								<div class="modal fade" id="exampleModal" tabindex="-1"
+									aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h1 class="modal-title fs-5" id="exampleModalLabel">Confirm
+													Order</h1>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">Bạn có muốn xác nhận đặt đơn
+												hàng ?</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">Close</button>
+												<a type="button"
+													href="order/success.htm?totalPrice=${subtotal + 20000 }"
+													class="btn btn-success "> <s:message
+														code="cart.checkout" />
+												</a>
 											</div>
 										</div>
 									</div>
-								</c:if>
+								</div>
 
 
 							</div>

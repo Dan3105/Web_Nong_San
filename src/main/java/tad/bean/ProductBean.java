@@ -65,11 +65,9 @@ public class ProductBean {
 		postingDate = formattedDate;
 		unit = product.getUnit();
 		discount = 0;
-		if(product.getCoupon() != null)
-		{
+		if (product.getCoupon() != null) {
 			CouponBean cp = new CouponBean(product.getCoupon());
-			if(cp.getValid())
-			{
+			if (cp.getValid()) {
 				discount = product.getCoupon() != null ? product.getCoupon().getDiscount() : 0;
 			}
 		}

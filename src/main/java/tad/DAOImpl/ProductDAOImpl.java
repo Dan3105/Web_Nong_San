@@ -1,5 +1,8 @@
 package tad.DAOImpl;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -120,10 +123,21 @@ public class ProductDAOImpl implements IProductDAO {
 	@Override
 	public List<Product> listProductsWithCoupon() {
 		Session session = sessionFactory.getCurrentSession();
-
-		String hql = "FROM Product P ORDER BY P.coupon.discount DESC";
+		String hql = "FROM Product P WHERE current_date() >= P.coupon.postingDate AND current_date() <= P.coupon.expiryDate ORDER BY P.coupon.discount DESC";
+		Query query = session.createQuery(hql);
 		@SuppressWarnings("unchecked")
-		List<Product> list = session.createQuery(hql).list();
+		List<Product> list = query.list();
+
+		return list;
+	}
+
+	@Override
+	public List<Product> listNewProducts() {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM Product ORDER BY postingDate DESC ";
+		Query query = session.createQuery(hql);
+		@SuppressWarnings("unchecked")
+		List<Product> list = query.list();
 
 		return list;
 	}
@@ -172,6 +186,17 @@ public class ProductDAOImpl implements IProductDAO {
 		String hql = "FROM Product WHERE category.categoryId = :categoryId ORDER BY postingDate DESC";
 		Query query = session.createQuery(hql);
 		query.setParameter("categoryId", categoryId);
+		@SuppressWarnings("unchecked")
+		List<Product> list = query.list();
+
+		return list;
+	}
+
+	@Override
+	public List<Product> listBestSellerProducts() {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM Product WHERE SIZE(orderDetails) > 0 ORDER BY SIZE(orderDetails) DESC";
+		Query query = session.createQuery(hql);
 		@SuppressWarnings("unchecked")
 		List<Product> list = query.list();
 

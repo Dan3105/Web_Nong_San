@@ -14,7 +14,7 @@
 				hàng của bạn trong thời gian nhanh nhất có thể!</p>
 			<a class="btn btn-outline-success card-link" href="#" role="button"><i
 				class="bi bi-house"></i> Quay về trang chủ</a> <a
-				class="btn btn-outline-success card-link" href="user/order.htm"
+				class="btn btn-outline-success card-link" href="account/ordersHistory.htm"
 				role="button"><i class="bi bi-list-check"></i> Danh sách đơn
 				hàng</a>
 		</div>

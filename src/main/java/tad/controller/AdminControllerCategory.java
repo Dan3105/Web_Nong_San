@@ -18,7 +18,6 @@ import tad.DAO.ICategoryDAO;
 import tad.bean.CategoryBean;
 import tad.bean.UploadFile;
 import tad.entity.Category;
-import tad.entity.Product;
 import tad.utility.Constants;
 import tad.utility.ConverterUploadHandler;
 
@@ -34,48 +33,46 @@ public class AdminControllerCategory {
 	@RequestMapping()
 	public String gCategoryList(ModelMap model,
 			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
-		
+
 		List<Category> categories = categoryDAO.getListCategories();
-		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 		if (startIndex >= categories.size()) {
 			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 		}
 		model.addAttribute("crrPage", crrPage);
 
-		int totalPage = categories.size() / Constants.PRODUCT_PER_PAGE;
-		if (categories.size() % Constants.PRODUCT_PER_PAGE != 0) {
+		int totalPage = categories.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
+		if (categories.size() % Constants.PRODUCT_PER_PAGE_IN_HOME != 0) {
 			totalPage += 1;
 		}
 		model.addAttribute("totalPage", totalPage);
-		
-		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(categories.subList(startIndex,
-				Math.min(startIndex + Constants.PRODUCT_PER_PAGE, categories.size())));
+
+		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(
+				categories.subList(startIndex, Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, categories.size())));
 		model.addAttribute("list", categoriesBean);
 		return "admin/admin-category";
 	}
-	
+
 	@RequestMapping("searchCategory")
 	public String gCategoryWithSearch(@RequestParam(required = false, value = "search") String search,
-			@RequestParam(required = false, value = "crrPage", defaultValue = "1") int crrPage,
-			ModelMap model)
-	{
+			@RequestParam(required = false, value = "crrPage", defaultValue = "1") int crrPage, ModelMap model) {
 		List<Category> categories = categoryDAO.searchCategory(search);
-		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 		if (startIndex >= categories.size()) {
 			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 		}
 		model.addAttribute("crrPage", crrPage);
 
-		int totalPage = categories.size() / Constants.PRODUCT_PER_PAGE;
-		if (categories.size() % Constants.PRODUCT_PER_PAGE != 0) {
+		int totalPage = categories.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
+		if (categories.size() % Constants.PRODUCT_PER_PAGE_IN_HOME != 0) {
 			totalPage += 1;
 		}
-		
+
 		model.addAttribute("totalPage", totalPage);
-		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(categories.subList(startIndex,
-				Math.min(startIndex + Constants.PRODUCT_PER_PAGE, categories.size())));
+		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(
+				categories.subList(startIndex, Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, categories.size())));
 		model.addAttribute("list", categoriesBean);
 		return "admin/admin-category";
 	}

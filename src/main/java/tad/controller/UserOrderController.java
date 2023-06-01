@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,20 +34,8 @@ public class UserOrderController {
 
 	@RequestMapping(value = "orderDetail")
 	public String detail(ModelMap model, HttpSession session, @RequestParam("orderId") int orderId) {
-
-		Account account = (Account) session.getAttribute("account");
 		Orders order = orderDAO.findOrder(orderId);
-		List<Cart> list = cartDAO.getCart(account.getAccountId());
-		float subtotal = 0;
-		if (list != null) {
-			for (OrderDetail o : order.getOrderDetails()) {
-				subtotal += (o.getQuantity() * o.getProduct().getPrice());
-
-			}
-		}
 		model.addAttribute("order", order);
-		model.addAttribute("subtotal", subtotal);
-		model.addAttribute("price", subtotal + 20000);
 		return "order/orderDetail";
 
 	}
@@ -55,6 +44,9 @@ public class UserOrderController {
 	public String success(HttpSession session,
 			@RequestParam(value = "totalPrice", defaultValue = "0") float totalPice) {
 		Account account = (Account) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/admin/overview.htm";
+		}
 		List<Cart> listCarts = cartDAO.getCart(account.getAccountId());
 		Orders orders = new Orders();
 
@@ -70,13 +62,10 @@ public class UserOrderController {
 
 		orders.setDeliveryTime(c1.getTime());
 		orders.setStatus(0);
+		orders.setPrice(totalPice);
 
 		if (account.getDefaultAddress() != null)
 			orders.setDefaultAddress(account.getDefaultAddress().getFullAddress());
-
-		else
-			orders.setDefaultAddress("a");
-		orders.setPrice(totalPice);
 
 		orderDAO.insertOrder(orders);
 
@@ -87,12 +76,24 @@ public class UserOrderController {
 			orderDetail.setProduct(c.getProduct());
 			orderDetail.setOrder(orders);
 			orderDetail.setQuantity(c.getQuantity());
+			if (c.getProduct().getCoupon() != null && c.getProduct().getCoupon().checkVaildCoupon())
+				orderDetail.setCoupon(c.getProduct().getCoupon().getDiscount());
 			orderDAO.insertOrderDetail(orderDetail);
 		}
 		int s = cartDAO.removeCart(account.getAccountId());
-		System.out.println(s);
+		session.setAttribute("totalCart", 0);
 
 		return "order/success";
+	}
+
+	@RequestMapping(value = "cancelRequest")
+	public String cancleRequest(HttpSession session, HttpServletRequest request,
+			@RequestParam(value = "orderId") int orderId) {
+		Orders orders = orderDAO.findOrder(orderId);
+		orders.setStatus(3);
+		orderDAO.update(orders);
+		return "redirect:" + request.getHeader("Referer");
+
 	}
 
 }

@@ -2,7 +2,35 @@
 	pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/include/library.jsp"%>
 <%@include file="/WEB-INF/views/include/header.jsp"%>
+<c:if test="${not empty alert}">
+	<c:choose>
+		<c:when test="${alert == 1}">
 
+			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+				<div class="  alert alert-success alert-dismissible fade show"
+					role="alert">
+					Thêm vào giỏ hàng thành công
+					<button type="button" class="ms-auto btn-close"
+						data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+
+			</div>
+
+
+		</c:when>
+		<c:when test="${alert == 2}">
+			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+				<div class="  alert alert-success alert-dismissible fade show"
+					role="alert">
+					Thêm vào danh sách yêu thích thành công
+					<button type="button" class="ms-auto btn-close"
+						data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+
+			</div>
+		</c:when>
+	</c:choose>
+</c:if>
 <body>
 
 	<div class="my-5">
@@ -40,8 +68,13 @@
 								<s:message code="wishlist.find" />
 							</c:if>
 							<c:if test="${wishlists.size() == 0 }">
-								<s:message code="wishlist.none" />
+
+								<div class="mt-2 alert alert-warning  green-alert section"
+									role="alert">
+									<s:message code="wishlist.none" />
+								</div>
 							</c:if>
+
 						</p>
 					</div>
 
@@ -64,56 +97,7 @@
 									</tr>
 								</thead>
 								<c:forEach var="c" items="${wishlists }">
-									<tbody>
-										<tr>
-											<td class="align-middle">
-												<div class="d-flex align-items-center">
-													<div class="image">
-														<a href="#"><img
-															src="<c:url value="/assets/img/products/${c.product.image}"/>"
-															class="icon-shape" alt="" width="200" height="200">
-														</a>
-													</div>
-												</div>
-
-
-											</td>
-											<td class="align-middle">
-												<div class="d-flex align-items-center">
-													<div class="text">
-														<h5 class="fs-6 mb-0">
-															<a
-																href="product/detail.htm?productId=${c.product.productId }"
-																class="text-inherit link-success
-																">${c.product.productName }</a>
-														</h5>
-														<small class="text-muted text-wrap">${c.product.unit }</small>
-													</div>
-												</div>
-											</td>
-
-											<td class="align-middle"><fmt:formatNumber
-													value="${c.product.price}" type="currency"
-													currencySymbol="đ" maxFractionDigits="0" /></td>
-											<td class="align-middle"><a
-												href='<c:url value = "wishlist/addToCart/${c.product.productId}.htm"/>'
-												type="button"
-												class="btn btn-success  btn-sm ${(c.product.quantity == 0) ? 'disabled' : '' }">
-													<c:if test="${(c.product.quantity == 0) }">
-														<s:message code="wishlist.out_of_item" />
-													</c:if> <c:if test="${(c.product.quantity > 0) }">
-														<s:message code="wishlist.add_to_cart" />
-													</c:if>
-											</a></td>
-
-											<td class="align-middle "><a
-												href='<c:url value = "wishlist/delete/${c.product.productId}.htm"/>'
-												class="text-muted"> <i class="bi bi-trash"></i>
-											</a></td>
-										</tr>
-
-									</tbody>
-
+									<%@include file="/WEB-INF/views/include/listProduct.jsp"%>
 								</c:forEach>
 
 							</table>
@@ -129,6 +113,7 @@
 	</section>
 	<!--End wishlist -->
 	<%@include file="/WEB-INF/views/include/footer.jsp"%>
+	<script type="text/javascript" src="assets/js/user/account.js"></script>
 
 </body>
 </html>

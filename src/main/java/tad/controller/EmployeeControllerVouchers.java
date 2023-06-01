@@ -51,23 +51,23 @@ public class EmployeeControllerVouchers {
 				return item2.getPostingDate().compareTo(item1.getPostingDate());
 			});
 
-			int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+			int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 
 			if (startIndex >= couponCreator.size()) {
 				crrPage = crrPage - 1; // lui lai trang truoc do
-				startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+				startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 			}
 
 			ArrayList<CouponBean> coupons = new ArrayList<>();
 			for (Coupon coupon : couponCreator.subList(startIndex,
-					Math.min(startIndex + Constants.PRODUCT_PER_PAGE, couponCreator.size()))) {
+					Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, couponCreator.size()))) {
 				CouponBean cp = new CouponBean(coupon);
 				coupons.add(cp);
 			}
 
 			model.addAttribute("coupons", coupons);
-			int totalPage = coupons.size() / Constants.PRODUCT_PER_PAGE;
-			if (coupons.size() % Constants.PRODUCT_PER_PAGE != 0) {
+			int totalPage = coupons.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
+			if (coupons.size() % Constants.PRODUCT_PER_PAGE_IN_HOME != 0) {
 				totalPage += 1;
 			}
 			model.addAttribute("totalPage", totalPage);

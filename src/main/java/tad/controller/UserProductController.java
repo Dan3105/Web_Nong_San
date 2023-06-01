@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import tad.DAO.IAccountDAO;
 import tad.DAO.ICartDAO;
@@ -61,18 +62,18 @@ public class UserProductController {
 		Ultis.filterProductByIndex(index, productsFilterWithCategory);
 		productsFilterWithCategory = Ultis.filterProductByPrice(filterPrice, productsFilterWithCategory);
 
-		int startIndex = (currentPage - 1) * Constants.PRODUCT_PER_PAGE;
+		int startIndex = (currentPage - 1) * Constants.PRODUCT_PER_PAGE_IN_CATEGORY;
 		int totalPage = 1;
-		if (productsFilterWithCategory.size() <= Constants.PRODUCT_PER_PAGE)
+		if (productsFilterWithCategory.size() <= Constants.PRODUCT_PER_PAGE_IN_CATEGORY)
 			totalPage = 1;
 		else {
-			totalPage = productsFilterWithCategory.size() / Constants.PRODUCT_PER_PAGE;
-			if (productsFilterWithCategory.size() % Constants.PRODUCT_PER_PAGE != 0) {
+			totalPage = productsFilterWithCategory.size() / Constants.PRODUCT_PER_PAGE_IN_CATEGORY;
+			if (productsFilterWithCategory.size() % Constants.PRODUCT_PER_PAGE_IN_CATEGORY != 0) {
 				totalPage++;
 			}
 		}
 		modelMap.addAttribute("productsFilterWithCategory", productsFilterWithCategory.subList(startIndex,
-				Math.min(startIndex + Constants.PRODUCT_PER_PAGE, productsFilterWithCategory.size())));
+				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_CATEGORY, productsFilterWithCategory.size())));
 
 		modelMap.addAttribute("index", index);
 		modelMap.addAttribute("currentCategory", categoryDAO.getCategory(categoryId));
@@ -84,14 +85,13 @@ public class UserProductController {
 	}
 
 	@RequestMapping(value = "addToCart", params = { "productId" })
-	public String addToCart(ModelMap model, HttpServletRequest request, HttpSession session,
-			@RequestParam("productId") int productID) {
+	public String addToCart(ModelMap model, RedirectAttributes reAttributes, HttpServletRequest request,
+			HttpSession session, @RequestParam("productId") int productID) {
 
 		Account account = (Account) session.getAttribute("account");
 
 		if (account == null) {
-			System.out.println("User is null");
-
+			return "redirect:/admin/overview.htm";
 		} else {
 
 			Cart cart = cartDAO.getCart(account.getAccountId(), productID);
@@ -99,6 +99,7 @@ public class UserProductController {
 			if (cart != null) {
 				cart.setQuantity(cart.getQuantity() + 1);
 				cartDAO.updateCart(cart);
+
 			} else {
 				cart = new Cart();
 				cart.setId(new CartId(productID, account.getAccountId()));
@@ -106,9 +107,11 @@ public class UserProductController {
 				cart.setProduct(productDAO.getProduct(productID));
 				cart.setQuantity(1);
 				cartDAO.insertCart(cart);
-
+				int totalCart = (int) session.getAttribute("totalCart");
+				session.setAttribute("totalCart", totalCart + 1);
 			}
 
+			reAttributes.addFlashAttribute("alert", 1);
 		}
 
 		return "redirect:" + request.getHeader("Referer");
@@ -116,14 +119,13 @@ public class UserProductController {
 	}
 
 	@RequestMapping(value = "addToWishlist", params = { "productId" })
-	public String addToWishlist(ModelMap model, HttpServletRequest request, HttpSession session,
-			@RequestParam("productId") int productID) {
+	public String addToWishlist(ModelMap model, RedirectAttributes reAttributes, HttpServletRequest request,
+			HttpSession session, @RequestParam("productId") int productID) {
 
 		Account account = (Account) session.getAttribute("account");
 
 		if (account == null) {
-			System.out.println("User is null");
-
+			return "redirect:/admin/overview.htm";
 		} else {
 
 			Wishlist wishlist = wishlistDAO.getWishlist(account.getAccountId(), productID);
@@ -136,8 +138,10 @@ public class UserProductController {
 				wishlist.setAccount(account);
 				wishlist.setProduct(productDAO.getProduct(productID));
 				wishlistDAO.insertWishlist(wishlist);
-
+				int totalWishlist = (int) session.getAttribute("totalWishlist");
+				session.setAttribute("totalWishlist", totalWishlist + 1);
 			}
+			reAttributes.addFlashAttribute("alert", 2);
 
 		}
 
