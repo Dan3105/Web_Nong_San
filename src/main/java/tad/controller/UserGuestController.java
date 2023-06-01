@@ -149,7 +149,7 @@ public class UserGuestController {
 
 			Role role = accountDAO.getRoleViaEnum(EnumRoleID.GUEST);
 			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
-					user.getPhoneNumber(), user.getAvatarDir(), user.getPassword());
+					user.getPhoneNumber(), user.getAvatarDir(), BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
 
 			if (accountDAO.findAccountByEmail(user.getEmail()) != null) {
 				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);

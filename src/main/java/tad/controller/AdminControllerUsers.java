@@ -2,6 +2,7 @@ package tad.controller;
 
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -146,7 +147,7 @@ public class AdminControllerUsers {
 
 			Role role = accountDAO.getRoleViaEnum(EnumRoleID.EMPLOYEE);
 			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
-					user.getPhoneNumber(), avatarDir, user.getPassword());
+					user.getPhoneNumber(), avatarDir, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
 
 			if (!user.getAvatarDir().isEmpty()) {
 				account.setAvatar(user.getAvatarDir());
