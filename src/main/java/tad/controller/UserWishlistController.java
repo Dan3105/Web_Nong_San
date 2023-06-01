@@ -2,7 +2,6 @@ package tad.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import tad.DAO.IAccountDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.IProductDAO;
 import tad.DAO.IWishlistDAO;
 import tad.entity.Account;
-import tad.entity.Cart;
-import tad.entity.CartId;
 import tad.entity.Wishlist;
 
 @Controller
@@ -36,14 +34,13 @@ public class UserWishlistController {
 
 	// Trả về ds giỏ hàng
 	@RequestMapping(value = "index")
-	public String cart(ModelMap model, HttpSession session) {
+	public String cart(ModelMap model,HttpSession session) {
 
 		Account account = (Account) session.getAttribute("account");
 
 		List<Wishlist> list = wishlistDAO.getWishlist(account.getAccountId());
-
 		model.addAttribute("wishlists", list);
-
+	
 		return "wishlist/index";
 	}
 
@@ -56,6 +53,7 @@ public class UserWishlistController {
 		int totalWishlist = (int) session.getAttribute("totalWishlist");
 		if (totalWishlist > 0)
 			session.setAttribute("totalWishlist", totalWishlist - 1);
+
 		return "redirect:/wishlist/index.htm";
 	}
 

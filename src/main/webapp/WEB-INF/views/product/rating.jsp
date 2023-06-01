@@ -143,9 +143,8 @@
 										style="width: 30px; height: 30px">
 									<div class="ms-5">
 										<h6 class="mb-1">${f.account.getName()}</h6>
-										< p class="small">
-											<span class="text-muted"><fmt:formatDate
-													value="${f.postingDate}" pattern="dd-MM-yyyy" /></span>
+										< p class="small"> <span class="text-muted"><fmt:formatDate
+												value="${f.postingDate}" pattern="dd-MM-yyyy" /></span>
 										</p>
 										<!-- rating -->
 										<div class=" mb-2">
@@ -167,17 +166,6 @@
 									</div>
 
 								</div>
-								<c:if test="${f.comment != null }">
-									<div class="d-flex flex-column ms-5 mt-3 bg-body-tertiary p-3 ">
-										<div class="heading mb-2 fw-bold text-primary">Phản Hồi
-											Người Bán</div>
-										<p class="small">
-											<span class="text-dark"><fmt:formatDate
-													value="${f.comment.postingDate}" pattern="dd-MM-yyyy" /></span>
-										</p>
-										<div class="text-muted ">${f.comment.commentContent }</div>
-									</div>
-								</c:if>
 
 								<hr>
 							</c:forEach>

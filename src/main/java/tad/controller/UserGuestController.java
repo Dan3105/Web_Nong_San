@@ -2,7 +2,6 @@ package tad.controller;
 
 import java.util.Base64;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +12,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -91,7 +89,7 @@ public class UserGuestController {
 
 			if (ValidateAdmin.getStatus() == 0) {
 				modelMap.addAttribute("error", "Tài khoản không đúng hoặc sai mật khẩu");
-				modelMap.addAttribute(DefineAttribute.UserBeanAttribute,  user);
+				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 				return "user/user-login";
 			}
 
@@ -108,13 +106,12 @@ public class UserGuestController {
 				this.delete("pass");
 			}
 
-
 			session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin);
 			return "redirect:/";
 		}
 
 		modelMap.addAttribute("error", "Tài khoản không đúng hoặc sai mật khẩu");
-		modelMap.addAttribute(DefineAttribute.UserBeanAttribute,  user);
+		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 		return "user/user-login";
 	}
 
@@ -149,13 +146,12 @@ public class UserGuestController {
 			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
 					user.getPhoneNumber(), user.getAvatarDir(), user.getPassword());
 
-			if(accountDAO.findAccountByEmail(user.getEmail()) != null)
-			{
+			if (accountDAO.findAccountByEmail(user.getEmail()) != null) {
 				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 				modelMap.addAttribute("message", "Email is already exists");
 				return "user/user-register";
 			}
-			
+
 			if (accountDAO.addAccountToDB(account)) {
 
 				return "redirect:/";
@@ -173,13 +169,12 @@ public class UserGuestController {
 			session.removeAttribute(DefineAttribute.UserAttribute);
 		return "redirect:/";
 	}
-	
+
 	@Autowired
 	JavaMailSender mailer;
 
 	@RequestMapping("resend-password")
-	public String resendPassword()
-	{
+	public String resendPassword() {
 		return "";
 	}
 }

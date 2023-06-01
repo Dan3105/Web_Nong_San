@@ -33,11 +33,14 @@
 							reviews)</span>
 					</div>
 					<div class="fs-4">
+
 						<!-- price -->
-						<span class="fw-bold text-dark"><fmt:formatNumber
-								value="${product.price - product.price * product.coupon.discount}"
-								type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
-						<c:if test="${product.coupon != null }">
+						<c:if
+							test="${product.coupon != null and product.coupon.checkVaildCoupon() == true}">
+							<span class="fw-bold text-dark"><fmt:formatNumber
+									value="${product.price - product.price * product.coupon.discount}"
+									type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
+
 							<span class="text-decoration-line-through text-muted"><fmt:formatNumber
 									value="${product.price}" type="currency" currencySymbol="đ"
 									maxFractionDigits="0" /></span>
@@ -45,7 +48,12 @@
 										value="${product.coupon.discount}" type="percent" /> <span>
 										Off</span></small></span>
 						</c:if>
-
+						<c:if
+							test="${product.coupon.discount == null or  product.coupon.checkVaildCoupon() == false}">
+							<span class="fw-bold text-dark"><fmt:formatNumber
+									value="${product.price}" type="currency" currencySymbol="đ"
+									maxFractionDigits="0" /></span>
+						</c:if>
 					</div>
 
 

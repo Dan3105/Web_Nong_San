@@ -83,48 +83,25 @@ public class Account {
 	private Set<Feedback> feedbacks = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	private Set<Comment> comments = new HashSet<>(0);
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Cart> carts = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Wishlist> wishlist = new HashSet<>(0);
-
+	
 	public Account() {
+		
 	}
 
 	public Account(Role role, String lastName, String firstName, String email, String phoneNumber, String avatar,
 			String password) {
+		super();
 		this.role = role;
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.avatar = avatar;
-		this.status = 1; // Tao tk moi set trang thai ve 1
 		this.password = password;
-	}
-
-	public Account(int accountId, Role role, String lastName, String firstName, String email, String phoneNumber,
-			String avatar, int status, String password, Set<Address> addresses, Set<Orders> orders, Set<Coupon> coupons,
-			Set<Product> products, Set<Feedback> feedbacks, Set<Comment> comments, Set<Cart> carts) {
-		this.accountId = accountId;
-		this.role = role;
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.avatar = avatar;
-		this.status = status;
-		this.password = password;
-		this.addresses = addresses;
-		this.orders = orders;
-		this.coupons = coupons;
-		this.products = products;
-		this.feedbacks = feedbacks;
-		this.comments = comments;
-		this.carts = carts;
 	}
 
 	@Override
@@ -243,14 +220,6 @@ public class Account {
 
 	public void setFeedbacks(Set<Feedback> feedbacks) {
 		this.feedbacks = feedbacks;
-	}
-
-	public Set<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(Set<Comment> comments) {
-		this.comments = comments;
 	}
 
 	public Set<Cart> getCarts() {

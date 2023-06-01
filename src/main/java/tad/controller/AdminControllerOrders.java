@@ -45,16 +45,16 @@ public class AdminControllerOrders {
 		model.addAttribute("orders", detailOrderBean);
 		model.addAttribute("mapStatus", mapStatus());
 		model.addAttribute("source", "unresolve-order.htm");
-		
-		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+
+		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 		if (startIndex >= orders.size()) {
 			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 		}
 		model.addAttribute("crrPage", crrPage);
-		
-		int totalPage = orders.size() / Constants.PRODUCT_PER_PAGE;
-		if (orders.size() % Constants.PRODUCT_PER_PAGE != 0) {
+
+		int totalPage = orders.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
+		if (orders.size() % Constants.PRODUCT_PER_PAGE_IN_HOME != 0) {
 			totalPage += 1;
 		}
 		model.addAttribute("totalPage", totalPage);
@@ -62,7 +62,8 @@ public class AdminControllerOrders {
 	}
 
 	@RequestMapping("moving-order")
-	public String gListMovingOrder(ModelMap model, @RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
+	public String gListMovingOrder(ModelMap model,
+			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
 		List<Orders> orders = orderDAO.getMovingOrders();
 		List<OrderDetailBean> detailOrderBean = new ArrayList<>();
 		for (Orders order : orders) {
@@ -70,19 +71,19 @@ public class AdminControllerOrders {
 			detailOrderBean.add(new OrderDetailBean(order));
 		}
 
-		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_CATEGORY_IN_HOME, 0);
+		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 		if (startIndex >= orders.size()) {
 			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_CATEGORY_IN_HOME, 0);
+			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 		}
 		model.addAttribute("crrPage", crrPage);
-		
+
 		int totalPage = orders.size() / Constants.USER_PER_PAGE;
 		if (orders.size() % Constants.USER_PER_PAGE != 0) {
 			totalPage += 1;
 		}
 		model.addAttribute("totalPage", totalPage);
-		
+
 		model.addAttribute("orders", detailOrderBean);
 		model.addAttribute("mapStatus", mapStatus());
 		model.addAttribute("source", "moving-order.htm");
@@ -90,21 +91,22 @@ public class AdminControllerOrders {
 	}
 
 	@RequestMapping("resolved-order")
-	public String gListResolveOrder(ModelMap model, @RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
+	public String gListResolveOrder(ModelMap model,
+			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
 		List<Orders> orders = orderDAO.getResolveOrders();
 		List<OrderDetailBean> detailOrderBean = new ArrayList<>();
 		for (Orders order : orders) {
 			order = orderDAO.fetchOrderDetail(order);
 			detailOrderBean.add(new OrderDetailBean(order));
 		}
-		
-		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_CATEGORY_IN_HOME, 0);
+
+		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 		if (startIndex >= orders.size()) {
 			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_CATEGORY_IN_HOME, 0);
+			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 		}
 		model.addAttribute("crrPage", crrPage);
-		
+
 		int totalPage = orders.size() / Constants.USER_PER_PAGE;
 		if (orders.size() % Constants.USER_PER_PAGE != 0) {
 			totalPage += 1;
@@ -118,21 +120,22 @@ public class AdminControllerOrders {
 	}
 
 	@RequestMapping("cancel-order")
-	public String gListCancelOrder(ModelMap model, @RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
+	public String gListCancelOrder(ModelMap model,
+			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
 		List<Orders> orders = orderDAO.getCancelOrders();
 		List<OrderDetailBean> detailOrderBean = new ArrayList<>();
 		for (Orders order : orders) {
 			order = orderDAO.fetchOrderDetail(order);
 			detailOrderBean.add(new OrderDetailBean(order));
 		}
-		
-		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_CATEGORY_IN_HOME, 0);
+
+		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 		if (startIndex >= orders.size()) {
 			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_CATEGORY_IN_HOME, 0);
+			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 		}
 		model.addAttribute("crrPage", crrPage);
-		
+
 		int totalPage = orders.size() / Constants.USER_PER_PAGE;
 		if (orders.size() % Constants.USER_PER_PAGE != 0) {
 			totalPage += 1;

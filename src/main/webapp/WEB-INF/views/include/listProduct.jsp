@@ -27,12 +27,21 @@
 			</div>
 		</td>
 
-		<td class="align-middle"><span class="fw-bold text-dark"><fmt:formatNumber
-					value="${c.product.price}" type="currency" currencySymbol="đ"
-					maxFractionDigits="0" /></span> <c:if test="${c.product.coupon != null }">
-				<span class="text-decoration-line-through text-muted"><fmt:formatNumber
-						value="${c.product.price - (c.product.price * c.product.coupon.discount)}"
-						type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
+		<td class="align-middle"><c:if
+				test="${c.product.coupon != null and c.product.coupon.checkVaildCoupon() == true}">
+				<span class="text-dark fw-bold"><fmt:formatNumber
+						value="${c.product.price - (c.product.price * c.product.coupon.discount)}" type="currency"
+						currencySymbol="đ" maxFractionDigits="0" /></span>
+				<span class="text-decoration-line-through text-muted"> <fmt:formatNumber
+						value="${c.product.price }" type="currency" currencySymbol="đ"
+						maxFractionDigits="0" />
+				</span>
+			</c:if> <c:if
+				test="${c.product.coupon.discount == null or  c.product.coupon.checkVaildCoupon() == false}">
+				<span class="text-dark fw-bold"> <fmt:formatNumber
+						value="${c.product.price }" type="currency" currencySymbol="đ"
+						maxFractionDigits="0" />
+				</span>
 			</c:if></td>
 		<td class="align-middle"><a
 			href='<c:url value = "product/addToCart.htm?productId=${c.product.productId}"/>'

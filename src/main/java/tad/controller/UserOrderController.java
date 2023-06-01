@@ -34,20 +34,8 @@ public class UserOrderController {
 
 	@RequestMapping(value = "orderDetail")
 	public String detail(ModelMap model, HttpSession session, @RequestParam("orderId") int orderId) {
-
-		Account account = (Account) session.getAttribute("account");
 		Orders order = orderDAO.findOrder(orderId);
-		List<Cart> list = cartDAO.getCart(account.getAccountId());
-		float subtotal = 0;
-		if (list != null) {
-			for (OrderDetail o : order.getOrderDetails()) {
-				subtotal += (o.getQuantity() * o.getProduct().getPrice());
-
-			}
-		}
 		model.addAttribute("order", order);
-		model.addAttribute("subtotal", subtotal);
-		model.addAttribute("price", subtotal + 20000);
 		return "order/orderDetail";
 
 	}
@@ -71,13 +59,10 @@ public class UserOrderController {
 
 		orders.setDeliveryTime(c1.getTime());
 		orders.setStatus(0);
+		orders.setPrice(totalPice);
 
 		if (account.getDefaultAddress() != null)
 			orders.setDefaultAddress(account.getDefaultAddress().getFullAddress());
-
-		else
-			orders.setDefaultAddress("a");
-		orders.setPrice(totalPice);
 
 		orderDAO.insertOrder(orders);
 
@@ -88,6 +73,8 @@ public class UserOrderController {
 			orderDetail.setProduct(c.getProduct());
 			orderDetail.setOrder(orders);
 			orderDetail.setQuantity(c.getQuantity());
+			if (c.getProduct().getCoupon() != null && c.getProduct().getCoupon().checkVaildCoupon())
+				orderDetail.setCoupon(c.getProduct().getCoupon().getDiscount());
 			orderDAO.insertOrderDetail(orderDetail);
 		}
 		int s = cartDAO.removeCart(account.getAccountId());

@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -50,6 +49,8 @@ public class UserHomeController {
 
 		List<Category> category = categoryDAO.getListCategories();
 		List<Product> products = productDAO.listProductsWithCoupon();
+		List<Product> newProducts = productDAO.listNewProducts();
+		List<Product> bestseller = productDAO.listBestSellerProducts();
 		List<Cart> list = cartDAO.getCart(account.getAccountId());
 		List<Wishlist> wishlist = wishlistDAO.getWishlist(account.getAccountId());
 
@@ -65,8 +66,11 @@ public class UserHomeController {
 
 		modelMap.addAttribute("productsWithCategory",
 				category.subList(0, Math.min(Constants.CATEGORY_IN_HOME, category.size())));
-		modelMap.addAttribute("products",
-				products.subList(0, Math.min(Constants.PRODUCT_PER_CATEGORY_IN_HOME, products.size())));
+		modelMap.addAttribute("products", products.subList(0, Math.min(Constants.PRODUCT_PER_PAGE_IN_HOME, products.size())));
+		modelMap.addAttribute("newProducts",
+				newProducts.subList(0, Math.min(Constants.PRODUCT_PER_PAGE_IN_HOME, newProducts.size())));
+		modelMap.addAttribute("bestseller",
+				bestseller.subList(0, Math.min(Constants.PRODUCT_PER_PAGE_IN_HOME, bestseller.size())));
 		return "page/home";
 	}
 
@@ -89,19 +93,19 @@ public class UserHomeController {
 
 		List<Product> products = productDAO.filterProductByName(search);
 
-		int startIndex = (currentPage - 1) * Constants.PRODUCT_PER_PAGE;
+		int startIndex = (currentPage - 1) * Constants.PRODUCT_PER_PAGE_IN_CATEGORY;
 		int totalPage = 1;
-		if (products.size() <= Constants.PRODUCT_PER_PAGE)
+		if (products.size() <= Constants.PRODUCT_PER_PAGE_IN_CATEGORY)
 			totalPage = 1;
 		else {
-			totalPage = products.size() / Constants.PRODUCT_PER_PAGE;
-			if (products.size() % Constants.PRODUCT_PER_PAGE != 0) {
+			totalPage = products.size() / Constants.PRODUCT_PER_PAGE_IN_CATEGORY;
+			if (products.size() % Constants.PRODUCT_PER_PAGE_IN_CATEGORY != 0) {
 				totalPage++;
 			}
 		}
 
 		modelMap.addAttribute("products",
-				products.subList(startIndex, Math.min(startIndex + Constants.PRODUCT_PER_PAGE, products.size())));
+				products.subList(startIndex, Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_CATEGORY, products.size())));
 		modelMap.addAttribute("currentPage", currentPage);
 		modelMap.addAttribute("totalPage", totalPage);
 		modelMap.addAttribute("search", search);

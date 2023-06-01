@@ -50,11 +50,6 @@
 				<div class="col-3 mt-4">
 					<div class="d-grid  ">
 						<c:choose>
-							<%-- <c:when test="${order.status == 2 }">
-								<a class="btn m-2 btn-sm btn-success"
-									href="user/orderDetail/receive.htm?id=${order.orderId }"
-									role="button">Nhận được hàng</a>
-							</c:when> --%>
 							<c:when test="${order.status == 0 }">
 
 								<!-- Button trigger modal -->
@@ -94,20 +89,19 @@
 
 			<table class="table">
 				<thead>
-					<tr class="table-primary">
-						<th scope="col" class="col-4 fw-bold">Sản phẩm</th>
-						<th scope="col" class="col-2 text-secondary">Đơn giá</th>
-						<th scope="col" class="col-2 text-secondary">Số lượng</th>
-						<th scope="col" class="col-2 text-secondary">Thành tiền</th>
-						<th scope="col" class="col-2 text-secondary text-center">Đánh
-							giá</th>
+					<tr class="table-success">
+						<th>Sản phẩm</th>
+						<th>Đơn giá</th>
+						<th>Số lượng</th>
+						<th>Thành tiền</th>
+						<th>Đánh giá</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach var="o" items="${order.orderDetails }">
 						<tr>
-							<td class="py-1">
-								<div class="row">
+							<td class="align-middle">
+								<div class="d-flex align-items-center">
 									<div class="col-auto">
 										<a target="_blank"
 											href="product/detail.htm?productId=${o.product.productId }">
@@ -122,24 +116,57 @@
 									</div>
 								</div>
 							</td>
-							<td class="py-3"><fmt:formatNumber
-									value="${o.product.price}" type="currency" currencySymbol="đ"
-									maxFractionDigits="0" /></td>
-							<td class="py-3">${o.quantity}</td>
-							<td class="py-3"><fmt:formatNumber
-									value="${o.product.price * o.quantity}" type="currency"
-									currencySymbol="đ" maxFractionDigits="0" /></td>
-							<td class="py-3 text-center">
-								<!-- icon feedback --> <c:choose>
-									<c:when test="${order.status == 2 }">
-										<a class="link-success"
-											href="account/feedback.htm?productId=${o.product.productId }"
-											role="button"><i class="bi bi-chat-left-text-fill"></i></a>
-									</c:when>
-									<c:otherwise>
-										<i class="bi bi-chat-left-text-fill" style="color: #9FA5AA"></i>
-									</c:otherwise>
-								</c:choose>
+							<td class="align-middle">
+								<div class="d-flex align-items-center">
+									<c:if test="${o.coupon != 0}">
+										<span class="text-dark fw-bold"><fmt:formatNumber
+												value="${o.product.price - (o.product.price * o.coupon)}"
+												type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
+										<span class="text-decoration-line-through text-muted">
+											<fmt:formatNumber value="${o.product.price }" type="currency"
+												currencySymbol="đ" maxFractionDigits="0" />
+										</span>
+									</c:if>
+									<c:if test="${o.coupon == 0}">
+										<span class="text-dark fw-bold"> <fmt:formatNumber
+												value="${o.product.price }" type="currency"
+												currencySymbol="đ" maxFractionDigits="0" />
+										</span>
+									</c:if>
+								</div>
+							</td>
+							<td class="align-middle">
+								<div class="d-flex align-items-center">${o.quantity}</div>
+							</td>
+							<td class="align-middle">
+								<div class="d-flex align-items-center">
+									<c:if test="${o.coupon != 0}">
+										<span class="text-dark fw-bold"><fmt:formatNumber
+												value="${(o.product.price - (o.product.price * o.coupon)) * o.quantity}"
+												type="currency" currencySymbol="đ" maxFractionDigits="0" /></span>
+									</c:if>
+									<c:if test="${o.coupon == 0}">
+										<span class="text-dark fw-bold"> <fmt:formatNumber
+												value="${o.product.price * o.quantity }" type="currency"
+												currencySymbol="đ" maxFractionDigits="0" />
+										</span>
+									</c:if>
+								</div>
+							</td>
+							<td class="align-middle">
+								<div class="d-flex align-items-center">
+									<!-- icon feedback -->
+									<c:choose>
+										<c:when test="${order.status == 2 }">
+											<a class="link-success"
+												href="account/feedback.htm?productId=${o.product.productId }"
+												role="button"><i class="bi bi-chat-left-text-fill"></i></a>
+										</c:when>
+										<c:otherwise>
+											<i class="bi bi-chat-left-text-fill" style="color: #9FA5AA"></i>
+										</c:otherwise>
+									</c:choose>
+								</div>
 							</td>
 						</tr>
 					</c:forEach>
@@ -156,8 +183,8 @@
 									<s:message code="cart.tempo" />
 								</p>
 								<p class="mb-2">
-									<fmt:formatNumber value="${subtotal }" type="currency"
-										currencySymbol="đ" maxFractionDigits="0" />
+									<fmt:formatNumber value="${order.price - 20000 }"
+										type="currency" currencySymbol="đ" maxFractionDigits="0" />
 								</p>
 
 							</div>
@@ -188,7 +215,7 @@
 									<s:message code="cart.total" />
 								</p>
 								<p class="mb-2">
-									<fmt:formatNumber value="${price }" type="currency"
+									<fmt:formatNumber value="${order.price }" type="currency"
 										currencySymbol="đ" maxFractionDigits="0" />
 								</p>
 							</div>

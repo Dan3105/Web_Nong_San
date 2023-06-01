@@ -79,7 +79,5 @@
 	<bean id="FeedbackDAO" class="tad.DAOImpl.FeedbackDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	<bean id="CommentDAO" class="tad.DAOImpl.CommentDAOImpl">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
+
 </beans>

@@ -64,27 +64,26 @@ public class EmployeeControllerProducts {
 					: item2.getPrice() > item1.getPrice() ? 1 : 0;
 
 		});
-		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 
 		if (startIndex >= listProducts.size()) {
 			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE, 0);
+			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
 		}
 
 		for (Product product : listProducts.subList(startIndex,
-				Math.min(startIndex + Constants.PRODUCT_PER_PAGE, listProducts.size()))) {
+				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, listProducts.size()))) {
 			ProductBean bean = new ProductBean(product);
 			products.add(bean);
 		}
 		tacc = couponDAO.FetchAccountCoupon(tacc);
 		ProductBean beanForm = new ProductBean();
-		
-		int totalPage = products.size() / Constants.PRODUCT_PER_PAGE;
-		if(products.size() % Constants.PRODUCT_PER_PAGE != 0)
-		{
+
+		int totalPage = products.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
+		if (products.size() % Constants.PRODUCT_PER_PAGE_IN_HOME != 0) {
 			totalPage += 1;
 		}
-		
+
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("crrPage", crrPage);
 		model.addAttribute("products", products);

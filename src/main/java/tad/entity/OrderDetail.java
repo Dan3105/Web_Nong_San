@@ -33,6 +33,17 @@ public class OrderDetail {
 	@Column(name = "Quantity", nullable = false)
 	private int quantity;
 
+	@Column(name = "Coupon")
+	private double coupon;
+
+	public double getCoupon() {
+		return coupon;
+	}
+
+	public void setCoupon(double d) {
+		this.coupon = d;
+	}
+
 	public OrderDetail(OrderDetailId id, Orders order, Product product, int quantity) {
 		this.id = id;
 		this.order = order;

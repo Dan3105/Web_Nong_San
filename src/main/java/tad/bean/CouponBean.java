@@ -28,7 +28,7 @@ public class CouponBean {
 		this.discount = coupon.getDiscount();
 
 		Date crrDate = coupon.getPostingDate();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
 		String formattedPostDate = formatter.format(crrDate);
 		this.postingDate = formattedPostDate;
@@ -83,11 +83,16 @@ public class CouponBean {
 	// private boolean valid;
 	public boolean getValid() {
 		try {
-			SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
 			Date exdate = inputFormat.parse(expiryDate);
 			Date crrdate = new Date();
 			int cmp = crrdate.compareTo(exdate);
 			if (cmp > 0) // crr Date is after exdate
+				return false;
+
+			Date post = inputFormat.parse(postingDate);
+			cmp = crrdate.compareTo(post);
+			if (cmp < 0)
 				return false;
 
 		} catch (Exception e) {
@@ -107,7 +112,7 @@ public class CouponBean {
 
 	public long getDays() {
 		try {
-			SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
 			Date exdate = inputFormat.parse(expiryDate);
 			Date crrdate = new Date();
 

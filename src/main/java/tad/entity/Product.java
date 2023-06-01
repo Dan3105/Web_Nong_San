@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "Product", schema = "dbo", catalog = "DB_Tad")
 public class Product {
@@ -45,6 +47,7 @@ public class Product {
 	private String detail;
 
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "PostingDate", nullable = false, length = 10)
 	private Date postingDate;
 
@@ -62,7 +65,7 @@ public class Product {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
 	private Set<Cart> carts = new HashSet<>(0);
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
 	private Set<OrderDetail> orderDetails = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")

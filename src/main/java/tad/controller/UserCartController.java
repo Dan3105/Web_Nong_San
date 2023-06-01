@@ -2,7 +2,6 @@ package tad.controller;
 
 import java.util.List;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,11 @@ public class UserCartController {
 			for (Cart c : list) {
 				// Chi tinh nhung sp con hang
 				if (c.getProduct().getQuantity() > 0) {
-					subtotal += c.getQuantity() * c.getProduct().getPrice();
+					if (c.getProduct().getCoupon() != null && c.getProduct().getCoupon().checkVaildCoupon())
+						subtotal += c.getQuantity() * (c.getProduct().getPrice()
+								- (c.getProduct().getPrice() * c.getProduct().getCoupon().getDiscount()));
+					else if (c.getProduct().getCoupon() == null || (!c.getProduct().getCoupon().checkVaildCoupon()))
+						subtotal += c.getQuantity() * c.getProduct().getPrice();
 
 				}
 
@@ -72,7 +75,7 @@ public class UserCartController {
 		List<Cart> list = cartDAO.getCart(account.getAccountId());
 		model.addAttribute("carts", list);
 		int totalCart = (int) session.getAttribute("totalCart");
-		if(totalCart > 0)
+		if (totalCart > 0)
 			session.setAttribute("totalCart", totalCart - 1);
 		return "redirect:/cart/index.htm";
 	}
@@ -81,7 +84,6 @@ public class UserCartController {
 	public String qtyPlus(ModelMap model, HttpSession session, @RequestParam("productID") int id,
 			@RequestParam("quantity") int qty) {
 		cartDAO.updateQuantity(id, qty + 1);
-		
 
 		return "redirect:/cart/index.htm";
 	}

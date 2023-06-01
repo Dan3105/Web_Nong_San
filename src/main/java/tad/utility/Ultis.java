@@ -1,13 +1,9 @@
 package tad.utility;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import tad.entity.Coupon;
 import tad.entity.Feedback;
 import tad.entity.Product;
 
@@ -21,7 +17,7 @@ public class Ultis {
 			avgStar /= product.getFeedbacks().size();
 		return avgStar;
 	}
-	
+
 	public static final void filterProductByIndex(int index, List<Product> productsFilterWithCategory) {
 		switch (index) {
 		case 0: {
