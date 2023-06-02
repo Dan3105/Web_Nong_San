@@ -18,7 +18,7 @@ public interface IProductDAO {
 	List<Product> listProductsWithCoupon();
 
 	List<Product> listNewProducts();
-	
+
 	List<Product> listBestSellerProducts();
 
 	List<Product> listProductsInCategory(int categoryId);

@@ -59,7 +59,7 @@ public class CategoryDAOImpl implements ICategoryDAO {
 	@Override
 	public List<Category> getListCategories() {
 
-		//String hql = "From Category WHERE SIZE(products) > 0";
+		// String hql = "From Category WHERE SIZE(products) > 0";
 		String hql = "From Category";
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(hql);

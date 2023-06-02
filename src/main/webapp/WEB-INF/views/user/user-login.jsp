@@ -33,8 +33,8 @@ input[type='checkbox']:checked {
 
 	<section class="my-lg-14 my-5">
 		<div class="container">
-
-			<c:if test="${alert == 1}">
+			<c:choose>
+			<c:when test="${alert == 1}">
 				<div class="position-fixed bottom-0 end-0 p-3">
 					<div class="  alert alert-danger alert-dismissible fade show"
 						role="alert">
@@ -44,7 +44,52 @@ input[type='checkbox']:checked {
 					</div>
 				</div>
 
-			</c:if>
+			</c:when>
+			<c:when test="${alert == 3}">
+				<div class="position-fixed bottom-0 end-0 p-3">
+					<div class="  alert alert-danger alert-dismissible fade show"
+						role="alert">
+						Error when sending reset password link to Email
+						<button type="button" class="ms-auto btn-close"
+							data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				</div>
+
+			</c:when>
+			<c:when test="${alert == 2}">
+				<div class="position-fixed bottom-0 end-0 p-3">
+					<div class="  alert alert-success alert-dismissible fade show"
+						role="alert">
+						Send password reset succesfully ! Check your email
+						<button type="button" class="ms-auto btn-close"
+							data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				</div>
+
+			</c:when>
+			<c:when test="${alert == 4}">
+				<div class="position-fixed bottom-0 end-0 p-3">
+					<div class="  alert alert-danger alert-dismissible fade show"
+						role="alert">
+						Capcha do not match
+						<button type="button" class="ms-auto btn-close"
+							data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				</div>
+
+			</c:when>
+			<c:when test="${alert == 5}">
+				<div class="position-fixed bottom-0 end-0 p-3">
+					<div class="  alert alert-success alert-dismissible fade show"
+						role="alert">
+						Change password successfully !
+						<button type="button" class="ms-auto btn-close"
+							data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				</div>
+
+			</c:when>
+			</c:choose>
 
 
 

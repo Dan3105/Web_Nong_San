@@ -1,13 +1,10 @@
 package tad.entity;
 // Generated Apr 8, 2023, 3:38:47 PM by Hibernate Tools 3.6.2.Final
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -67,11 +64,7 @@ public class Coupon {
 			LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
 			Date crrdate = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 
-			if (crrdate.before(postingDate)) {
-				return false;
-			}
-
-			if (crrdate.after(expiryDate)) {
+			if (crrdate.before(postingDate) || crrdate.after(expiryDate)) {
 				return false;
 			}
 

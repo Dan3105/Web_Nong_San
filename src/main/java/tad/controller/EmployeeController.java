@@ -30,7 +30,7 @@ import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping("/employee/")
+@RequestMapping("/employee")
 public class EmployeeController {
 	@RequestMapping("overview")
 	public String overview(ModelMap model) {

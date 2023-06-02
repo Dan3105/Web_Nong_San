@@ -11,7 +11,6 @@ import tad.DAO.IAccountDAO;
 import tad.entity.Account;
 import tad.utility.DefineAttribute;
 
-
 public class GlobalInterceptor extends HandlerInterceptorAdapter {
 
 	@Autowired

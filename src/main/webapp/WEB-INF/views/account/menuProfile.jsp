@@ -33,6 +33,11 @@
 			class="nav-link text-primary" aria-current="page "> <i
 				class="bi bi-file-earmark-fill"></i> Đơn hàng
 		</a></li>
+		<hr>
+
+		<li class="nav-item"><a href="logout.htm"
+			class="nav-link text-primary" aria-current="page "><i
+				class="bi bi-box-arrow-in-right"></i> Đăng Xuất </a></li>
 
 	</ul>
 

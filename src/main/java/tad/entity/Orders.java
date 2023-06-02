@@ -55,8 +55,6 @@ public class Orders {
 
 	@Column(name = "Price")
 	private float price;
-	
-	
 
 	public float getPrice() {
 		return price;

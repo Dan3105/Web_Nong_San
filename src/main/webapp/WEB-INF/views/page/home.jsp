@@ -10,7 +10,7 @@
 	<c:choose>
 		<c:when test="${alert == 1}">
 
-			<div class="position-fixed bottom-0 end-0 p-3">
+			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
 				<div class="  alert alert-success alert-dismissible fade show"
 					role="alert">
 					Thêm vào giỏ hàng thành công
@@ -23,7 +23,7 @@
 
 		</c:when>
 		<c:when test="${alert == 2}">
-			<div class="position-fixed bottom-0 end-0 p-3">
+			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
 				<div class="  alert alert-success alert-dismissible fade show"
 					role="alert">
 					Thêm vào danh sách yêu thích thành công

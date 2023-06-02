@@ -2,7 +2,6 @@ package tad.controller;
 
 import java.util.Base64;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import tad.DAO.IAccountDAO;
 import tad.DAO.IAccountDAO.EnumRoleID;
@@ -125,8 +125,6 @@ public class UserGuestController {
 	}
 
 	@Autowired
-	private ServletContext context;
-	@Autowired
 	@Qualifier("accountImgDir")
 	private UploadFile uploadFile;
 
@@ -135,7 +133,7 @@ public class UserGuestController {
 
 	@RequestMapping(value = "guest-register", method = RequestMethod.POST)
 	public String register(@Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user,
-			BindingResult errors, ModelMap modelMap) {
+			BindingResult errors, ModelMap modelMap, RedirectAttributes reAttributes) {
 		if (!errors.hasErrors()) {
 
 			if (!user.getAvatar().isEmpty()) {
@@ -149,18 +147,18 @@ public class UserGuestController {
 					user.getPhoneNumber(), user.getAvatarDir(), BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
 
 			if (accountDAO.findAccountByEmail(user.getEmail()) != null) {
-				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
-				modelMap.addAttribute("message", "Email is already exists");
-				return "user/user-register";
+				reAttributes.addFlashAttribute(DefineAttribute.UserBeanAttribute, user);
+				reAttributes.addFlashAttribute("alert", 1);
+				return "redirect:/guest/guest-register.htm";
 			}
 
 			if (accountDAO.addAccountToDB(account)) {
 
-				return "redirect:/";
+				reAttributes.addFlashAttribute("alert", 2);
+				return "redirect:/guest/guest-register.htm";
 			}
 		}
 		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
-		modelMap.addAttribute("message", "Fail in resgiter");
 		return "user/user-register";
 	}
 
@@ -176,7 +174,8 @@ public class UserGuestController {
 	MyMailer mailer;
 
 	@RequestMapping(value = "resend-password", method = RequestMethod.POST)
-	public String resendPassword(@RequestParam("email") String email, ModelMap model, HttpServletRequest request) {
+	public String resendPassword(@RequestParam("email") String email, RedirectAttributes reAttributes, ModelMap model,
+			HttpServletRequest request) {
 		// Captcha Handler
 		HttpSession session = request.getSession();
 		String sessionCaptcha = (String) session.getAttribute("captcha");
@@ -184,7 +183,7 @@ public class UserGuestController {
 		// Get the user-entered captcha value from the form
 		String userCaptcha = request.getParameter("captcha");
 		LoginBean emptyLogin = new LoginBean();
-		Account acc = (Account) accountDAO.findAccountByEmail(email);
+		Account acc = accountDAO.findAccountByEmail(email);
 		// Compare the user-entered captcha with the one stored in session
 		if (sessionCaptcha.equalsIgnoreCase(userCaptcha) && acc != null) {
 
@@ -194,22 +193,22 @@ public class UserGuestController {
 			String subject = "Reset password";
 
 			String htmlContent = "Click the link below:"
-					+ "http://localhost:9099/Web_Nong_San/guest/userrequest.htm?email=" + email + "&ecypt="
+					+ "http://localhost:9999/Web_Nong_San/guest/userrequest.htm?email=" + email + "&ecypt="
 					+ acc.getPassword() + "";
 
 			String body = "Click at this link to change the password: ";
 			try {
 				mailer.send(from, to, subject, body + htmlContent);
-				model.addAttribute("message", "Gửi email thành công !");
+				reAttributes.addFlashAttribute("alert", 2);
 			} catch (Exception ex) {
 				System.out.println(ex);
-				model.addAttribute("message", "Gửi email thất bại !");
+				reAttributes.addFlashAttribute("alert", 3);
 			}
 
 			return "redirect:/guest.htm";
 
 		} else {
-			model.addAttribute("error", "Lỗi nhập captcha vui lòng làm lại");
+			reAttributes.addFlashAttribute("alert", 4);
 			return "redirect:/guest.htm";
 		}
 
@@ -229,13 +228,14 @@ public class UserGuestController {
 
 	@RequestMapping(value = "userrequest", method = RequestMethod.POST)
 	private String pResetPassword(@RequestParam("email") String email, @RequestParam("password") String pw,
-			@RequestParam("confirm-passsword") String cppw, ModelMap model, @RequestParam("oldPath") String oldPath,
-			HttpServletRequest request) {
+			@RequestParam("confirm-passsword") String cppw, RedirectAttributes reAttributes, ModelMap model,
+			@RequestParam("oldPath") String oldPath, HttpServletRequest request) {
 		Account accUser = accountDAO.findAccountByEmail(email);
 
 		if (accUser != null && pw.compareTo(cppw) == 0) {
 			accUser.setPassword(BCrypt.hashpw(pw, BCrypt.gensalt(12)));
 			accountDAO.updateAccount(accUser);
+			reAttributes.addFlashAttribute("alert", 5);
 			return "redirect:/guest.htm";
 		}
 		// System.out.println(referringURL);

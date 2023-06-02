@@ -48,8 +48,8 @@ public class AdminControllerCategory {
 		}
 		model.addAttribute("totalPage", totalPage);
 
-		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(
-				categories.subList(startIndex, Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, categories.size())));
+		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(categories.subList(startIndex,
+				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, categories.size())));
 		model.addAttribute("list", categoriesBean);
 		return "admin/admin-category";
 	}
@@ -71,8 +71,8 @@ public class AdminControllerCategory {
 		}
 
 		model.addAttribute("totalPage", totalPage);
-		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(
-				categories.subList(startIndex, Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, categories.size())));
+		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(categories.subList(startIndex,
+				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, categories.size())));
 		model.addAttribute("list", categoriesBean);
 		return "admin/admin-category";
 	}

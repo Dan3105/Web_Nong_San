@@ -88,7 +88,7 @@ td {
 									<td>
 										<div
 											class="h-100 d-flex align-items-center justify-content-start">
-											<a href="enable${account.accountId }.htm?source=${source}"><button
+											<a href="admin/user/enable${account.accountId }.htm?source=${source}"><button
 													class="btn btn-primary" type="button"
 													id="edit_button${status.index}">
 													<c:choose>

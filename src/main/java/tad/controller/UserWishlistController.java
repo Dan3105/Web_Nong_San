@@ -9,11 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import tad.DAO.IAccountDAO;
-import tad.DAO.ICartDAO;
-import tad.DAO.IProductDAO;
 import tad.DAO.IWishlistDAO;
 import tad.entity.Account;
 import tad.entity.Wishlist;

@@ -115,16 +115,9 @@ public class UserHomeController {
 		return "search/index";
 	}
 
-	@RequestMapping("login")
-	public String login(HttpSession session) {
-		Account account = accountDAO.getAccount(1);
-		session.setAttribute("account", account);
-		return "page/home";
-	}
-
 	@RequestMapping("logout")
 	public String logout(HttpSession session) {
-		session.removeAttribute("account");
+		session.removeAttribute(DefineAttribute.UserAttribute);
 		return "page/home";
 	}
 

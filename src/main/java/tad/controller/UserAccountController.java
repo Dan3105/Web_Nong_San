@@ -76,7 +76,13 @@ public class UserAccountController {
 		if (account == null) {
 			return "redirect:/guest.htm";
 		}
-		System.out.println(account.getRole().getRoleName());
+		if (account.getRole().getRoleName().equals("Admin")) {
+			return "redirect:/admin/overview.htm";
+		}
+
+		if (account.getRole().getRoleName().equals("Employee")) {
+			return "redirect:/employee/overview.htm";
+		}
 
 		ProfileBean profileBean = new ProfileBean();
 		profileBean.setLastName(account.getLastName());

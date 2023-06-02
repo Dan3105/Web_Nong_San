@@ -87,9 +87,9 @@ public class Account {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Wishlist> wishlist = new HashSet<>(0);
-	
+
 	public Account() {
-		
+
 	}
 
 	public Account(Role role, String lastName, String firstName, String email, String phoneNumber, String avatar,

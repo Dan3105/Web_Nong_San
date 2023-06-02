@@ -2,29 +2,58 @@
 <title>Reset Password</title>
 </head>
 <body>
-	<div class="container">
-		<form method="POST">
-			<div class="row">
-				<div class="col-sm-8">
-				<%-- <input type="hidden" value="${email }" name="email"/> --%>
-				<p>Change password for ${email }</p>
-				</div>
-				<div class="col-sm-8">
-					<label>New Password</label>
-					<div class="form-group pass_show">
-						<input type="password" name="password"
-							class="form-control" placeholder="New Password">
-					</div>
-					<label>Confirm Password</label>
-					<div class="form-group pass_show">
-						<input type="password" name="confirm-passsword"
-							class="form-control" placeholder="Confirm Password">
-					</div>
-					<input type="hidden" value="${request.getRequestURL() }" name="oldPath"/>
-					<button type="submit" class="btn btn-primary">Submit Change</button>
-				</div>
+	<nav class="navbar shadow-sm p-3 mb-5 bg-body ">
+		<div class="container-fluid">
+			<a class="navbar-brand "
+				href='<c:url value = "index.htm?language=${pageContext.response.locale}"/>'>
+				<img src="${company.logoNavImg }" alt="Logo">
+			</a>
+		</div>
+	</nav>
+	<section>
+		<div class="row justify-content-center align-items-center">
+			<div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
+				<!-- img -->
+				<img src="assets/img/signin-g.svg" alt="" class="img-fluid">
 			</div>
-		</form>
-	</div>
+			<!-- col -->
+			<div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
+				<div class="mb-lg-9 mb-3">
+					<h1 class="mb-1 h2 fw-bold">
+						Change password for <span class="text-success">${email } </span>
+					</h1>
+
+				</div>
+
+				<form method="post" class="pt-2">
+					<div class="row g-3">
+						<!-- row -->
+
+						<div class="password-field position-relative">
+							<input type="password" name="password" placeholder="New Password"
+								class="form-control" />
+						</div>
+						<div class="password-field position-relative">
+							<input type="password" name="confirm-passsword"
+								placeholder="Confirm Password" class="form-control" />
+						</div>
+
+
+						<input type="hidden" value="${request.getRequestURL() }"
+							name="oldPath" />
+
+						<!-- btn -->
+						<div class="d-flex ms-auto">
+							<button name="guest-login" class="btn btn-success mb-3 "
+								type="submit">Submit</button>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+	<%@include file="/WEB-INF/views/include/footer.jsp"%>
+
 </body>
 </html>

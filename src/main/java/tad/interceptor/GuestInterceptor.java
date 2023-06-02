@@ -20,7 +20,7 @@ public class GuestInterceptor extends HandlerInterceptorAdapter {
 			response.sendRedirect(request.getContextPath() + "/index.htm");
 			return true;
 		}
-		
+
 		return true;
 
 	}

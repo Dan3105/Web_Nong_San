@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import tad.DAO.ICategoryDAO;
 import tad.DAO.ICouponDAO;
 import tad.DAO.IProductDAO;
-import tad.bean.CategoryBean;
 import tad.bean.ProductBean;
 import tad.bean.UploadFile;
 import tad.entity.Account;

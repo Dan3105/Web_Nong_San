@@ -3,89 +3,147 @@
 <title>Register</title>
 <base href="${pageContext.servletContext.contextPath }" />
 </head>
+<style>
+#passwordToggler {
+	color: #001e2b;
+	cursor: pointer;
+	font-size: 16px;
+	position: absolute;
+	right: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+</style>
 
-<body class="bg-success">
-	<!--  -->
+<body>
 
-	<section style="background-color: #eee; height: 70vh;">
-		<div class="container h-100">
-			<div
-				class="row d-flex justify-content-center align-items-center h-100">
-				<div class="col-lg-12 col-xl-11">
-					<div class="card text-black" style="border-radius: 25px;">
-						<div class="card-body p-md-5">
-							<div class="row justify-content-center">
-								<div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-						
-									<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign
-										up</p>
-									<p class="text-danger">${message }</p>
-									<form:form class="mx-1 mx-md-4" method="post"
-										modelAttribute="userbean" enctype="multipart/form-data">
-										
-										<div class="form-group mt-3 mb-3">
-											<label for="email">Email:</label>
-											<form:input type="email" class="form-control" id="email"
-												placeholder="Enter email" path="email" />
-											<form:errors class="text-danger" path="email" />
-										</div>
-										<div class="form-group mt-3 mb-3">
-											<label for="password">Password:</label>
-											<form:input type="password" class="form-control"
-												id="password" placeholder="Enter password" path="password" />
-											<form:errors class="text-danger" path="password" />
-										</div>
-										<div class="form-group row mt-3 mb-3">
-											<div class="col-md-8">
-												<div class="form-outline">
-													<label class="form-label" for="lastName">Last name</label>
-													<form:input type="text" id="lastName"
-														class="form-control form-control-lg" path="lastName" />
-													<form:errors class="text-danger" path="lastName" />
-												</div>
-											</div>
-											<div class="col-md-4">
-												<div class="form-outline">
-													<label class="form-label" for="firstName">First
-														name</label>
-													<form:input type="text" id="firstName"
-														class="form-control form-control-lg" path="firstName" />
-													<form:errors class="text-danger" path="firstName" />
-												</div>
-											</div>
-										</div>
-										<div class="form-group mt-3 mb-3">
-											<label for="phoneNumber">Phone Number:</label>
-											<form:input type="text" class="form-control" id="phoneNumber"
-												placeholder="Enter phone number" path="phoneNumber" />
-											<form:errors class="text-danger" path="phoneNumber" />
-										</div>
-										<div class="form-group mt-3 mb-3">
-											<label for="avatar">Avatar:</label>
-											<form:input type="file" class="form-control-file" id="avatar"
-												path="avatar" accept="image/*" />
-											<form:errors class="text-danger" path="avatar" />
-										</div>
-										<button name="update" type="submit" class="btn btn-primary">Submit</button>
+	<c:choose>
+		<c:when test="${alert == 1}">
+			<div class="position-fixed bottom-0 end-0 p-3">
+				<div class="  alert alert-danger alert-dismissible fade show"
+					role="alert">
+					Account already exits
+					<button type="button" class="ms-auto btn-close"
+						data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			</div>
 
-									</form:form>
+		</c:when>
+		<c:when test="${alert == 2}">
+			<div class="position-fixed bottom-0 end-0 p-3">
+				<div class="  alert alert-success alert-dismissible fade show"
+					role="alert">
+					Sign Up Successfully
+					<button type="button" class="ms-auto btn-close"
+						data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			</div>
 
-								</div>
-								<div
-									class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+		</c:when>
+		
+	</c:choose>
 
-									<img
-										src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-										class="img-fluid" alt="Sample image">
+	<nav class="navbar shadow-sm p-3 mb-5 bg-body ">
+		<div class="container-fluid">
+			<a class="navbar-brand "
+				href='<c:url value = "index.htm?language=${pageContext.response.locale}"/>'>
+				<img src="${company.logoNavImg }" alt="Logo">
+			</a>
+		</div>
+	</nav>
 
+	<section class="my-lg-14 my-8">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row justify-content-center align-items-center">
+				<div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
+					<!-- img -->
+					<img src="assets/img/signup-g.svg" alt="" class="img-fluid">
+				</div>
+				<!-- col -->
+				<div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
+					<div class="mb-lg-9 mb-5">
+						<h1 class="mb-1 h2 fw-bold">Sign up</h1>
+						<p>
+							Welcome to <span class="text-warning">Tad Garden!</span> Enter
+							your email to get started.
+						</p>
+					</div>
+					<!-- form -->
+					<form:form method="post" modelAttribute="userbean"
+						enctype="multipart/form-data">
+						<div class="row g-3">
+							<!-- col -->
+							<div class="col">
+								<!-- input -->
+								<form:input type="text" id="firstName" placeholder="First name"
+									class="form-control " path="firstName" />
+								<form:errors class="text-danger" path="firstName" />
+							</div>
+							<div class="col">
+								<form:input type="text" id="lastName" placeholder="Last name"
+									class="form-control " path="lastName" />
+								<form:errors class="text-danger" path="lastName" />
+
+							</div>
+							<div class="col-12">
+
+								<form:input type="email" class="form-control"
+									placeholder="Email" id="email" path="email" />
+								<form:errors class="text-danger" path="email" />
+							</div>
+							<div class="col-12">
+								<div class="password-field position-relative">
+									<form:input type="password" class="form-control" id="password"
+										placeholder="Enter password" path="password" />
+									<span><i onclick="toggleIcon(this)" id="passwordToggler"
+										class="bi bi-eye-slash"></i></span>
+									<form:errors class="text-danger" path="password" />
 								</div>
 							</div>
+							<div class="col-12">
+								<form:input type="text" class="form-control" id="phoneNumber"
+									path="phoneNumber" placeholder="Phone Number" />
+								<form:errors class="text-danger" path="phoneNumber" />
+							</div>
+							<div class="col-12">
+								<label for="avatar">Avatar:</label>
+								<form:input type="file" class="form-control-file" id="avatar"
+									path="avatar" accept="image/*" />
+								<form:errors class="text-danger" path="avatar" />
+							</div>
+							<!-- btn -->
+							<div class="col-12 d-grid">
+								<button name="update" type="submit" class="btn btn-success">Register</button>
+							</div>
+
+							<!-- text -->
+							<p>
+								<small>By continuing, you agree to our <a
+									class="link-success" href="#!"> Terms of Service</a> &amp; <a
+									class="link-success" href="#!">Privacy Policy</a></small>
+							</p>
 						</div>
-					</div>
+					</form:form>
 				</div>
 			</div>
 		</div>
-	</section>
 
+
+	</section>
+	<script>
+		//var x = document.querySelector("#passwordToggler");
+		var pass = document.getElementById("password");
+		toggleIcon = function(x) {
+			x.classList.toggle('bi-eye');
+			const type = pass.getAttribute("type") === "password" ? "text"
+					: "password";
+			password.setAttribute("type", type);
+		};
+	</script>
+
+	<%@include file="/WEB-INF/views/include/footer.jsp"%>
+	<script type="text/javascript" src="assets/js/user/account.js"></script>
 </body>
 </html>
