@@ -4,7 +4,7 @@
 <!-- Admin menu vertical -->
 <nav id="sidebar">
 	<div class="p-4">
-		<a class="h-100 rounded-0" href="#logo"> <img
+		<a class="h-100 rounded-0" href=""> <img
 			src="<c:url value="/assets/img/logo.png"/>" alt="logo"
 			class="p-1 w-100">
 		</a>

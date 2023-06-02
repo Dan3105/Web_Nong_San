@@ -154,7 +154,7 @@ public class EmployeeControllerVouchers {
 		return "redirect:/employee/vouchers.htm";
 	}
 
-	@RequestMapping(value = "delete{id}.htm", method = RequestMethod.POST)
+	@RequestMapping(value = "delete{id}.htm")
 	public String pDeleteProduct(@PathVariable("id") int id) {
 		Coupon findCoupon = couponDAO.getCoupon(id);
 		if (findCoupon != null) {

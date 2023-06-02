@@ -95,6 +95,7 @@ public class Account {
 	public Account(Role role, String lastName, String firstName, String email, String phoneNumber, String avatar,
 			String password) {
 		super();
+		this.status = 1;
 		this.role = role;
 		this.lastName = lastName;
 		this.firstName = firstName;

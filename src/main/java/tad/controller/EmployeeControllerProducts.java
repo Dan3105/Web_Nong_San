@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import tad.DAO.ICategoryDAO;
 import tad.DAO.ICouponDAO;
 import tad.DAO.IProductDAO;
+import tad.bean.CategoryBean;
 import tad.bean.ProductBean;
 import tad.bean.UploadFile;
 import tad.entity.Account;
@@ -93,8 +94,8 @@ public class EmployeeControllerProducts {
 		return "employee/employee-product";
 	}
 
-	@RequestMapping(value = "delete{id}.htm", method = RequestMethod.POST)
-	public String pDeleteProduct(@PathVariable("id") int id, HttpSession session) {
+	@RequestMapping(value = "delete{id}.htm")
+	public String DeleteProduct(@PathVariable("id") int id, HttpSession session) {
 		Product findProduct = productDAO.getProduct(id);
 		if (findProduct != null) {
 			productDAO.deleteProduct(findProduct);

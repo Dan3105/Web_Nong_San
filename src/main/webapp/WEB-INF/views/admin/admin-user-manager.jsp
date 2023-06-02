@@ -108,11 +108,13 @@ td {
 									</td>
 									<td><div
 											class="h-100 d-flex align-items-center justify-content-start">
-											<a id="del_button${status.index }"
-												href="delete${account.accountId}.htm?source=${source}"><button
-													class="btn btn-danger ms-2">
-													<i class="ti-trash"></i>
-												</button></a>
+											<button type="button" class="btn btn-danger"
+												data-bs-toggle="modal" data-bs-target="#exampleModal"
+												id="del_button${status.index }"
+												data-value="delete${account.accountId}.htm?source=${source}"
+												class="btn btn-danger ms-2">
+												<i class="ti-trash"></i>
+											</button>
 										</div></td>
 								</tr>
 							</c:forEach>
@@ -126,8 +128,8 @@ td {
 						class="col-4 d-flex align-items-center justify-content-between">
 						<c:choose>
 							<c:when test="${crrPage-1 < 1}">
-								<a href="#" class="disabled cursor-not-allowed m-2"><button disabled
-										class="btn btn-outline-info">
+								<a href="#" class="disabled cursor-not-allowed m-2"><button
+										disabled class="btn btn-outline-info">
 										<i class="ti-angle-double-left"></i>
 									</button></a>
 							</c:when>
@@ -158,5 +160,26 @@ td {
 		</div>
 
 	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">Are you sure to Delete ?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+					<a href="#"><button type="button" class="btn btn-primary">Delete</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
+<script src="<c:url value="/assets/js/admin/AlertHandler.js"/>"></script>
 </html>

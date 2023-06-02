@@ -16,11 +16,12 @@ td {
 			<p class="h2 bold">Category</p>
 			<a href="category/add.htm"><button class="btn btn-success">Add
 					Category</button></a>
-			<form method="GET" action="${path }/admin/category/searchCategory.htm">
+			<form method="GET"
+				action="${path }/admin/category/searchCategory.htm">
 				<div class="input-group">
 					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="Name Category"
-							aria-label="search"  name="search">
+						<input type="text" class="form-control"
+							placeholder="Name Category" aria-label="search" name="search">
 						<button type="submit" class="btn btn-primary">
 							<i class="ti-search"></i>
 						</button>
@@ -74,11 +75,13 @@ td {
 									<td>
 										<div
 											class="h-100 d-flex align-items-center justify-content-start">
-											<a id="del_button${status.index }"
-												href="category/delete${item.id}.htm"><button
-													class="btn btn-danger ms-2">
-													<i class="ti-trash"></i>
-												</button></a>
+											<button type="button" class="btn btn-danger"
+												data-bs-toggle="modal" data-bs-target="#exampleModal"
+												id="del_button${status.index }"
+												data-value="category/delete${item.id}.htm"
+												class="btn btn-danger ms-2">
+												<i class="ti-trash"></i>
+											</button>
 										</div>
 									</td>
 								</tr>
@@ -122,4 +125,25 @@ td {
 
 
 </body>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">Are you sure to Delete ?</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Close</button>
+				<a href="#"><button type="button" class="btn btn-primary">Delete</button></a>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="<c:url value="/assets/js/admin/AlertHandler.js"/>"></script>
 <%@include file="/WEB-INF/views/include/admin-footer.jsp"%>

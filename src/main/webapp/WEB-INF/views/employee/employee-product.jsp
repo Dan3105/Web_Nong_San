@@ -59,7 +59,7 @@
 										<div>
 											<!-- Ngay dang - Ngay het han-->
 											<%-- <span class="text-primary"> ${item.postingDate }</span>  --%>
-											
+
 											<input type="hidden" id="postingDate${item.productId }"
 												value="${item.postingDate }">
 										</div>
@@ -82,8 +82,7 @@
 										<!-- Gia giam -->
 										<div class="d-flex flex-row align-items-center mb-1">
 											<h4 class="mb-1 me-2 text-success">
-												<fmt:formatNumber type="currency"
-												currencySymbol="d"
+												<fmt:formatNumber type="currency" currencySymbol="d"
 													value="${item.price - item.price * item.discount} " />
 												<span class="fs-5 fw-normal">/ ${item.unit }</span>
 
@@ -107,11 +106,13 @@
 											<!-- Nut chinh sua mat hang -->
 											<button onclick="UpdateProduct(${item.productId})"
 												class="btn btn-primary btn-sm" type="button">Update</button>
-											<form:form method="post"
-												action="products/delete${item.productId}.htm">
-												<button class="btn btn-outline-danger btn-sm mt-2"
-													type="submit">Delete</button>
-											</form:form>
+											<button type="button" class="btn btn-danger"
+												data-bs-toggle="modal" data-bs-target="#exampleModal"
+												id="del_button${status.index }"
+												data-value="products/delete${item.productId}.htm"
+												class="btn btn-danger ms-2">
+												<i class="ti-trash"></i>
+											</button>
 										</div>
 									</div>
 								</div>
@@ -126,8 +127,8 @@
 			<div class="row">
 				<c:choose>
 					<c:when test="${crrPage-1 < 1}">
-						<a class="disabled cursor-not-allowed" href="#" class=" m-2"><button disabled
-								class="btn btn-outline-info">
+						<a class="disabled cursor-not-allowed" href="#" class=" m-2"><button
+								disabled class="btn btn-outline-info">
 								<i class="ti-angle-double-left"></i>
 							</button></a>
 					</c:when>
@@ -209,7 +210,7 @@
 					</div>
 					<div class="col-md-6 mt-2">
 						<label for="inputDate" class="form-label">Date Posting</label>
-						
+
 						<form:input type="date" class="form-control" id="inputDate"
 							path="postingDate" />
 					</div>
@@ -237,5 +238,26 @@
 		</div>
 	</div>
 	<script>CloseForm()</script>
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">Are you sure to Delete ?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+					<a href="#"><button type="button" class="btn btn-primary">Delete</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
+<script src="<c:url value="/assets/js/admin/AlertHandler.js"/>"></script>
 </html>
