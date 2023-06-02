@@ -22,6 +22,7 @@ import tad.entity.Category;
 import tad.entity.Product;
 import tad.entity.Wishlist;
 import tad.utility.Constants;
+import tad.utility.DefineAttribute;
 
 @Controller
 public class UserHomeController {
@@ -41,7 +42,7 @@ public class UserHomeController {
 	@RequestMapping("index")
 	public String index(ModelMap modelMap, HttpSession session) {
 
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		int totalCart = 0;
 		int totalWishlist = 0;
 

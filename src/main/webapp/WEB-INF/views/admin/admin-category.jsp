@@ -1,4 +1,4 @@
-<%@include file="/WEB-INF/views/include/admin-header.jsp"%>
+<%@include file="/WEB-INF/views/include/library.jsp"%>
 <link rel="stylesheet"
 	href="<c:url value="/assets/css/admincss/admin-category.css"/>">
 <script src="<c:url value="/assets/js/admin/AdminCategoryManager.js"/>"></script>

@@ -1,4 +1,4 @@
-<%@include file="/WEB-INF/views/include/admin-header.jsp"%>
+<%@include file="/WEB-INF/views/include/library.jsp"%>
 <%@include file="/WEB-INF/views/include/admin-header-nav.jsp" %>
 <body>
 	<c:if test="${not empty addBean }">

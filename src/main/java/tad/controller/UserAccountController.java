@@ -43,6 +43,7 @@ import tad.entity.Orders;
 import tad.entity.Product;
 import tad.entity.Province;
 import tad.entity.Ward;
+import tad.utility.DefineAttribute;
 
 @Controller
 @RequestMapping(value = "/account/")
@@ -71,11 +72,11 @@ public class UserAccountController {
 	// Hien thi thong tin nguoi dung
 	@RequestMapping(value = "index")
 	public String profile(ModelMap modelMap, HttpSession session) {
-		Account account = (Account) session.getAttribute("account");
-
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/guest.htm";
 		}
+		System.out.println(account.getRole().getRoleName());
 
 		ProfileBean profileBean = new ProfileBean();
 		profileBean.setLastName(account.getLastName());
@@ -91,9 +92,9 @@ public class UserAccountController {
 	@RequestMapping(value = "editProfile", method = RequestMethod.POST)
 	public String editProfile(ModelMap model, HttpSession session,
 			@Validated @ModelAttribute("profileBean") ProfileBean profileBean, BindingResult errors) {
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/guest.htm";
 		}
 		if (errors.hasErrors()) {
 			model.addAttribute("message", 0);
@@ -139,9 +140,9 @@ public class UserAccountController {
 	// Hien thi tab cac dia chi nguoi dung
 	@RequestMapping(value = "address")
 	public String address(ModelMap modelMap, HttpSession session) {
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/guest.htm";
 		}
 		List<Address> adresses = addressDAO.getAddressesByAccountId(account.getAccountId());
 		// Chuyen default address len dau
@@ -165,10 +166,9 @@ public class UserAccountController {
 	@RequestMapping(value = "addressUpdate")
 	public String addressUpdate(ModelMap modelMap, HttpSession session,
 			@RequestParam(value = "addressID") int addressID) {
-		Account account = (Account) session.getAttribute("account");
-
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/guest.htm";
 		}
 		ArrayList<Province> province = addressDAO.getProvinceList();
 		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
@@ -187,10 +187,10 @@ public class UserAccountController {
 	public String updateAddress(@Validated @ModelAttribute("userAddress") AddressUserBean userAddress,
 			BindingResult errors, @RequestParam(value = "addressID") int addressID, HttpSession session,
 			ModelMap modelMap) {
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 
 		if (account == null) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/guest.htm";
 		}
 		if (errors.hasErrors()) {
 			modelMap.addAttribute("message", 0);
@@ -224,10 +224,10 @@ public class UserAccountController {
 	// Tao address moi
 	@RequestMapping(value = "createAddress")
 	public String createAddress(ModelMap modelMap, HttpSession session) {
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		account = addressDAO.fetchAddressAccount(account);
 		if (account == null) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/guest.htm";
 		}
 		ArrayList<Province> province = addressDAO.getProvinceList();
 		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
@@ -243,9 +243,9 @@ public class UserAccountController {
 	@RequestMapping(value = "createAddress", method = RequestMethod.POST)
 	public String addAddress(ModelMap modelMap, HttpSession session,
 			@Validated @ModelAttribute("userAddress") AddressUserBean userAddress, BindingResult errors) {
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/guest.htm";
 		}
 
 		ArrayList<Province> province = addressDAO.getProvinceList();
@@ -277,9 +277,9 @@ public class UserAccountController {
 	public String delete(@Validated @ModelAttribute("userAddress") AddressUserBean userAddress,
 			RedirectAttributes reAttributes, BindingResult errors, @RequestParam(value = "addressID") int addressID,
 			HttpSession session, ModelMap modelMap) {
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/guest.htm";
 		}
 		if (errors.hasErrors()) {
 			reAttributes.addFlashAttribute("message", 0);
@@ -307,9 +307,9 @@ public class UserAccountController {
 
 	@RequestMapping(value = "setDefault")
 	public String setDefault(@RequestParam(value = "addressID") int addressID, ModelMap modelMap, HttpSession session) {
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
-			return "redirect:/account/address.htm";
+			return "redirect:/guest.htm";
 		}
 		Address defaultAdress = addressDAO.getAddress(addressID);
 		account.setDefaultAddress(defaultAdress);
@@ -360,7 +360,7 @@ public class UserAccountController {
 
 	@RequestMapping(value = "ordersHistory")
 	public String ordersHistory(ModelMap model, HttpSession session) {
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		List<Orders> orders = ordersDAO.getOrderFromAccount(account.getAccountId());
 
 		model.addAttribute("orders", orders);
@@ -369,9 +369,9 @@ public class UserAccountController {
 
 	@RequestMapping(value = "feedback")
 	public String feedback(ModelMap model, HttpSession session, @RequestParam("productId") int productId) {
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null)
-			return "redirect:/account/address.htm";
+			return "redirect:/guest.htm";
 		Product product = productDAO.getProduct(productId);
 		model.addAttribute("p", product);
 		Feedback feedback1 = feedbackDAO.getFeedback(account.getAccountId(), productId);
@@ -391,9 +391,9 @@ public class UserAccountController {
 	@RequestMapping(value = "feedback", method = RequestMethod.POST)
 	public String feedbackSubmit(ModelMap model, HttpSession session, HttpServletRequest request,
 			@RequestParam("productId") int productId, @ModelAttribute("feedback") Feedback feedback) {
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null)
-			return "redirect:/account/address.htm";
+			return "redirect:/guest.htm";
 
 		Feedback feedback1 = feedbackDAO.getFeedback(account.getAccountId(), productId);
 		Product product = productDAO.getProduct(productId);

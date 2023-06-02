@@ -1,4 +1,4 @@
-<%@include file="/WEB-INF/views/include/admin-header.jsp"%>
+<%@include file="/WEB-INF/views/include/library.jsp"%>
 <title>Admin Users Manager</title>
 <style>
 td {

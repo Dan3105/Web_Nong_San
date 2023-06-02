@@ -1,10 +1,7 @@
 package tad.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Base64;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +28,6 @@ import tad.bean.UploadFile;
 import tad.bean.UserBean;
 import tad.entity.Account;
 import tad.entity.Role;
-import tad.utility.CaptchaGenerator;
 import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
@@ -93,7 +89,7 @@ public class UserGuestController {
 				&& BCrypt.checkpw(user.getPassword(), ValidateAdmin.getPassword())) {
 
 			if (ValidateAdmin.getStatus() == 0) {
-				modelMap.addAttribute("error", "Tài khoản không đúng hoặc sai mật khẩu");
+				modelMap.addAttribute("alert", 1);
 				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 				return "user/user-login";
 			}
@@ -112,10 +108,11 @@ public class UserGuestController {
 			}
 
 			session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin);
-			return "redirect:/";
+			session.setAttribute("account", ValidateAdmin);
+			return "redirect:/index.htm";
 		}
 
-		modelMap.addAttribute("error", "Tài khoản không đúng hoặc sai mật khẩu");
+		modelMap.addAttribute("alert", 1);
 		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 		return "user/user-login";
 	}
@@ -196,8 +193,9 @@ public class UserGuestController {
 			String to = email;
 			String subject = "Reset password";
 
-			String htmlContent = "Click the link below:" + 
-			"http://localhost:9090/Web_Nong_San/guest/userrequest.htm?email="+email+"&ecypt="+acc.getPassword()+ "";
+			String htmlContent = "Click the link below:"
+					+ "http://localhost:9099/Web_Nong_San/guest/userrequest.htm?email=" + email + "&ecypt="
+					+ acc.getPassword() + "";
 
 			String body = "Click at this link to change the password: ";
 			try {
@@ -217,7 +215,7 @@ public class UserGuestController {
 
 	}
 
-	@RequestMapping(value="userrequest", method=RequestMethod.GET)
+	@RequestMapping(value = "userrequest", method = RequestMethod.GET)
 	private String gResetPassword(@RequestParam("email") String email, @RequestParam("ecypt") String pwwencyt,
 			ModelMap model) {
 		Account accUser = accountDAO.findAccountByEmail(email);
@@ -231,7 +229,8 @@ public class UserGuestController {
 
 	@RequestMapping(value = "userrequest", method = RequestMethod.POST)
 	private String pResetPassword(@RequestParam("email") String email, @RequestParam("password") String pw,
-			@RequestParam("confirm-passsword") String cppw, ModelMap model, @RequestParam("oldPath") String oldPath,HttpServletRequest request) {
+			@RequestParam("confirm-passsword") String cppw, ModelMap model, @RequestParam("oldPath") String oldPath,
+			HttpServletRequest request) {
 		Account accUser = accountDAO.findAccountByEmail(email);
 
 		if (accUser != null && pw.compareTo(cppw) == 0) {
@@ -239,7 +238,7 @@ public class UserGuestController {
 			accountDAO.updateAccount(accUser);
 			return "redirect:/guest.htm";
 		}
-		//System.out.println(referringURL);		
-		return "redirect:" +oldPath;
+		// System.out.println(referringURL);
+		return "redirect:" + oldPath;
 	}
 }

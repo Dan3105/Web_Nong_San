@@ -1,123 +1,178 @@
-<%@include file="/WEB-INF/views/include/admin-header.jsp"%>
-<title>Login</title>
-<link rel="stylesheet"
-	href="<c:url value="/assets/css/usercss/user-login.css"/>">
-</head>
+<%@include file="/WEB-INF/views/include/library.jsp"%>
+
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<style>
+.navbar-brand img {
+	max-width: 150px;
+}
+
+#passwordToggler {
+	color: #001e2b;
+	cursor: pointer;
+	font-size: 16px;
+	position: absolute;
+	right: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+input[type='checkbox']:checked {
+	background-color: green;
+}
+</style>
 
 <body>
-	<section class="h-100 gradient-form" style="background-color: #eee;">
-		<div class="container py-5 h-100">
-			<div
-				class="row d-flex justify-content-center align-items-center h-100">
-				<div class="col-xl-10">
-					<div class="card rounded-3 text-black">
-						<div class="row g-0">
-							<div class="col-lg-6">
-								<div class="card-body p-md-5 mx-md-4">
+	<nav class="navbar shadow-sm p-3 mb-5 bg-body ">
+		<div class="container-fluid">
+			<a class="navbar-brand "
+				href='<c:url value = "index.htm?language=${pageContext.response.locale}"/>'>
+				<img src="${company.logoNavImg }" alt="Logo">
+			</a>
+		</div>
+	</nav>
 
-									<div class="text-center">
-										<img src="assets/img/logo.png" style="width: 185px;"
-											alt="logo">
-									</div>
+	<section class="my-lg-14 my-5">
+		<div class="container">
 
-									<form:form method="post" action="guest.htm"
-										modelAttribute="userbean" class="pt-4">
-										<p class="fw-bold">Please login to your account</p>
-
-										<div class="form-outline pt-2 mb-4">
-											<label class="form-label" for="username">Username</label>
-											<form:input placeholder="Email address" type="email"
-												class="form-control" path="username" id="username" />
-										</div>
-
-										<div class="form-outline mb-4">
-											<label class="form-label" for="password">Password</label>
-											<form:input type="password" class="form-control"
-												path="password" id="password" />
-										</div>
-										<label> <form:checkbox path="isRemember" /> Remember
-											me
-										</label>
-										<div class="text-center pt-1 mb-5 pb-1">
-											<button name="guest-login"
-												class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
-												type="submit">Log in</button>
-											<a data-bs-toggle="modal" data-bs-target="#exampleModal"
-												class="text-muted" href="#">Forgot password?</a>
-											<!-- Button trigger modal -->
-
-										</div>
-
-										<div
-											class="d-flex align-items-center justify-content-center pb-4">
-											<p class="mb-0 me-2">Don't have an account?</p>
-											<a href="guest/guest-register.htm"><button type="button"
-													class="btn btn-outline-danger">Create new</button></a>
-										</div>
-									</form:form>
-
-								</div>
-							</div>
-							<div class="col-lg-6 d-flex align-items-center gradient-custom-2">
-								<div class="text-white px-3 py-4 p-md-5 mx-md-4">
-									<h4 class="mb-4">We are more than just a company</h4>
-									<p class="small mb-0">Lorem ipsum dolor sit amet,
-										consectetur adipisicing elit, sed do eiusmod tempor incididunt
-										ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-										quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-										ea commodo consequat.</p>
-								</div>
-							</div>
-						</div>
+			<c:if test="${alert == 1}">
+				<div class="position-fixed bottom-0 end-0 p-3">
+					<div class="  alert alert-danger alert-dismissible fade show"
+						role="alert">
+						Wrong email or password
+						<button type="button" class="ms-auto btn-close"
+							data-bs-dismiss="alert" aria-label="Close"></button>
 					</div>
 				</div>
+
+			</c:if>
+
+
+
+			<!-- row -->
+			<div class="row justify-content-center align-items-center">
+				<div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
+					<!-- img -->
+					<img src="assets/img/signin-g.svg" alt="" class="img-fluid">
+				</div>
+				<!-- col -->
+				<div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
+					<div class="mb-lg-9 mb-3">
+						<h1 class="mb-1 h2 fw-bold">
+							Sign in to <span class="text-success">Tad Garden </span>
+						</h1>
+						<p>Welcome back to Tad Garden! Enter your email to get
+							started.</p>
+					</div>
+
+					<form:form method="post" action="guest.htm"
+						modelAttribute="userbean" class="pt-2">
+						<div class="row g-3">
+							<!-- row -->
+
+							<div class="col-12">
+								<!-- input -->
+								<form:input placeholder="Email address" type="email"
+									class="form-control" path="username" id="username" />
+							</div>
+							<div class="col-12">
+								<!-- input -->
+								<div class="password-field position-relative">
+									<form:input type="password" placeholder="Password"
+										class="form-control" path="password" id="password" />
+									<i id="passwordToggler" onclick="toggleIcon(this)"
+										class="bi bi-eye-slash"></i>
+								</div>
+
+							</div>
+							<div class="d-flex justify-content-between">
+								<!-- form check -->
+								<div class="form-check">
+									<input class="form-check-input" path="isRemember"
+										type="checkbox" value="" id="flexCheckDefault">
+									<!-- label -->
+									<label class="form-check-label" for="flexCheckDefault">
+										Remember me </label>
+								</div>
+								<div>
+									<a data-bs-toggle="modal" data-bs-target="#exampleModal"
+										class="text-muted" href="#">Forgot password?</a>
+								</div>
+							</div>
+							<!-- btn -->
+							<div class="col-12 d-grid">
+								<button name="guest-login"
+									class="btn btn-success btn-block  mb-3" type="submit">Log
+									in</button>
+							</div>
+							<!-- link -->
+							<div>
+								Do not have an account? <a href="guest/guest-register.htm"
+									class="link-success ">Create new</a>
+							</div>
+						</div>
+					</form:form>
+				</div>
 			</div>
+
 		</div>
 	</section>
 
-
-	<!-- Modal -->
 	<div class="modal fade" id="exampleModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel">Password
-						Reset</h1>
+
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
 				<form action="guest/resend-password.htm" method="post">
 					<div class="modal-body">
 						<div class="card text-center w-100">
-							<div class="card-header h5 text-white bg-primary"></div>
 							<div class="card-body px-5">
-								<p class="card-text py-2">Enter your email address and we'll
-									send you an email with instructions to reset your password.</p>
-								<div class="form-outline">
-									<input name="email" type="email" id="typeEmail"
-										class="form-control my-3" /> <label class="form-label"
-										for="typeEmail">Email input</label>
+								<div class="mb-lg-9 mb-3">
+									<!-- heading -->
+									<h1 class="mb-2 h2 fw-bold ">Forgot your password?</h1>
+									<p>Please enter the email address associated with your
+										account and We will email you a link to reset your password.</p>
+								</div>
+								<div class="form-outline d-flex align-items-center ">
+									<label class="form-label me-5" for="typeEmail">Email:</label> <input
+										name="email" type="email" id="typeEmail"
+										class="form-control my-3" />
 								</div>
 
 								<img src="${path }/captcha-image.htm" alt="Captcha Image"><br>
-								<br> <label for="captcha">Enter Captcha:</label> <input
-									type="text" id="captcha" name="captcha"><br> <br>
-								<button class="btn btn-primary" type="submit">Reset
-									password</button>
+								<div class="form-outline d-flex align-items-center">
+									<label class="form-label me-4" for="captcha">Captcha:</label><input
+										type="text" id="captcha" name="captcha"
+										class="form-control my-3" />
+								</div>
+								<div class="d-flex justify-content-end">
+									<button class="btn btn-success " type="submit">Reset</button>
+								</div>
+
 							</div>
 						</div>
 					</div>
 				</form>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">Close</button>
-				</div>
 			</div>
 		</div>
 	</div>
+
+	<%@include file="/WEB-INF/views/include/footer.jsp"%>
+	<script>
+		//var x = document.querySelector("#passwordToggler");
+		var pass = document.getElementById("password");
+		toggleIcon = function(x) {
+			x.classList.toggle('bi-eye');
+			const type = pass.getAttribute("type") === "password" ? "text"
+					: "password";
+			password.setAttribute("type", type);
+		};
+	</script>
+	<script type="text/javascript" src="assets/js/user/account.js"></script>
 </body>
 
-<footer></footer>
+
 </html>

@@ -1,4 +1,4 @@
-<%@include file="/WEB-INF/views/include/admin-header.jsp"%>
+<%@include file="/WEB-INF/views/include/library.jsp"%>
 <script src="<c:url value="/assets/js/admin/AdminRegister.js"/>"></script>
 <title>Register</title>
 <base href="${pageContext.servletContext.contextPath }" />

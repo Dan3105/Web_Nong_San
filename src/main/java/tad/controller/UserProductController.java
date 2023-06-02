@@ -27,6 +27,7 @@ import tad.entity.Product;
 import tad.entity.Wishlist;
 import tad.entity.WishlistId;
 import tad.utility.Constants;
+import tad.utility.DefineAttribute;
 import tad.utility.Ultis;
 
 @Controller
@@ -88,10 +89,10 @@ public class UserProductController {
 	public String addToCart(ModelMap model, RedirectAttributes reAttributes, HttpServletRequest request,
 			HttpSession session, @RequestParam("productId") int productID) {
 
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 
 		if (account == null) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/guest.htm";
 		} else {
 
 			Cart cart = cartDAO.getCart(account.getAccountId(), productID);
@@ -122,10 +123,10 @@ public class UserProductController {
 	public String addToWishlist(ModelMap model, RedirectAttributes reAttributes, HttpServletRequest request,
 			HttpSession session, @RequestParam("productId") int productID) {
 
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 
 		if (account == null) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/guest.htm";
 		} else {
 
 			Wishlist wishlist = wishlistDAO.getWishlist(account.getAccountId(), productID);

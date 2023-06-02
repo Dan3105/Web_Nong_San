@@ -1,4 +1,4 @@
-<%@include file="/WEB-INF/views/include/admin-header.jsp"%>
+<%@include file="/WEB-INF/views/include/library.jsp"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 </head>
 <style>

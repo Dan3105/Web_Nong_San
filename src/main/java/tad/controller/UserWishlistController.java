@@ -17,6 +17,7 @@ import tad.DAO.IProductDAO;
 import tad.DAO.IWishlistDAO;
 import tad.entity.Account;
 import tad.entity.Wishlist;
+import tad.utility.DefineAttribute;
 
 @Controller
 @RequestMapping("/wishlist/")
@@ -25,20 +26,14 @@ public class UserWishlistController {
 
 	@Autowired
 	private IWishlistDAO wishlistDAO;
-	@Autowired
-	private IProductDAO productDAO;
-	@Autowired
-	private ICartDAO cartDAO;
-	@Autowired
-	private IAccountDAO accountDAO;
 
 	// Trả về ds giỏ hàng
 	@RequestMapping(value = "index")
 	public String cart(ModelMap model, HttpSession session) {
 
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/guest.htm";
 		}
 		List<Wishlist> list = wishlistDAO.getWishlist(account.getAccountId());
 		model.addAttribute("wishlists", list);
@@ -48,9 +43,9 @@ public class UserWishlistController {
 
 	@RequestMapping(value = "delete/{productID}.htm")
 	public String delete(ModelMap model, HttpSession session, @PathVariable("productID") String productID) {
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/guest.htm";
 		}
 		wishlistDAO.deleteWishlist(wishlistDAO.getWishlist(account.getAccountId(), Integer.parseInt(productID)));
 		List<Wishlist> list = wishlistDAO.getWishlist(account.getAccountId());

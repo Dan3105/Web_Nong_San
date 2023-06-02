@@ -88,8 +88,9 @@
 					<s:message code="global.col3.title" />
 				</h5>
 				<p>
-					<a href="index.htm" class="text-white" style="text-decoration: none;">
-						<s:message code="global.nav_item1" />
+					<a href="index.htm" class="text-white"
+						style="text-decoration: none;"> <s:message
+							code="global.nav_item1" />
 					</a>
 				</p>
 				<p>

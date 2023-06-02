@@ -22,6 +22,7 @@ import tad.entity.Cart;
 import tad.entity.OrderDetail;
 import tad.entity.OrderDetailId;
 import tad.entity.Orders;
+import tad.utility.DefineAttribute;
 
 @Controller
 @RequestMapping(value = "/order/")
@@ -43,9 +44,9 @@ public class UserOrderController {
 	@RequestMapping("success")
 	public String success(HttpSession session,
 			@RequestParam(value = "totalPrice", defaultValue = "0") float totalPice) {
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/guest.htm";
 		}
 		List<Cart> listCarts = cartDAO.getCart(account.getAccountId());
 		Orders orders = new Orders();
