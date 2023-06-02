@@ -4,15 +4,15 @@
 	<%@include file="/WEB-INF/views/include/admin-header-nav.jsp"%>
 	<div class="d-flex align-items-center justify-content-end"
 		style="height: 50px">
-		<a href="unresolve-order.htm"><button class="m-1 btn btn-info">Unresolved</button></a>
-		<a href="moving-order.htm"><button class="m-1 btn btn-warning">On
-				Moving</button></a> <a href="resolved-order.htm"><button
+		<a href="admin/orders/unresolve-order.htm"><button class="m-1 btn btn-info">Unresolved</button></a>
+		<a href="admin/orders/moving-order.htm"><button class="m-1 btn btn-warning">On
+				Moving</button></a> <a href="admin/orders/resolved-order.htm"><button
 				class="m-1 btn btn-success">Success</button></a> <a
-			href="cancel-order.htm"><button class="m-1 btn btn-danger">Cancel</button></a>
+			href="admin/orders/cancel-order.htm"><button class="m-1 btn btn-danger">Cancel</button></a>
 	</div>
 
 
-	<div class="container" style="height: 100vh">
+	<div class="container">
 		<c:forEach varStatus="status" var="item" items="${orders}">
 			<!--  -->
 			<input type="hidden" value="${item.idOrder }" />
@@ -159,7 +159,7 @@
 								</div>
 								<!-- Total -->
 								<form method="post"
-									action="update-order${item.idOrder}.htm?source=${source}">
+									action="admin/orders/update-order${item.idOrder}.htm?source=${source}">
 									<div class="d-flex justify-content-between pt-2 pb-2 ms-3 me-3">
 										<div>
 											<label for="status" class="text-muted mb-0">Status:</label> <select
