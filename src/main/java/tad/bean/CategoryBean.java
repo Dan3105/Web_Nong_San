@@ -1,17 +1,21 @@
 package tad.bean;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import tad.entity.Category;
+import tad.entity.Product;
 
 public class CategoryBean {
 	private int id;
 	private String name;
 	private String image;
 	private MultipartFile fileImage;
+	private Set<Product> products = new HashSet<>(0);
 
 	public CategoryBean() {
 		this.name = "";
@@ -22,6 +26,21 @@ public class CategoryBean {
 		this.id = id;
 		this.name = name;
 		this.image = image;
+	}
+
+	public CategoryBean(int id, String name, String image, Set<Product> products) {
+		this.id = id;
+		this.name = name;
+		this.image = image;
+		this.products = products;
+	}
+
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
 
 	public CategoryBean(String name, String image) {
@@ -68,7 +87,7 @@ public class CategoryBean {
 		ArrayList<CategoryBean> categories = new ArrayList<>();
 		for (var categoryData : list) {
 			CategoryBean bean = new CategoryBean(categoryData.getCategoryId(), categoryData.getName(),
-					categoryData.getImage());
+					categoryData.getImage(), categoryData.getProducts());
 			categories.add(bean);
 		}
 		return categories;

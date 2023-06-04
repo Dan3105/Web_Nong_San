@@ -1,7 +1,7 @@
 <%@include file="/WEB-INF/views/include/library.jsp"%>
 
 <body>
-	<%@include file="/WEB-INF/views/include/admin-header-nav.jsp"%>
+	<%@include file="/WEB-INF/views/admin/admin-header-nav.jsp"%>
 	<div class="d-flex align-items-center justify-content-center w-100"
 		style="height: 75vh">
 		<form:form method="post" action="profile.htm"

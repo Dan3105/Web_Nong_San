@@ -1,149 +1,192 @@
 <%@include file="/WEB-INF/views/include/library.jsp"%>
-<link rel="stylesheet"
-	href="<c:url value="/assets/css/admincss/admin-category.css"/>">
-<script src="<c:url value="/assets/js/admin/AdminCategoryManager.js"/>"></script>
-<title>Admin Category Manager</title>
-<style>
-td {
-	height: 6vh;
-}
-</style>
 
-<body style="background-color: var($ gray-300)">
-	<%@include file="/WEB-INF/views/include/admin-header-nav.jsp"%>
-	<div class="row container">
-		<div class="col-sm-12 category-menu container">
-			<p class="h2 bold">Category</p>
-			<a href="category/add.htm"><button class="btn btn-success">Add
-					Category</button></a>
-			<form method="GET"
-				action="${path }/admin/category/searchCategory.htm">
-				<div class="input-group">
-					<div class="input-group mb-3">
-						<input type="text" class="form-control"
-							placeholder="Name Category" aria-label="search" name="search">
-						<button type="submit" class="btn btn-primary">
-							<i class="ti-search"></i>
-						</button>
+<body>
+	<c:choose>
+		<c:when test="${alert == 1}">
+			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+				<div class="  alert alert-danger alert-dismissible fade show"
+					role="alert">
+					Delete Failed
+					<button type="button" class="ms-auto btn-close"
+						data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			</div>
+
+		</c:when>
+		<c:when test="${alert == 2}">
+			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+				<div class="  alert alert-success alert-dismissible fade show"
+					role="alert">
+					Delete Successfully
+					<button type="button" class="ms-auto btn-close"
+						data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			</div>
+
+		</c:when>
+
+	</c:choose>
+	<div class="row">
+		<!-- Sidebar -->
+		<div class="col-2 d-none d-lg-inline "><%@include
+				file="/WEB-INF/views/admin/admin-header-nav.jsp"%></div>
+		<div class="col-10 col-12-sm col-12-md">
+			<div id="content-wrapper" class="d-flex flex-column">
+				<nav
+					class="  navbar navbar-light bg-white mb-4 static-top shadow d-none d-lg-inline">
+					<%@include file="/WEB-INF/views/admin/admin-topbar.jsp"%>
+				</nav>
+
+				<div class="container">
+					<!-- Breadcrum -->
+					<div class="row mb-8">
+						<div class="col-md-12">
+							<div class="d-md-flex justify-content-between align-items-center">
+								<div>
+									<h2>Categories</h2>
+									<!-- breacrumb -->
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb mb-0 text-muted fs-6 fw-semibold">
+											<li class="breadcrumb-item  "><a
+												href="admin/user/dashboard.htm"
+												class="text-decoration-none text-success ">Dashboard </a></li>
+											<li class="breadcrumb-item active" aria-current="page"
+												class="text-decoration-none">Category</li>
+										</ol>
+
+									</nav>
+								</div>
+								<!-- button -->
+								<div>
+									<a href="admin/category/add.htm" class="btn btn-success">Add
+										New Category</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--End Breadcrum -->
+
+
+					<div class="row  ">
+						<div class="col-xl-12 col-12 mb-5">
+							<div class=" px-6 py-6 p-4">
+								<div class="row justify-content-between">
+									<div class="col-lg-4 col-md-6 col-12 mb-2 mb-md-0">
+										<form class="d-flex" role="search"
+											action="admin/category/searchCategory.htm">
+											<input class="form-control" type="search"
+												placeholder="Search Category" aria-label="Search"
+												name="search">
+										</form>
+									</div>
+									<div class="col-xl-2 col-md-4 col-12">
+										<div class="dropdown">
+											<button class="btn btn-success dropdown-toggle" type="button"
+												data-bs-toggle="dropdown" aria-expanded="false"><c:if test="${filter == 0 }">All</c:if>
+												<c:if test="${filter == 1 }">Unpublished</c:if>
+												<c:if test="${filter == 2 }">Published</c:if></button>
+											<ul class="dropdown-menu">
+												<li><a class="dropdown-item"
+													href="admin/category.htm?filter=0">All</a></li>
+												<li><a class="dropdown-item"
+													href="admin/category.htm?filter=1">Unpublished</a></li>
+												<li><a class="dropdown-item"
+													href="admin/category.htm?filter=2">Published</a></li>
+
+											</ul>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+
+					<!-- End Search  Filter -->
+					<!-- table -->
+					<div class="table-responsive ">
+						<table class="table ">
+							<thead class="position-sticky top-0 ">
+								<tr class="table-success">
+									<th>Image</th>
+									<th>Category</th>
+									<th>Product Size</th>
+									<th>Update</th>
+									<th>Delete</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<c:forEach varStatus="status" var="item" items="${list}">
+									<tr>
+										<td class="align-middle"><a
+											href="product/index.htm?categoryId=${item.id }"> <img
+												src="assets/img/category/${item.image}"
+												alt="Category
+                                                Name"
+												style="width: 80px"></a></td>
+										<td class="align-middle"><a
+											href="product/index.htm?categoryId=${item.id }"
+											class="text-dark">${item.name}</a></td>
+										<td class="align-middle">${item.products.size()}</td>
+
+										<td class="align-middle"><a
+											href="admin/category/update${item.id}.htm"
+											class="btn btn-warning btn-sm"> Update</a></td>
+										<td class="align-middle"><a type="button"
+											href="admin/category/delete.htm?id=${item.id}"
+											class="btn btn-danger btn-sm ${item.products.size() > 0 ? 'disabled' : '' }">
+												Delete </a></td>
+										<td class="align-middle"><c:if
+												test="${item.products.size() > 0}">
+												<span class="badge bg-success">Published</span>
+											</c:if> <c:if test="${item.products.size() == 0}">
+												<span class="badge bg-danger">Unpublished</span>
+											</c:if></td>
+
+
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+
+
 					</div>
 				</div>
-			</form>
-			<div class="category-menu-content">
-				<!-- Bang mat hang -->
-				<div class="h-100 overflow-y-scroll position-relative">
 
-					<table class="table table-hover table-striped table-categories">
-						<thead class="position-sticky top-0 bg-light">
-							<tr>
-								<th class="col" scope="col">Ten Mat Hang</th>
-								<th class="col" scope="col">Hinh anh</th>
-								<th class="col-3" scope="col">Insert</th>
-								<th class="col-3" scope="col">Delete</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach varStatus="status" var="item" items="${list}">
-								<tr>
 
-									<td id="CategoryName${status.index}">
-										<div>
-											<p class="p-0 m-0">${item.name }</p>
-										</div>
-									</td>
-									<td id="ImageName${status.index }">
-										<div style="height: inherit">
-											<c:if test="${item == null }">
-												<img class="h-100" alt="Image-null"
-													src=https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg />
-											</c:if>
-											<c:if test="${item != null }">
-												<img class="h-100" alt="Image${status.index}"
-													src="<c:url value="/assets/img/category/${item.image}"/>">
-											</c:if>
-										</div>
-									</td>
-									<td>
-										<div
-											class="h-100 d-flex align-items-center justify-content-start">
-											<a href="category/update${item.id }.htm"><button
-													class="btn btn-primary" type="button"
-													id="edit_button${status.index}">
-													<i class="ti-pencil-alt"></i>
-												</button></a>
-										</div>
-									</td>
-									<td>
-										<div
-											class="h-100 d-flex align-items-center justify-content-start">
-											<button type="button" class="btn btn-danger"
-												data-bs-toggle="modal" data-bs-target="#exampleModal"
-												id="del_button${status.index }"
-												data-value="category/delete${item.id}.htm"
-												class="btn btn-danger ms-2">
-												<i class="ti-trash"></i>
-											</button>
-										</div>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-
-				</div>
-				<c:choose>
-					<c:when test="${crrPage-1 < 1}">
-						<a class="disabled cursor-not-allowed" href="#" class=" m-2"><button
-								disabled class="btn btn-outline-info  cursor-not-allowed">
-								<i class="ti-angle-double-left"></i>
-							</button></a>
-					</c:when>
-					<c:otherwise>
-						<a href="${source }?crrPage=${crrPage - 1}" class=" m-2"><button
-								class="btn btn-outline-info">
-								<i class="ti-angle-double-left"></i>
-							</button></a>
-					</c:otherwise>
-				</c:choose>
-
-				<c:choose>
-					<c:when test="${crrPage + 1 <= totalPage  }">
-						<a href="${source }?crrPage=${crrPage + 1}" class=" m-2"><button
-								class="btn btn-outline-info">
-								<i class="ti-angle-double-right"></i>
-							</button></a>
-					</c:when>
-					<c:otherwise>
-						<a class="disabled cursor-not-allowed" href="#" class=" m-2"><button
-								disabled class="btn btn-outline-info  cursor-not-allowed">
-								<i class="ti-angle-double-right"></i>
-							</button></a>
-					</c:otherwise>
-				</c:choose>
 			</div>
+
+			<div class="d-flex justify-content-center ">
+
+				<!-- nav -->
+				<nav>
+					<ul class="pagination d-flex justify-content-center ms-2">
+						<li class="page-item ${(crrPage == 1) ? 'disabled' : '' }"><a
+							class="page-link  mx-1 " aria-label="Previous"
+							href="admin/category.htm?crrPage=${crrPage - 1}&filter=${filter}">
+								<span aria-hidden="true">&laquo;</span>
+						</a></li>
+						<c:forEach var="i" begin="1" end="${totalPage }" varStatus="in">
+
+							<li class="page-item "><a
+								class="page-link  mx-1 ${(crrPage == in.count) ? 'active' : '' }"
+								href="admin/category.htm?crrPage=${in.count}&filter=${filter}">${in.count}</a></li>
+						</c:forEach>
+						<li class="page-item"><a
+							class="page-link mx-1 text-body ${(crrPage == totalPage) ? 'disabled' : '' }"
+							aria-label="Next"
+							href="admin/category.htm?crrPage=${crrPage + 1}&filter=${filter}">
+								<span aria-hidden="true">&raquo;</span>
+						</a></li>
+					</ul>
+				</nav>
+
+			</div>
+			<!--End pagination -->
 		</div>
-	</div>
-
-
 </body>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1"
-	aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"
-					aria-label="Close"></button>
-			</div>
-			<div class="modal-body">Are you sure to Delete ?</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"
-					data-bs-dismiss="modal">Close</button>
-				<a href="#"><button type="button" class="btn btn-primary">Delete</button></a>
-			</div>
-		</div>
-	</div>
-</div>
 <script src="<c:url value="/assets/js/admin/AlertHandler.js"/>"></script>
-<%@include file="/WEB-INF/views/include/admin-footer.jsp"%>
+</html>

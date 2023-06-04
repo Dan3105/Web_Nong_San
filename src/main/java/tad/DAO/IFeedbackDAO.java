@@ -13,9 +13,15 @@ public interface IFeedbackDAO {
 
 	Feedback getFeedback(int accountId, int productId);
 
+	Feedback getFeedback(int feedbackId);
+
 	List<Feedback> listFeedback(int productId);
 
 	List<Feedback> listFeedback(int productId, int feedbackFilter);
+
+	List<Feedback> listFeedback();
+
+	List<Feedback> searchFeedback(String search);
 
 	// 0 Moi Nhat
 	// 1 Tu 5 sao - 1 sao

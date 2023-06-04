@@ -17,7 +17,7 @@
 			<div class="position-fixed bottom-0 end-0 p-3">
 				<div class="  alert alert-danger alert-dismissible fade show"
 					role="alert">
-					Account already exits
+					Edit Failed
 					<button type="button" class="ms-auto btn-close"
 						data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>
@@ -28,7 +28,7 @@
 			<div class="position-fixed bottom-0 end-0 p-3">
 				<div class="  alert alert-success alert-dismissible fade show"
 					role="alert">
-					Sign Up Successfully
+					Edit Successfully
 					<button type="button" class="ms-auto btn-close"
 						data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>
@@ -68,7 +68,7 @@
 												href="admin/user/get-employee.htm"
 												class="text-decoration-none text-success ">Employee </a>
 											<li class="breadcrumb-item active" aria-current="page"
-												class="text-decoration-none">Create Employee</li>
+												class="text-decoration-none">Edit Employee</li>
 										</ol>
 
 									</nav>
@@ -97,23 +97,16 @@
 										<form:errors class="text-danger" path="lastName" />
 
 									</div>
-									<div class="col-12">
 
-										<form:input type="email" class="form-control"
-											placeholder="Email" id="email" path="email" />
-										<form:errors class="text-danger" path="email" />
-									</div>
-									<div class="col-12">
-										<div class="password-field position-relative ">
-											<form:input type="password" class="form-control"
-												id="password" placeholder="Enter password" path="password" />
-											<span><i onclick="toggleIcon(this)"
-												id="passwordToggler" class="bi bi-eye-slash"></i></span>
-											<form:errors class="text-danger" path="password" />
-										</div>
-									</div>
+
+									<form:input  class="form-control" type="hidden"
+										id="email" path="email" />
+
+									<form:input class="form-control" type="hidden"
+										id="password" path="password" />
+
 									<div class="col-12 ">
-										<form:input type="text" class="form-control" id="phoneNumber"
+										<form:input type="text" class="form-contr	ol" id="phoneNumber"
 											path="phoneNumber" placeholder="Phone Number" />
 										<form:errors class="text-danger" path="phoneNumber" />
 									</div>

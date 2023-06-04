@@ -1,7 +1,9 @@
 package tad.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import tad.DAO.ICategoryDAO;
 import tad.bean.CategoryBean;
@@ -24,33 +27,48 @@ import tad.utility.ConverterUploadHandler;
 @Controller
 @RequestMapping("/admin/category")
 public class AdminControllerCategory {
-	@Autowired
-	private SessionFactory factory;
 
 	@Autowired
 	private ICategoryDAO categoryDAO;
 
+	@Autowired
+	@Qualifier("rootFile")
+	private UploadFile rootFile;
+
+	@Autowired
+	@Qualifier("categoryImgDir")
+	private UploadFile categoryImgDir;
+
 	@RequestMapping()
 	public String gCategoryList(ModelMap model,
-			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
+			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage,
+			@RequestParam(value = "filter", defaultValue = "0") int filter) {
 
 		List<Category> categories = categoryDAO.getListCategories();
-		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
-		if (startIndex >= categories.size()) {
-			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
-		}
-		model.addAttribute("crrPage", crrPage);
 
-		int totalPage = categories.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
-		if (categories.size() % Constants.PRODUCT_PER_PAGE_IN_HOME != 0) {
-			totalPage += 1;
+		if (filter == 1) {
+			categories = categories.stream().filter(r -> r.getProducts().size() == 0).collect(Collectors.toList());
+		} else if (filter == 2) {
+			categories = categories.stream().filter(r -> r.getProducts().size() > 0).collect(Collectors.toList());
 		}
+
+		int startIndex = (crrPage - 1) * Constants.USER_PER_PAGE;
+		int totalPage = 1;
+		if (categories.size() <= Constants.USER_PER_PAGE)
+			totalPage = 1;
+		else {
+			totalPage = categories.size() / Constants.USER_PER_PAGE;
+			if (categories.size() % Constants.USER_PER_PAGE != 0) {
+				totalPage++;
+			}
+		}
+
 		model.addAttribute("totalPage", totalPage);
-
-		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(categories.subList(startIndex,
-				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, categories.size())));
+		model.addAttribute("crrPage", crrPage);
+		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(
+				categories.subList(startIndex, Math.min(startIndex + Constants.USER_PER_PAGE, categories.size())));
 		model.addAttribute("list", categoriesBean);
+		model.addAttribute("filter", filter);
 		return "admin/admin-category";
 	}
 
@@ -58,22 +76,23 @@ public class AdminControllerCategory {
 	public String gCategoryWithSearch(@RequestParam(required = false, value = "search") String search,
 			@RequestParam(required = false, value = "crrPage", defaultValue = "1") int crrPage, ModelMap model) {
 		List<Category> categories = categoryDAO.searchCategory(search);
-		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
-		if (startIndex >= categories.size()) {
-			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
+		int startIndex = (crrPage - 1) * Constants.USER_PER_PAGE;
+		int totalPage = 1;
+		if (categories.size() <= Constants.USER_PER_PAGE)
+			totalPage = 1;
+		else {
+			totalPage = categories.size() / Constants.USER_PER_PAGE;
+			if (categories.size() % Constants.USER_PER_PAGE != 0) {
+				totalPage++;
+			}
 		}
+
 		model.addAttribute("crrPage", crrPage);
-
-		int totalPage = categories.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
-		if (categories.size() % Constants.PRODUCT_PER_PAGE_IN_HOME != 0) {
-			totalPage += 1;
-		}
-
 		model.addAttribute("totalPage", totalPage);
 		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(categories.subList(startIndex,
 				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, categories.size())));
 		model.addAttribute("list", categoriesBean);
+		model.addAttribute("filter", 0);
 		return "admin/admin-category";
 	}
 
@@ -90,21 +109,37 @@ public class AdminControllerCategory {
 		Category category = categoryDAO.getCategory(id);
 		CategoryBean categoryBean = new CategoryBean(category);
 		modelMap.addAttribute("updateBean", categoryBean);
-		return "admin/admin-category-form";
+		return "redirect:admin/admin-category-form";
 	}
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
-	public String pCategoryAdd(@ModelAttribute("addBean") CategoryBean categoryBean) {
+	public String pCategoryAdd(@ModelAttribute("addBean") CategoryBean categoryBean, ModelMap model) {
 		if (categoryBean != null) {
 			Category category = new Category();
 
 			category.setName(categoryBean.getName());
-			if (categoryBean.getFileImage() != null) {
-				if (converter.MoveMultipartToDirectory(categoryBean.getFileImage(), uploadCategory.getPath())) {
-					category.setImage(converter.SetImageNameViaMultipartFile(categoryBean.getFileImage()));
+			if (categoryBean.getFileImage().isEmpty()) {
+
+			} else {
+				File file = new File(rootFile.getPath() + categoryBean.getFileImage());
+				if (file.exists())
+					file.delete();
+
+				String avatarPath = categoryImgDir.getPath() + categoryBean.getFileImage();
+				category.setImage(categoryBean.getFileImage().getOriginalFilename());
+
+				try {
+					categoryBean.getFileImage().transferTo(new File(avatarPath));
+					Thread.sleep(2000);
+				} catch (Exception e) {
+					e.printStackTrace();
+					model.addAttribute("message", 1);
+					model.addAttribute("categoryBean", categoryBean);
+					return "admin/admin-category-form";
 				}
 			}
 			categoryDAO.addCategory(category);
+			model.addAttribute("message", 2);
 		}
 
 		return "redirect:/admin/category.htm";
@@ -114,58 +149,50 @@ public class AdminControllerCategory {
 	@Qualifier("categoryImgDir")
 	private UploadFile uploadCategory;
 
-	@Autowired
-	private ConverterUploadHandler converter;
-
 	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public String pCategoryUpdate(@ModelAttribute("updateBean") CategoryBean categoryBean) {
+	public String pCategoryUpdate(@ModelAttribute("updateBean") CategoryBean categoryBean, ModelMap model) {
 		Category category = categoryDAO.getCategory(categoryBean.getId());
 		if (category != null) {
 			category.setName(categoryBean.getName());
 
-			if (categoryBean.getFileImage() != null) {
-				if (converter.MoveMultipartToDirectory(categoryBean.getFileImage(), uploadCategory.getPath())) {
-					category.setImage(converter.SetImageNameViaMultipartFile(categoryBean.getFileImage()));
+			if (categoryBean.getFileImage().isEmpty()) {
+
+			} else {
+				File file = new File(rootFile.getPath() + categoryBean.getFileImage());
+				if (file.exists())
+					file.delete();
+
+				String avatarPath = categoryImgDir.getPath() + categoryBean.getFileImage();
+				category.setImage(categoryBean.getFileImage().getOriginalFilename());
+
+				try {
+					categoryBean.getFileImage().transferTo(new File(avatarPath));
+					Thread.sleep(2000);
+				} catch (Exception e) {
+					e.printStackTrace();
+					model.addAttribute("message", 1);
+					model.addAttribute("categoryBean", categoryBean);
+					return "admin/admin-category-form";
 				}
 			}
 			categoryDAO.updateCategory(category);
+			model.addAttribute("message", 2);
 
-		} else {
-			System.out.println(String.format("Error in getting id: %d", categoryBean.getId()));
 		}
 
 		return "redirect:/admin/category.htm";
 	}
 
-	@RequestMapping(value = "delete{id}", method = RequestMethod.GET)
-	public String pCategoryDelete(@PathVariable int id, ModelMap model) {
+	@RequestMapping(value = "delete", method = RequestMethod.GET)
+	public String pCategoryDelete(@RequestParam("id") int id, RedirectAttributes reAttributes) {
 		Category category = categoryDAO.getCategory(id);
-		if (category != null) {
-			if (category.getProducts().size() > 0) {
-				model.addAttribute("error-description", "");
-				return "redirect:/admin/category.htm";
-			} else {
-				if (categoryDAO.deleteCategory(category)) {
-					model.addAttribute("success-description", "Xóa thành công");
-				} else {
-					model.addAttribute("error-description", "Xóa thất bại!");
-				}
-			}
+		System.out.println(id);
+		if (categoryDAO.deleteCategory(category)) {
+			reAttributes.addFlashAttribute("alert", 2);
+		} else {
+			reAttributes.addFlashAttribute("alert", 1);
 		}
 
 		return "redirect:/admin/category.htm";
 	}
 }
-
-/*
- * @Autowired private IAddressDAO addressDAO;
- *
- *
- * @RequestMapping(value = "register", method = RequestMethod.GET) public String
- * userRegisterGET(ModelMap model) {
- *
- * ArrayList<Province> provinceDatas = addressDAO.GetProvinceList();
- * AddressDatasBean addrDataBean = new AddressDatasBean(); AddressBean address =
- * addrDataBean.ConvertToDataAddressBean(provinceDatas);
- * model.addAttribute("address", address); return "user/userRegister"; }
- */

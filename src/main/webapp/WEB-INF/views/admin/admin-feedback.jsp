@@ -4,9 +4,9 @@
 	<c:choose>
 		<c:when test="${alert == 1}">
 			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-				<div class="  alert alert-danger alert-dismissible fade show"
+				<div class="  alert alert-success alert-dismissible fade show"
 					role="alert">
-					Delete Failed
+					Enable Successfully
 					<button type="button" class="ms-auto btn-close"
 						data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>
@@ -17,7 +17,7 @@
 			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
 				<div class="  alert alert-success alert-dismissible fade show"
 					role="alert">
-					Delete Successfully
+					Disable Successfully
 					<button type="button" class="ms-auto btn-close"
 						data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>
@@ -51,7 +51,7 @@
 												href="admin/user/dashboard.htm"
 												class="text-decoration-none text-success ">Dashboard </a></li>
 											<li class="breadcrumb-item active" aria-current="page"
-												class="text-decoration-none">Orders</li>
+												class="text-decoration-none">Feedback</li>
 										</ol>
 
 									</nav>
@@ -80,22 +80,25 @@
 											<button class="btn btn-success dropdown-toggle" type="button"
 												data-bs-toggle="dropdown" aria-expanded="false">
 												<c:if test="${filter == 0 }">All</c:if>
-												<c:if test="${filter == 1 }">Unresolved</c:if>
-												<c:if test="${filter == 2 }">On Moving</c:if>
-												<c:if test="${filter == 3 }">Success</c:if>
-												<c:if test="${filter == 4 }">Cancel</c:if>
+												<c:if test="${filter == 1 }">One</c:if>
+												<c:if test="${filter == 2 }">Two</c:if>
+												<c:if test="${filter == 3 }">Three</c:if>
+												<c:if test="${filter == 4 }">Four</c:if>
+												<c:if test="${filter == 5 }">Five</c:if>
 											</button>
 											<ul class="dropdown-menu">
 												<li><a class="dropdown-item"
 													href="admin/feedback.htm?filter=0">All</a></li>
 												<li><a class="dropdown-item"
-													href="admin/orders/unresolve-order.htm">Unresolved</a></li>
+													href="admin/feedback.htm?filter=1">One</a></li>
 												<li><a class="dropdown-item"
-													href="admin/orders/moving-order.htm">On Moving</a></li>
+													href="admin/feedback.htm?filter=2">Two</a></li>
 												<li><a class="dropdown-item"
-													href="admin/orders/resolved-order.htm">Success</a></li>
+													href="admin/feedback.htm?filter=3">Three</a></li>
 												<li><a class="dropdown-item"
-													href="admin/orders/cancel-order.htm">Cancel</a></li>
+													href="admin/feedback.htm?filter=4">Four</a></li>
+												<li><a class="dropdown-item"
+													href="admin/feedback.htm?filter=5">Five</a></li>
 
 											</ul>
 										</div>
@@ -113,27 +116,36 @@
 						<table class="table ">
 							<thead class="position-sticky top-0 ">
 								<tr class="table-success">
+									<th>Product</th>
 									<th>Name</th>
-									<th>Order ID</th>
-									<th>Status</th>
+									<th>Reviews</th>
+									<th>Rating</th>
 									<th>Date</th>
 									<th>Status</th>
-									<th>Amount</th>
+									<th>Enable</th>
 								</tr>
 							</thead>
 							<tbody>
 
-								<c:forEach varStatus="status" var="item" items="${orders}">
+								<c:forEach varStatus="status" var="item" items="${list}">
 									<tr>
-										<td class="align-middle"><span style="color: #a8729a;">${item.accName }</span></td>
-										<td class="align-middle"><span style="color: #a8729a;">${orders.orderId }</span></td>
-										<td class="align-middle"><button type="button"
-												data-bs-toggle="collapse" aria-expanded="false"
-												data-bs-target="#box-items${status.index }"
-												class="btn me-1 ms-1 btn-outline-info">
-												<p class="fw-normal mb-0">Detail Receivie</p>
-											</button></td>
+										<td class="align-middle"><a
+											href="/assets/img/products/${item.product.image}">${item.product.productName}
+										</a></td>
+										<td class="align-middle">${item.account.getName()}</td>
 										<td class="align-middle"><div class="text-truncate">${item.feedbackContent}</div></td>
+
+										<td class="align-middle"><c:forEach begin="1" end="5"
+												varStatus="index">
+												<c:choose>
+													<c:when test="${index.count <= item.ratingStar}">
+														<i class="bi bi-star-fill text-warning"></i>
+													</c:when>
+													<c:otherwise>
+														<i class="bi bi-star-fill " style="color: #e6e6e6;"></i>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach></td>
 										<td class="align-middle"><fmt:formatDate
 												value="${item.postingDate}" pattern="dd-MM-yyyy" /></td>
 										<td class="align-middle"><c:if test="${item.status == 0}">
@@ -141,9 +153,18 @@
 											</c:if> <c:if test="${item.status == 1}">
 												<span class="badge bg-success">Enable</span>
 											</c:if></td>
-										<td class="align-middle"><fmt:formatNumber
-												value="${item.price }" type="currency" currencySymbol="d"
-												maxFractionDigits="0" /></td>
+										<td class="align-middle"><a
+											href="admin/feedback/enable.htm?id=${item.feedbackId }"><button
+													class="btn btn-success" type="button">
+													<c:choose>
+														<c:when test="${item.status == 0}">
+															<i class="bi bi-lock-fill "></i>
+														</c:when>
+														<c:otherwise>
+															<i class="bi bi-unlock-fill "></i>
+														</c:otherwise>
+													</c:choose>
+												</button></a></td>
 
 
 									</tr>

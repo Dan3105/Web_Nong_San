@@ -7,7 +7,7 @@
 </style>
 <script src="<c:url value="/assets/js/admin/AddressHandler.js"/>"></script>
 <body>
-	<%@include file="/WEB-INF/views/include/admin-header-nav.jsp"%>
+	<%@include file="/WEB-INF/views/admin/admin-header-nav.jsp"%>
 	<div class="container mt-5">
 		<div class="row">
 			<div class="col-md-12">

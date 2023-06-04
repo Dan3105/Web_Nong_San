@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import tad.DAO.IFeedbackDAO;
+import tad.entity.Category;
 import tad.entity.Feedback;
 
 @Transactional
@@ -138,6 +139,47 @@ public class FeedbackDAOImpl implements IFeedbackDAO {
 
 	private List<Feedback> filterByStar(List<Feedback> list, int star) {
 		return list.stream().filter(rate -> rate.getRatingStar() == star).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Feedback> listFeedback() {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM Feedback";
+		Query query = session.createQuery(hql);
+		@SuppressWarnings("unchecked")
+		List<Feedback> feedback = query.list();
+		return feedback;
+	}
+
+	@Override
+	public List<Feedback> searchFeedback(String search) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		search = (search == null) ? "%" : "%" + search + "%";
+
+		String hql = "FROM Category WHERE Name LIKE :name";
+
+		Query query = session.createQuery(hql);
+		query.setParameter("name", search);
+
+		@SuppressWarnings("unchecked")
+		List<Feedback> list = query.list();
+
+		session.getTransaction().commit();
+		session.close();
+
+		return list;
+	}
+
+	@Override
+	public Feedback getFeedback(int feedbackId) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM Feedback WHERE feedbackId = :feedbackId";
+		Query query = session.createQuery(hql);
+		query.setInteger("feedbackId", feedbackId);
+		Feedback feedback = (Feedback) query.uniqueResult();
+		return feedback;
 	}
 
 }

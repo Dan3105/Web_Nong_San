@@ -87,9 +87,10 @@ public class UserGuestController {
 
 		if (ValidateAdmin != null && ValidateAdmin.getStatus() != 0
 				&& BCrypt.checkpw(user.getPassword(), ValidateAdmin.getPassword())) {
-
+			
+			//Tai khoan bi khoa ko dang nhap
 			if (ValidateAdmin.getStatus() == 0) {
-				modelMap.addAttribute("alert", 1);
+				modelMap.addAttribute("alert", 6);
 				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 				return "user/user-login";
 			}
@@ -147,9 +148,9 @@ public class UserGuestController {
 					user.getPhoneNumber(), user.getAvatarDir(), BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
 
 			if (accountDAO.findAccountByEmail(user.getEmail()) != null) {
-				reAttributes.addFlashAttribute(DefineAttribute.UserBeanAttribute, user);
-				reAttributes.addFlashAttribute("alert", 1);
-				return "redirect:/guest/guest-register.htm";
+				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
+				modelMap.addAttribute("alert", 1);
+				return "user/user-register";
 			}
 
 			if (accountDAO.addAccountToDB(account)) {
