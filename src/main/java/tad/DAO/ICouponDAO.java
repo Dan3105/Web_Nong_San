@@ -2,12 +2,14 @@ package tad.DAO;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import tad.entity.Account;
 import tad.entity.Coupon;
 import tad.entity.Product;
-
 public interface ICouponDAO {
 	List<Coupon> listCoupons();
+	List<Coupon> listCoupons(int accountId);
 
 	List<Product> listProductWithCoupon(int limit);
 

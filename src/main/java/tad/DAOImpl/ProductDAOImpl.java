@@ -34,6 +34,18 @@ public class ProductDAOImpl implements IProductDAO {
 	}
 
 	@Override
+	public List<Product> listProducts(int accountId) {
+		String hql = "FROM Product WHERE account.accountId = :accountId";
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		query.setParameter("accountId", accountId);
+		@SuppressWarnings("unchecked")
+		List<Product> product = query.list();
+
+		return product;
+	}
+
+	@Override
 	public List<Product> listProducts(String productName, float price, String image, int quantity, String detail,
 			Date postingDate, Date expiryDate) {
 		return null;

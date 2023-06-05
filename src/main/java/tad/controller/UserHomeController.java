@@ -10,7 +10,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import tad.DAO.IAccountDAO;
 import tad.DAO.ICartDAO;
 import tad.DAO.ICategoryDAO;
 import tad.DAO.IProductDAO;
@@ -33,8 +32,6 @@ public class UserHomeController {
 	@Autowired
 	private ICategoryDAO categoryDAO;
 	@Autowired
-	private IAccountDAO accountDAO;
-	@Autowired
 	private IWishlistDAO wishlistDAO;
 	@Autowired
 	private ICartDAO cartDAO;
@@ -46,7 +43,7 @@ public class UserHomeController {
 		int totalCart = 0;
 		int totalWishlist = 0;
 
-		List<Category> category = categoryDAO.getListCategories();
+		List<Category> category = categoryDAO.getListCategoriesHasProduct();
 		List<Product> products = productDAO.listProductsWithCoupon();
 		List<Product> newProducts = productDAO.listNewProducts();
 		List<Product> bestseller = productDAO.listBestSellerProducts();

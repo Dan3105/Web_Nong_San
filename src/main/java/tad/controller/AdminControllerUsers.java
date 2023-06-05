@@ -1,5 +1,6 @@
 package tad.controller;
 
+import java.io.File;
 import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -27,10 +28,11 @@ import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping("admin/user")
+@RequestMapping("/admin/user")
 public class AdminControllerUsers {
 	@Autowired
 	private IAccountDAO accountDAO;
+
 	@Autowired
 	@Qualifier("accountImgDir")
 	private UploadFile uploadFile;
@@ -38,13 +40,16 @@ public class AdminControllerUsers {
 	@Autowired
 	private ConverterUploadHandler convertHandler;
 
+	@Autowired
+	@Qualifier("accountDir")
+	private UploadFile accountDir;
+
+	@Autowired
+	@Qualifier("rootFile")
+	private UploadFile rootFile;
+
 	@RequestMapping()
 	public String index() {
-		return "redirect:get-employee.htm";
-	}
-
-	@RequestMapping(value = "dashboard")
-	public String dashboard() {
 		return "redirect:get-employee.htm";
 	}
 
@@ -123,16 +128,29 @@ public class AdminControllerUsers {
 	@RequestMapping(value = "create-employee", method = RequestMethod.POST)
 	public String createEmployee(@Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user,
 			BindingResult errors, RedirectAttributes reAttributes, ModelMap modelMap) {
+		Role role = accountDAO.getRoleViaEnum(EnumRoleID.EMPLOYEE);
+		Account account = null;
 		if (!errors.hasErrors()) {
-			String avatarDir = "";
-			if (!user.getAvatar().isEmpty()) {
-				if (convertHandler.MoveMultipartToDirectory(user.getAvatar(), uploadFile.getPath())) {
-					user.setAvatarDir(convertHandler.SetImageNameViaMultipartFile(user.getAvatar()));
+			if (user.getAvatar().isEmpty()) {
+			} else {
+				File file = new File(rootFile.getPath() + user.getAvatar());
+				if (file.exists())
+					file.delete();
+
+				String avatarPath = accountDir.getPath() + user.getAvatar();
+				account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
+						user.getPhoneNumber(), user.getAvatar().getOriginalFilename(),
+						BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
+				try {
+					user.getAvatar().transferTo(new File(avatarPath));
+					Thread.sleep(2000);
+				} catch (Exception e) {
+					e.printStackTrace();
+					modelMap.addAttribute("alert", 3);
+					modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
+					return "admin/admin-edit-user";
 				}
 			}
-			Role role = accountDAO.getRoleViaEnum(EnumRoleID.EMPLOYEE);
-			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
-					user.getPhoneNumber(), avatarDir, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
 
 			if (!user.getAvatarDir().isEmpty()) {
 				account.setAvatar(user.getAvatarDir());
@@ -154,37 +172,61 @@ public class AdminControllerUsers {
 		return "admin/admin-register-employee";
 	}
 
-	@RequestMapping(value = "edit-employee", method = RequestMethod.GET)
+	@RequestMapping(value = "edit", method = RequestMethod.GET)
 	public String editEmployee(ModelMap modelMap, @RequestParam("id") int id) {
 		Account account = accountDAO.getAccount(id);
-		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, account);
-		return "admin/admin-edit-employee";
+		UserBean userBean = new UserBean(account.getEmail(), account.getFirstName(), account.getLastName(),
+				account.getPhoneNumber(), account.getAvatar());
+		userBean.setPassword("***************");
+		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, userBean);
+		modelMap.addAttribute("id", id);
+		return "admin/admin-edit-user";
 	}
 
-	@RequestMapping(value = "edit-employee", method = RequestMethod.POST)
+	@RequestMapping(value = "edit", method = RequestMethod.POST)
 	public String editEmployee(ModelMap modelMap,
 			@Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user, BindingResult errors,
-			RedirectAttributes reAttributes) {
-		if (!errors.hasErrors()) {
-			if (!user.getAvatar().isEmpty()) {
-				if (convertHandler.MoveMultipartToDirectory(user.getAvatar(), uploadFile.getPath())) {
-					user.setAvatarDir(convertHandler.SetImageNameViaMultipartFile(user.getAvatar()));
-				}
+			ModelMap model, @RequestParam("id") int id) {
 
-			}
-			String avatarDir = "";
-			Role role = accountDAO.getRoleViaEnum(EnumRoleID.EMPLOYEE);
-			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
-					user.getPhoneNumber(), avatarDir, user.getPassword());
-			if (accountDAO.updateAccount(account)) {
-				reAttributes.addFlashAttribute("alert", 2);
-				return "redirect:get-employee.htm";
+		if (errors.hasErrors()) {
+			modelMap.addAttribute("alert", 1);
+			return "admin/admin-edit-user";
+		}
+		Account account = accountDAO.getAccount(id);
+		account.setLastName(user.getLastName());
+		account.setFirstName(user.getFirstName());
+		account.setPhoneNumber(user.getPhoneNumber());
+		account.setEmail(user.getEmail());
+		if (user.getAvatar().isEmpty()) {
+		} else {
+			File file = new File(rootFile.getPath() + user.getAvatar());
+			if (file.exists())
+				file.delete();
 
+			String avatarPath = accountDir.getPath() + user.getAvatar();
+			account.setAvatar(user.getAvatar().getOriginalFilename());
+			try {
+				user.getAvatar().transferTo(new File(avatarPath));
+				Thread.sleep(2000);
+			} catch (Exception e) {
+				e.printStackTrace();
+				modelMap.addAttribute("alert", 3);
+				model.addAttribute(DefineAttribute.UserBeanAttribute, user);
+				return "admin/admin-edit-user";
 			}
 		}
+
+		if (accountDAO.updateAccount(account)) {
+			if (account.getRole().getRoleName().equals("Guest"))
+				return "redirect:get-guest.htm";
+			else
+				return "redirect:get-employee.htm";
+
+		}
+
 		modelMap.addAttribute("alert", 1);
 		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
-		return "admin/admin-edit-employee";
+		return "admin/admin-edit-user";
 	}
 
 	@RequestMapping(value = "create-guest", method = RequestMethod.GET)
@@ -225,13 +267,6 @@ public class AdminControllerUsers {
 			}
 		}
 		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
-		return "admin/admin-register-guest";
-	}
-
-	@RequestMapping(value = "edit-guest", method = RequestMethod.GET)
-	public String editGuest(ModelMap modelMap, @RequestParam("id") int id) {
-		Account account = accountDAO.getAccount(id);
-		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, account);
 		return "admin/admin-register-guest";
 	}
 }

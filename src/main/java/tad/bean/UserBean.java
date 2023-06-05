@@ -14,7 +14,7 @@ public class UserBean {
 	private String email;
 
 	@NotBlank(message = "Password is required")
-	@Length(min = 6, max = 50, message = "Password must be between 8 and 50 characters")
+	@Length(min = 6, max = 50, message = "Password must be between 6 and 50 characters")
 	private String password;
 
 	@NotBlank(message = "First name is required")
@@ -44,6 +44,14 @@ public class UserBean {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
+	}
+	
+	public UserBean(String email, String firstName, String lastName, String phoneNumber,String avatarDir) {
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phoneNumber = phoneNumber;
+		this.avatarDir = avatarDir;
 	}
 
 	public String getEmail() {

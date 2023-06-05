@@ -49,10 +49,6 @@ public class EmployeeController {
 	@Autowired
 	private IAccountDAO accountDAO;
 
-	@RequestMapping("overview")
-	public String overview(ModelMap model) {
-		return "employee/employee-menu";
-	}
 
 	@RequestMapping("index")
 	public String index(ModelMap model) {

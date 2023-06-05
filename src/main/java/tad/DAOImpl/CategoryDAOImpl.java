@@ -66,6 +66,17 @@ public class CategoryDAOImpl implements ICategoryDAO {
 		List<Category> listCategory = query.list();
 		return listCategory;
 	}
+	
+	@Override
+	public List<Category> getListCategoriesHasProduct() {
+
+		String hql = "From Category WHERE SIZE(products) > 0";
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		@SuppressWarnings("unchecked")
+		List<Category> listCategory = query.list();
+		return listCategory;
+	}
 
 	@Override
 	public Category getCategory(int id) {

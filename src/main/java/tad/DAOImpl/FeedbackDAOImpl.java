@@ -87,7 +87,7 @@ public class FeedbackDAOImpl implements IFeedbackDAO {
 	@Override
 	public List<Feedback> listFeedback(int productId) {
 		Session session = sessionFactory.getCurrentSession();
-		String hql = "FROM Feedback WHERE product.productId = :productId ORDER BY postingDate DESC	";
+		String hql = "FROM Feedback WHERE product.productId = :productId AND status = 1 ORDER BY postingDate DESC	";
 		Query query = session.createQuery(hql);
 		query.setInteger("productId", productId);
 		@SuppressWarnings("unchecked")
@@ -157,7 +157,7 @@ public class FeedbackDAOImpl implements IFeedbackDAO {
 
 		search = (search == null) ? "%" : "%" + search + "%";
 
-		String hql = "FROM Category WHERE Name LIKE :name";
+		String hql = "FROM Feedback WHERE feedbackId LIKE :name";
 
 		Query query = session.createQuery(hql);
 		query.setParameter("name", search);

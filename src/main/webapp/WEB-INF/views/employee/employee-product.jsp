@@ -100,6 +100,7 @@
 									<th>Detail</th>
 									<th>Price</th>
 									<th>Edit</th>
+									<th>Delete</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -109,38 +110,52 @@
 										<td class="align-middle"><a
 											href="product/detail.htm?productId=${item.productId }"> <img
 												src="<c:url value="
-                                                        /assets/img/products/${item.image}" />"
-												alt="Category
-                                                Name"
-												style="width: 80px"></a></td>
+                                                        assets/img/products/${item.image}" />"
+												alt="Product Name" style="width: 80px"></a></td>
 										<td class="align-middle"><a
-											href="product/index.htm?categoryId=${item.productId }"
+											href="product/detail.htm?productId=${item.productId }"
 											class="text-dark">${item.productName}</a></td>
 										<td class="align-middle"><input type="hidden"
 											id="categoryId${item.productId }" value="${item.categoryId }">
 											<span>${item.categoryName }</span></td>
 
-										<td class="align-middle"><span class="text-primary">
-												${item.postingDate }</span><input type="hidden"
-											id="postingDate${item.productId }"
+										<td class="align-middle"><fmt:formatDate
+												value="${item.postingDate}" pattern="dd-MM-yyyy" /><input
+											type="hidden" id="postingDate${item.productId }"
 											value="${item.postingDate }"></td>
 										<td class="align-middle"><span>${item.quantity } </span></td>
-										<td class="align-middle"><p
-												class="text-truncate mb-4 mb-md-0">${item.detail}</p> <input
+										<td class="align-middle"><p class="text-truncate"
+												style="max-width: 50px;">${item.detail}</p> <input
 											type="hidden" id="detail${item.productId }"
 											value="${item.detail}" /></td>
+										<td class="align-middle"><c:if
+												test="${item.discount > 0}">
+												<span class="text-dark fw-bold"><fmt:formatNumber
+														value="${item.price - (item.price * item.discount)}"
+														type="currency" currencySymbol="VND" maxFractionDigits="0" /></span>
+												<span class="text-decoration-line-through text-muted">
+													<fmt:formatNumber value="${item.price }" type="currency"
+														currencySymbol="VND" maxFractionDigits="0" />
+												</span>
+											</c:if> <c:if test="${item.discount == 0}">
+												<span class="text-dark fw-bold"> <fmt:formatNumber
+														value="${item.price }" type="currency"
+														currencySymbol="VND" maxFractionDigits="0" />
+												</span>
+											</c:if></td>
 										<td class="align-middle">
 											<button onclick="UpdateProduct(${item.productId})"
 												class="btn btn-primary btn-sm" type="button">Update</button>
-											<button type="button" class="btn btn-danger"
-												data-bs-toggle="modal" data-bs-target="#exampleModal"
+
+										</td>
+										<td class="align-middle"><button type="button"
+												class="btn btn-danger btn-sm" data-bs-toggle="modal"
+												data-bs-target="#exampleModal"
 												id="del_button${status.index }"
 												data-value="products/delete${item.productId}.htm"
 												class="btn btn-danger ms-2">
-												<i class="ti-trash"></i>
-											</button>
-										</td>
-										<td class="align-middle"></td>
+												Delete
+											</button></td>
 
 
 									</tr>
@@ -185,6 +200,6 @@
 		</div>
 </body>
 <script
-	src="<c:url value=" /assets/js/employee/EmployeeProductFormHandler.js" />"></script>
-<script src="<c:url value="/assets/js/admin/AlertHandler.js"/>"></script>
+	src="<c:url value=" assets/js/employee/EmployeeProductFormHandler.js" />"></script>
+<script src="<c:url value="assets/js/admin/AlertHandler.js"/>"></script>
 </html>

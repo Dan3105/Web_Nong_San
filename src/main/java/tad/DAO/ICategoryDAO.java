@@ -11,6 +11,8 @@ public interface ICategoryDAO {
 	public boolean addCategory(Category newCategory);
 
 	public List<Category> getListCategories();
+	
+	public List<Category> getListCategoriesHasProduct();
 
 	public Category getCategory(int id);
 

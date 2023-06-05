@@ -49,16 +49,11 @@ public class AdminController {
 		return "redirect:/admin/dashboard.htm";
 	}
 
-	@RequestMapping("logout")
-	public String logout(ModelMap model, HttpSession session) {
-		return "redirect:/guest/logout.htm";
-	}
-
 	@RequestMapping("profile")
 	public String gInfo(ModelMap model, HttpSession session) {
 		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (acc == null) {
-			return "redirect:/";
+			return "redirect:/guest.htm";
 		}
 
 		UserBean userBean = new UserBean(acc.getEmail(), acc.getFirstName(), acc.getLastName(), acc.getPhoneNumber());
@@ -67,20 +62,15 @@ public class AdminController {
 		return "admin/admin-profile";
 	}
 
-	@RequestMapping(value = "profile", params = "update", method = RequestMethod.POST)
+	@RequestMapping(value = "profile", method = RequestMethod.POST)
 	public String pInfo(@Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user,
 			BindingResult errors, HttpSession session, ModelMap modelMap) {
 		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (acc == null) {
-			return "redirect:/";
+			return "redirect:/guest.htm";
 		}
 
 		if (errors.hasErrors()) {
-
-			for (var error : errors.getAllErrors()) {
-				System.out.println(error.toString());
-			}
-
 			modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 			modelMap.addAttribute("message", false);
 			return "admin/admin-profile";
@@ -114,121 +104,9 @@ public class AdminController {
 		return "admin/admin-profile";
 	}
 
-	@Autowired
-	private IAddressDAO addressDAO;
-
-	@RequestMapping("address")
-	public String gAddressAccount(HttpSession session, ModelMap modelMap) {
-		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
-		if (acc == null) {
-			return "redirect:/";
-		}
-		acc = addressDAO.fetchAddressAccount(acc);
-		ArrayList<Province> province = addressDAO.getProvinceList();
-		AddressBean addressBean = new AddressDatasBean().ConvertToDataAddressBean(province);
-
-		AddressUserBean useraddress = new AddressUserBean();
-
-		modelMap.addAttribute("useraddress", useraddress);
-		modelMap.addAttribute("addresses", acc.getAddresses());
-		modelMap.addAttribute("address", addressBean);
-		return "admin/admin-address";
-	}
-
-	@RequestMapping(value = "create-address", method = RequestMethod.POST)
-	public String pCreateAddressAccount(@Validated @ModelAttribute("useraddress") AddressUserBean userAddress,
-			BindingResult errors, HttpSession session) {
-		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
-		if (acc == null) {
-			return "redirect:/";
-		}
-		if (errors.hasErrors()) {
-			return "redirect:/admin/address.htm";
-		}
-		Ward ward = addressDAO.getWard(userAddress.getWardId());
-		if (ward == null) {
-			return "redirect:/";
-		}
-		Address address = new Address(ward, acc);
-		address.setName(userAddress.getAddressLine());
-		addressDAO.insertAddress(acc, address);
-		return "redirect:/admin/address.htm";
-	}
-
-	@RequestMapping(value = "update-address{id}", method = RequestMethod.POST)
-	public String pUpdateAddressAccount(@Validated @ModelAttribute("useraddress") AddressUserBean user,
-			BindingResult errors, @PathVariable("id") int id, HttpSession session) {
-		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
-		if (acc == null) {
-			return "redirect:/";
-		}
-		if (errors.hasErrors()) {
-			return "redirect:/admin/address.htm";
-		}
-		Address address = null;
-		acc = addressDAO.fetchAddressAccount(acc);
-		for (Address uAddress : acc.getAddresses()) {
-			if (uAddress.getAddressId() == id) {
-				address = uAddress;
-				break;
-			}
-		}
-		if (address == null) {
-			return "redirect:/";
-		}
-
-		Ward ward = addressDAO.getWard(user.getWardId());
-
-		address.setName(user.getAddressLine());
-		address.setWard(ward);
-		addressDAO.updateAddress(address);
-		return "redirect:/admin/address.htm";
-	}
-
-	@RequestMapping(value = "address/delete{id}", method = RequestMethod.POST)
-	public String pDeleteAddressAccount(@Validated @ModelAttribute("useraddress") AddressUserBean user,
-			BindingResult errors, @PathVariable("id") int id, HttpSession session) {
-		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
-		if (acc == null) {
-			return "redirect:/";
-		}
-		if (errors.hasErrors()) {
-			return "redirect:/admin/address.htm";
-		}
-		Address address = null;
-		acc = addressDAO.fetchAddressAccount(acc);
-		for (Address uAddress : acc.getAddresses()) {
-			if (uAddress.getAddressId() == id) {
-				address = uAddress;
-				break;
-			}
-		}
-
-		if (address != null) {
-			if (addressDAO.deleteAddress(address)) {
-
-			}
-		}
-
-		return "redirect:/admin/address.htm";
-	}
-
-	@RequestMapping("set-addr-default{id}")
-	public String setDefaultAddress(@PathVariable("id") int id, HttpSession session) {
-		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
-		if (acc == null) {
-			return "redirect:/";
-		}
-		acc = addressDAO.fetchAddressAccount(acc);
-		for (Address uAddress : acc.getAddresses()) {
-			if (uAddress.getAddressId() == id) {
-				acc.setDefaultAddress(uAddress);
-				accountDAO.updateAccount(acc);
-				break;
-			}
-		}
-
-		return "redirect:/admin/address.htm";
+	@RequestMapping("logout")
+	public String logout(ModelMap model, HttpSession session) {
+		return "redirect:/guest/logout.htm";
 	}
 
 }

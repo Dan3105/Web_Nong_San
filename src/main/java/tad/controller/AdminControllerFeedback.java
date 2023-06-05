@@ -60,39 +60,6 @@ public class AdminControllerFeedback {
 		return "admin/admin-feedback";
 	}
 
-	@RequestMapping("searchFeedback")
-	public String searchFeedback(@RequestParam(required = false, value = "search") String search,
-			@RequestParam(required = false, value = "crrPage", defaultValue = "1") int crrPage, ModelMap model) {
-		List<Feedback> feedbacks = feedbackDAO.searchFeedback(search);
-		int startIndex = (crrPage - 1) * Constants.USER_PER_PAGE;
-		int totalPage = 1;
-		if (feedbacks.size() <= Constants.USER_PER_PAGE)
-			totalPage = 1;
-		else {
-			totalPage = feedbacks.size() / Constants.USER_PER_PAGE;
-			if (feedbacks.size() % Constants.USER_PER_PAGE != 0) {
-				totalPage++;
-			}
-		}
-
-		model.addAttribute("crrPage", crrPage);
-		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("list",
-				feedbacks.subList(startIndex, Math.min(startIndex + Constants.USER_PER_PAGE, feedbacks.size())));
-		model.addAttribute("filter", 0);
-		return "admin/admin-feedback";
-	}
-
-	@RequestMapping(value = "delete", method = RequestMethod.GET)
-	public String deleteFeedback(@RequestParam("id") int id, RedirectAttributes reAttributes) {
-		Feedback feedback = feedbackDAO.getFeedback(id);
-		if (feedbackDAO.deleteFeedback(feedback)) {
-			reAttributes.addFlashAttribute("alert", 2);
-		} else {
-			reAttributes.addFlashAttribute("alert", 1);
-		}
-		return "redirect:/admin/feedback.htm";
-	}
 
 	@RequestMapping(value = "enable")
 	public String enableFeedback(@RequestParam("id") int id) {

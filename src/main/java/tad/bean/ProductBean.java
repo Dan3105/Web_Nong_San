@@ -1,12 +1,12 @@
 package tad.bean;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import tad.entity.Coupon;
 import tad.entity.Product;
 
 public class ProductBean {
@@ -18,7 +18,7 @@ public class ProductBean {
 	private String image;
 	private int quantity;
 	private String detail;
-	private String postingDate;
+	private Date postingDate;
 	private String unit;
 	private int discountId;
 	private double discount;
@@ -42,10 +42,8 @@ public class ProductBean {
 		quantity = 0;
 		detail = "";
 
-		Date crrDate = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		String formattedDate = formatter.format(crrDate);
-		postingDate = formattedDate;
+		
+		postingDate = new Date();
 		unit = "";
 		discount = 0;
 		discountId = -1;
@@ -60,11 +58,10 @@ public class ProductBean {
 		image = product.getImage();
 		quantity = product.getQuantity();
 		detail = product.getDetail();
+		
 
-		Date crrDate = product.getPostingDate();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String formattedDate = formatter.format(crrDate);
-		postingDate = formattedDate;
+		
+		postingDate = product.getPostingDate();
 		unit = product.getUnit();
 		discount = 0;
 		if (product.getCoupon() != null) {
@@ -148,12 +145,12 @@ public class ProductBean {
 		this.detail = detail;
 	}
 
-	public String getPostingDate() {
+	public Date getPostingDate() {
 
 		return postingDate;
 	}
 
-	public void setPostingDate(String postingDate) {
+	public void setPostingDate(Date postingDate) {
 		this.postingDate = postingDate;
 	}
 

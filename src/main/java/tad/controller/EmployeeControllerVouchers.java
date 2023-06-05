@@ -29,8 +29,6 @@ import tad.utility.DefineAttribute;
 @Controller
 @RequestMapping("/employee/vouchers")
 public class EmployeeControllerVouchers {
-	@Autowired
-	private SessionFactory factory;
 
 	@Autowired
 	private ICouponDAO couponDAO;
@@ -42,43 +40,26 @@ public class EmployeeControllerVouchers {
 		if (currentAcc == null) {
 			return "redirect:/";
 		}
+		List<Coupon> coupons = couponDAO.listCoupons(currentAcc.getAccountId());
 
-		Account tacc = couponDAO.FetchAccountCoupon(currentAcc);
-		if (tacc != null) {
-			List<Coupon> couponCreator = new ArrayList<>(tacc.getCoupons());
-
-			Collections.sort(couponCreator, (item1, item2) -> {
-				return item2.getPostingDate().compareTo(item1.getPostingDate());
-			});
-
-			int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
-
-			if (startIndex >= couponCreator.size()) {
-				crrPage = crrPage - 1; // lui lai trang truoc do
-				startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
-			}
-
-			ArrayList<CouponBean> coupons = new ArrayList<>();
-			for (Coupon coupon : couponCreator.subList(startIndex,
-					Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, couponCreator.size()))) {
-				CouponBean cp = new CouponBean(coupon);
-				coupons.add(cp);
-			}
-
-			model.addAttribute("coupons", coupons);
-			int totalPage = coupons.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
+		int startIndex = (crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME;
+		int totalPage = 1;
+		if (coupons.size() <= Constants.PRODUCT_PER_PAGE_IN_HOME)
+			totalPage = 1;
+		else {
+			totalPage = coupons.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
 			if (coupons.size() % Constants.PRODUCT_PER_PAGE_IN_HOME != 0) {
-				totalPage += 1;
+				totalPage++;
 			}
-			model.addAttribute("totalPage", totalPage);
-			CouponBean cbean = new CouponBean();
-
-			model.addAttribute("couponBean", cbean);
-			model.addAttribute("crrPage", crrPage);
-			return "employee/employee-voucher";
 		}
+		System.out.println(coupons.size());
 
-		return "redirect:/guest/logout.htm";
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("coupons",
+				coupons.subList(startIndex, Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, coupons.size())));
+		model.addAttribute("crrPage", crrPage);
+		return "employee/employee-voucher";
+
 	}
 
 	@RequestMapping(value = "update-voucher{id}.htm", method = RequestMethod.POST)

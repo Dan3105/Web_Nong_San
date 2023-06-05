@@ -133,4 +133,16 @@ public class CouponDAOImpl implements ICouponDAO {
 		return taccount == null ? account : taccount;
 	}
 
+	@Override
+	public List<Coupon> listCoupons(int accountId) {
+		// TODO Auto-generated method stub
+		String hql = "FROM Coupon WHERE account.accountId = :accountId";
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		query.setParameter("accountId", accountId);
+		@SuppressWarnings("unchecked")
+		List<Coupon> coupon = query.list();
+		return coupon;
+	}
+
 }
