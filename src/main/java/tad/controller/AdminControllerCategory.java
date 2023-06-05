@@ -107,7 +107,7 @@ public class AdminControllerCategory {
 		Category category = categoryDAO.getCategory(id);
 		CategoryBean categoryBean = new CategoryBean(category);
 		modelMap.addAttribute("updateBean", categoryBean);
-		return "redirect:admin/admin-category-form";
+		return "admin/admin-category-form";
 	}
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)

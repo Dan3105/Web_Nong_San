@@ -52,7 +52,6 @@ public class EmployeeControllerProducts {
 			ProductBean bean = new ProductBean(product);
 			products.add(bean);
 		}
-       
 
 		int startIndex = (crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME;
 		int totalPage = 1;
@@ -64,12 +63,15 @@ public class EmployeeControllerProducts {
 				totalPage++;
 			}
 		}
-
+		ProductBean beanForm = new ProductBean();
+		model.addAttribute("productForm", beanForm);
+		Account tacc = couponDAO.FetchAccountCoupon(currentAcc);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("crrPage", crrPage);
 		model.addAttribute("products", products.subList(startIndex,
 				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, products.size())));
 		model.addAttribute("categories", categoryDAO.getListCategories());
+		model.addAttribute("coupons", tacc.getCoupons());
 		return "employee/employee-product";
 	}
 
@@ -128,15 +130,15 @@ public class EmployeeControllerProducts {
 			findProduct.setDetail(product.getDetail());
 			// 8
 			findProduct.setPostingDate(product.getPostingDate());
-			
+
 			if (!productDAO.updateProduct(findProduct)) {
 				System.out.println("checking error");
 			}
 		}
 
-		return String.format("redirect:/employee/products.htm");
+		return "redirect:/employee/products.htm";
 	}
-	
+
 	@RequestMapping("searchProduct")
 	public String search(@RequestParam(required = false, value = "search") String search,
 			@RequestParam(required = false, value = "currentPage", defaultValue = "1") int currentPage,
@@ -212,6 +214,6 @@ public class EmployeeControllerProducts {
 			System.out.println("error in adding");
 		}
 
-		return String.format("redirect:/employee/products.htm");
+		return "redirect:/employee/products.htm";
 	}
 }

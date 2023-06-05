@@ -4,7 +4,7 @@ function UpdateProduct(idItem) {
 	//Set up the action for the form
 	let idForm = 'product-form';
 	var form = document.getElementById(idForm);
-	form.setAttribute('action', `products/update-product${idItem}.htm`);
+	form.setAttribute('action', `employee/products/update-product${idItem}.htm`);
 
 	//Get all Data
 	let nameProduct = document.getElementById(`productName${idItem}`).value;
@@ -42,7 +42,7 @@ function CreateProduct() {
 	//Set up the action for the form
 	let idForm = 'product-form';
 	var form = document.getElementById(idForm);
-	form.setAttribute('action', 'products/create-product.htm');
+	form.setAttribute('action', 'employee/products/create-product.htm');
 
 	//clear the id address(if have clicked updatebtn before)
 	document.getElementById('inputCategory').selectedIndex = 0;
