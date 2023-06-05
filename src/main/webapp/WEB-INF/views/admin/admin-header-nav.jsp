@@ -46,7 +46,7 @@
 		<small class="sidebar-heading px-2 text-muted">Products</small>
 
 		<!-- Nav Item - Product -->
-		<li class="nav-item "><a href="admin/user/product.htm"
+		<li class="nav-item "><a href="admin/products.htm"
 			class="nav-link"> <i class="bi bi-cart2"></i> <span>Product</span></a>
 		</li>
 
