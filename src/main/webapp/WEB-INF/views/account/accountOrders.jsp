@@ -25,6 +25,7 @@
 								<tr>
 									<th>Chi Tiết</th>
 									<th>Ngày Mua</th>
+									<th>Ngày Giao Dự Kiến</th>
 									<th>Sản Phẩm</th>
 									<th>Tổng Tiền</th>
 									<th>Trạng Thái</th>
@@ -33,10 +34,13 @@
 							<c:forEach var="o" items="${orders }">
 								<tbody>
 									<tr>
-										<td class="align-middle"><a href="order/orderDetail.htm?orderId=${o.orderId }"><i
+										<td class="align-middle"><a
+											href="order/orderDetail.htm?orderId=${o.orderId }"><i
 												class="bi bi-info-circle"></i></a></td>
-										<td class="align-middle"><fmt:formatDate
-												pattern="dd-MM-yyyy" value="${o.orderTime}" /></td>
+										<td class="align-middle"><fmt:formatDate type="both"
+												value="${o.orderTime}" pattern="dd-MM-yyyy hh:mm" /></td>
+										<td class="align-middle"><fmt:formatDate type="both"
+												value="${o.deliveryTime}" pattern="dd-MM-yyyy hh:mm" /></td>
 										<td class="align-middle">
 
 											<ul>

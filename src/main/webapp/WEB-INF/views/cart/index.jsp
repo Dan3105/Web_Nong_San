@@ -146,18 +146,13 @@
 														currencySymbol="đ" maxFractionDigits="0" />
 												</span>
 											</c:if></td>
-										<td class="align-middle"><c:if test="${c.quantity > 1}">
-												<a role="button"
-													href="cart/quantity/minus.htm?productID=${c.product.productId}&quantity=${c.quantity}"
-													class="  btn btn-light">-</a>
-											</c:if> <c:if test="${c.quantity == 1}">
-												<a role="button" aria-disabled="true"
-													href="cart/quantity/minus.htm?productID=${c.product.productId}&quantity=${c.quantity}"
-													class="disabled btn btn-light">-</a>
-											</c:if> <label class="border border-light px-3 py-1 pb-1">${c.quantity}</label>
+										<td class="align-middle"><a role="button"
+											href="cart/quantity/minus.htm?productID=${c.product.productId}&quantity=${c.quantity}"
+											class="  btn btn-light ${c.quantity == 1 ? 'disabled' : ''}">-</a>
+											<label class="border border-light px-3 py-1 pb-1">${ c.quantity}</label>
 											<a role="button"
 											href="cart/quantity/plus.htm?productID=${c.product.productId}&quantity=${c.quantity}"
-											class="btn btn-light">+</a></td>
+											class="btn btn-light ${c.quantity == c.product.quantity ? 'disabled' : ''}">+</a></td>
 										<td class="align-middle"><c:if
 												test="${c.product.coupon != null and c.product.coupon.checkVaildCoupon() == true}">
 												<fmt:formatNumber

@@ -91,7 +91,7 @@ public class AdminControllerFeedback {
 		} else {
 			reAttributes.addFlashAttribute("alert", 1);
 		}
-		return "redirect:/";
+		return "redirect:/admin/feedback.htm";
 	}
 
 	@RequestMapping(value = "enable")
@@ -106,7 +106,7 @@ public class AdminControllerFeedback {
 			feedbackDAO.updateFeedback(feedback);
 		}
 
-		return "redirect:/";
+		return "redirect:/admin/feedback.htm";
 	}
 
 }

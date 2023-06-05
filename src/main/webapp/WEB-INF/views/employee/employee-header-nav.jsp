@@ -1,98 +1,67 @@
-<link rel="stylesheet"
-	href="<c:url value="/assets/css/admincss/admin-menu.css"/>">
-<<c:set var="path" value="${pageContext.request.contextPath}" />
-<!-- Admin menu vertical -->
-<nav id="sidebar">
-	<div class="p-4">
-		<a class="h-100 rounded-0" href=""> <img
-			src="<c:url value="/assets/img/logo.png"/>" alt="logo"
-			class="p-1 w-100">
-		</a>
-		<ul class="list-unstyled " id="manager-menu">
 
-			<li><a href="${path }/employee/overview.htm"><button
-						class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
-						<i class="pe-2 ti-pie-chart"></i>Overview
-					</button></a></li>
-			<li class="nav-item w-100"><a
-				href="${path }/employee/products.htm"><button
-						class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
-						<i class="pe-2 ti-briefcase"></i>Product Manager
-					</button></a></li>
-			<li class="nav-item w-100"><a
-				href="${path }/employee/vouchers.htm"><button
-						class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
-						<i class="pe-2 ti-ticket"></i>Voucher Manager
-					</button></a></li>
+<div class="ps-4">
+	<ul
+		class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+		id="accordionSidebar">
 
-			<li class="nav-item w-100"><a
-				href="${path}/employee/profile.htm"><button
-						class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
-						<i class="pe-2 ti-user"></i>Profile
-					</button></a></li>
-			<li class="nav-item w-100"><a
-				href="${path}/employee/address.htm"><button
-						class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
-						<i class="pe-2 ti-map"></i>Address
-					</button></a></li>
+		<li class="nav-item p-3"><a class="navbar-brand "
+			href='<c:url value = "index.htm?language=${pageContext.response.locale}"/>'>
+				<img src="${company.logoNavImg }" alt="Logo"
+				style="max-width: 100px">
+		</a></li>
+		<!-- Sidebar - Brand -->
 
-			<li><a href="${path }/employee/logout.htm"><button
-						class="btn btn-outline-success p-4 border-0 w-100 text-start btn-hover-nav">
-						<i class="pe-2 ti-power-off"></i>Logout
-					</button></a></li>
 
-		</ul>
-		<script>
-			var currentUrl = window.location.pathname;
-			var buttons = document.querySelectorAll('.btn-hover-nav');
 
-			for (var i = 0; i < buttons.length; i++) {
-				var button = buttons[i];
-				var href = button.parentElement.getAttribute('href');
-				href = href.slice(0, -4);
-				if (currentUrl.includes(href)) {
-					button.classList.add('active');
-				} else {
-					button.classList.remove('active');
-				}
-			}
-		</script>
-	</div>
-</nav>
-<div id="content">
-	<!-- Navbar -->
-	<nav
-		class="navbar navbar-main navbar-expand-lg px-0 shadow-none border-radius-xl"
-		id="navbarBlur" data-scroll="true">
-		<div
-			class="container-fluid d-flex py-1 align-items-center justify-content-between">
-			<nav aria-label="breadcrumb">
-				<ol
-					class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-					<li class="breadcrumb-item text-sm"><a
-						class="opacity-5 fs-5 text-dark" href="#">Pages</a></li>
-					<li class="breadcrumb-item fs-5 text-sm text-dark active"
-						aria-current="page">index</li>
-				</ol>
-				<h6 class="font-weight-bolder mb-0">index</h6>
 
-			</nav>
-			<div class="navbar mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-				<ul class="w-100 navbar-nav justify-content-end">
-					<li class="nav-item px-3 d-flex align-items-center"><a
-						href="#" class="nav-link text-body pe-4"> <i
-							class="ti-bell fs-4 cursor-pointer"></i>
-					</a></li>
-					<li><a href="${path}/admin/profile.htm"> <img
-							class="d-block rounded-pill w-100"
-							style="max-width: 50px; min-width: 30px;"
-							src="<c:url value="/assets/img/account/${user.avatar}"/>"
-							onerror="
-										this.onerror = null;
-										this.src='https://i.pinimg.com/474x/66/da/e1/66dae117263cc353d351949bcc76e1e4.jpg';"
-							alt="admin-img" />
-					</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+		<!-- Divider -->
+		<hr class="sidebar-divider">
+		<small class="sidebar-heading px-2 text-muted">Products</small>
+
+		<!-- Nav Item - Product -->
+		<li class="nav-item "><a href="employee/products.htm"
+			class="nav-link"> <i class="bi bi-cart2"></i> <span>Product</span></a>
+		</li>
+
+		<!-- Divider -->
+		<hr class="sidebar-divider">
+		<small class="sidebar-heading px-2 text-muted">Vouncher</small>
+
+		<!-- Nav Item - Feedback -->
+		<li class="nav-item "><a href="employee/vounchers.htm"
+			class="nav-link"> <i class="bi bi-star"></i> <span>Voucher</span></a>
+		</li>
+
+
+
+		<hr class="sidebar-divider">
+		<!-- Nav Item - Profile -->
+		<li class="nav-item "><a href="employee/profile.htm"
+			class="nav-link"> <i class="bi bi-person-circle"></i> <span>Profile</span></a>
+		</li>
+
+
+		<!-- Nav Item - Logout -->
+		<li class="nav-item "><a href="guest/logout.htm" class="nav-link">
+				<i class="bi bi-box-arrow-left"></i> <span>Logout</span>
+		</a></li>
+
+	</ul>
+</div>
+<!-- End of Sidebar -->
+
+<!-- <script>
+        var currentUrl = window.location.pathname;
+        var a = document.querySelectorAll('.nav-link');
+
+        for (var i = 0; i < AbortController.length; i++) {
+            var a = a[i];
+            var href = a.parentElement.getAttribute('href');
+            a = a.slice(0, -4);
+            if (currentUrl.includes(href)) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        }
+    </script> -->

@@ -40,8 +40,12 @@ public class OrderDAOImpl implements IOrderDAO {
 
 	@Override
 	public List<OrderDetail> getOrderDetail(int orderId) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM OrderDetail WHERE order.orderId = " + orderId;
+		@SuppressWarnings("unchecked")
+		List<OrderDetail> list = session.createQuery(hql).list();
+		return list;
+
 	}
 
 	@Override
@@ -196,5 +200,14 @@ public class OrderDAOImpl implements IOrderDAO {
 			System.out.println(e);
 		}
 		return order;
+	}
+
+	@Override
+	public List<Orders> getOrders() {
+		String hql = "From Orders";
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		List<Orders> listOrders = query.list();
+		return listOrders;
 	}
 }

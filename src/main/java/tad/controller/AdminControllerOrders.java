@@ -1,22 +1,15 @@
 package tad.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.IOrderDAO;
-import tad.bean.OrderDetailBean;
+import tad.entity.OrderDetail;
 import tad.entity.Orders;
 import tad.utility.Constants;
 
@@ -28,150 +21,64 @@ public class AdminControllerOrders {
 	private IOrderDAO orderDAO;
 
 	@RequestMapping()
-	public String index() {
-		return "redirect:orders/unresolve-order.htm";
-	}
+	public String index(ModelMap model,
+			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage,
+			@RequestParam(value = "filter", required = false, defaultValue = "0") int filter) {
+		List<Orders> orders = null;
+		if (filter == 0) {
+			orders = orderDAO.getOrders();
+		} else if (filter == 1) {
+			orders = orderDAO.getMovingOrders();
+		} else if (filter == 2) {
+			orders = orderDAO.getUnresolveOrders();
+		} else if (filter == 3) {
+			orders = orderDAO.getUnresolveOrders();
+		} else if (filter == 4) {
+			orders = orderDAO.getCancelOrders();
 
-	@RequestMapping("unresolve-order")
-	public String gListUnresolvedOrder(ModelMap model,
-			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
-		List<Orders> orders = orderDAO.getUnresolveOrders();
-		List<OrderDetailBean> detailOrderBean = new ArrayList<>();
-		for (Orders order : orders) {
-			order = orderDAO.fetchOrderDetail(order);
-			detailOrderBean.add(new OrderDetailBean(order));
 		}
 
-		model.addAttribute("orders", detailOrderBean);
-		model.addAttribute("mapStatus", mapStatus());
-		model.addAttribute("source", "unresolve-order.htm");
-
-		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
-		if (startIndex >= orders.size()) {
-			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
+		int startIndex = (crrPage - 1) * Constants.USER_PER_PAGE;
+		int totalPage = 1;
+		if (orders.size() <= Constants.USER_PER_PAGE)
+			totalPage = 1;
+		else {
+			totalPage = orders.size() / Constants.USER_PER_PAGE;
+			if (orders.size() % Constants.USER_PER_PAGE != 0) {
+				totalPage++;
+			}
 		}
-		model.addAttribute("crrPage", crrPage);
 
-		int totalPage = orders.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
-		if (orders.size() % Constants.PRODUCT_PER_PAGE_IN_HOME != 0) {
-			totalPage += 1;
-		}
 		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("crrPage", crrPage);
+		List<Orders> list = orders.subList(startIndex, Math.min(startIndex + Constants.USER_PER_PAGE, orders.size()));
+		model.addAttribute("order", list);
+		model.addAttribute("filter", filter);
 		return "admin/admin-orders";
 	}
 
-	@RequestMapping("moving-order")
-	public String gListMovingOrder(ModelMap model,
-			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
-		List<Orders> orders = orderDAO.getMovingOrders();
-		List<OrderDetailBean> detailOrderBean = new ArrayList<>();
-		for (Orders order : orders) {
-			order = orderDAO.fetchOrderDetail(order);
-			detailOrderBean.add(new OrderDetailBean(order));
-		}
-
-		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
-		if (startIndex >= orders.size()) {
-			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
-		}
-		model.addAttribute("crrPage", crrPage);
-
-		int totalPage = orders.size() / Constants.USER_PER_PAGE;
-		if (orders.size() % Constants.USER_PER_PAGE != 0) {
-			totalPage += 1;
-		}
-		model.addAttribute("totalPage", totalPage);
-
-		model.addAttribute("orders", detailOrderBean);
-		model.addAttribute("mapStatus", mapStatus());
-		model.addAttribute("source", "moving-order.htm");
-		return "admin/admin-orders";
-	}
-
-	@RequestMapping("resolved-order")
-	public String gListResolveOrder(ModelMap model,
-			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
-		List<Orders> orders = orderDAO.getResolveOrders();
-		List<OrderDetailBean> detailOrderBean = new ArrayList<>();
-		for (Orders order : orders) {
-			order = orderDAO.fetchOrderDetail(order);
-			detailOrderBean.add(new OrderDetailBean(order));
-		}
-
-		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
-		if (startIndex >= orders.size()) {
-			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
-		}
-		model.addAttribute("crrPage", crrPage);
-
-		int totalPage = orders.size() / Constants.USER_PER_PAGE;
-		if (orders.size() % Constants.USER_PER_PAGE != 0) {
-			totalPage += 1;
-		}
-		model.addAttribute("totalPage", totalPage);
-
-		model.addAttribute("orders", detailOrderBean);
-		model.addAttribute("mapStatus", mapStatus());
-		model.addAttribute("source", "resolved-order.htm");
-		return "admin/admin-orders";
-	}
-
-	@RequestMapping("cancel-order")
-	public String gListCancelOrder(ModelMap model,
-			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
-		List<Orders> orders = orderDAO.getCancelOrders();
-		List<OrderDetailBean> detailOrderBean = new ArrayList<>();
-		for (Orders order : orders) {
-			order = orderDAO.fetchOrderDetail(order);
-			detailOrderBean.add(new OrderDetailBean(order));
-		}
-
-		int startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
-		if (startIndex >= orders.size()) {
-			crrPage = crrPage - 1; // lui lai trang truoc do
-			startIndex = Math.max((crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME, 0);
-		}
-		model.addAttribute("crrPage", crrPage);
-
-		int totalPage = orders.size() / Constants.USER_PER_PAGE;
-		if (orders.size() % Constants.USER_PER_PAGE != 0) {
-			totalPage += 1;
-		}
-		model.addAttribute("totalPage", totalPage);
-
-		model.addAttribute("orders", detailOrderBean);
-		model.addAttribute("mapStatus", mapStatus());
-		model.addAttribute("source", "cancel-order.htm");
-		return "admin/admin-orders";
-	}
-
-	@RequestMapping(value = "update-order{id}", method = RequestMethod.POST)
-	public String updateOrder(@PathVariable("id") int id, HttpServletRequest request,
-			@RequestParam("source") String source) {
+	@RequestMapping(value = "update-order")
+	public String updateOrder(@RequestParam("id") int id, @RequestParam("status") String status) {
 		Orders order = orderDAO.findOrder(id);
 
-		if (order != null && (order.getStatus() != 3 || order.getStatus() != 2)) {
-			String statusChanged = request.getParameter("statusSelect" + order.getOrderId());
-			System.out.println("Hell: " + statusChanged);
-			if (statusChanged != null) {
-				short shortValue = Short.parseShort(statusChanged);
-				order.setStatus(shortValue);
-				orderDAO.update(order);
-			}
+		if (order != null) {
+			short shortValue = Short.parseShort(status);
+			order.setStatus(shortValue);
+			orderDAO.update(order);
 
 		}
-		return "redirect:" + source;
+		return "redirect:/admin/orders.htm";
 	}
 
-	private Map<Short, String> mapStatus() {
-		Map<Short, String> status = new HashMap<>();
-		status.put((short) 0, "Chờ xác nhận");
-		status.put((short) 1, "Đang vận chuyển");
-		status.put((short) 2, "Đã giao!");
-		status.put((short) 3, "Đã hủy");
-		return status;
+	@RequestMapping(value = "order-detail")
+	public String orderDetail(@RequestParam("orderId") int orderId, ModelMap model) {
+		Orders order = orderDAO.findOrder(orderId);
+		List<OrderDetail> orderDetail = orderDAO.getOrderDetail(orderId);
+
+		model.addAttribute("order", order);
+		model.addAttribute("orderDetail", orderDetail);
+
+		return "admin/admin-order-detail";
 	}
+
 }

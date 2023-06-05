@@ -31,4 +31,6 @@ public interface IOrderDAO {
 	public List<Orders> getResolveOrders();
 
 	public List<Orders> getCancelOrders();
+
+	public List<Orders> getOrders();
 }

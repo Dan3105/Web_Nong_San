@@ -1,7 +1,9 @@
 package tad.bean;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,7 +43,7 @@ public class ProductBean {
 		detail = "";
 
 		Date crrDate = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		String formattedDate = formatter.format(crrDate);
 		postingDate = formattedDate;
 		unit = "";
@@ -71,6 +73,15 @@ public class ProductBean {
 				discount = product.getCoupon() != null ? product.getCoupon().getDiscount() : 0;
 			}
 		}
+	}
+
+	public static List<ProductBean> convertProductBean(List<Product> list) {
+		List<ProductBean> product = new ArrayList<>();
+		for (var p : list) {
+			ProductBean bean = new ProductBean(p);
+			product.add(bean);
+		}
+		return product;
 	}
 
 	public int getProductId() {

@@ -12,11 +12,15 @@
 			<h5 class="card-title text-success">Đặt hàng thành công!!!</h5>
 			<p class="card-text">Cám ơn bạn đã đặt hàng! Shop sẽ xử lý đơn
 				hàng của bạn trong thời gian nhanh nhất có thể!</p>
+			<p class="card-text">
+				Thời gian giao hàng dự kiến <span class="fw-bold"><fmt:formatDate
+						 type = "both"  value="${orders.deliveryTime}" pattern="dd-MM-yyyy hh:mm" /></span>
+			</p>
 			<a class="btn btn-outline-success card-link" href="#" role="button"><i
 				class="bi bi-house"></i> Quay về trang chủ</a> <a
-				class="btn btn-outline-success card-link" href="account/ordersHistory.htm"
-				role="button"><i class="bi bi-list-check"></i> Danh sách đơn
-				hàng</a>
+				class="btn btn-outline-success card-link"
+				href="account/ordersHistory.htm" role="button"><i
+				class="bi bi-list-check"></i> Danh sách đơn hàng</a>
 		</div>
 	</div>
 </div>

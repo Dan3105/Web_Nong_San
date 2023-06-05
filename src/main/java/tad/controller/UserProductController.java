@@ -98,8 +98,10 @@ public class UserProductController {
 			Cart cart = cartDAO.getCart(account.getAccountId(), productID);
 			account = accountDAO.getAccount(account.getAccountId());
 			if (cart != null) {
-				cart.setQuantity(cart.getQuantity() + 1);
-				cartDAO.updateCart(cart);
+				if (cart.getQuantity() < cart.getProduct().getQuantity()) {
+					cart.setQuantity(cart.getQuantity() + 1);
+					cartDAO.updateCart(cart);
+				}
 
 			} else {
 				cart = new Cart();

@@ -1,5 +1,6 @@
 package tad.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -26,20 +27,26 @@ import tad.entity.Account;
 import tad.entity.Address;
 import tad.entity.Province;
 import tad.entity.Ward;
-import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	@RequestMapping("overview")
-	public String overview(ModelMap model) {
-		return "admin/admin-menu";
-	}
+
+	@Autowired
+	private IAccountDAO accountDAO;
+
+	@Autowired
+	@Qualifier("accountImgDir")
+	private UploadFile accountImgDir;
+
+	@Autowired
+	@Qualifier("rootFile")
+	private UploadFile rootFile;
 
 	@RequestMapping("index")
 	public String index(ModelMap model) {
-		return "redirect:/admin/overview.htm";
+		return "redirect:/admin/dashboard.htm";
 	}
 
 	@RequestMapping("logout")
@@ -59,16 +66,6 @@ public class AdminController {
 		model.addAttribute(DefineAttribute.UserBeanAttribute, userBean);
 		return "admin/admin-profile";
 	}
-
-	@Autowired
-	private IAccountDAO accountDAO;
-
-	@Autowired
-	@Qualifier("accountImgDir")
-	private UploadFile uploadFile;
-
-	@Autowired
-	private ConverterUploadHandler convertHandler;
 
 	@RequestMapping(value = "profile", params = "update", method = RequestMethod.POST)
 	public String pInfo(@Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user,
@@ -93,18 +90,26 @@ public class AdminController {
 		acc.setPhoneNumber(user.getPhoneNumber());
 		acc.setEmail(user.getEmail());
 
-		if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
-			if (convertHandler.MoveMultipartToDirectory(user.getAvatar(), uploadFile.getPath())) {
-				user.setAvatarDir(convertHandler.SetImageNameViaMultipartFile(user.getAvatar()));
-			}
-		}
+		File file = new File(rootFile.getPath() + user.getAvatar());
+		if (file.exists())
+			file.delete();
 
-		if (!user.getAvatarDir().isEmpty())
-			acc.setAvatar(user.getAvatarDir());
+		String avatarPath = accountImgDir.getPath() + user.getAvatar();
+		acc.setAvatar(user.getAvatar().getOriginalFilename());
+
+		try {
+			user.getAvatar().transferTo(new File(avatarPath));
+			Thread.sleep(2000);
+		} catch (Exception e) {
+			e.printStackTrace();
+			modelMap.addAttribute("message", false);
+			modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
+			return "admin/admin-category-form";
+		}
 
 		accountDAO.updateAccount(acc);
 
-		modelMap.addAttribute(user);
+		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 		modelMap.addAttribute("message", true);
 		return "admin/admin-profile";
 	}

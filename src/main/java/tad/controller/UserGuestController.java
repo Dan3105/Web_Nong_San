@@ -87,8 +87,8 @@ public class UserGuestController {
 
 		if (ValidateAdmin != null && ValidateAdmin.getStatus() != 0
 				&& BCrypt.checkpw(user.getPassword(), ValidateAdmin.getPassword())) {
-			
-			//Tai khoan bi khoa ko dang nhap
+
+			// Tai khoan bi khoa ko dang nhap
 			if (ValidateAdmin.getStatus() == 0) {
 				modelMap.addAttribute("alert", 6);
 				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);

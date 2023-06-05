@@ -17,21 +17,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import tad.DAO.ICartDAO;
 import tad.DAO.IOrderDAO;
+import tad.DAO.IProductDAO;
 import tad.entity.Account;
 import tad.entity.Cart;
 import tad.entity.OrderDetail;
 import tad.entity.OrderDetailId;
 import tad.entity.Orders;
+import tad.entity.Product;
 import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping(value = "/order/")
+@RequestMapping(value = "/order")
 public class UserOrderController {
 
 	@Autowired
 	private IOrderDAO orderDAO;
 	@Autowired
 	private ICartDAO cartDAO;
+	@Autowired
+	private IProductDAO productDAO;
 
 	@RequestMapping(value = "orderDetail")
 	public String detail(ModelMap model, HttpSession session, @RequestParam("orderId") int orderId) {
@@ -43,7 +47,7 @@ public class UserOrderController {
 
 	@RequestMapping("success")
 	public String success(HttpSession session,
-			@RequestParam(value = "totalPrice", defaultValue = "0") float totalPice) {
+			@RequestParam(value = "totalPrice", defaultValue = "0") float totalPice,ModelMap model) {
 		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
 			return "redirect:/guest.htm";
@@ -64,7 +68,7 @@ public class UserOrderController {
 		orders.setDeliveryTime(c1.getTime());
 		orders.setStatus(0);
 		orders.setPrice(totalPice);
-
+		model.addAttribute("orders",orders);
 		if (account.getDefaultAddress() != null)
 			orders.setDefaultAddress(account.getDefaultAddress().getFullAddress());
 
@@ -79,6 +83,12 @@ public class UserOrderController {
 			orderDetail.setQuantity(c.getQuantity());
 			if (c.getProduct().getCoupon() != null && c.getProduct().getCoupon().checkVaildCoupon())
 				orderDetail.setCoupon(c.getProduct().getCoupon().getDiscount());
+
+			//Xoa so luong ton sp
+			Product product = orderDetail.getProduct();
+			product.setQuantity(product.getQuantity() - orderDetail.getQuantity());
+			productDAO.updateProduct(product);
+
 			orderDAO.insertOrderDetail(orderDetail);
 		}
 		int s = cartDAO.removeCart(account.getAccountId());
@@ -91,6 +101,12 @@ public class UserOrderController {
 	public String cancleRequest(HttpSession session, HttpServletRequest request,
 			@RequestParam(value = "orderId") int orderId) {
 		Orders orders = orderDAO.findOrder(orderId);
+		//Cap nhat lai so luong ton sp
+		for(OrderDetail d : orders.getOrderDetails()) {
+			Product product = d.getProduct();
+			product.setQuantity(product.getQuantity() + d.getQuantity());
+			productDAO.updateProduct(product);
+		}
 		orders.setStatus(3);
 		orderDAO.update(orders);
 		return "redirect:" + request.getHeader("Referer");

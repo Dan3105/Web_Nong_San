@@ -11,7 +11,6 @@ import org.hibernate.Transaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import tad.DAO.IFeedbackDAO;
-import tad.entity.Category;
 import tad.entity.Feedback;
 
 @Transactional

@@ -28,8 +28,8 @@
 	</c:choose>
 	<div class="row">
 		<!-- Sidebar -->
-		<div class="col-2 d-none d-lg-inline ">
-			<%@include file="/WEB-INF/views/employee/employee-header-nav.jsp"%></div>
+		<div class="col-2 d-none d-lg-inline "><%@include
+				file="/WEB-INF/views/admin/admin-header-nav.jsp"%></div>
 		<div class="col-10 col-12-sm col-12-md">
 			<div id="content-wrapper" class="d-flex flex-column">
 				<nav
@@ -49,16 +49,17 @@
 										<ol class="breadcrumb mb-0 text-muted fs-6 fw-semibold">
 											<li class="breadcrumb-item  "><a
 												href="admin/user/dashboard.htm"
-												class="text-decoration-none text-success ">Product </a></li>
-
+												class="text-decoration-none text-success ">Dashboard </a></li>
+											<li class="breadcrumb-item active" aria-current="page"
+												class="text-decoration-none">Product</li>
 										</ol>
 
 									</nav>
 								</div>
 								<!-- button -->
 								<div>
-									<button type="button" onclick="CreateProduct()"
-										class="btn btn-success">Add Products</button>
+									<a href="admin/category/add.htm" class="btn btn-success">Add
+										New Product</a>
 								</div>
 							</div>
 						</div>
@@ -72,13 +73,13 @@
 								<div class="row justify-content-between">
 									<div class="col-lg-4 col-md-6 col-12 mb-2 mb-md-0">
 										<form class="d-flex" role="search"
-											action="employee/category/searchCategory.htm">
+											action="admin/category/searchCategory.htm">
 											<input class="form-control" type="search"
 												placeholder="Search Category" aria-label="Search"
 												name="search">
 										</form>
 									</div>
-
+								
 								</div>
 
 
@@ -95,52 +96,36 @@
 									<th>Image</th>
 									<th>Name</th>
 									<th>Category</th>
-									<th>Posting Date</th>
-									<th>Quantity</th>
-									<th>Detail</th>
 									<th>Price</th>
-									<th>Edit</th>
+									<th>Create at</th>
 								</tr>
 							</thead>
 							<tbody>
 
-								<c:forEach varStatus="status" var="item" items="${products}">
+								<c:forEach varStatus="status" var="item" items="${list}">
 									<tr>
 										<td class="align-middle"><a
 											href="product/detail.htm?productId=${item.productId }"> <img
-												src="<c:url value="
-                                                        /assets/img/products/${item.image}" />"
+												src="assets/img/product/${item.image}"
 												alt="Category
                                                 Name"
 												style="width: 80px"></a></td>
 										<td class="align-middle"><a
 											href="product/index.htm?categoryId=${item.productId }"
 											class="text-dark">${item.productName}</a></td>
-										<td class="align-middle"><input type="hidden"
-											id="categoryId${item.productId }" value="${item.categoryId }">
-											<span>${item.categoryName }</span></td>
+										<td class="align-middle">${item.category.name}</td>
 
-										<td class="align-middle"><span class="text-primary">
-												${item.postingDate }</span><input type="hidden"
-											id="postingDate${item.productId }"
-											value="${item.postingDate }"></td>
-										<td class="align-middle"><span>${item.quantity } </span></td>
-										<td class="align-middle"><p
-												class="text-truncate mb-4 mb-md-0">${item.detail}</p> <input
-											type="hidden" id="detail${item.productId }"
-											value="${item.detail}" /></td>
-										<td class="align-middle">
-											<button onclick="UpdateProduct(${item.productId})"
-												class="btn btn-primary btn-sm" type="button">Update</button>
-											<button type="button" class="btn btn-danger"
-												data-bs-toggle="modal" data-bs-target="#exampleModal"
-												id="del_button${status.index }"
-												data-value="products/delete${item.productId}.htm"
-												class="btn btn-danger ms-2">
-												<i class="ti-trash"></i>
-											</button>
-										</td>
 										<td class="align-middle"></td>
+										<td class="align-middle"><a type="button"
+											href="admin/product/delete.htm?id=${item.id}"
+											class="btn btn-danger btn-sm">
+												Delete </a></td>
+										<td class="align-middle"><c:if
+												test="${item.products.size() > 0}">
+												<span class="badge bg-success">Published</span>
+											</c:if> <c:if test="${item.products.size() == 0}">
+												<span class="badge bg-danger">Unpublished</span>
+											</c:if></td>
 
 
 									</tr>
@@ -184,7 +169,5 @@
 			<!--End pagination -->
 		</div>
 </body>
-<script
-	src="<c:url value=" /assets/js/employee/EmployeeProductFormHandler.js" />"></script>
 <script src="<c:url value="/assets/js/admin/AlertHandler.js"/>"></script>
 </html>

@@ -17,7 +17,7 @@
 
 
 		<!-- Nav Item - Dashboard -->
-		<li class="nav-item active"><a href="admin/user/dashboard.htm"
+		<li class="nav-item active"><a href="admin/dashboard.htm"
 			class="nav-link"> <i class="bi bi-bar-chart-fill"></i> <span>Dashboard</span></a>
 		</li>
 
@@ -62,7 +62,7 @@
 
 		<hr class="sidebar-divider">
 		<!-- Nav Item - Profile -->
-		<li class="nav-item "><a href="admin/user/profile.htm"
+		<li class="nav-item "><a href="admin/profile.htm"
 			class="nav-link"> <i class="bi bi-person-circle"></i> <span>Profile</span></a>
 		</li>
 

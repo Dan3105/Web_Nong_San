@@ -1,4 +1,21 @@
 <%@include file="/WEB-INF/views/include/library.jsp"%>
+<c:if test="${filter == 0}">
+	<c:set var="source" value="admin/orders.htm" />
+</c:if>
+<c:if test="${filter == 1}">
+	<c:set var="source" value="admin/orders/unresolve-order.htm" />
+</c:if>
+<c:if test="${filter == 2}">
+	<c:set var="source" value="admin/orders/moving-order.htm" />
+</c:if>
+<c:if test="${filter == 3}">
+	<c:set var="source" value="admin/orders/resolved-order.htm" />
+</c:if>
+<c:if test="${filter == 4}">
+	<c:set var="source" value="admin/orders/cancel-order.htm" />
+</c:if>
+
+
 
 <body>
 	<c:choose>
@@ -43,7 +60,7 @@
 						<div class="col-md-12">
 							<div class="d-md-flex justify-content-between align-items-center">
 								<div>
-									<h2>Categories</h2>
+									<h2>Orders</h2>
 									<!-- breacrumb -->
 									<nav aria-label="breadcrumb">
 										<ol class="breadcrumb mb-0 text-muted fs-6 fw-semibold">
@@ -64,129 +81,134 @@
 
 
 					<div class="row  ">
-						<div class="col-xl-12 col-12 mb-5">
-							<div class=" px-6 py-6 p-4">
-								<div class="row justify-content-between">
-									<div class="col-lg-4 col-md-6 col-12 mb-2 mb-md-0">
-										<form class="d-flex" role="search"
-											action="admin/feedback/searchFeedback.htm">
-											<input class="form-control" type="search"
-												placeholder="Search Feedback" aria-label="Search"
-												name="search">
-										</form>
-									</div>
-									<div class="col-xl-2 col-md-4 col-12">
-										<div class="dropdown">
-											<button class="btn btn-success dropdown-toggle" type="button"
-												data-bs-toggle="dropdown" aria-expanded="false">
-												<c:if test="${filter == 0 }">All</c:if>
-												<c:if test="${filter == 1 }">Unresolved</c:if>
-												<c:if test="${filter == 2 }">On Moving</c:if>
-												<c:if test="${filter == 3 }">Success</c:if>
-												<c:if test="${filter == 4 }">Cancel</c:if>
-											</button>
-											<ul class="dropdown-menu">
-												<li><a class="dropdown-item"
-													href="admin/feedback.htm?filter=0">All</a></li>
-												<li><a class="dropdown-item"
-													href="admin/orders/unresolve-order.htm">Unresolved</a></li>
-												<li><a class="dropdown-item"
-													href="admin/orders/moving-order.htm">On Moving</a></li>
-												<li><a class="dropdown-item"
-													href="admin/orders/resolved-order.htm">Success</a></li>
-												<li><a class="dropdown-item"
-													href="admin/orders/cancel-order.htm">Cancel</a></li>
+						<div class="col-xl-12 col-12 mb-3">
+								<div class="row justify-content-end">
 
-											</ul>
+										<div class="col-xl-2 col-md-4 col-12">
+											<div class="dropdown">
+												<button class="btn btn-success dropdown-toggle"
+													type="button" data-bs-toggle="dropdown"
+													aria-expanded="false">
+													<c:if test="${filter == 0 }">All</c:if>
+													<c:if test="${filter == 1 }">Unresolved</c:if>
+													<c:if test="${filter == 2 }">On Moving</c:if>
+													<c:if test="${filter == 3 }">Success</c:if>
+													<c:if test="${filter == 4 }">Cancel</c:if>
+												</button>
+												<ul class="dropdown-menu">
+													<li><a class="dropdown-item"
+														href="admin/orders.htm?filter=0">All</a></li>
+													<li><a class="dropdown-item"
+														href="admin/orders.htm?filter=1">Unresolved</a></li>
+													<li><a class="dropdown-item"
+														href="admin/orders.htm?filter=2">On Moving</a></li>
+													<li><a class="dropdown-item"
+														href="admin/orders.htm?filter=3">Success</a></li>
+													<li><a class="dropdown-item"
+														href="admin/orders.htm?filter=4">Cancel</a></li>
+
+												</ul>
+											</div>
 										</div>
 									</div>
-								</div>
 
 
-							</div>
+						</div>
+
+						<!-- End Search  Filter -->
+						<!-- table -->
+						<div class="table-responsive ">
+							<table class="table ">
+								<thead class="position-sticky top-0 ">
+									<tr class="table-success">
+										<th>Detail</th>
+										<th>Order ID</th>
+										<th>Status</th>
+										<th>Date</th>
+										<th>Amount</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<c:forEach varStatus="status" var="item" items="${order}">
+										<tr>
+											<td class="align-middle"><a
+												href="admin/orders/order-detail.htm?orderId=${item.orderId }"><i
+													class="bi bi-info-circle"></i></a></td>
+											<td class="align-middle"><span style="color: #a8729a;">${item.orderId }</span></td>
+											<td class="align-middle"><div class="dropdown">
+													<button
+														class="btn btn-sm btn-outline-success dropdown-toggle"
+														type="button" data-bs-toggle="dropdown"
+														aria-expanded="false">
+														<c:if test="${item.status == 0 }">Unresolved</c:if>
+														<c:if test="${item.status == 1 }">On Moving</c:if>
+														<c:if test="${item.status == 2 }">Success</c:if>
+														<c:if test="${item.status == 3}">Cancel</c:if>
+													</button>
+													<ul class="dropdown-menu">
+														<li><a
+															class="dropdown-item ${(item.status == 2 or item.status == 1 ) ? 'disabled' : '' } "
+															href="admin/orders/update-order.htm?id=${item.orderId }&status=0">Unresolved</a></li>
+														<li><a
+															class="dropdown-item ${item.status == 2 ? 'disabled' : '' }"
+															href="admin/orders/update-order.htm?id=${item.orderId }&status=1">On
+																Moving</a></li>
+														<li><a class="dropdown-item"
+															href="admin/orders/update-order.htm?id=${item.orderId }&status=2">Success</a></li>
+														<li><a
+															class="dropdown-item ${item.status == 2 ? 'disabled' : '' }"
+															href="admin/orders/update-order.htm?id=${item.orderId }&status=3">Cancel</a></li>
+
+													</ul>
+												</div></td>
+											<td class="align-middle"><fmt:formatDate
+													value="${item.orderTime}" pattern="dd-MM-yyyy" /></td>
+											<td class="align-middle"><fmt:formatNumber
+													value="${item.price }" type="currency" currencySymbol="VND"
+													maxFractionDigits="0" /></td>
+
+
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+
+
 						</div>
 					</div>
 
-					<!-- End Search  Filter -->
-					<!-- table -->
-					<div class="table-responsive ">
-						<table class="table ">
-							<thead class="position-sticky top-0 ">
-								<tr class="table-success">
-									<th>Name</th>
-									<th>Order ID</th>
-									<th>Status</th>
-									<th>Date</th>
-									<th>Status</th>
-									<th>Amount</th>
-								</tr>
-							</thead>
-							<tbody>
 
-								<c:forEach varStatus="status" var="item" items="${orders}">
-									<tr>
-										<td class="align-middle"><span style="color: #a8729a;">${item.accName }</span></td>
-										<td class="align-middle"><span style="color: #a8729a;">${orders.orderId }</span></td>
-										<td class="align-middle"><button type="button"
-												data-bs-toggle="collapse" aria-expanded="false"
-												data-bs-target="#box-items${status.index }"
-												class="btn me-1 ms-1 btn-outline-info">
-												<p class="fw-normal mb-0">Detail Receivie</p>
-											</button></td>
-										<td class="align-middle"><div class="text-truncate">${item.feedbackContent}</div></td>
-										<td class="align-middle"><fmt:formatDate
-												value="${item.postingDate}" pattern="dd-MM-yyyy" /></td>
-										<td class="align-middle"><c:if test="${item.status == 0}">
-												<span class="badge bg-danger">Disable</span>
-											</c:if> <c:if test="${item.status == 1}">
-												<span class="badge bg-success">Enable</span>
-											</c:if></td>
-										<td class="align-middle"><fmt:formatNumber
-												value="${item.price }" type="currency" currencySymbol="d"
-												maxFractionDigits="0" /></td>
-
-
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-
-
-					</div>
 				</div>
 
+				<div class="d-flex justify-content-center ">
 
+					<!-- nav -->
+					<nav>
+						<ul class="pagination d-flex justify-content-center ms-2">
+							<li class="page-item ${(crrPage == 1) ? 'disabled' : '' }"><a
+								class="page-link  mx-1 " aria-label="Previous"
+								href="admin/orders.htm?crrPage=${crrPage - 1}"> <span
+									aria-hidden="true">&laquo;</span>
+							</a></li>
+							<c:forEach var="i" begin="1" end="${totalPage }" varStatus="in">
+
+								<li class="page-item "><a
+									class="page-link  mx-1 ${(crrPage == in.count) ? 'active' : '' }"
+									href="admin/orders.htm?crrPage=${in.count}">${in.count}</a></li>
+							</c:forEach>
+							<li class="page-item"><a
+								class="page-link mx-1 text-body ${(crrPage == totalPage) ? 'disabled' : '' }"
+								aria-label="Next" href="admin/orders.htm?crrPage=${crrPage + 1}">
+									<span aria-hidden="true">&raquo;</span>
+							</a></li>
+						</ul>
+					</nav>
+
+				</div>
+				<!--End pagination -->
 			</div>
-
-			<div class="d-flex justify-content-center ">
-
-				<!-- nav -->
-				<nav>
-					<ul class="pagination d-flex justify-content-center ms-2">
-						<li class="page-item ${(crrPage == 1) ? 'disabled' : '' }"><a
-							class="page-link  mx-1 " aria-label="Previous"
-							href="admin/feedback.htm?crrPage=${crrPage - 1}&filter=${filter}">
-								<span aria-hidden="true">&laquo;</span>
-						</a></li>
-						<c:forEach var="i" begin="1" end="${totalPage }" varStatus="in">
-
-							<li class="page-item "><a
-								class="page-link  mx-1 ${(crrPage == in.count) ? 'active' : '' }"
-								href="admin/feedback.htm?crrPage=${in.count}&filter=${filter}">${in.count}</a></li>
-						</c:forEach>
-						<li class="page-item"><a
-							class="page-link mx-1 text-body ${(crrPage == totalPage) ? 'disabled' : '' }"
-							aria-label="Next"
-							href="admin/feedback.htm?crrPage=${crrPage + 1}&filter=${filter}">
-								<span aria-hidden="true">&raquo;</span>
-						</a></li>
-					</ul>
-				</nav>
-
-			</div>
-			<!--End pagination -->
 		</div>
-	</div>
 </body>
 <script src="<c:url value="/assets/js/admin/AlertHandler.js"/>"></script>
 </html>

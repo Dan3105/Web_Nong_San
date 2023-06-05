@@ -20,7 +20,7 @@ public class OrderDetail {
 	@EmbeddedId
 	private OrderDetailId id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@MapsId("orderId")
 	@JoinColumn(name = "OrderID", nullable = false, insertable = false, updatable = false)
 	private Orders order;

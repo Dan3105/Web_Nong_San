@@ -77,7 +77,7 @@ public class UserAccountController {
 			return "redirect:/guest.htm";
 		}
 		if (account.getRole().getRoleName().equals("Admin")) {
-			return "redirect:/admin/overview.htm";
+			return "redirect:/admin/index.htm";
 		}
 
 		if (account.getRole().getRoleName().equals("Employee")) {

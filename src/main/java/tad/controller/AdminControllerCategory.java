@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,6 @@ import tad.bean.CategoryBean;
 import tad.bean.UploadFile;
 import tad.entity.Category;
 import tad.utility.Constants;
-import tad.utility.ConverterUploadHandler;
 
 @Controller
 @RequestMapping("/admin/category")

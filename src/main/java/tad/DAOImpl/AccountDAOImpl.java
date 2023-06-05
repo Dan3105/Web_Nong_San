@@ -53,9 +53,9 @@ public class AccountDAOImpl implements IAccountDAO {
 	@Override
 	public List<Account> listAccountWithRole(EnumRoleID roleID) {
 		Session session = sessionFactory.getCurrentSession();
-		String hql = "From Account Where RoleID = :role";
+		String hql = "From Account Where RoleID = :roleID";
 		Query query = session.createQuery(hql);
-		query.setString("role", roleID.toString());
+		query.setString("roleID", roleID.toString());
 		@SuppressWarnings("unchecked")
 		List<Account> acc = query.list();
 		return acc;

@@ -1,5 +1,6 @@
 package tad.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -32,6 +33,22 @@ import tad.utility.DefineAttribute;
 @Controller
 @RequestMapping("/employee")
 public class EmployeeController {
+
+	@Autowired
+	@Qualifier("accountImgDir")
+	private UploadFile accountImgDir;
+
+	@Autowired
+	@Qualifier("rootFile")
+	private UploadFile rootFile;
+
+	@Autowired
+	@Qualifier("accountImgDir")
+	private UploadFile uploadFile;
+
+	@Autowired
+	private IAccountDAO accountDAO;
+
 	@RequestMapping("overview")
 	public String overview(ModelMap model) {
 		return "employee/employee-menu";
@@ -39,7 +56,7 @@ public class EmployeeController {
 
 	@RequestMapping("index")
 	public String index(ModelMap model) {
-		return "redirect:/employee/overview.htm";
+		return "redirect:/employee/products.htm";
 	}
 
 	@RequestMapping("logout.htm")
@@ -59,16 +76,6 @@ public class EmployeeController {
 		model.addAttribute(DefineAttribute.UserBeanAttribute, userBean);
 		return "employee/employee-profile";
 	}
-
-	@Autowired
-	@Qualifier("accountImgDir")
-	private UploadFile uploadFile;
-
-	@Autowired
-	private IAccountDAO accountDAO;
-
-	@Autowired
-	private ConverterUploadHandler convertHandler;
 
 	@RequestMapping(value = "profile.htm", params = "update", method = RequestMethod.POST)
 	public String pInfo(@Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user,
@@ -93,18 +100,26 @@ public class EmployeeController {
 		acc.setPhoneNumber(user.getPhoneNumber());
 		acc.setEmail(user.getEmail());
 
-		if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
-			if (convertHandler.MoveMultipartToDirectory(user.getAvatar(), uploadFile.getPath())) {
-				user.setAvatarDir(convertHandler.SetImageNameViaMultipartFile(user.getAvatar()));
-			}
-		}
+		File file = new File(rootFile.getPath() + user.getAvatar());
+		if (file.exists())
+			file.delete();
 
-		if (!user.getAvatarDir().isEmpty())
-			acc.setAvatar(user.getAvatarDir());
+		String avatarPath = accountImgDir.getPath() + user.getAvatar();
+		acc.setAvatar(user.getAvatar().getOriginalFilename());
+
+		try {
+			user.getAvatar().transferTo(new File(avatarPath));
+			Thread.sleep(2000);
+		} catch (Exception e) {
+			e.printStackTrace();
+			modelMap.addAttribute("message", false);
+			modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
+			return "employee/employee-profile";
+		}
 
 		accountDAO.updateAccount(acc);
 
-		modelMap.addAttribute(user);
+		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 		modelMap.addAttribute("message", true);
 		return "employee/employee-profile";
 	}
