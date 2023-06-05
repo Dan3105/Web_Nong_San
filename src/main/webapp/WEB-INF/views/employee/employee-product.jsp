@@ -177,19 +177,19 @@
 					<ul class="pagination d-flex justify-content-center ms-2">
 						<li class="page-item ${(crrPage == 1) ? 'disabled' : '' }"><a
 							class="page-link  mx-1 " aria-label="Previous"
-							href="admin/category.htm?crrPage=${crrPage - 1}&filter=${filter}">
+							href="employee/products.htm?crrPage=${crrPage - 1}&filter=${filter}">
 								<span aria-hidden="true">&laquo;</span>
 						</a></li>
 						<c:forEach var="i" begin="1" end="${totalPage }" varStatus="in">
 
 							<li class="page-item "><a
 								class="page-link  mx-1 ${(crrPage == in.count) ? 'active' : '' }"
-								href="admin/category.htm?crrPage=${in.count}&filter=${filter}">${in.count}</a></li>
+								href="employee/products.htm?crrPage=${in.count}&filter=${filter}">${in.count}</a></li>
 						</c:forEach>
 						<li class="page-item"><a
 							class="page-link mx-1 text-body ${(crrPage == totalPage) ? 'disabled' : '' }"
 							aria-label="Next"
-							href="admin/category.htm?crrPage=${crrPage + 1}&filter=${filter}">
+							href="employee/products.htm?crrPage=${crrPage + 1}&filter=${filter}">
 								<span aria-hidden="true">&raquo;</span>
 						</a></li>
 					</ul>

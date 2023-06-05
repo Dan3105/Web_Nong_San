@@ -73,13 +73,13 @@
 								<div class="row justify-content-between">
 									<div class="col-lg-4 col-md-6 col-12 mb-2 mb-md-0">
 										<form class="d-flex" role="search"
-											action="admin/category/searchCategory.htm">
+											action="admin/products/searchProduct.htm">
 											<input class="form-control" type="search"
 												placeholder="Search Category" aria-label="Search"
 												name="search">
 										</form>
 									</div>
-								
+
 								</div>
 
 
@@ -96,36 +96,65 @@
 									<th>Image</th>
 									<th>Name</th>
 									<th>Category</th>
+									<th>Posting Date</th>
+									<th>Quantity</th>
+									<th>Detail</th>
 									<th>Price</th>
-									<th>Create at</th>
+									<th>Edit</th>
+									<th>Delete</th>
 								</tr>
 							</thead>
 							<tbody>
 
-								<c:forEach varStatus="status" var="item" items="${list}">
+								<c:forEach varStatus="status" var="item" items="${products}">
 									<tr>
 										<td class="align-middle"><a
 											href="product/detail.htm?productId=${item.productId }"> <img
-												src="assets/img/product/${item.image}"
-												alt="Category
-                                                Name"
-												style="width: 80px"></a></td>
+												src="<c:url value="
+                                                        assets/img/products/${item.image}" />"
+												alt="Product Name" style="width: 80px"></a></td>
 										<td class="align-middle"><a
-											href="product/index.htm?categoryId=${item.productId }"
+											href="product/detail.htm?productId=${item.productId }"
 											class="text-dark">${item.productName}</a></td>
-										<td class="align-middle">${item.category.name}</td>
+										<td class="align-middle"><input type="hidden"
+											id="categoryId${item.productId }" value="${item.categoryId }">
+											<span>${item.categoryName }</span></td>
 
-										<td class="align-middle"></td>
-										<td class="align-middle"><a type="button"
-											href="admin/product/delete.htm?id=${item.id}"
-											class="btn btn-danger btn-sm">
-												Delete </a></td>
+										<td class="align-middle"><fmt:formatDate
+												value="${item.postingDate}" pattern="dd-MM-yyyy" /><input
+											type="hidden" id="postingDate${item.productId }"
+											value="${item.postingDate }"></td>
+										<td class="align-middle"><span>${item.quantity } </span></td>
+										<td class="align-middle"><p class="text-truncate"
+												style="max-width: 50px;">${item.detail}</p> <input
+											type="hidden" id="detail${item.productId }"
+											value="${item.detail}" /></td>
 										<td class="align-middle"><c:if
-												test="${item.products.size() > 0}">
-												<span class="badge bg-success">Published</span>
-											</c:if> <c:if test="${item.products.size() == 0}">
-												<span class="badge bg-danger">Unpublished</span>
+												test="${item.discount > 0}">
+												<span class="text-dark fw-bold"><fmt:formatNumber
+														value="${item.price - (item.price * item.discount)}"
+														type="currency" currencySymbol="VND" maxFractionDigits="0" /></span>
+												<span class="text-decoration-line-through text-muted">
+													<fmt:formatNumber value="${item.price }" type="currency"
+														currencySymbol="VND" maxFractionDigits="0" />
+												</span>
+											</c:if> <c:if test="${item.discount == 0}">
+												<span class="text-dark fw-bold"> <fmt:formatNumber
+														value="${item.price }" type="currency"
+														currencySymbol="VND" maxFractionDigits="0" />
+												</span>
 											</c:if></td>
+										<td class="align-middle">
+											<button onclick="UpdateProduct(${item.productId})"
+												class="btn btn-primary btn-sm" type="button">Update</button>
+
+										</td>
+										<td class="align-middle"><button type="button"
+												class="btn btn-danger btn-sm" data-bs-toggle="modal"
+												data-bs-target="#exampleModal"
+												id="del_button${status.index }"
+												data-value="products/delete${item.productId}.htm"
+												class="btn btn-danger ms-2">Delete</button></td>
 
 
 									</tr>
@@ -147,20 +176,20 @@
 					<ul class="pagination d-flex justify-content-center ms-2">
 						<li class="page-item ${(crrPage == 1) ? 'disabled' : '' }"><a
 							class="page-link  mx-1 " aria-label="Previous"
-							href="admin/category.htm?crrPage=${crrPage - 1}&filter=${filter}">
-								<span aria-hidden="true">&laquo;</span>
+							href="admin/products.htm?crrPage=${crrPage - 1}"> <span
+								aria-hidden="true">&laquo;</span>
 						</a></li>
 						<c:forEach var="i" begin="1" end="${totalPage }" varStatus="in">
 
 							<li class="page-item "><a
 								class="page-link  mx-1 ${(crrPage == in.count) ? 'active' : '' }"
-								href="admin/category.htm?crrPage=${in.count}&filter=${filter}">${in.count}</a></li>
+								href="admin/products.htm?crrPage=${in.count}">${in.count}</a></li>
 						</c:forEach>
 						<li class="page-item"><a
 							class="page-link mx-1 text-body ${(crrPage == totalPage) ? 'disabled' : '' }"
 							aria-label="Next"
-							href="admin/category.htm?crrPage=${crrPage + 1}&filter=${filter}">
-								<span aria-hidden="true">&raquo;</span>
+							href="admin/products.htm?crrPage=${crrPage + 1}"> <span
+								aria-hidden="true">&raquo;</span>
 						</a></li>
 					</ul>
 				</nav>

@@ -1,124 +1,204 @@
 package tad.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import tad.DAO.ICategoryDAO;
+import tad.DAO.ICouponDAO;
+import tad.DAO.IProductDAO;
+import tad.bean.ProductBean;
+import tad.bean.UploadFile;
+import tad.entity.Account;
+import tad.entity.Category;
+import tad.entity.Coupon;
+import tad.entity.Product;
+import tad.utility.Constants;
+import tad.utility.ConverterUploadHandler;
+import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping("/admin/product")
+@RequestMapping("/admin/products")
 public class AdminControllerProduct {
-	/*
-	 * @Autowired private IProductDAO productDAO;
-	 *
-	 * @Autowired
-	 *
-	 * @Qualifier("rootFile") private UploadFile rootFile;
-	 *
-	 * @Autowired
-	 *
-	 * @Qualifier("productImgDir") private UploadFile productImgDir;
-	 *
-	 * @RequestMapping() public String getProductList(ModelMap model,
-	 *
-	 * @RequestParam(value = "crrPage", required = false, defaultValue = "1") int
-	 * crrPage) {
-	 *
-	 * List<Product> product = productDAO.listProducts();
-	 *
-	 * int startIndex = (crrPage - 1) * Constants.USER_PER_PAGE; int totalPage = 1;
-	 * if (product.size() <= Constants.USER_PER_PAGE) totalPage = 1; else {
-	 * totalPage = product.size() / Constants.USER_PER_PAGE; if (product.size() %
-	 * Constants.USER_PER_PAGE != 0) { totalPage++; } }
-	 *
-	 * model.addAttribute("totalPage", totalPage); model.addAttribute("crrPage",
-	 * crrPage);
-	 *
-	 * model.addAttribute("list", product.subList(startIndex, Math.min(startIndex +
-	 * Constants.USER_PER_PAGE, product.size()))); return "admin/admin-category"; }
-	 *
-	 * @RequestMapping("searchProduct") public String
-	 * gCategoryWithSearch(@RequestParam(required = false, value = "search") String
-	 * search,
-	 *
-	 * @RequestParam(required = false, value = "crrPage", defaultValue = "1") int
-	 * crrPage, ModelMap model) { List<Product> product = productDAO.listProducts();
-	 * int startIndex = (crrPage - 1) * Constants.USER_PER_PAGE; int totalPage = 1;
-	 * if (product.size() <= Constants.USER_PER_PAGE) totalPage = 1; else {
-	 * totalPage = product.size() / Constants.USER_PER_PAGE; if (product.size() %
-	 * Constants.USER_PER_PAGE != 0) { totalPage++; } }
-	 *
-	 * model.addAttribute("crrPage", crrPage); model.addAttribute("totalPage",
-	 * totalPage); model.addAttribute("list", product.subList(startIndex,
-	 * Math.min(startIndex + Constants.USER_PER_PAGE, product.size())));
-	 * model.addAttribute("filter", 0); return "admin/admin-category"; }
-	 *
-	 * @RequestMapping("add") public String gCategoryAdd(ModelMap modelMap) {
-	 * Category category = new Category(); CategoryBean categoryBean = new
-	 * CategoryBean(category.getCategoryId(), category.getName(),
-	 * category.getImage()); modelMap.addAttribute("addBean", categoryBean); return
-	 * "admin/admin-category-form"; }
-	 *
-	 * @RequestMapping("update{id}") public String
-	 * gCategoryUpdate(@PathVariable("id") int id, ModelMap modelMap) { Category
-	 * category = categoryDAO.getCategory(id); CategoryBean categoryBean = new
-	 * CategoryBean(category); modelMap.addAttribute("updateBean", categoryBean);
-	 * return "redirect:admin/admin-category-form"; }
-	 *
-	 * @RequestMapping(value = "add", method = RequestMethod.POST) public String
-	 * pCategoryAdd(@ModelAttribute("addBean") CategoryBean categoryBean, ModelMap
-	 * model) { if (categoryBean != null) { Category category = new Category();
-	 *
-	 * category.setName(categoryBean.getName()); if
-	 * (categoryBean.getFileImage().isEmpty()) {
-	 *
-	 * } else { File file = new File(rootFile.getPath() +
-	 * categoryBean.getFileImage()); if (file.exists()) file.delete();
-	 *
-	 * String avatarPath = productImgDir.getPath() + categoryBean.getFileImage();
-	 * category.setImage(categoryBean.getFileImage().getOriginalFilename());
-	 *
-	 * try { categoryBean.getFileImage().transferTo(new File(avatarPath));
-	 * Thread.sleep(2000); } catch (Exception e) { e.printStackTrace();
-	 * model.addAttribute("message", 1); model.addAttribute("categoryBean",
-	 * categoryBean); return "admin/admin-category-form"; } }
-	 * categoryDAO.addCategory(category); model.addAttribute("message", 2); }
-	 *
-	 * return "redirect:/admin/category.htm"; }
-	 *
-	 * @Autowired
-	 *
-	 * @Qualifier("categoryImgDir") private UploadFile uploadCategory;
-	 *
-	 * @RequestMapping(value = "update", method = RequestMethod.POST) public String
-	 * pCategoryUpdate(@ModelAttribute("updateBean") CategoryBean categoryBean,
-	 * ModelMap model) { Category category =
-	 * categoryDAO.getCategory(categoryBean.getId()); if (category != null) {
-	 * category.setName(categoryBean.getName());
-	 *
-	 * if (categoryBean.getFileImage().isEmpty()) {
-	 *
-	 * } else { File file = new File(rootFile.getPath() +
-	 * categoryBean.getFileImage()); if (file.exists()) file.delete();
-	 *
-	 * String avatarPath = categoryImgDir.getPath() + categoryBean.getFileImage();
-	 * category.setImage(categoryBean.getFileImage().getOriginalFilename());
-	 *
-	 * try { categoryBean.getFileImage().transferTo(new File(avatarPath));
-	 * Thread.sleep(2000); } catch (Exception e) { e.printStackTrace();
-	 * model.addAttribute("message", 1); model.addAttribute("categoryBean",
-	 * categoryBean); return "admin/admin-category-form"; } }
-	 * //productDAO.updateProduct(product); model.addAttribute("message", 2);
-	 *
-	 * }
-	 *
-	 * return "redirect:/admin/category.htm"; }
-	 *
-	 * @RequestMapping(value = "delete", method = RequestMethod.GET) public String
-	 * pCategoryDelete(@RequestParam("id") int id, RedirectAttributes reAttributes)
-	 * { //Category category = categoryDAO.getCategory(id); System.out.println(id);
-	 * //if (categoryDAO.deleteCategory(category)) { //
-	 * reAttributes.addFlashAttribute("alert", 2); //} else { //
-	 * reAttributes.addFlashAttribute("alert", 1); //}
-	 *
-	 * return "redirect:/admin/category.htm"; }
-	 */
+
+	@Autowired
+	private ICategoryDAO categoryDAO;
+
+	@Autowired
+	private IProductDAO productDAO;
+
+	@Autowired
+	@Qualifier("productImgDir")
+	private UploadFile uploadProductImg;
+
+	@Autowired
+	private ConverterUploadHandler converter;
+	@Autowired
+	private ICouponDAO couponDAO;
+
+	@RequestMapping()
+	public String gProductList(ModelMap model, HttpSession session,
+			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
+
+		List<ProductBean> products = new ArrayList<>();
+		List<Product> listProducts = productDAO.listProducts();
+		for (Product product : listProducts) {
+			ProductBean bean = new ProductBean(product);
+			products.add(bean);
+		}
+
+		int startIndex = (crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME;
+		int totalPage = 1;
+		if (products.size() <= Constants.PRODUCT_PER_PAGE_IN_HOME)
+			totalPage = 1;
+		else {
+			totalPage = products.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
+			if (products.size() % Constants.PRODUCT_PER_PAGE_IN_HOME != 0) {
+				totalPage++;
+			}
+		}
+
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("crrPage", crrPage);
+		model.addAttribute("products", products.subList(startIndex,
+				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, products.size())));
+		model.addAttribute("categories", categoryDAO.getListCategories());
+		return "admin/admin-product";
+	}
+
+	@RequestMapping(value = "update-product{id}.htm", method = RequestMethod.POST)
+	public String pUpdateProduct(@PathVariable("id") int id, @ModelAttribute("productForm") ProductBean product) {
+		Product findProduct = productDAO.getProduct(id);
+
+		if (findProduct != null) {
+			// 1
+			Category category = categoryDAO.getCategory(product.getCategoryId());
+			if (category != null) {
+				findProduct.setCategory(category);
+			}
+
+			// 2
+			if (product.getDiscountId() != -1) {
+				Coupon coupon = couponDAO.getCoupon(product.getDiscountId());
+				if (coupon != null) {
+					findProduct.setCoupon(coupon);
+				}
+			}
+
+			// 3
+			if (product.getImageFile() != null) {
+				if (converter.MoveMultipartToDirectory(product.getImageFile(), uploadProductImg.getPath())) {
+					findProduct.setImage(converter.SetImageNameViaMultipartFile(product.getImageFile()));
+				}
+			}
+
+			// 4
+			findProduct.setProductName(product.getProductName());
+			// 5
+			findProduct.setPrice(product.getPrice());
+			// 6
+			findProduct.setQuantity(product.getQuantity());
+			// 7
+			findProduct.setDetail(product.getDetail());
+			// 8
+			findProduct.setPostingDate(product.getPostingDate());
+
+			if (!productDAO.updateProduct(findProduct)) {
+				System.out.println("checking error");
+			}
+		}
+
+		return String.format("redirect:/admin/products.htm");
+	}
+
+	@RequestMapping("searchProduct")
+	public String search(@RequestParam(required = false, value = "search") String search,
+			@RequestParam(required = false, value = "crrPage", defaultValue = "1") int crrPage, ModelMap modelMap) {
+
+		List<Product> products = productDAO.filterProductByName(search);
+
+		int startIndex = (crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME;
+		int totalPage = 1;
+		if (products.size() <= Constants.PRODUCT_PER_PAGE_IN_HOME)
+			totalPage = 1;
+		else {
+			totalPage = products.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
+			if (products.size() % Constants.PRODUCT_PER_PAGE_IN_HOME != 0) {
+				totalPage++;
+			}
+		}
+
+		modelMap.addAttribute("products", products.subList(startIndex,
+				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_CATEGORY, products.size())));
+		modelMap.addAttribute("crrPage", crrPage);
+		modelMap.addAttribute("totalPage", totalPage);
+		return "redirect:/admin/products.htm";
+	}
+
+	@RequestMapping(value = "create-product.htm", method = RequestMethod.POST)
+	public String pCreateProduct(@ModelAttribute("productBean") ProductBean product, HttpSession session) {
+		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
+		if (acc == null) {
+			return "redirect:employee/logout.htm";
+		}
+		Product newProduct = new Product();
+		// 0
+		newProduct.setAccount(acc);
+		// 1
+		Category category = categoryDAO.getCategory(product.getCategoryId());
+		if (category != null) {
+			newProduct.setCategory(category);
+		} else {
+			System.out.println(product.getCategoryId() + "doesnt exissst");
+			return "redirect:/admin/products.htm";
+		}
+
+		// 2
+		if (product.getDiscountId() != -1) {
+			Coupon coupon = couponDAO.getCoupon(product.getDiscountId());
+			if (coupon != null) {
+				newProduct.setCoupon(coupon);
+			}
+		}
+
+		// 3
+		if (product.getImageFile() != null) {
+			if (converter.MoveMultipartToDirectory(product.getImageFile(), uploadProductImg.getPath())) {
+				newProduct.setImage(converter.SetImageNameViaMultipartFile(product.getImageFile()));
+			}
+		}
+
+		// 4
+		newProduct.setProductName(product.getProductName());
+		// 5
+		newProduct.setPrice(product.getPrice());
+		// 6
+		newProduct.setQuantity(product.getQuantity());
+		// 7
+		newProduct.setDetail(product.getDetail());
+		// 8
+		newProduct.setPostingDate(product.getPostingDate());
+
+		if (!productDAO.insertProduct(newProduct)) {
+			System.out.println("error in adding");
+		}
+
+		return String.format("redirect:/admin/products.htm");
+	}
 }
