@@ -1,5 +1,11 @@
 <%@include file="/WEB-INF/views/include/library.jsp"%>
-
+<script
+	src="<c:url value=" assets/js/employee/EmployeeVoucherFormHandler.js" />"></script>
+<style>
+.hidden {
+	display: none !important;
+}
+</style>
 <body>
 	<c:choose>
 		<c:when test="${alert == 1}">
@@ -110,6 +116,12 @@
 												data-value="vouchers/delete${item.couponId }.htm"
 												class="btn btn-outline-danger ms-2">Delete</button>
 										</td>
+										<input type="hidden" id="discountPercent${item.couponId }"
+											value="${item.discount }" />
+										<input type="hidden" id="itemExpiry${item.couponId }"
+											value="${item.expiryDate }" />
+										<p id="discountDetail${item.couponId }"
+											class="text-truncate text-muted mb-0">${item.detail }</p>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -177,8 +189,68 @@
 			</div>
 		</div>
 	</div>
+	<div class="position-fixed top-0 start-0"
+		style="width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.4);"
+		id="voucher-form-panel">
+		<div
+			class="d-flex justify-content-center align-items-center w-100 h-100">
+			<div class=" bg-light mt-2 opacity-100 " style="width: 700px;">
+				<div class="p-2 d-flex justify-content-between align-items-center">
+					<h5 class="fs-4 m-3">Coupon Information</h5>
+					<button type="button" class="btn btn-outline-danger"
+						onclick="CloseForm()">
+						<i class="ti-close"></i>
+					</button>
+					<form:form id="voucher-form" method="post" action=""
+						modelAttribute="couponBean" class="row m-3"
+						enctype="multipart/form-data">
+						<div class="col-md-12 mt-2">
+							<label for="inputNameDiscount" class="form-label">Name
+								Coupon</label>
+							<form:input path="name" class="form-control"
+								id="inputNameDiscount" />
+						</div>
+						<div class="col-md-5 mt-2">
+							<label for="percentDiscount">Discount percent</label>
+							<div class="mt-2 d-flex align-items-center ">
+								<form:input id="percentDiscount" type="range" value="0" min="0"
+									max="0.99" step="0.01" path="discount"
+									oninput="this.nextElementSibling.value = (this.value * 100).toFixed(0)" />
+								<output class="ms-1" id="displayPercent" for="percentDiscount">0</output>
+								%
+								<div class="col-md-6 mt-2">
+									<label for="inputDate" class="form-label">Date Posting</label>
+									<form:input type="date" class="form-control" id="inputDate"
+										path="postingDate" />
+								</div>
+								<div class="col-md-6 mt-2">
+									<label for="expiryDate" class="form-label">Expriy Date</label>
+									<form:input type="date" class="form-control" id="expiryDate"
+										path="expiryDate" />
+								</div>
+								<div class="col-md-12 mt-2">
+									<div class="form-floating mb-3">
+										<form:input type="text" class="form-control" path="detail"
+											placeholder="Leave a detail here" id="inputDetail"
+											style="height: 100px" />
+										<label for="inputDetail">Detail</label>
+									</div>
+								</div>
+								<div
+									class="col-12 mt-2 d-flex align-items-center justify-content-center">
+									<button type="submit" class="btn btn-primary">Submit</button>
+								</div>
+							</div>
+						</div>
+
+					</form:form>
+					<script>CloseForm()</script>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </body>
-<script
-	src="<c:url value=" assets/js/employee/EmployeeVoucherFormHandler.js" />"></script>
+
 <script src="<c:url value="assets/js/admin/AlertHandler.js"/>"></script>
 </html>
