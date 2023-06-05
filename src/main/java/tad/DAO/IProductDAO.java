@@ -13,6 +13,8 @@ public interface IProductDAO {
 	List<Product> listProducts(String productName, float price, String image, int quantity, String detail,
 			Date postingDate, Date expiryDate);
 
+	List<Product> listProducts(int accountId);
+
 	List<Product> filterProductByName(String name);
 
 	List<Product> listProductsWithCoupon();

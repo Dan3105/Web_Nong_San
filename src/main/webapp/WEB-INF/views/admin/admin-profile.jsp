@@ -155,5 +155,5 @@
 	</div>
 </body>
 <script type="text/javascript" src="assets/js/user/account.js"></script>
-<script src="<c:url value="/assets/js/admin/AlertHandler.js"/>"></script>
+
 </html>

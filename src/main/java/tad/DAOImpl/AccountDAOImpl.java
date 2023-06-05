@@ -104,7 +104,7 @@ public class AccountDAOImpl implements IAccountDAO {
 		Transaction t = session.beginTransaction();
 		try {
 
-			session.saveOrUpdate(account);
+			session.update(account);
 			t.commit();
 			return true;
 

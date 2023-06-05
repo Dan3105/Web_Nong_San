@@ -28,7 +28,7 @@
 		<small class="sidebar-heading px-2 text-muted">Vouncher</small>
 
 		<!-- Nav Item - Feedback -->
-		<li class="nav-item "><a href="employee/vounchers.htm"
+		<li class="nav-item "><a href="employee/vouchers.htm"
 			class="nav-link"> <i class="bi bi-star"></i> <span>Voucher</span></a>
 		</li>
 

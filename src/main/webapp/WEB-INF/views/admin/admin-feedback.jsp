@@ -43,7 +43,7 @@
 						<div class="col-md-12">
 							<div class="d-md-flex justify-content-between align-items-center">
 								<div>
-									<h2>Categories</h2>
+									<h2>Feedback</h2>
 									<!-- breacrumb -->
 									<nav aria-label="breadcrumb">
 										<ol class="breadcrumb mb-0 text-muted fs-6 fw-semibold">
@@ -67,14 +67,6 @@
 						<div class="col-xl-12 col-12 mb-5">
 							<div class=" px-6 py-6 p-4">
 								<div class="row justify-content-between">
-									<div class="col-lg-4 col-md-6 col-12 mb-2 mb-md-0">
-										<form class="d-flex" role="search"
-											action="admin/feedback/searchFeedback.htm">
-											<input class="form-control" type="search"
-												placeholder="Search Feedback" aria-label="Search"
-												name="search">
-										</form>
-									</div>
 									<div class="col-xl-2 col-md-4 col-12">
 										<div class="dropdown">
 											<button class="btn btn-success dropdown-toggle" type="button"
@@ -116,8 +108,10 @@
 						<table class="table ">
 							<thead class="position-sticky top-0 ">
 								<tr class="table-success">
+									<th>FeedbackId</th>
 									<th>Product</th>
-									<th>Name</th>
+									<th>Product Name</th>
+									<th>Customer</th>
 									<th>Reviews</th>
 									<th>Rating</th>
 									<th>Date</th>
@@ -129,9 +123,12 @@
 
 								<c:forEach varStatus="status" var="item" items="${list}">
 									<tr>
+										<td class="align-middle">${item.feedbackId }</td>
 										<td class="align-middle"><a
-											href="/assets/img/products/${item.product.image}">${item.product.productName}
-										</a></td>
+											href="product/detail.htm?productId=${item.product.productId }"><img
+												style="width: 100px"
+												src="assets/img/products/${item.product.image}" /></a></td>
+										<td class="align-middle"><h6>${item.product.productName}</h6></td>
 										<td class="align-middle">${item.account.getName()}</td>
 										<td class="align-middle"><div class="text-truncate">${item.feedbackContent}</div></td>
 

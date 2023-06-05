@@ -33,8 +33,8 @@
 								</div>
 								<!-- button -->
 								<div>
-									<a href="admin/user/create-guest.htm" class="btn btn-outline-success">Add
-										New Guest</a>
+									<a href="admin/user/create-guest.htm"
+										class="btn btn-outline-success">Add New Guest</a>
 								</div>
 							</div>
 						</div>
@@ -83,8 +83,10 @@
 													</c:otherwise>
 												</c:choose>
 											</button></a></td>
-									<td class="align-middle"><a class= "link-success" href="" ><i class="bi bi-pencil-square"></i>Edit</a></td>
-									
+									<td class="align-middle"><a class="link-success"
+										href="admin/user/edit.htm?id=${account.accountId }"><i
+											class="bi bi-pencil-square"></i>Edit</a></td>
+
 
 								</tr>
 							</c:forEach>

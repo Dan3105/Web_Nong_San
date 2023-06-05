@@ -58,7 +58,7 @@ public class Product {
 	@JoinColumn(name = "CouponID")
 	private Coupon coupon;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "AccountID", nullable = false)
 	private Account account;
 

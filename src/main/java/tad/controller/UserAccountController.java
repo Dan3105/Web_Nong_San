@@ -81,7 +81,7 @@ public class UserAccountController {
 		}
 
 		if (account.getRole().getRoleName().equals("Employee")) {
-			return "redirect:/employee/overview.htm";
+			return "redirect:/employee/index.htm";
 		}
 
 		ProfileBean profileBean = new ProfileBean();

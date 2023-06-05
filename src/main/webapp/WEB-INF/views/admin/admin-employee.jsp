@@ -83,7 +83,7 @@
 													</c:otherwise>
 												</c:choose>
 											</button></a></td>
-									<td class="align-middle"><a class="link-success" href="admin/user/edit-employee.htm?id=${account.accountId }"><i
+									<td class="align-middle"><a class="link-success" href="admin/user/edit.htm?id=${account.accountId }"><i
 											class="bi bi-pencil-square"></i>Edit</a></td>
 
 								</tr>
