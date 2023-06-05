@@ -1,4 +1,4 @@
-<%@include file="/WEB-INF/views/include/library.jsp"%>sp"%>
+<%@include file="/WEB-INF/views/include/library.jsp"%>
 <script
 	src="<c:url value="/assets/js/employee/EmployeeVoucherFormHandler.js"/>"></script>
 </head>
@@ -42,75 +42,80 @@ body {
 </style>
 
 <body>
-	<%@include file="/WEB-INF/views/employee/employee-header-nav.jsp"%>
-	<button class="btn btn-success" onclick="CreateForm()">Add
-		Voucher</button>
-	<div style="max-height: 90vh" class="mt-3 overflow-y-scroll row">
-		<c:forEach var="item" items="${coupons}">
-			<div class="d-inlineblock col-md-6">
-				<div
-					class="coupon bg-white rounded mb-3 d-flex justify-content-between">
-					<div class="d-flex align-items-center kiri p-3">
-						<div class="icon-container ">
-							<div class="d-flex flex-row justify-content-end off">
-								<input type="hidden" id="discountPercent${item.couponId }"
-									value="${item.discount }" />
-								<h1>
-									<fmt:formatNumber type="percent" value="${item.discount }" />
-								</h1>
-								<span>OFF</span>
-							</div>
-						</div>
-					</div>
-					<div class="tengah py-3 d-flex w-100 justify-content-start">
-						<input type="hidden" id="itemExpiry${item.couponId }"
-							value="${item.expiryDate }" />
-						<div>
-							<c:if test="${item.valid eq true }">
-								<!-- Valid condition -->
-								<span class="mb-2 badge text-bg-success">Valid</span>
-							</c:if>
-							<c:if test="${item.valid eq false }">
-								<!-- Valid condition -->
-								<span class="mb-2 badge text-bg-danger">Invalid</span>
-							</c:if>
+	<div class="row">
+		<div class="col-2 d-none d-lg-inline ">
+			<%@include file="/WEB-INF/views/employee/employee-header-nav.jsp"%></div>
 
-							<!-- Name -->
-							<h3 id="discountName${item.couponId }" class="lead">${item.name }</h3>
-							<!-- Detail -->
-							<p id="discountDetail${item.couponId }"
-								class="text-truncate text-muted mb-0">${item.detail }</p>
-						</div>
-					</div>
-					<div class="kanan">
-						<div class="info m-3 d-flex align-items-center">
-							<div class="">
-								<div class="d-flex align-items-center">
-									<c:if test="${item.days > 0 }">
-										<span class="time font-weight-light"> <span>
-												${item.days } days</span>
-										</span>
+		<div class="col-10 col-10-sm col-10-md">
+			<button class="btn btn-success" onclick="CreateForm()">Add
+				Voucher</button>
+			<div style="max-height: 80vh" class="mt-3 overflow-y-scroll row">
+				<c:forEach var="item" items="${coupons}">
+					<div class="d-inlineblock col-md-6">
+						<div
+							class="coupon bg-white rounded mb-3 d-flex justify-content-between">
+							<div class="d-flex align-items-center kiri p-3">
+								<div class="icon-container ">
+									<div class="d-flex flex-row justify-content-end off">
+										<input type="hidden" id="discountPercent${item.couponId }"
+											value="${item.discount }" />
+										<h1>
+											<fmt:formatNumber type="percent" value="${item.discount }" />
+										</h1>
+										<span>OFF</span>
+									</div>
+								</div>
+							</div>
+							<div class="tengah py-3 d-flex w-100 justify-content-start">
+								<input type="hidden" id="itemExpiry${item.couponId }"
+									value="${item.expiryDate }" />
+								<div>
+									<c:if test="${item.valid eq true }">
+										<!-- Valid condition -->
+										<span class="mb-2 badge text-bg-success">Valid</span>
 									</c:if>
+									<c:if test="${item.valid eq false }">
+										<!-- Valid condition -->
+										<span class="mb-2 badge text-bg-danger">Invalid</span>
+									</c:if>
+
+									<!-- Name -->
+									<h3 id="discountName${item.couponId }" class="lead">${item.name }</h3>
+									<!-- Detail -->
+									<p id="discountDetail${item.couponId }"
+										class="text-truncate text-muted mb-0">${item.detail }</p>
 								</div>
-								<div class="d-flex align-items-center justify-content-center">
-									<button type="button" onClick="UpdateForm(${item.couponId})"
-										class="btn btn-sm me-1 btn-outline-success btn-block">
-										Update</button>
-									<button type="button" class="btn btn-danger"
-										data-bs-toggle="modal" data-bs-target="#exampleModal"
-										id="del_button${status.index }"
-										data-value="vouchers/delete${item.couponId }.htm"
-										class="btn btn-danger ms-2">
-										<i class="ti-trash"></i>
-									</button>
+							</div>
+							<div class="kanan">
+								<div class="info m-3 d-flex align-items-center">
+									<div class="">
+										<div class="d-flex align-items-center">
+											<c:if test="${item.days > 0 }">
+												<span class="time font-weight-light"> <span>
+														${item.days } days</span>
+												</span>
+											</c:if>
+										</div>
+										<div class="d-flex align-items-center justify-content-center">
+											<button type="button" onClick="UpdateForm(${item.couponId})"
+												class="btn btn-sm me-1 btn-outline-success btn-block">
+												Update</button>
+											<button type="button" class="btn btn-danger"
+												data-bs-toggle="modal" data-bs-target="#exampleModal"
+												id="del_button${status.index }"
+												data-value="vouchers/delete${item.couponId }.htm"
+												class="btn btn-danger ms-2">
+												<i class="ti-trash"></i>
+											</button>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</c:forEach>
 			</div>
-		</c:forEach>
-
+		</div>
 	</div>
 	<div class="row">
 		<div class="col-8"></div>
