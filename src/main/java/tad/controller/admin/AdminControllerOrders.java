@@ -1,4 +1,4 @@
-package tad.controller;
+package tad.controller.admin;
 
 import java.util.List;
 

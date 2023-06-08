@@ -1,10 +1,16 @@
-package tad.controller;
+package tad.controller.admin;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -29,8 +35,8 @@ import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping("/employee/products")
-public class EmployeeControllerProducts {
+@RequestMapping("/admin/products")
+public class AdminControllerProduct {
 
 	@Autowired
 	private ICategoryDAO categoryDAO;
@@ -38,16 +44,21 @@ public class EmployeeControllerProducts {
 	@Autowired
 	private IProductDAO productDAO;
 
+	@Autowired
+	@Qualifier("productImgDir")
+	private UploadFile uploadProductImg;
+
+	@Autowired
+	private ConverterUploadHandler converter;
+	@Autowired
+	private ICouponDAO couponDAO;
+
 	@RequestMapping()
 	public String gProductList(ModelMap model, HttpSession session,
 			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
-		Account currentAcc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
-		if (currentAcc == null) {
-			return "redirect:/guest.htm";
-		}
 
 		List<ProductBean> products = new ArrayList<>();
-		List<Product> listProducts = productDAO.listProducts(currentAcc.getAccountId());
+		List<Product> listProducts = productDAO.listProducts();
 		for (Product product : listProducts) {
 			ProductBean bean = new ProductBean(product);
 			products.add(bean);
@@ -63,36 +74,13 @@ public class EmployeeControllerProducts {
 				totalPage++;
 			}
 		}
-		ProductBean beanForm = new ProductBean();
-		model.addAttribute("productForm", beanForm);
-		Account tacc = couponDAO.FetchAccountCoupon(currentAcc);
+
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("crrPage", crrPage);
 		model.addAttribute("products", products.subList(startIndex,
 				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, products.size())));
-		model.addAttribute("categories", categoryDAO.getListCategories());
-		model.addAttribute("coupons", tacc.getCoupons());
-		return "employee/employee-product";
+		return "admin/admin-product";
 	}
-
-	@RequestMapping(value = "delete{id}.htm")
-	public String DeleteProduct(@PathVariable("id") int id, HttpSession session) {
-		Product findProduct = productDAO.getProduct(id);
-		if (findProduct != null) {
-			productDAO.deleteProduct(findProduct);
-		}
-
-		return String.format("redirect:/employee/products.htm");
-	}
-
-	@Autowired
-	@Qualifier("productImgDir")
-	private UploadFile uploadProductImg;
-
-	@Autowired
-	private ConverterUploadHandler converter;
-	@Autowired
-	private ICouponDAO couponDAO;
 
 	@RequestMapping(value = "update-product{id}.htm", method = RequestMethod.POST)
 	public String pUpdateProduct(@PathVariable("id") int id, @ModelAttribute("productForm") ProductBean product) {
@@ -136,34 +124,46 @@ public class EmployeeControllerProducts {
 			}
 		}
 
-		return "redirect:/employee/products.htm";
+		return String.format("redirect:/admin/products.htm");
 	}
 
 	@RequestMapping("searchProduct")
 	public String search(@RequestParam(required = false, value = "search") String search,
-			@RequestParam(required = false, value = "currentPage", defaultValue = "1") int currentPage,
-			ModelMap modelMap) {
+			@RequestParam(required = false, value = "crrPage", defaultValue = "1") int crrPage, ModelMap modelMap) {
 
-		List<Product> products = productDAO.filterProductByName(search);
+		List<ProductBean> products = new ArrayList<>();
+		List<Product> listProducts = productDAO.filterProductByName(search);
+		for (Product p : listProducts) {
+			ProductBean bean = new ProductBean(p);
+			products.add(bean);
+		}
 
-		int startIndex = (currentPage - 1) * Constants.PRODUCT_PER_PAGE_IN_CATEGORY;
+		int startIndex = (crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME;
 		int totalPage = 1;
-		if (products.size() <= Constants.PRODUCT_PER_PAGE_IN_CATEGORY)
+		if (products.size() <= Constants.PRODUCT_PER_PAGE_IN_HOME)
 			totalPage = 1;
 		else {
-			totalPage = products.size() / Constants.PRODUCT_PER_PAGE_IN_CATEGORY;
-			if (products.size() % Constants.PRODUCT_PER_PAGE_IN_CATEGORY != 0) {
+			totalPage = products.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
+			if (products.size() % Constants.PRODUCT_PER_PAGE_IN_HOME != 0) {
 				totalPage++;
 			}
 		}
 
 		modelMap.addAttribute("products", products.subList(startIndex,
 				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_CATEGORY, products.size())));
-		modelMap.addAttribute("currentPage", currentPage);
+		modelMap.addAttribute("crrPage", crrPage);
 		modelMap.addAttribute("totalPage", totalPage);
-		modelMap.addAttribute("search", search);
-		modelMap.addAttribute("total", products.size());
-		return "redirect://employee/products.htm";
+		return "admin/admin-product";
+	}
+
+	@RequestMapping(value = "create-product.htm",method = RequestMethod.POST)
+	public String pCreateProduct(ModelMap model,HttpSession session) {
+		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
+	
+		ProductBean productBean = new ProductBean();
+		pr
+		return "admin/admin-createProduct";
+
 	}
 
 	@RequestMapping(value = "create-product.htm", method = RequestMethod.POST)
@@ -173,18 +173,15 @@ public class EmployeeControllerProducts {
 			return "redirect:employee/logout.htm";
 		}
 		Product newProduct = new Product();
-		// 0
 		newProduct.setAccount(acc);
-		// 1
 		Category category = categoryDAO.getCategory(product.getCategoryId());
 		if (category != null) {
 			newProduct.setCategory(category);
 		} else {
 			System.out.println(product.getCategoryId() + "doesnt exissst");
-			return "redirect:/employee/products.htm";
+			return "redirect:/admin/products.htm";
 		}
 
-		// 2
 		if (product.getDiscountId() != -1) {
 			Coupon coupon = couponDAO.getCoupon(product.getDiscountId());
 			if (coupon != null) {
@@ -192,28 +189,21 @@ public class EmployeeControllerProducts {
 			}
 		}
 
-		// 3
 		if (product.getImageFile() != null) {
 			if (converter.MoveMultipartToDirectory(product.getImageFile(), uploadProductImg.getPath())) {
 				newProduct.setImage(converter.SetImageNameViaMultipartFile(product.getImageFile()));
 			}
 		}
 
-		// 4
 		newProduct.setProductName(product.getProductName());
-		// 5
 		newProduct.setPrice(product.getPrice());
-		// 6
 		newProduct.setQuantity(product.getQuantity());
-		// 7
 		newProduct.setDetail(product.getDetail());
-		// 8
 		newProduct.setPostingDate(product.getPostingDate());
 
 		if (!productDAO.insertProduct(newProduct)) {
 			System.out.println("error in adding");
 		}
-
-		return "redirect:/employee/products.htm";
+		return String.format("redirect:/admin/products.htm");
 	}
 }

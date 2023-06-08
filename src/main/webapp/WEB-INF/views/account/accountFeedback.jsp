@@ -83,12 +83,14 @@
 								<form:input type="number" id="star-input" class="form-control"
 									path="ratingStar" min="1" max="5"></form:input>
 							</div>
-							<label class="col-sm-3 col-form-label text-start mt-2">Stars:
+							<label class="col-sm-3 col-form-label text-start mt-2">Feedback:
 							</label>
 							<div class="col-sm-9">
-								<form:textarea path="feedbackContent" class="form-control my-2"
-									placeholder="What did you like or dislike? What did you use this product for?"
-									rows="5" required="true"></form:textarea>
+								<div class="form-floating">
+									<form:textarea class="form-control my-2" path="feedbackContent"
+										placeholder="Leave a comment here" id="description"
+										style="height: 100px"></form:textarea>
+								</div>
 							</div>
 						</div>
 						<div class="text-start mt-2">
@@ -107,6 +109,12 @@
 	</div>
 </div>
 
+<script type="text/javascript" src="assets/ckeditor/ckeditor.js">
+	
+</script>
 
+<script>
+	CKEDITOR.replace('description');
+</script>
 
 <%@include file="/WEB-INF/views/include/footer.jsp"%>tml>

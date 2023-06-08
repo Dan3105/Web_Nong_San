@@ -407,7 +407,7 @@ public class UserAccountController {
 		if (feedback1 == null) {
 			feedback1 = feedback;
 			feedback1.setProduct(product);
-			feedback1.setStatus(0);
+			feedback1.setStatus(1);
 			feedback1.setAccount(account);
 			Date in = new Date();
 			LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());

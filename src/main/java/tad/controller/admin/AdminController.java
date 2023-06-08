@@ -1,4 +1,4 @@
-package tad.controller;
+package tad.controller.admin;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -106,6 +106,9 @@ public class AdminController {
 
 	@RequestMapping("logout")
 	public String logout(ModelMap model, HttpSession session) {
+		session.removeAttribute(DefineAttribute.UserAttribute);
+		session.setAttribute("totalCart", 0);
+		session.setAttribute("totalWishlist", 0);
 		return "redirect:/guest/logout.htm";
 	}
 

@@ -115,7 +115,9 @@ public class UserHomeController {
 	@RequestMapping("logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute(DefineAttribute.UserAttribute);
-		return "page/home";
+		session.setAttribute("totalCart", 0);
+		session.setAttribute("totalWishlist", 0);
+		return "redirect:/guest/logout.htm";
 	}
 
 }

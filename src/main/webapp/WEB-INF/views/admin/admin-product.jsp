@@ -58,7 +58,7 @@
 								</div>
 								<!-- button -->
 								<div>
-									<a href="admin/category/add.htm" class="btn btn-success">Add
+									<a href="admin/products/create-product.htm" class="btn btn-success">Add
 										New Product</a>
 								</div>
 							</div>
@@ -75,7 +75,7 @@
 										<form class="d-flex" role="search"
 											action="admin/products/searchProduct.htm">
 											<input class="form-control" type="search"
-												placeholder="Search Category" aria-label="Search"
+												placeholder="Search Products" aria-label="Search"
 												name="search">
 										</form>
 									</div>
@@ -101,7 +101,6 @@
 									<th>Detail</th>
 									<th>Price</th>
 									<th>Edit</th>
-									<th>Delete</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -116,9 +115,7 @@
 										<td class="align-middle"><a
 											href="product/detail.htm?productId=${item.productId }"
 											class="text-dark">${item.productName}</a></td>
-										<td class="align-middle"><input type="hidden"
-											id="categoryId${item.productId }" value="${item.categoryId }">
-											<span>${item.categoryName }</span></td>
+										<td class="align-middle"><span>${item.categoryName }</span></td>
 
 										<td class="align-middle"><fmt:formatDate
 												value="${item.postingDate}" pattern="dd-MM-yyyy" /><input
@@ -149,12 +146,7 @@
 												class="btn btn-primary btn-sm" type="button">Update</button>
 
 										</td>
-										<td class="align-middle"><button type="button"
-												class="btn btn-danger btn-sm" data-bs-toggle="modal"
-												data-bs-target="#exampleModal"
-												id="del_button${status.index }"
-												data-value="products/delete${item.productId}.htm"
-												class="btn btn-danger ms-2">Delete</button></td>
+
 
 
 									</tr>

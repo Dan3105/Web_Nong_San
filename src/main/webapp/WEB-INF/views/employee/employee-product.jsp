@@ -78,7 +78,7 @@
 								<div class="row justify-content-between">
 									<div class="col-lg-4 col-md-6 col-12 mb-2 mb-md-0">
 										<form class="d-flex" role="search"
-											action="employee/category/searchCategory.htm">
+											action="employee/products/searchProduct.htm">
 											<input class="form-control" type="search"
 												placeholder="Search Category" aria-label="Search"
 												name="search">
