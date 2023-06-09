@@ -136,8 +136,6 @@ public class UserGuestController {
 	@Qualifier("accountImgDir")
 	private UploadFile uploadFile;
 
-	@Autowired
-
 	@RequestMapping(value = "guest-register", method = RequestMethod.POST)
 	public String register(ModelMap model, @Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user,
 			BindingResult errors, ModelMap modelMap, RedirectAttributes reAttributes) {

@@ -26,7 +26,7 @@
    	
 	<!-- Cấu hình package chứa các controller -->
 	<context:component-scan
-		base-package="tad.controller, tad.bean" />
+		base-package="tad.controller, tad,controller.admin, tad.controller.employee, tad.bean" />
 
 	<!-- Cấu hình resources -->
 	<!-- <mvc:resources mapping="/assets/**"
