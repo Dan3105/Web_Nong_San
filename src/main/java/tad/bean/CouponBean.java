@@ -28,7 +28,7 @@ public class CouponBean {
 		this.discount = coupon.getDiscount();
 
 		Date crrDate = coupon.getPostingDate();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
 		String formattedPostDate = formatter.format(crrDate);
 		this.postingDate = formattedPostDate;

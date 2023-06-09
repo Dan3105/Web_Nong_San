@@ -72,10 +72,20 @@ public class EmployeeControllerVouchers {
 	}
 
 	@RequestMapping(value = "update-voucher", method = RequestMethod.POST)
-	public String pUpdateProduct(@ModelAttribute("couponBean") CouponBean coupon) {
+	public String pUpdateProduct(ModelMap model, @ModelAttribute("couponBean") CouponBean coupon,
+			BindingResult errors) {
 		Coupon findCoupon = couponDAO.getCoupon(coupon.getCouponId());
 
 		if (findCoupon != null) {
+
+			if (coupon.getDiscount() > 1.0 || coupon.getDiscount() < 0) {
+				errors.rejectValue("discount", "Giá trị coupon ko đúng");
+				model.addAttribute("message", "Giá trị coupon 0.0 - 1.0");
+			}
+			if (errors.hasErrors()) {
+				model.addAttribute("message", "Giá trị coupon 0.0 - 1.0");
+				return "employee/employee-createVoucher";
+			}
 			// 4
 			findCoupon.setName(coupon.getName());
 			// 7

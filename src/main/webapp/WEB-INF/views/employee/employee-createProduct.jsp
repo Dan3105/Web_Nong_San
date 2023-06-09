@@ -27,7 +27,7 @@
 									<nav aria-label="breadcrumb">
 										<ol class="breadcrumb mb-0 text-muted fs-6 fw-semibold">
 											<li class="breadcrumb-item "><a
-												href="admin/products.htm"
+												href="employee/products.htm"
 												class="text-decoration-none text-success ">Product </a>
 											<li class="breadcrumb-item active" aria-current="page"
 												class="text-decoration-none">Create Product</li>
@@ -41,7 +41,7 @@
 
 						<div class=" col-md-6 offset-md-3 card p-5 ">
 							<form:form
-								action="${mess == update ? 'employee/products/update-product.htm' : 'employee/products/create-product.htm'}"
+								action="${mess == 2 ? 'employee/products/update-product.htm' : 'employee/products/create-product.htm'}"
 								modelAttribute="productForm" class="row m-3"
 								enctype="multipart/form-data">
 								<form:input type="hidden" path="productId" />
@@ -69,7 +69,7 @@
 									<form:input path="unit" type="text" class="form-control"
 										id="inputUnit" />
 								</div>
-								<c:if test="${mess == update }">
+								<c:if test="${mess == 2 }">
 									<div class="col-md-6 mt-2">
 										<p class="mb-2 fw-bold">Current Image</p>
 										<img id="output" class="width-100" style="width: 100px"

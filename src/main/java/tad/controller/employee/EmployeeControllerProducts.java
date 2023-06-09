@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -114,7 +115,7 @@ public class EmployeeControllerProducts {
 		Account tacc = couponDAO.FetchAccountCoupon(currentAcc);
 		model.addAttribute("categories", categoryDAO.getListCategories());
 		model.addAttribute("coupons", tacc.getCoupons());
-		model.addAttribute("mess", "update");
+		model.addAttribute("mess", 2);
 		return "employee/employee-createProduct";
 
 	}
@@ -220,9 +221,10 @@ public class EmployeeControllerProducts {
 		ProductBean beanForm = new ProductBean();
 		model.addAttribute("productForm", beanForm);
 		Account tacc = couponDAO.FetchAccountCoupon(currentAcc);
+		Set<Coupon> coupons = tacc.getCoupons();
 		model.addAttribute("categories", categoryDAO.getListCategories());
-		model.addAttribute("coupons", tacc.getCoupons());
-
+		model.addAttribute("coupons", coupons);
+		model.addAttribute("mess", 1);
 		return "employee/employee-createProduct";
 	}
 
@@ -240,7 +242,6 @@ public class EmployeeControllerProducts {
 		if (category != null) {
 			newProduct.setCategory(category);
 		} else {
-			model.addAttribute("mess", "Category ko ton tai");
 			return "employee/employee-createProduct";
 		}
 
@@ -284,6 +285,6 @@ public class EmployeeControllerProducts {
 			model.addAttribute("mess", "Loi khi them");
 		}
 
-		return "employee/employee-createProduct";
+		return "redirect:/employee/products.htm";
 	}
 }
