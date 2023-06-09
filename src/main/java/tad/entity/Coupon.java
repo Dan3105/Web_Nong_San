@@ -54,7 +54,7 @@ public class Coupon {
 	@JoinColumn(name = "AccountID", nullable = false, updatable = true)
 	private Account account;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "coupon")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
 	private Set<Product> products = new HashSet<>(0);
 
 	public boolean checkVaildCoupon() {
