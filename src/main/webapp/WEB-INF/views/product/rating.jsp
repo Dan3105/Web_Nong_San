@@ -126,9 +126,6 @@
 
 							<c:if test="${rateds.size() == 0 }">
 								<div class="d-flex pb-7 mt-3 ">
-									<div class="flex-shrink-0" style="">
-										<img src="assets/img/smile.png" alt="...">
-									</div>
 									<div class="flex-grow-1 ms-3">Haven't got any comments
 										yet</div>
 								</div>

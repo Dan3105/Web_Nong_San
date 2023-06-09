@@ -200,7 +200,7 @@ public class UserAccountController {
 		}
 		if (errors.hasErrors()) {
 			modelMap.addAttribute("message", 0);
-			return "account/addressUpdate";
+			return "redirect:/account/address.htm";
 		}
 		Address address = null;
 		account = addressDAO.fetchAddressAccount(account);
@@ -212,7 +212,7 @@ public class UserAccountController {
 		}
 		if (address == null) {
 			modelMap.addAttribute("message", 0);
-			return "account/addressUpdate";
+			return "redirect:/account/address.htm";
 		}
 
 		Ward ward = addressDAO.getWard(userAddress.getWardId());
@@ -224,7 +224,7 @@ public class UserAccountController {
 		else
 			modelMap.addAttribute("message", 0);
 
-		return "account/addressUpdate";
+		return "redirect:/account/address.htm";
 	}
 
 	// Tao address moi
@@ -247,7 +247,7 @@ public class UserAccountController {
 
 	// Bam nut submit tao dia chi moi
 	@RequestMapping(value = "createAddress", method = RequestMethod.POST)
-	public String addAddress(ModelMap modelMap, HttpSession session,
+	public String addAddress(ModelMap modelMap, RedirectAttributes reAttributes, HttpSession session,
 			@Validated @ModelAttribute("userAddress") AddressUserBean userAddress, BindingResult errors) {
 		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
@@ -268,14 +268,11 @@ public class UserAccountController {
 		Address address = new Address(ward, account);
 		address.setName(userAddress.getAddressLine());
 		boolean s = addressDAO.insertAddress(account, address);
-		System.out.println(s);
-		if (s)
-			modelMap.addAttribute("message", 1);
-		else
-			modelMap.addAttribute("message", 0);
+
 		modelMap.addAttribute("userAddress", userAddress);
 		modelMap.addAttribute("address", addressBean);
-		return "account/createAddress";
+		reAttributes.addFlashAttribute("alert", 1);
+		return "redirect:/account/address.htm";
 	}
 
 	// Bam nut xoa

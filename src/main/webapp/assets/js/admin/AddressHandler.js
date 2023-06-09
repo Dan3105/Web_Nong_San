@@ -83,8 +83,8 @@ function UpdateAddress(addressId, wardId, districtId, provinceId, addressLine) {
 
 	//Set up the action for the form
 	let idForm = 'address-form';
-	var form = document.getElementById(idForm);
-	form.setAttribute('action', `update-address${addressId}.htm`);
+
+	
 
 	//Post Data from update button
 	provinceSelect.value = provinceId;
