@@ -73,7 +73,7 @@ public class Account {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Orders> orders = new HashSet<>(0);
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Coupon> coupons = new HashSet<>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
