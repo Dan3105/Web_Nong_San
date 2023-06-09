@@ -1,6 +1,11 @@
 package tad.controller.employee;
 
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -25,7 +30,7 @@ import tad.entity.Category;
 import tad.entity.Coupon;
 import tad.entity.Product;
 import tad.utility.Constants;
-import tad.utility.ConverterUploadHandler;
+
 import tad.utility.DefineAttribute;
 
 @Controller
@@ -37,6 +42,14 @@ public class EmployeeControllerProducts {
 
 	@Autowired
 	private IProductDAO productDAO;
+
+	@Autowired
+	@Qualifier("productImgDir")
+	private UploadFile productImgDir;
+
+	@Autowired
+	@Qualifier("rootFile")
+	private UploadFile rootFile;
 
 	@RequestMapping()
 	public String gProductList(ModelMap model, HttpSession session,
@@ -63,15 +76,12 @@ public class EmployeeControllerProducts {
 				totalPage++;
 			}
 		}
-		ProductBean beanForm = new ProductBean();
-		model.addAttribute("productForm", beanForm);
-		Account tacc = couponDAO.FetchAccountCoupon(currentAcc);
+
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("crrPage", crrPage);
 		model.addAttribute("products", products.subList(startIndex,
 				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, products.size())));
-		model.addAttribute("categories", categoryDAO.getListCategories());
-		model.addAttribute("coupons", tacc.getCoupons());
+
 		return "employee/employee-product";
 	}
 
@@ -89,13 +99,13 @@ public class EmployeeControllerProducts {
 	@Qualifier("productImgDir")
 	private UploadFile uploadProductImg;
 
-	@Autowired
-	private ConverterUploadHandler converter;
+	
 	@Autowired
 	private ICouponDAO couponDAO;
 
 	@RequestMapping(value = "update-product{id}.htm", method = RequestMethod.POST)
-	public String pUpdateProduct(@PathVariable("id") int id, @ModelAttribute("productForm") ProductBean product) {
+	public String pUpdateProduct(
+			ModelMap model,@PathVariable("id") int id, @ModelAttribute("productForm") ProductBean product) {
 		Product findProduct = productDAO.getProduct(id);
 
 		if (findProduct != null) {
@@ -115,8 +125,21 @@ public class EmployeeControllerProducts {
 
 			// 3
 			if (product.getImageFile() != null) {
-				if (converter.MoveMultipartToDirectory(product.getImageFile(), uploadProductImg.getPath())) {
-					findProduct.setImage(converter.SetImageNameViaMultipartFile(product.getImageFile()));
+				File file = new File(rootFile.getPath() + product.getImageFile());
+				if (file.exists())
+					file.delete();
+
+				String avatarPath = productImgDir.getPath() + product.getImageFile();
+				findProduct.setImage(product.getImageFile().getOriginalFilename());
+
+				try {
+					product.getImageFile().transferTo(new File(avatarPath));
+					Thread.sleep(2000);
+				} catch (Exception e) {
+					e.printStackTrace();
+					model.addAttribute("message", 1);
+					model.addAttribute("productBean", product);
+					return "employee/employee-createProduct";
 				}
 			}
 
@@ -141,49 +164,68 @@ public class EmployeeControllerProducts {
 
 	@RequestMapping("searchProduct")
 	public String search(@RequestParam(required = false, value = "search") String search,
-			@RequestParam(required = false, value = "currPage", defaultValue = "1") int currentPage,
-			ModelMap modelMap) {
+			@RequestParam(required = false, value = "currPage", defaultValue = "1") int crrPage, ModelMap modelMap) {
 
-		List<Product> products = productDAO.filterProductByName(search);
+		List<ProductBean> products = new ArrayList<>();
+		List<Product> listProducts = productDAO.filterProductByName(search);
+		for (Product p : listProducts) {
+			ProductBean bean = new ProductBean(p);
+			products.add(bean);
+		}
 
-		int startIndex = (currentPage - 1) * Constants.PRODUCT_PER_PAGE_IN_CATEGORY;
+		int startIndex = (crrPage - 1) * Constants.PRODUCT_PER_PAGE_IN_HOME;
 		int totalPage = 1;
-		if (products.size() <= Constants.PRODUCT_PER_PAGE_IN_CATEGORY)
+		if (products.size() <= Constants.PRODUCT_PER_PAGE_IN_HOME)
 			totalPage = 1;
 		else {
-			totalPage = products.size() / Constants.PRODUCT_PER_PAGE_IN_CATEGORY;
-			if (products.size() % Constants.PRODUCT_PER_PAGE_IN_CATEGORY != 0) {
+			totalPage = products.size() / Constants.PRODUCT_PER_PAGE_IN_HOME;
+			if (products.size() % Constants.PRODUCT_PER_PAGE_IN_HOME != 0) {
 				totalPage++;
 			}
 		}
 
 		modelMap.addAttribute("products", products.subList(startIndex,
 				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_CATEGORY, products.size())));
-		modelMap.addAttribute("currPage", currentPage);
+		modelMap.addAttribute("crrPage", crrPage);
 		modelMap.addAttribute("totalPage", totalPage);
-		modelMap.addAttribute("total", products.size());
-		return "redirect:/employee/products.htm";
+		return "employee/employee-product";
 	}
 
-	@RequestMapping(value = "create-product.htm", method = RequestMethod.POST)
-	public String pCreateProduct(@ModelAttribute("productBean") ProductBean product, HttpSession session) {
+	@RequestMapping(value = "create-product.htm", method = RequestMethod.GET)
+	public String createProduct(ModelMap model, HttpSession session) {
+
+		Account currentAcc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
+		if (currentAcc == null) {
+			return "redirect:/guest.htm";
+		}
+
+		ProductBean beanForm = new ProductBean();
+		model.addAttribute("productForm", beanForm);
+		Account tacc = couponDAO.FetchAccountCoupon(currentAcc);
+		model.addAttribute("categories", categoryDAO.getListCategories());
+		model.addAttribute("coupons", tacc.getCoupons());
+
+		return "employee/employee-createProduct";
+	}
+
+	@RequestMapping(value = "create-product.htm")
+	public String pCreateProduct(ModelMap model, @ModelAttribute("productForm") ProductBean product,
+			HttpSession session) {
 		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
+
 		if (acc == null) {
-			return "redirect:employee/logout.htm";
+			return "redirect:/guest.htm";
 		}
 		Product newProduct = new Product();
-		// 0
 		newProduct.setAccount(acc);
-		// 1
 		Category category = categoryDAO.getCategory(product.getCategoryId());
 		if (category != null) {
 			newProduct.setCategory(category);
 		} else {
-			System.out.println(product.getCategoryId() + "doesnt exissst");
-			return "redirect:/employee/products.htm";
+			model.addAttribute("mess", "Category ko ton tai");
+			return "employee/employee-createProduct";
 		}
 
-		// 2
 		if (product.getDiscountId() != -1) {
 			Coupon coupon = couponDAO.getCoupon(product.getDiscountId());
 			if (coupon != null) {
@@ -191,28 +233,40 @@ public class EmployeeControllerProducts {
 			}
 		}
 
-		// 3
 		if (product.getImageFile() != null) {
-			if (converter.MoveMultipartToDirectory(product.getImageFile(), uploadProductImg.getPath())) {
-				newProduct.setImage(converter.SetImageNameViaMultipartFile(product.getImageFile()));
+
+			File file = new File(rootFile.getPath() + product.getImageFile());
+			if (file.exists())
+				file.delete();
+
+			String avatarPath = productImgDir.getPath() + product.getImageFile();
+			newProduct.setImage(product.getImageFile().getOriginalFilename());
+
+			try {
+				product.getImageFile().transferTo(new File(avatarPath));
+				Thread.sleep(2000);
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("message", 1);
+				model.addAttribute("productBean", product);
+				return "employee/employee-createProduct";
 			}
 		}
 
-		// 4
 		newProduct.setProductName(product.getProductName());
-		// 5
 		newProduct.setPrice(product.getPrice());
-		// 6
 		newProduct.setQuantity(product.getQuantity());
-		// 7
 		newProduct.setDetail(product.getDetail());
-		// 8
-		newProduct.setPostingDate(product.getPostingDate());
+		Date in = new Date();
+		LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
+		Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+		newProduct.setPostingDate(out);
 
 		if (!productDAO.insertProduct(newProduct)) {
-			System.out.println("error in adding");
+			model.addAttribute("mess", "Loi khi them");
 		}
+		
 
-		return "redirect:/employee/products.htm";
+		return "employee/employee-createProduct";
 	}
 }

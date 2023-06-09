@@ -27,7 +27,7 @@ import tad.entity.Account;
 import tad.entity.Address;
 import tad.entity.Province;
 import tad.entity.Ward;
-import tad.utility.ConverterUploadHandler;
+
 import tad.utility.DefineAttribute;
 
 @Controller
@@ -48,7 +48,6 @@ public class EmployeeController {
 
 	@Autowired
 	private IAccountDAO accountDAO;
-
 
 	@RequestMapping("index")
 	public String index(ModelMap model) {

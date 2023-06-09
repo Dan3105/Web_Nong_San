@@ -1,5 +1,6 @@
 package tad.controller;
 
+import java.io.File;
 import java.util.Base64;
 
 import javax.servlet.http.Cookie;
@@ -28,12 +29,18 @@ import tad.bean.UploadFile;
 import tad.bean.UserBean;
 import tad.entity.Account;
 import tad.entity.Role;
-import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
 @Controller
 @RequestMapping("/guest")
 public class UserGuestController {
+	@Autowired
+	@Qualifier("accountDir")
+	private UploadFile accountDir;
+
+	@Autowired
+	@Qualifier("rootFile")
+	private UploadFile rootFile;
 	@Autowired
 	private IAccountDAO accountDAO;
 
@@ -130,22 +137,32 @@ public class UserGuestController {
 	private UploadFile uploadFile;
 
 	@Autowired
-	private ConverterUploadHandler convertHandler;
 
 	@RequestMapping(value = "guest-register", method = RequestMethod.POST)
-	public String register(@Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user,
+	public String register(ModelMap model, @Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user,
 			BindingResult errors, ModelMap modelMap, RedirectAttributes reAttributes) {
+		Role role = accountDAO.getRoleViaEnum(EnumRoleID.GUEST);
+		Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
+				user.getPhoneNumber(), "", BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
 		if (!errors.hasErrors()) {
 
 			if (!user.getAvatar().isEmpty()) {
-				if (convertHandler.MoveMultipartToDirectory(user.getAvatar(), uploadFile.getPath())) {
-					user.setAvatarDir(convertHandler.SetImageNameViaMultipartFile(user.getAvatar()));
+				File file = new File(rootFile.getPath() + user.getAvatar());
+				if (file.exists())
+					file.delete();
+
+				String avatarPath = accountDir.getPath() + user.getAvatar();
+				account.setAvatar(user.getAvatar().getOriginalFilename());
+
+				try {
+					user.getAvatar().transferTo(new File(avatarPath));
+					Thread.sleep(2000);
+				} catch (Exception e) {
+					e.printStackTrace();
+					model.addAttribute("message", 2);
+					return "account/accountProfile";
 				}
 			}
-
-			Role role = accountDAO.getRoleViaEnum(EnumRoleID.GUEST);
-			Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
-					user.getPhoneNumber(), user.getAvatarDir(), BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
 
 			if (accountDAO.findAccountByEmail(user.getEmail()) != null) {
 				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);

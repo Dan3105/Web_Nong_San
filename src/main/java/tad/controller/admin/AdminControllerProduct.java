@@ -1,16 +1,11 @@
 package tad.controller.admin;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -31,7 +26,6 @@ import tad.entity.Category;
 import tad.entity.Coupon;
 import tad.entity.Product;
 import tad.utility.Constants;
-import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
 @Controller
@@ -46,10 +40,13 @@ public class AdminControllerProduct {
 
 	@Autowired
 	@Qualifier("productImgDir")
-	private UploadFile uploadProductImg;
+	private UploadFile productImgDir;
 
 	@Autowired
-	private ConverterUploadHandler converter;
+	@Qualifier("rootFile")
+	private UploadFile rootFile;
+
+	
 	@Autowired
 	private ICouponDAO couponDAO;
 
@@ -83,7 +80,8 @@ public class AdminControllerProduct {
 	}
 
 	@RequestMapping(value = "update-product{id}.htm", method = RequestMethod.POST)
-	public String pUpdateProduct(@PathVariable("id") int id, @ModelAttribute("productForm") ProductBean product) {
+	public String pUpdateProduct(ModelMap model, @PathVariable("id") int id,
+			@ModelAttribute("productForm") ProductBean product) {
 		Product findProduct = productDAO.getProduct(id);
 
 		if (findProduct != null) {
@@ -103,8 +101,21 @@ public class AdminControllerProduct {
 
 			// 3
 			if (product.getImageFile() != null) {
-				if (converter.MoveMultipartToDirectory(product.getImageFile(), uploadProductImg.getPath())) {
-					findProduct.setImage(converter.SetImageNameViaMultipartFile(product.getImageFile()));
+				File file = new File(rootFile.getPath() + product.getImageFile());
+				if (file.exists())
+					file.delete();
+
+				String avatarPath = productImgDir.getPath() + product.getImageFile();
+				findProduct.setImage(product.getImageFile().getOriginalFilename());
+
+				try {
+					product.getImageFile().transferTo(new File(avatarPath));
+					Thread.sleep(2000);
+				} catch (Exception e) {
+					e.printStackTrace();
+					model.addAttribute("message", 1);
+					model.addAttribute("productBean", product);
+					return "admin/admin-createProduct";
 				}
 			}
 
@@ -156,18 +167,19 @@ public class AdminControllerProduct {
 		return "admin/admin-product";
 	}
 
-	@RequestMapping(value = "create-product.htm",method = RequestMethod.POST)
-	public String pCreateProduct(ModelMap model,HttpSession session) {
-		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
-	
+	@RequestMapping(value = "create-product.htm")
+	public String pCreateProduct(ModelMap model) {
+
 		ProductBean productBean = new ProductBean();
-		pr
+		model.addAttribute("productBeans", productBean);
+
 		return "admin/admin-createProduct";
 
 	}
 
 	@RequestMapping(value = "create-product.htm", method = RequestMethod.POST)
-	public String pCreateProduct(@ModelAttribute("productBean") ProductBean product, HttpSession session) {
+	public String pCreateProduct(@ModelAttribute("productBean") ProductBean product, HttpSession session,
+			ModelMap model) {
 		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (acc == null) {
 			return "redirect:employee/logout.htm";
@@ -190,9 +202,24 @@ public class AdminControllerProduct {
 		}
 
 		if (product.getImageFile() != null) {
-			if (converter.MoveMultipartToDirectory(product.getImageFile(), uploadProductImg.getPath())) {
-				newProduct.setImage(converter.SetImageNameViaMultipartFile(product.getImageFile()));
+
+			File file = new File(rootFile.getPath() + product.getImageFile());
+			if (file.exists())
+				file.delete();
+
+			String avatarPath = productImgDir.getPath() + product.getImageFile();
+			newProduct.setImage(product.getImageFile().getOriginalFilename());
+
+			try {
+				product.getImageFile().transferTo(new File(avatarPath));
+				Thread.sleep(2000);
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("message", 1);
+				model.addAttribute("productBean", product);
+				return "admin/admin-createProduct";
 			}
+
 		}
 
 		newProduct.setProductName(product.getProductName());
