@@ -66,7 +66,7 @@ public class CategoryDAOImpl implements ICategoryDAO {
 		List<Category> listCategory = query.list();
 		return listCategory;
 	}
-	
+
 	@Override
 	public List<Category> getListCategoriesHasProduct() {
 

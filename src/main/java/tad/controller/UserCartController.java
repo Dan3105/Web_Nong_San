@@ -17,7 +17,7 @@ import tad.entity.Cart;
 import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping("/cart/")
+@RequestMapping("/cart")
 
 public class UserCartController {
 

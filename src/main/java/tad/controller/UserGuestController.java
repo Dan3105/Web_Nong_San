@@ -41,6 +41,7 @@ public class UserGuestController {
 	@Autowired
 	@Qualifier("rootFile")
 	private UploadFile rootFile;
+
 	@Autowired
 	private IAccountDAO accountDAO;
 
@@ -160,7 +161,7 @@ public class UserGuestController {
 				} catch (Exception e) {
 					e.printStackTrace();
 					model.addAttribute("message", 2);
-					return "account/accountProfile";
+					return "user/user-register";
 				}
 			}
 

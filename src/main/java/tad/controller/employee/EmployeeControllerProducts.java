@@ -4,7 +4,6 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +29,6 @@ import tad.entity.Category;
 import tad.entity.Coupon;
 import tad.entity.Product;
 import tad.utility.Constants;
-
 import tad.utility.DefineAttribute;
 
 @Controller
@@ -99,13 +97,12 @@ public class EmployeeControllerProducts {
 	@Qualifier("productImgDir")
 	private UploadFile uploadProductImg;
 
-	
 	@Autowired
 	private ICouponDAO couponDAO;
 
 	@RequestMapping(value = "update-product{id}.htm", method = RequestMethod.POST)
-	public String pUpdateProduct(
-			ModelMap model,@PathVariable("id") int id, @ModelAttribute("productForm") ProductBean product) {
+	public String pUpdateProduct(ModelMap model, @PathVariable("id") int id,
+			@ModelAttribute("productForm") ProductBean product) {
 		Product findProduct = productDAO.getProduct(id);
 
 		if (findProduct != null) {
@@ -265,7 +262,6 @@ public class EmployeeControllerProducts {
 		if (!productDAO.insertProduct(newProduct)) {
 			model.addAttribute("mess", "Loi khi them");
 		}
-		
 
 		return "employee/employee-createProduct";
 	}

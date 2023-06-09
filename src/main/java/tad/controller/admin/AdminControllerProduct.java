@@ -46,7 +46,6 @@ public class AdminControllerProduct {
 	@Qualifier("rootFile")
 	private UploadFile rootFile;
 
-	
 	@Autowired
 	private ICouponDAO couponDAO;
 

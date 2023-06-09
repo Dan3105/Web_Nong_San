@@ -27,7 +27,6 @@ import tad.entity.Account;
 import tad.entity.Address;
 import tad.entity.Province;
 import tad.entity.Ward;
-
 import tad.utility.DefineAttribute;
 
 @Controller

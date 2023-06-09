@@ -233,8 +233,9 @@ public class AdminControllerUsers {
 	}
 
 	@RequestMapping(value = "create-guest", method = RequestMethod.POST)
-	public String createGuest(ModelMap model,@Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user,
-			BindingResult errors, RedirectAttributes reAttributes, ModelMap modelMap) {
+	public String createGuest(ModelMap model,
+			@Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user, BindingResult errors,
+			RedirectAttributes reAttributes, ModelMap modelMap) {
 		Role role = accountDAO.getRoleViaEnum(EnumRoleID.GUEST);
 		Account account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
 				user.getPhoneNumber(), "", BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
@@ -256,7 +257,6 @@ public class AdminControllerUsers {
 					return "account/accountProfile";
 				}
 			}
-			
 
 			if (!user.getAvatarDir().isEmpty()) {
 				account.setAvatar(user.getAvatarDir());

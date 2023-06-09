@@ -1,7 +1,6 @@
 package tad.controller.admin;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,21 +11,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import tad.DAO.IAccountDAO;
-import tad.DAO.IAddressDAO;
-import tad.bean.AddressBean;
-import tad.bean.AddressDatasBean;
-import tad.bean.AddressUserBean;
 import tad.bean.UploadFile;
 import tad.bean.UserBean;
 import tad.entity.Account;
-import tad.entity.Address;
-import tad.entity.Province;
-import tad.entity.Ward;
 import tad.utility.DefineAttribute;
 
 @Controller
