@@ -31,7 +31,7 @@ import tad.utility.DefineAttribute;
 import tad.utility.Ultis;
 
 @Controller
-@RequestMapping("/product/")
+@RequestMapping("/product")
 public class UserProductController {
 
 	@Autowired

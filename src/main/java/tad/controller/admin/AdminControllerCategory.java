@@ -64,7 +64,7 @@ public class AdminControllerCategory {
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("crrPage", crrPage);
 		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(
-				categories.subList(startIndex, Math.min(startIndex + Constants.USER_PER_PAGE, categories.size())), categoryDAO);
+				categories.subList(startIndex, Math.min(startIndex + Constants.USER_PER_PAGE, categories.size())));
 		model.addAttribute("list", categoriesBean);
 		model.addAttribute("filter", filter);
 		return "admin/admin-category";
@@ -88,7 +88,7 @@ public class AdminControllerCategory {
 		model.addAttribute("crrPage", crrPage);
 		model.addAttribute("totalPage", totalPage);
 		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(categories.subList(startIndex,
-				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, categories.size())), categoryDAO);
+				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, categories.size())));
 		model.addAttribute("list", categoriesBean);
 		model.addAttribute("filter", 0);
 		return "admin/admin-category";
@@ -184,7 +184,6 @@ public class AdminControllerCategory {
 	@RequestMapping(value = "delete", method = RequestMethod.GET)
 	public String pCategoryDelete(@RequestParam("id") int id, RedirectAttributes reAttributes) {
 		Category category = categoryDAO.getCategory(id);
-		System.out.println(id);
 		if (categoryDAO.deleteCategory(category)) {
 			reAttributes.addFlashAttribute("alert", 2);
 		} else {

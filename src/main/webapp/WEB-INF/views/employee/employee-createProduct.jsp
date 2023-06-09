@@ -7,7 +7,7 @@
 
 		<!-- Sidebar -->
 		<div class="col-2 d-none d-lg-inline "><%@include
-				file="/WEB-INF/views/admin/admin-header-nav.jsp"%></div>
+				file="/WEB-INF/views/employee/employee-header-nav.jsp"%></div>
 		<div class="col-10 col-12-sm col-12-md">
 			<div id="content-wrapper" class="d-flex flex-column">
 				<nav
@@ -40,8 +40,8 @@
 						</div>
 
 						<div class=" col-md-6 offset-md-3 card p-5 ">
-							${mess }
-							<form:form action="employee/products/create-product.htm"
+							<form:form
+								action="${mess == update ? 'employee/products/update-product.htm' : 'employee/products/create-product.htm'}"
 								modelAttribute="productForm" class="row m-3"
 								enctype="multipart/form-data">
 								<form:input type="hidden" path="productId" />
@@ -69,11 +69,21 @@
 									<form:input path="unit" type="text" class="form-control"
 										id="inputUnit" />
 								</div>
-
-								<div class="col-md-6 mt-2">
+								<c:if test="${mess == update }">
+									<div class="col-md-6 mt-2">
+										<p class="mb-2 fw-bold">Current Image</p>
+										<img id="output" class="width-100" style="width: 100px"
+											src="<c:url value="
+            assets/img/products/${productForm.image}" />"
+											alt="Image not found" />
+									</div>
+								</c:if>
+								<div class="col-md-12 mt-2">
 									<label for="inputImage" class="form-label">Image</label>
-									<form:input type="file" class="form-control" path="imageFile"
-										accept="image/*" />
+
+									<form:input id="image" type="file" class="form-control"
+										accept="image/*" path="imageFile" onchange="loadFile(event)" />
+
 								</div>
 
 								<div class="col-md-5 mt-2">

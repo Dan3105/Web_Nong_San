@@ -46,7 +46,7 @@ import tad.entity.Ward;
 import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping(value = "/account/")
+@RequestMapping(value = "/account")
 public class UserAccountController {
 	@Autowired
 	private IAccountDAO accountDAO;

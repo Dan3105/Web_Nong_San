@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import tad.DAO.ICategoryDAO;
 import tad.DAO.ICouponDAO;
@@ -83,12 +84,16 @@ public class EmployeeControllerProducts {
 		return "employee/employee-product";
 	}
 
-	@RequestMapping(value = "delete{id}.htm")
-	public String DeleteProduct(@PathVariable("id") int id, HttpSession session) {
+	@RequestMapping(value = "delete")
+	public String DeleteProduct(@RequestParam("id") int id, HttpSession session, RedirectAttributes reAttributes) {
 		Product findProduct = productDAO.getProduct(id);
 		if (findProduct != null) {
-			productDAO.deleteProduct(findProduct);
+			if (productDAO.deleteProduct(findProduct)) {
+				reAttributes.addFlashAttribute("alert", 2);
+
+			}
 		}
+		reAttributes.addFlashAttribute("alert", 1);
 
 		return String.format("redirect:/employee/products.htm");
 	}
@@ -100,10 +105,23 @@ public class EmployeeControllerProducts {
 	@Autowired
 	private ICouponDAO couponDAO;
 
-	@RequestMapping(value = "update-product{id}.htm", method = RequestMethod.POST)
-	public String pUpdateProduct(ModelMap model, @PathVariable("id") int id,
-			@ModelAttribute("productForm") ProductBean product) {
+	@RequestMapping(value = "update-product")
+	public String updateProduct(ModelMap model, @RequestParam("id") int id, HttpSession session) {
+		Account currentAcc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		Product findProduct = productDAO.getProduct(id);
+		ProductBean beanForm = new ProductBean(findProduct);
+		model.addAttribute("productForm", beanForm);
+		Account tacc = couponDAO.FetchAccountCoupon(currentAcc);
+		model.addAttribute("categories", categoryDAO.getListCategories());
+		model.addAttribute("coupons", tacc.getCoupons());
+		model.addAttribute("mess", "update");
+		return "employee/employee-createProduct";
+
+	}
+
+	@RequestMapping(value = "update-product", method = RequestMethod.POST)
+	public String pUpdateProduct(ModelMap model, @ModelAttribute("productForm") ProductBean product) {
+		Product findProduct = productDAO.getProduct(product.getProductId());
 
 		if (findProduct != null) {
 			// 1
@@ -121,7 +139,7 @@ public class EmployeeControllerProducts {
 			}
 
 			// 3
-			if (product.getImageFile() != null) {
+			if (!product.getImageFile().isEmpty()) {
 				File file = new File(rootFile.getPath() + product.getImageFile());
 				if (file.exists())
 					file.delete();
@@ -155,6 +173,9 @@ public class EmployeeControllerProducts {
 				System.out.println("checking error");
 			}
 		}
+
+		if (productDAO.updateProduct(findProduct))
+			model.addAttribute("alert", 4);
 
 		return "redirect:/employee/products.htm";
 	}
