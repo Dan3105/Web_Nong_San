@@ -55,6 +55,13 @@ public class UserHomeController {
 			totalWishlist = wishlist.size();
 		}
 
+		for(int i = 0; i < category.size(); i++)
+		{
+			Category fCategory = categoryDAO.fetchCategory(category.get(i));
+			category.set(i, fCategory);
+		}
+		
+		
 		session.setAttribute("company", company);
 		session.setAttribute("category", category);
 		session.setAttribute("totalCart", totalCart);

@@ -47,10 +47,6 @@ public class EmployeeControllerProducts {
 	@Qualifier("productImgDir")
 	private UploadFile productImgDir;
 
-	@Autowired
-	@Qualifier("rootFile")
-	private UploadFile rootFile;
-
 	@RequestMapping()
 	public String gProductList(ModelMap model, HttpSession session,
 			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
@@ -141,7 +137,7 @@ public class EmployeeControllerProducts {
 
 			// 3
 			if (!product.getImageFile().isEmpty()) {
-				File file = new File(rootFile.getPath() + product.getImageFile());
+				File file = new File(productImgDir.getPath() + product.getImageFile());
 				if (file.exists())
 					file.delete();
 
@@ -254,7 +250,7 @@ public class EmployeeControllerProducts {
 
 		if (product.getImageFile() != null) {
 
-			File file = new File(rootFile.getPath() + product.getImageFile());
+			File file = new File(productImgDir.getPath() + product.getImageFile());
 			if (file.exists())
 				file.delete();
 

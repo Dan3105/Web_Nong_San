@@ -59,12 +59,9 @@ public class UserAccountController {
 	@Autowired
 	private IFeedbackDAO feedbackDAO;
 	@Autowired
-	@Qualifier("accountDir")
+	@Qualifier("accountImgDir")
 	private UploadFile accountDir;
 
-	@Autowired
-	@Qualifier("rootFile")
-	private UploadFile rootFile;
 
 	@Autowired
 	ServletContext servletContext;
@@ -114,7 +111,7 @@ public class UserAccountController {
 
 		if (profileBean.getAvatar().isEmpty()) {
 		} else {
-			File file = new File(rootFile.getPath() + account.getAvatar());
+			File file = new File(accountDir.getPath() + account.getAvatar());
 			if (file.exists())
 				file.delete();
 
@@ -329,24 +326,7 @@ public class UserAccountController {
 	public String savePassword(ModelMap model, @ModelAttribute("password") ChangePassword password,
 			BindingResult errors, HttpSession session) {
 		Account account = (Account) session.getAttribute("account");
-
-		if (!BCrypt.checkpw(password.getOldPass(), account.getPassword())) {
-			errors.rejectValue("oldPass", "password", "Mật khẩu hiện tại không đúng!");
-		}
-		if (BCrypt.checkpw(password.getNewPass(), account.getPassword())) {
-			errors.rejectValue("newPass", "password", "Mật khẩu mới trùng với mật khẩu cũ!");
-		}
-		if (!password.getConfirmPass().equalsIgnoreCase(password.getNewPass())) {
-			errors.rejectValue("confirmPass", "password", "Mật khẩu xác nhận không đúng!");
-		}
-		if (password.getNewPass().length() < 6) {
-			errors.rejectValue("newPass", "password", "Mật khẩu quá ngắn cần > 6 ký tự");
-		}
-
-		if (errors.hasErrors()) {
-			model.addAttribute("message", 0);
-			return "account/changePassword";
-		} else {
+		if(account != null)
 			account.setPassword(BCrypt.hashpw(password.getNewPass(), BCrypt.gensalt(12)));
 			boolean s = accountDAO.updateAccount(account);
 			if (s) {
@@ -355,8 +335,6 @@ public class UserAccountController {
 			} else {
 				model.addAttribute("message", 0);
 			}
-
-		}
 
 		return "account/changePassword";
 	}

@@ -17,7 +17,8 @@
 
 		<mvc:interceptor>
 			<!-- CHƯA đăng nhập thì KHÔNG được truy cập URL bên dưới -->
-			<mvc:mapping path="/user**"/>
+			<mvc:mapping path="/user/"/>
+			<mvc:exclude-mapping path="/user**" />
 			<bean class="tad.interceptor.UserInterceptor" />
 		</mvc:interceptor>
 

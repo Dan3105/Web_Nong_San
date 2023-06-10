@@ -16,9 +16,6 @@
 		<property name="maxUploadSize" value="20971520" />
 	</bean>
 
-	<bean id="ConvertHandler"
-		class="tad.utility.ConvertUploadHandlerBehaviour"></bean>
-
 	<!-- Thay doi theo cau hình moi may -->
 	<bean id="accountImgDir" class="tad.bean.UploadFile">
 		<property name="path"
@@ -34,18 +31,6 @@
 		<property name="path"
 			value="C:\Users\chida\Documents\Web_Nong_San\src\main\webapp\assets\img\products\"></property>
 	</bean>
-	<!-- Thay doi theo cau hình moi may -->
-	<bean id="accountDir" class="tad.bean.UploadFile">
-		<property name="path"
-			value="C:\Users\chida\Documents\Web_Nong_San\src\main\webapp\assets\img\account\"></property>
-	</bean>
-	<!-- Thay doi theo cau hình moi may -->
-	<bean id="rootFile" class="tad.bean.UploadFile">
-		<property name="path"
-			value="C:\Users\chida\Documents\Web_Nong_San\src\main\webapp\" />
-	</bean>
-
-
 </beans>
 
 

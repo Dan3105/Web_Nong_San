@@ -30,10 +30,6 @@ public class AdminControllerCategory {
 	private ICategoryDAO categoryDAO;
 
 	@Autowired
-	@Qualifier("rootFile")
-	private UploadFile rootFile;
-
-	@Autowired
 	@Qualifier("categoryImgDir")
 	private UploadFile categoryImgDir;
 
@@ -44,11 +40,6 @@ public class AdminControllerCategory {
 
 		List<Category> categories = categoryDAO.getListCategories();
 
-		if (filter == 1) {
-			categories = categories.stream().filter(r -> r.getProducts().size() == 0).collect(Collectors.toList());
-		} else if (filter == 2) {
-			categories = categories.stream().filter(r -> r.getProducts().size() > 0).collect(Collectors.toList());
-		}
 
 		int startIndex = (crrPage - 1) * Constants.USER_PER_PAGE;
 		int totalPage = 1;
@@ -63,8 +54,15 @@ public class AdminControllerCategory {
 
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("crrPage", crrPage);
-		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(
-				categories.subList(startIndex, Math.min(startIndex + Constants.USER_PER_PAGE, categories.size())));
+		List<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(
+				categories.subList(startIndex, Math.min(startIndex + Constants.USER_PER_PAGE, categories.size())), categoryDAO);
+		
+
+		if (filter == 1) {
+			categoriesBean = categoriesBean.stream().filter(r -> r.getProducts().size() == 0).collect(Collectors.toList());
+		} else if (filter == 2) {
+			categoriesBean = categoriesBean.stream().filter(r -> r.getProducts().size() > 0).collect(Collectors.toList());
+		}
 		model.addAttribute("list", categoriesBean);
 		model.addAttribute("filter", filter);
 		return "admin/admin-category";
@@ -88,7 +86,7 @@ public class AdminControllerCategory {
 		model.addAttribute("crrPage", crrPage);
 		model.addAttribute("totalPage", totalPage);
 		ArrayList<CategoryBean> categoriesBean = CategoryBean.ConvertListCategory(categories.subList(startIndex,
-				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, categories.size())));
+				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_HOME, categories.size())), categoryDAO);
 		model.addAttribute("list", categoriesBean);
 		model.addAttribute("filter", 0);
 		return "admin/admin-category";
@@ -119,7 +117,7 @@ public class AdminControllerCategory {
 			if (categoryBean.getFileImage().isEmpty()) {
 
 			} else {
-				File file = new File(rootFile.getPath() + categoryBean.getFileImage());
+				File file = new File(categoryImgDir.getPath() + categoryBean.getFileImage());
 				if (file.exists())
 					file.delete();
 
@@ -156,11 +154,10 @@ public class AdminControllerCategory {
 			if (categoryBean.getFileImage().isEmpty()) {
 
 			} else {
-				File file = new File(rootFile.getPath() + categoryBean.getFileImage());
+				File file = new File(categoryImgDir.getPath() + categoryBean.getFileImage());
 				if (file.exists())
 					file.delete();
-
-				String avatarPath = categoryImgDir.getPath() + categoryBean.getFileImage();
+				String avatarPath = String.format("%s%s", categoryImgDir.getPath(),  categoryBean.getFileImage().getOriginalFilename());
 				category.setImage(categoryBean.getFileImage().getOriginalFilename());
 
 				try {

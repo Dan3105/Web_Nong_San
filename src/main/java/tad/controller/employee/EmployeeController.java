@@ -38,14 +38,6 @@ public class EmployeeController {
 	private UploadFile accountImgDir;
 
 	@Autowired
-	@Qualifier("rootFile")
-	private UploadFile rootFile;
-
-	@Autowired
-	@Qualifier("accountImgDir")
-	private UploadFile uploadFile;
-
-	@Autowired
 	private IAccountDAO accountDAO;
 
 	@RequestMapping("index")
@@ -96,7 +88,7 @@ public class EmployeeController {
 
 		if (user.getAvatar().isEmpty()) {
 		} else {
-			File file = new File(rootFile.getPath() + user.getAvatar());
+			File file = new File(accountImgDir.getPath() + user.getAvatar());
 			if (file.exists())
 				file.delete();
 

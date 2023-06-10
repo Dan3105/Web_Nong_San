@@ -35,11 +35,7 @@ import tad.utility.DefineAttribute;
 @RequestMapping("/guest")
 public class UserGuestController {
 	@Autowired
-	@Qualifier("accountDir")
-	private UploadFile accountDir;
-
-	@Autowired
-	@Qualifier("rootFile")
+	@Qualifier("accountImgDir")
 	private UploadFile rootFile;
 
 	@Autowired
@@ -91,13 +87,13 @@ public class UserGuestController {
 	@RequestMapping(params = "guest-login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("user") LoginBean user, ModelMap modelMap, HttpSession session,
 			HttpServletResponse response, HttpServletRequest request) {
-		Account ValidateAdmin = accountDAO.findAccountByEmail(user.getUsername());
+		Account ValidateUser = accountDAO.findAccountByEmail(user.getUsername());
 
-		if (ValidateAdmin != null && ValidateAdmin.getStatus() != 0
-				&& BCrypt.checkpw(user.getPassword(), ValidateAdmin.getPassword())) {
+		if (ValidateUser != null && ValidateUser.getStatus() != 0
+				&& BCrypt.checkpw(user.getPassword(), ValidateUser.getPassword())) {
 
 			// Tai khoan bi khoa ko dang nhap
-			if (ValidateAdmin.getStatus() == 0) {
+			if (ValidateUser.getStatus() == 0) {
 				modelMap.addAttribute("alert", 6);
 				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 				return "user/user-login";
@@ -105,7 +101,7 @@ public class UserGuestController {
 
 			// Ghi nho tai khoan bang cookie
 			if (user.getIsRemember()) {
-				Cookie ckemail = this.create("email", ValidateAdmin.getEmail(), 30);
+				Cookie ckemail = this.create("email", ValidateUser.getEmail(), 30);
 				Cookie ckpass = this.create("pass", user.getPassword(), 30);
 
 				response.addCookie(ckemail);
@@ -116,8 +112,8 @@ public class UserGuestController {
 				this.delete("pass");
 			}
 
-			session.setAttribute(DefineAttribute.UserAttribute, ValidateAdmin);
-			session.setAttribute("account", ValidateAdmin);
+			session.setAttribute(DefineAttribute.UserAttribute, ValidateUser);
+			session.setAttribute("account", ValidateUser);
 			return "redirect:/index.htm";
 		}
 
@@ -135,7 +131,7 @@ public class UserGuestController {
 
 	@Autowired
 	@Qualifier("accountImgDir")
-	private UploadFile uploadFile;
+	private UploadFile accountDir;
 
 	@RequestMapping(value = "guest-register", method = RequestMethod.POST)
 	public String register(ModelMap model, @Validated @ModelAttribute(DefineAttribute.UserBeanAttribute) UserBean user,
@@ -199,7 +195,6 @@ public class UserGuestController {
 
 		// Get the user-entered captcha value from the form
 		String userCaptcha = request.getParameter("captcha");
-		LoginBean emptyLogin = new LoginBean();
 		Account acc = accountDAO.findAccountByEmail(email);
 		// Compare the user-entered captcha with the one stored in session
 		if (sessionCaptcha.equalsIgnoreCase(userCaptcha) && acc != null) {

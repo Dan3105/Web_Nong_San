@@ -31,10 +31,6 @@ public class AdminController {
 	@Qualifier("accountImgDir")
 	private UploadFile accountImgDir;
 
-	@Autowired
-	@Qualifier("rootFile")
-	private UploadFile rootFile;
-
 	@RequestMapping("index")
 	public String index(ModelMap model) {
 		return "redirect:/admin/dashboard.htm";
@@ -71,7 +67,7 @@ public class AdminController {
 		acc.setPhoneNumber(user.getPhoneNumber());
 		acc.setEmail(user.getEmail());
 
-		File file = new File(rootFile.getPath() + user.getAvatar());
+		File file = new File(accountImgDir.getPath() + user.getAvatar());
 		if (file.exists())
 			file.delete();
 
