@@ -11,7 +11,7 @@ public interface ICategoryDAO {
 	public boolean addCategory(Category newCategory);
 
 	public List<Category> getListCategories();
-	
+
 	public List<Category> getListCategoriesHasProduct();
 
 	public Category getCategory(int id);
@@ -19,4 +19,6 @@ public interface ICategoryDAO {
 	public boolean updateCategory(Category changedCategory);
 
 	public List<Category> searchCategory(String alikeName);
+
+	public Category fetchCategory(Category category);
 }

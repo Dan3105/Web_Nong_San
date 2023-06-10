@@ -27,7 +27,6 @@ import tad.entity.Account;
 import tad.entity.Address;
 import tad.entity.Province;
 import tad.entity.Ward;
-import tad.utility.ConverterUploadHandler;
 import tad.utility.DefineAttribute;
 
 @Controller
@@ -39,16 +38,7 @@ public class EmployeeController {
 	private UploadFile accountImgDir;
 
 	@Autowired
-	@Qualifier("rootFile")
-	private UploadFile rootFile;
-
-	@Autowired
-	@Qualifier("accountImgDir")
-	private UploadFile uploadFile;
-
-	@Autowired
 	private IAccountDAO accountDAO;
-
 
 	@RequestMapping("index")
 	public String index(ModelMap model) {
@@ -64,7 +54,7 @@ public class EmployeeController {
 	public String gInfo(ModelMap model, HttpSession session) {
 		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (acc == null) {
-			return "redirect:/";
+			return "redirect:/guest.htm";
 		}
 
 		UserBean userBean = new UserBean(acc.getEmail(), acc.getFirstName(), acc.getLastName(), acc.getPhoneNumber());
@@ -78,7 +68,7 @@ public class EmployeeController {
 			BindingResult errors, HttpSession session, ModelMap modelMap) {
 		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (acc == null) {
-			return "redirect:/";
+			return "redirect:/guest.htm";
 		}
 
 		if (errors.hasErrors()) {
@@ -96,25 +86,27 @@ public class EmployeeController {
 		acc.setPhoneNumber(user.getPhoneNumber());
 		acc.setEmail(user.getEmail());
 
-		File file = new File(rootFile.getPath() + user.getAvatar());
-		if (file.exists())
-			file.delete();
+		if (user.getAvatar().isEmpty()) {
+		} else {
+			File file = new File(accountImgDir.getPath() + user.getAvatar());
+			if (file.exists())
+				file.delete();
 
-		String avatarPath = accountImgDir.getPath() + user.getAvatar();
-		acc.setAvatar(user.getAvatar().getOriginalFilename());
+			String avatarPath = accountImgDir.getPath() + user.getAvatar();
+			acc.setAvatar(user.getAvatar().getOriginalFilename());
 
-		try {
-			user.getAvatar().transferTo(new File(avatarPath));
-			Thread.sleep(2000);
-		} catch (Exception e) {
-			e.printStackTrace();
-			modelMap.addAttribute("message", false);
-			modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
-			return "employee/employee-profile";
+			try {
+				user.getAvatar().transferTo(new File(avatarPath));
+				Thread.sleep(2000);
+			} catch (Exception e) {
+				e.printStackTrace();
+				modelMap.addAttribute("message", false);
+				modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
+				return "employee/employee-profile";
+			}
 		}
 
 		accountDAO.updateAccount(acc);
-
 		modelMap.addAttribute(DefineAttribute.UserBeanAttribute, user);
 		modelMap.addAttribute("message", true);
 		return "employee/employee-profile";

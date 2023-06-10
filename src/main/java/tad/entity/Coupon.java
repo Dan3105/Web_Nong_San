@@ -54,7 +54,7 @@ public class Coupon {
 	@JoinColumn(name = "AccountID", nullable = false, updatable = true)
 	private Account account;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "coupon")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon")
 	private Set<Product> products = new HashSet<>(0);
 
 	public boolean checkVaildCoupon() {
@@ -76,8 +76,7 @@ public class Coupon {
 	public Coupon() {
 	}
 
-	public Coupon(int couponId, boolean typeCoupon, String name, double discount, Date postingDate, Date expiryDate,
-			int quantity) {
+	public Coupon(int couponId, boolean typeCoupon, String name, double discount, Date postingDate, Date expiryDate) {
 		this.couponId = couponId;
 		this.name = name;
 		this.discount = discount;
@@ -87,7 +86,7 @@ public class Coupon {
 	}
 
 	public Coupon(int couponId, boolean typeCoupon, String name, double discount, Date postingDate, Date expiryDate,
-			int quantity, String detail, Set<Product> products) {
+			String detail, Set<Product> products) {
 		this.couponId = couponId;
 		this.name = name;
 		this.discount = discount;

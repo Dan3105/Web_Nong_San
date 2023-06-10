@@ -2,6 +2,7 @@ package tad.DAOImpl;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -66,7 +67,7 @@ public class CategoryDAOImpl implements ICategoryDAO {
 		List<Category> listCategory = query.list();
 		return listCategory;
 	}
-	
+
 	@Override
 	public List<Category> getListCategoriesHasProduct() {
 
@@ -133,6 +134,28 @@ public class CategoryDAOImpl implements ICategoryDAO {
 		session.close();
 
 		return list;
+	}
+
+	@Override
+	public Category fetchCategory(Category category) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		Category fCategory = null;
+
+		try {
+			fCategory = (Category) session.get(Category.class, category.getCategoryId());
+			Hibernate.initialize(fCategory.getProducts());
+			tx.commit();
+
+		} catch (Exception e) {
+			tx.rollback();
+			System.out.println("Fetch Category occur error");
+			System.out.println(e);
+		} finally {
+			session.close();
+		}
+
+		return fCategory == null ? category : fCategory;
 	}
 
 }

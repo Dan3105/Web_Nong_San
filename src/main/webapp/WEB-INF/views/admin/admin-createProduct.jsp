@@ -44,7 +44,7 @@
 
 						<div class=" col-md-6 offset-md-3 card p-5 ">
 							<form:form id="product-form" method="post" action=""
-								modelAttribute="productBeans" class="row m-3"
+								modelAttribute="productForm" class="row m-3"
 								enctype="multipart/form-data">
 								<div class="col-md-12 mt-2">
 									<label for="inputNameProduct" class="form-label">Name

@@ -118,11 +118,11 @@
 							<div class="col-md-4 border-right">
 								<div
 									class="d-flex flex-column align-items-center text-center p-3 py-5">
-									<img id="ouput" class="rounded-circle mt-5" width="150px"
-										src="<c:url value="
-                    assets/img/account/${user.avatar}" />" /><span
-										class="font-weight-bold">${userbean.lastName} ${ userbean.firstName }</span><span
-										class="text-black-50">${userbean.email }</span><span> </span>
+
+									<img
+										src="<c:url value="/assets/img/account/${account.avatar} "/>"
+										id="output" class="mt-2 rounded-circle" width="180px"
+										height="180px" class="mv-10" />
 								</div>
 								<div
 									class="d-flex justify-content-center align-items-center mt-3 mb-3">

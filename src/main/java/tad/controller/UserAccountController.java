@@ -46,7 +46,7 @@ import tad.entity.Ward;
 import tad.utility.DefineAttribute;
 
 @Controller
-@RequestMapping(value = "/account/")
+@RequestMapping(value = "/account")
 public class UserAccountController {
 	@Autowired
 	private IAccountDAO accountDAO;
@@ -59,12 +59,8 @@ public class UserAccountController {
 	@Autowired
 	private IFeedbackDAO feedbackDAO;
 	@Autowired
-	@Qualifier("accountDir")
+	@Qualifier("accountImgDir")
 	private UploadFile accountDir;
-
-	@Autowired
-	@Qualifier("rootFile")
-	private UploadFile rootFile;
 
 	@Autowired
 	ServletContext servletContext;
@@ -114,7 +110,7 @@ public class UserAccountController {
 
 		if (profileBean.getAvatar().isEmpty()) {
 		} else {
-			File file = new File(rootFile.getPath() + account.getAvatar());
+			File file = new File(accountDir.getPath() + account.getAvatar());
 			if (file.exists())
 				file.delete();
 
@@ -151,6 +147,7 @@ public class UserAccountController {
 			return "redirect:/guest.htm";
 		}
 		List<Address> adresses = addressDAO.getAddressesByAccountId(account.getAccountId());
+
 		// Chuyen default address len dau
 		if (account.getDefaultAddress() != null) {
 			int index = -1;
@@ -200,7 +197,7 @@ public class UserAccountController {
 		}
 		if (errors.hasErrors()) {
 			modelMap.addAttribute("message", 0);
-			return "account/addressUpdate";
+			return "redirect:/account/address.htm";
 		}
 		Address address = null;
 		account = addressDAO.fetchAddressAccount(account);
@@ -212,7 +209,7 @@ public class UserAccountController {
 		}
 		if (address == null) {
 			modelMap.addAttribute("message", 0);
-			return "account/addressUpdate";
+			return "redirect:/account/address.htm";
 		}
 
 		Ward ward = addressDAO.getWard(userAddress.getWardId());
@@ -224,7 +221,7 @@ public class UserAccountController {
 		else
 			modelMap.addAttribute("message", 0);
 
-		return "account/addressUpdate";
+		return "redirect:/account/address.htm";
 	}
 
 	// Tao address moi
@@ -247,7 +244,7 @@ public class UserAccountController {
 
 	// Bam nut submit tao dia chi moi
 	@RequestMapping(value = "createAddress", method = RequestMethod.POST)
-	public String addAddress(ModelMap modelMap, HttpSession session,
+	public String addAddress(ModelMap modelMap, RedirectAttributes reAttributes, HttpSession session,
 			@Validated @ModelAttribute("userAddress") AddressUserBean userAddress, BindingResult errors) {
 		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
@@ -268,14 +265,11 @@ public class UserAccountController {
 		Address address = new Address(ward, account);
 		address.setName(userAddress.getAddressLine());
 		boolean s = addressDAO.insertAddress(account, address);
-		System.out.println(s);
-		if (s)
-			modelMap.addAttribute("message", 1);
-		else
-			modelMap.addAttribute("message", 0);
+
 		modelMap.addAttribute("userAddress", userAddress);
 		modelMap.addAttribute("address", addressBean);
-		return "account/createAddress";
+		reAttributes.addFlashAttribute("alert", 1);
+		return "redirect:/account/address.htm";
 	}
 
 	// Bam nut xoa
@@ -332,7 +326,9 @@ public class UserAccountController {
 	public String savePassword(ModelMap model, @ModelAttribute("password") ChangePassword password,
 			BindingResult errors, HttpSession session) {
 		Account account = (Account) session.getAttribute("account");
-
+		if (account == null) {
+			return "redirect:/guest.htm";
+		}
 		if (!BCrypt.checkpw(password.getOldPass(), account.getPassword())) {
 			errors.rejectValue("oldPass", "password", "Mật khẩu hiện tại không đúng!");
 		}
@@ -349,16 +345,15 @@ public class UserAccountController {
 		if (errors.hasErrors()) {
 			model.addAttribute("message", 0);
 			return "account/changePassword";
-		} else {
-			account.setPassword(BCrypt.hashpw(password.getNewPass(), BCrypt.gensalt(12)));
-			boolean s = accountDAO.updateAccount(account);
-			if (s) {
-				session.setAttribute("account", account);
-				model.addAttribute("message", 1);
-			} else {
-				model.addAttribute("message", 0);
-			}
+		}
 
+		account.setPassword(BCrypt.hashpw(password.getNewPass(), BCrypt.gensalt(12)));
+		boolean s = accountDAO.updateAccount(account);
+		if (s) {
+			session.setAttribute("account", account);
+			model.addAttribute("message", 1);
+		} else {
+			model.addAttribute("message", 0);
 		}
 
 		return "account/changePassword";

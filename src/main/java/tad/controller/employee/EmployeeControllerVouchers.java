@@ -10,11 +10,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import tad.DAO.ICouponDAO;
 import tad.bean.CouponBean;
@@ -35,7 +37,7 @@ public class EmployeeControllerVouchers {
 			@RequestParam(value = "crrPage", required = false, defaultValue = "1") int crrPage) {
 		Account currentAcc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (currentAcc == null) {
-			return "redirect:/";
+			return "redirect:/guest.htm";
 		}
 		List<Coupon> coupons = couponDAO.listCoupons(currentAcc.getAccountId());
 
@@ -49,7 +51,6 @@ public class EmployeeControllerVouchers {
 				totalPage++;
 			}
 		}
-		System.out.println(coupons.size());
 
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("coupons",
@@ -59,11 +60,31 @@ public class EmployeeControllerVouchers {
 
 	}
 
-	@RequestMapping(value = "update-voucher{id}.htm", method = RequestMethod.POST)
-	public String pUpdateProduct(@PathVariable("id") int id, @ModelAttribute("couponBean") CouponBean coupon) {
+	@RequestMapping(value = "update-voucher", method = RequestMethod.GET)
+	public String update(@RequestParam("id") int id, ModelMap model) {
 		Coupon findCoupon = couponDAO.getCoupon(id);
+		CouponBean c = new CouponBean(findCoupon);
+		model.addAttribute("mess", 2);
+		model.addAttribute("couponBean", c);
+		return "employee/employee-createVoucher";
+
+	}
+
+	@RequestMapping(value = "update-voucher", method = RequestMethod.POST)
+	public String pUpdateProduct(ModelMap model, @ModelAttribute("couponBean") CouponBean coupon,
+			BindingResult errors) {
+		Coupon findCoupon = couponDAO.getCoupon(coupon.getCouponId());
 
 		if (findCoupon != null) {
+
+			if (coupon.getDiscount() > 1.0 || coupon.getDiscount() < 0) {
+				errors.rejectValue("discount", "Giá trị coupon ko đúng");
+				model.addAttribute("message", "Giá trị coupon 0.0 - 1.0");
+			}
+			if (errors.hasErrors()) {
+				model.addAttribute("message", "Giá trị coupon 0.0 - 1.0");
+				return "employee/employee-createVoucher";
+			}
 			// 4
 			findCoupon.setName(coupon.getName());
 			// 7
@@ -94,11 +115,30 @@ public class EmployeeControllerVouchers {
 		return "redirect:/employee/vouchers.htm";
 	}
 
-	@RequestMapping(value = "create-coupon.htm", method = RequestMethod.POST)
-	public String pCreateProduct(@ModelAttribute("couponBean") CouponBean coupon, HttpSession session) {
+	@RequestMapping(value = "create-coupon", method = RequestMethod.GET)
+	public String createCoupon(ModelMap model) {
+		CouponBean c = new CouponBean();
+		model.addAttribute("couponBean", c);
+		model.addAttribute("mess", 1);
+		return "employee/employee-createVoucher";
+
+	}
+
+	@RequestMapping(value = "create-coupon", method = RequestMethod.POST)
+	public String submitCreateCoupon(ModelMap model, @ModelAttribute("couponBean") CouponBean coupon,
+			BindingResult errors, HttpSession session) {
 		Account acc = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (acc == null) {
-			return "redirect:employee/logout.htm";
+			return "redirect:/guest.htm";
+		}
+
+		if (coupon.getDiscount() > 1.0 || coupon.getDiscount() < 0) {
+			errors.rejectValue("discount", "Giá trị coupon ko đúng");
+			model.addAttribute("message", "Giá trị coupon 0.0 - 1.0");
+		}
+		if (errors.hasErrors()) {
+			model.addAttribute("message", "Giá trị coupon 0.0 - 1.0");
+			return "employee/employee-createVoucher";
 		}
 		Coupon findCoupon = new Coupon();
 		findCoupon.setAccount(acc);
@@ -107,7 +147,9 @@ public class EmployeeControllerVouchers {
 		// 7
 		findCoupon.setDetail(coupon.getDetail());
 		findCoupon.setDiscount(coupon.getDiscount());
+
 		// 8
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			Date date = format.parse(coupon.getPostingDate());
@@ -132,13 +174,5 @@ public class EmployeeControllerVouchers {
 		return "redirect:/employee/vouchers.htm";
 	}
 
-	@RequestMapping(value = "delete{id}.htm")
-	public String pDeleteProduct(@PathVariable("id") int id) {
-		Coupon findCoupon = couponDAO.getCoupon(id);
-		if (findCoupon != null) {
-			couponDAO.delete(findCoupon);
-		}
-		// productDAO.delete(null)
-		return "redirect:/employee/vouchers.htm";
-	}
+	
 }

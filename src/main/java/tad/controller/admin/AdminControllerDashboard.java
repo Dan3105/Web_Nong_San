@@ -32,9 +32,10 @@ public class AdminControllerDashboard {
 				totalOrder += o.getPrice();
 		}
 
-		//Role role = accountDAO.getRoleViaEnum(EnumRoleID.GUEST);
+		// Role role = accountDAO.getRoleViaEnum(EnumRoleID.GUEST);
 		List<Account> client = accountDAO.listAccountWithRole(EnumRoleID.GUEST);
-		//client = client.stream().filter(rate -> rate.getRole().equals(role)).collect(Collectors.toList());
+		// client = client.stream().filter(rate ->
+		// rate.getRole().equals(role)).collect(Collectors.toList());
 
 		model.addAttribute("totalOrder", orders.size());
 		model.addAttribute("totalEarning", totalOrder);

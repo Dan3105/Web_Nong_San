@@ -46,8 +46,8 @@ public class UserOrderController {
 	}
 
 	@RequestMapping("success")
-	public String success(HttpSession session,
-			@RequestParam(value = "totalPrice", defaultValue = "0") float totalPice,ModelMap model) {
+	public String success(HttpSession session, @RequestParam(value = "totalPrice", defaultValue = "0") float totalPice,
+			ModelMap model) {
 		Account account = (Account) session.getAttribute(DefineAttribute.UserAttribute);
 		if (account == null) {
 			return "redirect:/guest.htm";
@@ -68,7 +68,7 @@ public class UserOrderController {
 		orders.setDeliveryTime(c1.getTime());
 		orders.setStatus(0);
 		orders.setPrice(totalPice);
-		model.addAttribute("orders",orders);
+		model.addAttribute("orders", orders);
 		if (account.getDefaultAddress() != null)
 			orders.setDefaultAddress(account.getDefaultAddress().getFullAddress());
 
@@ -84,7 +84,7 @@ public class UserOrderController {
 			if (c.getProduct().getCoupon() != null && c.getProduct().getCoupon().checkVaildCoupon())
 				orderDetail.setCoupon(c.getProduct().getCoupon().getDiscount());
 
-			//Xoa so luong ton sp
+			// Xoa so luong ton sp
 			Product product = orderDetail.getProduct();
 			product.setQuantity(product.getQuantity() - orderDetail.getQuantity());
 			productDAO.updateProduct(product);
@@ -101,8 +101,8 @@ public class UserOrderController {
 	public String cancleRequest(HttpSession session, HttpServletRequest request,
 			@RequestParam(value = "orderId") int orderId) {
 		Orders orders = orderDAO.findOrder(orderId);
-		//Cap nhat lai so luong ton sp
-		for(OrderDetail d : orders.getOrderDetails()) {
+		// Cap nhat lai so luong ton sp
+		for (OrderDetail d : orders.getOrderDetails()) {
 			Product product = d.getProduct();
 			product.setQuantity(product.getQuantity() + d.getQuantity());
 			productDAO.updateProduct(product);

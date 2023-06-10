@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import tad.entity.Coupon;
 import tad.entity.Product;
 
 public class ProductBean {
@@ -42,7 +41,6 @@ public class ProductBean {
 		quantity = 0;
 		detail = "";
 
-		
 		postingDate = new Date();
 		unit = "";
 		discount = 0;
@@ -58,9 +56,7 @@ public class ProductBean {
 		image = product.getImage();
 		quantity = product.getQuantity();
 		detail = product.getDetail();
-		
 
-		
 		postingDate = product.getPostingDate();
 		unit = product.getUnit();
 		discount = 0;

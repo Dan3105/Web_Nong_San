@@ -128,7 +128,6 @@ public class AccountDAOImpl implements IAccountDAO {
 			t.commit();
 			return true;
 		} catch (Exception ex) {
-			System.out.println(acc.getAccountId());
 			System.out.println(ex);
 			return false;
 		}

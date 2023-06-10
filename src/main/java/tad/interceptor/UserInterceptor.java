@@ -28,6 +28,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
 		} else if (user.getRole().getRoleId().equals(EnumRoleID.GUEST.toString())) {
 			return true;
 		}
+
 		response.sendRedirect(request.getContextPath() + "/guest.htm");
 		return false;
 	}
