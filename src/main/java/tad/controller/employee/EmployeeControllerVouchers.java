@@ -24,7 +24,6 @@ import tad.entity.Account;
 import tad.entity.Coupon;
 import tad.utility.Constants;
 import tad.utility.DefineAttribute;
-import tad.utility.Ultis;
 
 @Controller
 @RequestMapping("/employee/vouchers")

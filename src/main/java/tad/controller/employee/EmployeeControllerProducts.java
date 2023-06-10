@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,10 +45,6 @@ public class EmployeeControllerProducts {
 	@Autowired
 	@Qualifier("productImgDir")
 	private UploadFile productImgDir;
-
-	@Autowired
-	@Qualifier("rootFile")
-	private UploadFile rootFile;
 
 	@RequestMapping()
 	public String gProductList(ModelMap model, HttpSession session,
@@ -141,7 +136,7 @@ public class EmployeeControllerProducts {
 
 			// 3
 			if (!product.getImageFile().isEmpty()) {
-				File file = new File(rootFile.getPath() + product.getImageFile());
+				File file = new File(productImgDir.getPath() + product.getImageFile());
 				if (file.exists())
 					file.delete();
 
@@ -254,7 +249,7 @@ public class EmployeeControllerProducts {
 
 		if (product.getImageFile() != null) {
 
-			File file = new File(rootFile.getPath() + product.getImageFile());
+			File file = new File(productImgDir.getPath() + product.getImageFile());
 			if (file.exists())
 				file.delete();
 

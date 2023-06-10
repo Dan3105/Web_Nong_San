@@ -43,10 +43,6 @@ public class AdminControllerProduct {
 	private UploadFile productImgDir;
 
 	@Autowired
-	@Qualifier("rootFile")
-	private UploadFile rootFile;
-
-	@Autowired
 	private ICouponDAO couponDAO;
 
 	@RequestMapping()
@@ -100,7 +96,7 @@ public class AdminControllerProduct {
 
 			// 3
 			if (product.getImageFile() != null) {
-				File file = new File(rootFile.getPath() + product.getImageFile());
+				File file = new File(productImgDir.getPath() + product.getImageFile());
 				if (file.exists())
 					file.delete();
 
@@ -202,7 +198,7 @@ public class AdminControllerProduct {
 
 		if (product.getImageFile() != null) {
 
-			File file = new File(rootFile.getPath() + product.getImageFile());
+			File file = new File(productImgDir.getPath() + product.getImageFile());
 			if (file.exists())
 				file.delete();
 

@@ -26,7 +26,7 @@ input[type='checkbox']:checked {
 		<div class="container-fluid">
 			<a class="navbar-brand "
 				href='<c:url value = "index.htm?language=${pageContext.response.locale}"/>'>
-				<img src="${company.logoNavImg }" alt="Logo">
+				<img src="assets/img/logo.png" alt="Logo">
 			</a>
 		</div>
 	</nav>
@@ -143,8 +143,8 @@ input[type='checkbox']:checked {
 							<div class="d-flex justify-content-between">
 								<!-- form check -->
 								<div class="form-check">
-									<input class="form-check-input" path="isRemember"
-										type="checkbox" value="" id="flexCheckDefault">
+									<form:checkbox class="form-check-input" path="isRemember"
+										id="flexCheckDefault"/>
 									<!-- label -->
 									<label class="form-check-label" for="flexCheckDefault">
 										Remember me </label>

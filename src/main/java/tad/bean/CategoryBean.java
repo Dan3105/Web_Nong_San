@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import tad.DAO.ICategoryDAO;
 import tad.entity.Category;
 import tad.entity.Product;
 
@@ -83,11 +84,12 @@ public class CategoryBean {
 		return this.id;
 	}
 
-	public static ArrayList<CategoryBean> ConvertListCategory(List<Category> list) {
+	public static ArrayList<CategoryBean> ConvertListCategory(List<Category> list, ICategoryDAO categoryDAO) {
 		ArrayList<CategoryBean> categories = new ArrayList<>();
 		for (var categoryData : list) {
-			CategoryBean bean = new CategoryBean(categoryData.getCategoryId(), categoryData.getName(),
-					categoryData.getImage(), categoryData.getProducts());
+			Category fetchCate = categoryDAO != null ? categoryDAO.fetchCategory(categoryData) : categoryData;
+			CategoryBean bean = new CategoryBean(fetchCate.getCategoryId(), fetchCate.getName(), fetchCate.getImage(),
+					fetchCate.getProducts());
 			categories.add(bean);
 		}
 		return categories;
@@ -97,9 +99,4 @@ public class CategoryBean {
 		this.id = id;
 	}
 
-	/*
-	 * public void SetImageStringViaFileImage(String path) {
-	 *
-	 * }
-	 */
 }

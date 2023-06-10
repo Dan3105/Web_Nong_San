@@ -34,15 +34,7 @@ public class AdminControllerUsers {
 
 	@Autowired
 	@Qualifier("accountImgDir")
-	private UploadFile uploadFile;
-
-	@Autowired
-	@Qualifier("accountDir")
-	private UploadFile accountDir;
-
-	@Autowired
-	@Qualifier("rootFile")
-	private UploadFile rootFile;
+	private UploadFile accountImgDir;
 
 	@RequestMapping()
 	public String index() {
@@ -129,14 +121,12 @@ public class AdminControllerUsers {
 		if (!errors.hasErrors()) {
 			if (user.getAvatar().isEmpty()) {
 			} else {
-				File file = new File(rootFile.getPath() + user.getAvatar());
+				File file = new File(accountImgDir.getPath() + user.getAvatar());
 				if (file.exists())
 					file.delete();
 
-				String avatarPath = accountDir.getPath() + user.getAvatar();
-				account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(),
-						user.getPhoneNumber(), user.getAvatar().getOriginalFilename(),
-						BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
+				String avatarPath = accountImgDir.getPath() + user.getAvatar();
+
 				try {
 					user.getAvatar().transferTo(new File(avatarPath));
 					Thread.sleep(2000);
@@ -147,7 +137,8 @@ public class AdminControllerUsers {
 					return "admin/admin-edit-user";
 				}
 			}
-
+			account = new Account(role, user.getLastName(), user.getFirstName(), user.getEmail(), user.getPhoneNumber(),
+					user.getAvatar().getOriginalFilename(), BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
 			if (!user.getAvatarDir().isEmpty()) {
 				account.setAvatar(user.getAvatarDir());
 			}
@@ -195,11 +186,11 @@ public class AdminControllerUsers {
 		account.setEmail(user.getEmail());
 		if (user.getAvatar().isEmpty()) {
 		} else {
-			File file = new File(rootFile.getPath() + user.getAvatar());
+			File file = new File(accountImgDir.getPath() + user.getAvatar());
 			if (file.exists())
 				file.delete();
 
-			String avatarPath = accountDir.getPath() + user.getAvatar();
+			String avatarPath = accountImgDir.getPath() + user.getAvatar();
 			account.setAvatar(user.getAvatar().getOriginalFilename());
 			try {
 				user.getAvatar().transferTo(new File(avatarPath));
@@ -241,11 +232,11 @@ public class AdminControllerUsers {
 				user.getPhoneNumber(), "", BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
 		if (!errors.hasErrors()) {
 			if (!user.getAvatar().isEmpty()) {
-				File file = new File(rootFile.getPath() + user.getAvatar());
+				File file = new File(accountImgDir.getPath() + user.getAvatar());
 				if (file.exists())
 					file.delete();
 
-				String avatarPath = accountDir.getPath() + user.getAvatar();
+				String avatarPath = accountImgDir.getPath() + user.getAvatar();
 				account.setAvatar(user.getAvatar().getOriginalFilename());
 
 				try {

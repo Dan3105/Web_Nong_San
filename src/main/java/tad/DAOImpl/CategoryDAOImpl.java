@@ -10,7 +10,6 @@ import org.hibernate.Transaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import tad.DAO.ICategoryDAO;
-import tad.entity.Account;
 import tad.entity.Category;
 
 @Transactional

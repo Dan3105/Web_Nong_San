@@ -57,10 +57,10 @@
 									</nav>
 								</div>
 								<!-- button -->
-								<div>
+								<!-- <div>
 									<a href="admin/products/create-product.htm" class="btn btn-success">Add
 										New Product</a>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
@@ -100,7 +100,6 @@
 									<th>Quantity</th>
 									<th>Detail</th>
 									<th>Price</th>
-									<th>Edit</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -141,11 +140,11 @@
 														currencySymbol="VND" maxFractionDigits="0" />
 												</span>
 											</c:if></td>
-										<td class="align-middle">
+										<%-- <td class="align-middle">
 											<button onclick="UpdateProduct(${item.productId})"
 												class="btn btn-primary btn-sm" type="button">Update</button>
 
-										</td>
+										</td> --%>
 
 
 
