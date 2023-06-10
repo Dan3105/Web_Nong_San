@@ -21,7 +21,7 @@
 	<a href="${path}/admin/profile.htm" class="text-decoration-none"> <span
 		class="me-3	 text-dark small">${user.getName() }</span> <img
 		class="img-profile rounded-circle"
-		src="assets/img/account/${user.avatar }" style="max-width: 30px">
+		src="assets/img/account/${account.avatar }" style="max-width: 30px">
 	</a>
 </div>
 

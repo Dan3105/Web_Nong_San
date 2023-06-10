@@ -80,19 +80,6 @@ public class EmployeeControllerProducts {
 		return "employee/employee-product";
 	}
 
-	@RequestMapping(value = "delete")
-	public String DeleteProduct(@RequestParam("id") int id, HttpSession session, RedirectAttributes reAttributes) {
-		Product findProduct = productDAO.getProduct(id);
-		if (findProduct != null) {
-			if (productDAO.deleteProduct(findProduct)) {
-				reAttributes.addFlashAttribute("alert", 2);
-
-			}
-		}
-		reAttributes.addFlashAttribute("alert", 1);
-
-		return String.format("redirect:/employee/products.htm");
-	}
 
 	@Autowired
 	@Qualifier("productImgDir")

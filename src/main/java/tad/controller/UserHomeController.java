@@ -44,9 +44,10 @@ public class UserHomeController {
 		int totalWishlist = 0;
 
 		List<Category> category = categoryDAO.getListCategoriesHasProduct();
-		List<Product> products = productDAO.listProductsWithCoupon();
+		List<Product> productsWithCoupon = productDAO.listProductsWithCoupon();
 		List<Product> newProducts = productDAO.listNewProducts();
 		List<Product> bestseller = productDAO.listBestSellerProducts();
+		
 		if (account != null) {
 			List<Cart> list = cartDAO.getCart(account.getAccountId());
 			List<Wishlist> wishlist = wishlistDAO.getWishlist(account.getAccountId());
@@ -66,10 +67,8 @@ public class UserHomeController {
 		session.setAttribute("totalWishlist", totalWishlist);
 		session.setAttribute("firstCategory", category.get(0).getCategoryId());
 
-		modelMap.addAttribute("productsWithCategory",
-				category.subList(0, Math.min(Constants.CATEGORY_IN_HOME, category.size())));
-		modelMap.addAttribute("products",
-				products.subList(0, Math.min(Constants.PRODUCT_PER_PAGE_IN_HOME, products.size())));
+		modelMap.addAttribute("productsWithCoupon",
+				productsWithCoupon.subList(0, Math.min(Constants.PRODUCT_PER_PAGE_IN_HOME, productsWithCoupon.size())));
 		modelMap.addAttribute("newProducts",
 				newProducts.subList(0, Math.min(Constants.PRODUCT_PER_PAGE_IN_HOME, newProducts.size())));
 		modelMap.addAttribute("bestseller",

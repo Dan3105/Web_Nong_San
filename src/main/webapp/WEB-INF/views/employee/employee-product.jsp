@@ -8,28 +8,7 @@
 </style>
 <body>
 	<c:choose>
-		<c:when test="${alert == 1}">
-			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-				<div class="  alert alert-danger alert-dismissible fade show"
-					role="alert">
-					Delete Failed
-					<button type="button" class="ms-auto btn-close"
-						data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-			</div>
 
-		</c:when>
-		<c:when test="${alert == 2}">
-			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-				<div class="  alert alert-success alert-dismissible fade show"
-					role="alert">
-					Delete Successfully
-					<button type="button" class="ms-auto btn-close"
-						data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-			</div>
-
-		</c:when>
 		<c:when test="${alert == 3}">
 			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
 				<div class="  alert alert-success alert-dismissible fade show"
@@ -128,7 +107,7 @@
 									<th>Detail</th>
 									<th>Price</th>
 									<th>Edit</th>
-									<th>Delete</th>
+
 								</tr>
 							</thead>
 							<tbody>
@@ -174,34 +153,7 @@
 										<td class="align-middle"><a
 											href="employee/products/update-product.htm?id=${item.productId }"
 											class="btn btn-primary btn-sm" type="button">Update</a></td>
-										<td class="align-middle"><button type="button"
-												data-bs-toggle="modal" data-bs-target="#exampleModal"
-												class="btn btn-danger btn-sm ms-2">Delete</button>
 
-											<div class="modal fade" id="exampleModal" tabindex="-1"
-												aria-labelledby="exampleModalLabel" aria-hidden="true">
-												<div class="modal-dialog">
-													<div class="modal-content">
-														<div class="modal-header">
-															<h1 class="modal-title fs-5" id="exampleModalLabel">Confirm
-															</h1>
-															<button type="button" class="btn-close"
-																data-bs-dismiss="modal" aria-label="Close"></button>
-														</div>
-														<div class="modal-body">Are you sure want to delete
-															?</div>
-														<div class="modal-footer">
-															<button type="button" class="btn btn-secondary"
-																data-bs-dismiss="modal">Close</button>
-															<a
-																href="employee/products/delete.htm?id=${item.productId} "
-																type="
-																button" class="btn btn-danger">Delete
-															</a>
-														</div>
-													</div>
-												</div>
-											</div></td>
 
 
 									</tr>

@@ -7,31 +7,7 @@
 }
 </style>
 <body>
-	<c:choose>
-		<c:when test="${alert == 1}">
-			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-				<div class="  alert alert-danger alert-dismissible fade show"
-					role="alert">
-					Delete Failed
-					<button type="button" class="ms-auto btn-close"
-						data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-			</div>
 
-		</c:when>
-		<c:when test="${alert == 2}">
-			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-				<div class="  alert alert-success alert-dismissible fade show"
-					role="alert">
-					Delete Successfully
-					<button type="button" class="ms-auto btn-close"
-						data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-			</div>
-
-		</c:when>
-
-	</c:choose>
 	<div class="row">
 		<!-- Sidebar -->
 		<div class="col-2 d-none d-lg-inline ">
@@ -83,7 +59,6 @@
 									<th>Expiry Date</th>
 									<th>Detail</th>
 									<th>Edit</th>
-									<th>Delete</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -107,32 +82,7 @@
 											href="employee/vouchers/update-voucher.htm?id=${item.couponId}"
 											class="btn btn-sm me-1 btn-outline-success btn-block">
 												Update</a></td>
-										<td class="align-middle">
-											<button type="button" class="btn btn-danger btn-sm"
-												data-bs-toggle="modal" data-bs-target="#exampleModal"
-												class="btn btn-outline-danger ms-2">Delete</button>
 
-											<div class="modal fade" id="exampleModal" tabindex="-1"
-												aria-labelledby="exampleModalLabel" aria-hidden="true">
-												<div class="modal-dialog">
-													<div class="modal-content">
-														<div class="modal-header">
-															<h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
-															<button type="button" class="btn-close"
-																data-bs-dismiss="modal" aria-label="Close"></button>
-														</div>
-														<div class="modal-body">Are you sure to Delete ?</div>
-														<div class="modal-footer">
-															<button type="button" class="btn btn-secondary"
-																data-bs-dismiss="modal">Close</button>
-															<a href="employee/vouchers/delete${item.couponId }.htm"><button
-																	type="button" class="btn btn-primary">Delete</button></a>
-														</div>
-													</div>
-												</div>
-											</div>
-
-										</td>
 
 									</tr>
 								</c:forEach>

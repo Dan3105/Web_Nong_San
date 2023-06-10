@@ -174,15 +174,5 @@ public class EmployeeControllerVouchers {
 		return "redirect:/employee/vouchers.htm";
 	}
 
-	@RequestMapping(value = "delete{id}.htm")
-	public String pDeleteProduct(RedirectAttributes reAttributes, @PathVariable("id") int id) {
-		Coupon findCoupon = couponDAO.getCoupon(id);
-		if (findCoupon != null) {
-			if (couponDAO.delete(findCoupon)) {
-				reAttributes.addFlashAttribute("alert", 2);
-			} else
-				reAttributes.addFlashAttribute("alert", 1);
-		}
-		return "redirect:/employee/vouchers.htm";
-	}
+	
 }

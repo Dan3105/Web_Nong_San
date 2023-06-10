@@ -147,6 +147,7 @@ public class UserAccountController {
 			return "redirect:/guest.htm";
 		}
 		List<Address> adresses = addressDAO.getAddressesByAccountId(account.getAccountId());
+
 		// Chuyen default address len dau
 		if (account.getDefaultAddress() != null) {
 			int index = -1;
@@ -325,8 +326,28 @@ public class UserAccountController {
 	public String savePassword(ModelMap model, @ModelAttribute("password") ChangePassword password,
 			BindingResult errors, HttpSession session) {
 		Account account = (Account) session.getAttribute("account");
-		if (account != null)
-			account.setPassword(BCrypt.hashpw(password.getNewPass(), BCrypt.gensalt(12)));
+		if (account == null) {
+			return "redirect:/guest.htm";
+		}
+		if (!BCrypt.checkpw(password.getOldPass(), account.getPassword())) {
+			errors.rejectValue("oldPass", "password", "Mật khẩu hiện tại không đúng!");
+		}
+		if (BCrypt.checkpw(password.getNewPass(), account.getPassword())) {
+			errors.rejectValue("newPass", "password", "Mật khẩu mới trùng với mật khẩu cũ!");
+		}
+		if (!password.getConfirmPass().equalsIgnoreCase(password.getNewPass())) {
+			errors.rejectValue("confirmPass", "password", "Mật khẩu xác nhận không đúng!");
+		}
+		if (password.getNewPass().length() < 6) {
+			errors.rejectValue("newPass", "password", "Mật khẩu quá ngắn cần > 6 ký tự");
+		}
+
+		if (errors.hasErrors()) {
+			model.addAttribute("message", 0);
+			return "account/changePassword";
+		}
+
+		account.setPassword(BCrypt.hashpw(password.getNewPass(), BCrypt.gensalt(12)));
 		boolean s = accountDAO.updateAccount(account);
 		if (s) {
 			session.setAttribute("account", account);

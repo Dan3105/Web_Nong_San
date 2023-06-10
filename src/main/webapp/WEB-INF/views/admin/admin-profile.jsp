@@ -121,7 +121,7 @@
 									class="d-flex flex-column align-items-center text-center p-3 py-5">
 
 									<img
-										src="<c:url value="/assets/img/account/${userbean.avatar} "/>"
+										src="<c:url value="/assets/img/account/${account.avatar} "/>"
 										id="output" class="mt-2 rounded-circle" width="180px"
 										height="180px" class="mv-10" />
 								</div>

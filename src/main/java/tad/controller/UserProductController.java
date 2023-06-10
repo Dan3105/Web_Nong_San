@@ -59,7 +59,6 @@ public class UserProductController {
 			@RequestParam(value = "filterPrice", required = false, defaultValue = "0") int filterPrice) {
 
 		List<Product> productsFilterWithCategory = productDAO.listProductsInCategory(categoryId);
-
 		Ultis.filterProductByIndex(index, productsFilterWithCategory);
 		productsFilterWithCategory = Ultis.filterProductByPrice(filterPrice, productsFilterWithCategory);
 
@@ -73,6 +72,7 @@ public class UserProductController {
 				totalPage++;
 			}
 		}
+		
 		modelMap.addAttribute("productsFilterWithCategory", productsFilterWithCategory.subList(startIndex,
 				Math.min(startIndex + Constants.PRODUCT_PER_PAGE_IN_CATEGORY, productsFilterWithCategory.size())));
 
@@ -156,6 +156,8 @@ public class UserProductController {
 	public String detail(ModelMap modelMap, @RequestParam("productId") int productId,
 			@RequestParam(value = "filterStar", required = false, defaultValue = "0") int filterStar,
 			@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {
+		
+		
 		Product product = productDAO.getProduct(productId);
 		modelMap.addAttribute("product", product);
 
@@ -165,16 +167,22 @@ public class UserProductController {
 		for (int i = 1; i < 6; i++) {
 			countStar[i] = 0;
 		}
-
 		for (Feedback f : feedbacks) {
 			countStar[f.getRatingStar()]++;
 		}
+		
 		List<Feedback> rateds = feedbackDAO.listByStars(productId, filterStar);
+		
+		//Hien thi so sao cua san pham
 		double avgStar = Ultis.getAvgStar(product);
+		
+		//Loc ra cac san pham cung loại
 		List<Product> listProductSameCategory = productDAO
 				.listProductsInCategory(product.getCategory().getCategoryId());
 		Collections.shuffle(listProductSameCategory);
+		
 		listProductSameCategory = listProductSameCategory.subList(0, Math.min(5, listProductSameCategory.size()));
+		
 		int startIndex = (currentPage - 1) * Constants.COMMENT_PER_PAGE;
 		int totalPage = 1;
 		if (rateds.size() <= Constants.COMMENT_PER_PAGE)

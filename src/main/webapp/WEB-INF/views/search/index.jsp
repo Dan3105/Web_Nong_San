@@ -69,9 +69,6 @@
 			<c:forEach var="p" items="${products }">
 				<%@include file="/WEB-INF/views/include/listProduct1.jsp"%>
 			</c:forEach>
-
-
-
 		</div>
 
 

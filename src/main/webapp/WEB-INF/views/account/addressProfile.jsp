@@ -47,7 +47,7 @@
 							<div
 								class="d-flex justify-content-between align-items-center w-100">
 								<strong class="text-gray-dark">${account.getName() }<span
-									class="border-start ms-2 border-1 border-dark"> (+84)
+									class="border-start ms-2 border-1 border-dark"> <span class = "ms-2">(+84)</span>
 										${account.phoneNumber }</span></strong>
 								<div class="d-flex justify-content-between gap-3">
 									<a href="account/addressUpdate.htm?addressID=${a.addressId }">Sửa</a>
